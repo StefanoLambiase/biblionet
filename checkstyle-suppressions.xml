@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
+        "https://checkstyle.org/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+    <suppress checks="LineLength" files="/src"/>
+    <suppress checks="javadoc" files="/src"/>
+    <suppress checks="naming" files="/src"/>
+    <suppress checks="DesignForExtension" files="/src"/>
+    <suppress checks="AvoidStarImport" files="/src"/>
+    <suppress checks="MagicNumber" files="/src/test"/>
+    <suppress checks="FinalParameters" files="/src/test"/>
+</suppressions>
