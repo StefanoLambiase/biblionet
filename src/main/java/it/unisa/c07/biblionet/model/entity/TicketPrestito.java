@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,5 +43,8 @@ public class TicketPrestito {
 
     @ManyToOne
     private Biblioteca biblioteca;
+
+    @ManyToOne
+    private Lettore lettore;
 
 }

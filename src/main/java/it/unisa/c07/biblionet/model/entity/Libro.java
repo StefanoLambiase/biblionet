@@ -43,14 +43,14 @@ public class Libro {
     @Size(max = 30)
     private String casaEditrice;
 
-    @ManyToMany
-    private List<Biblioteca> biblioteche;
-
     @OneToMany
     private List<TicketPrestito> tickets;
 
     @ManyToMany
     private List<Genere> generi;
+
+    @OneToMany
+    private List<Evento> eventi;
 
 
 

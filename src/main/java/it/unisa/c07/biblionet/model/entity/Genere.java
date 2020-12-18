@@ -27,15 +27,15 @@ public class Genere {
     @Size(max = 255)
     private String descrizione;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "generi")
     private List<Lettore>lettori;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "generi")
     private List<Esperto>esperti;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "generi")
     private List<Libro> libri;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "generi")
     private List<ClubDelLibro> clubs;
 }

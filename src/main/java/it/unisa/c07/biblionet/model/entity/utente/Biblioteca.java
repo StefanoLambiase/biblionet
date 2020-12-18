@@ -27,8 +27,7 @@ public class Biblioteca extends UtenteRegistrato{
         this.nomeBiblioteca = nomeBiblioteca;
     }
 
-    @ManyToMany
-    private List<Libro> libri;
+
 
     @OneToMany
     private List<Esperto>esperti;
