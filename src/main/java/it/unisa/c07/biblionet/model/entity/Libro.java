@@ -21,25 +21,26 @@ public class Libro {
     private int idLibro;
 
     @NotNull
-    @Size(max=30)
+    @Size(max = 30)
     private String titolo;
 
-    @Size(max=30)
+    @Size(max = 30)
     private String autore;
 
     @Column(unique = true)
     @Size(max = 13,min = 13) //Questa cosa serve per definire che l'ISBN deve essere solamente di 13 cifre
-    private int ISBN;
-
-    @Size(max=144)
-    private String descrizione;
-
-    @Column(unique = true)
-    @NotNull
-    @Size(max=30)
-    private String casaEditrice;
+    private String ISBN;
 
     @NotNull
     private LocalDateTime annoDiPubblicazione;
+
+    @Size(max = 144)
+    private String descrizione;
+
+    @NotNull
+    @Size(max = 30)
+    private String casaEditrice;
+
+
 
 }
