@@ -1,8 +1,10 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
+@SuperBuilder
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -21,7 +24,7 @@ public class UtenteRegistrato {
     @NonNull
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 32)
     @NonNull
     private byte[] password;
 

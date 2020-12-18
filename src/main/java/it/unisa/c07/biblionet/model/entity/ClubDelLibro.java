@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,8 +37,9 @@ public class ClubDelLibro {
     private Blob immagineCopertina;
 
     @NonNull
-    @Column(nullable = false)
     @ManyToOne
+    @JoinColumn(nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Esperto esperto;
 
     @ManyToMany

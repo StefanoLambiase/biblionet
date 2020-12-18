@@ -39,7 +39,6 @@ public class Libro {
     @NonNull
     private LocalDateTime annoDiPubblicazione;
 
-
     @Column(nullable = false, length = 144)
     @NonNull
     private String descrizione;

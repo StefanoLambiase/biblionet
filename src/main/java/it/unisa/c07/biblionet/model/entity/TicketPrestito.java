@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,17 +36,20 @@ public class TicketPrestito {
     private LocalDateTime dataRestituzione;
 
     @NonNull
-    @Column(nullable = false)
+    //@Column(nullable = false)
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Libro libro;
 
     @NonNull
-    @Column(nullable = false)
+    //@Column(nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Biblioteca biblioteca;
 
     @NonNull
-    @Column(nullable = false)
+    //@Column(nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Lettore lettore;
 
