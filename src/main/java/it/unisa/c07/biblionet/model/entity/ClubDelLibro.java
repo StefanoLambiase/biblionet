@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,21 +21,21 @@ public class ClubDelLibro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private int idClub;
 
-    @NotNull
-    @Size(max = 30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String nome;
 
-    @NotNull
-    @Size (max = 255)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String descrizione;
 
     @Lob
     private Blob immagineCopertina;
 
-    @NotNull
+    @NonNull
+    @Column(nullable = false)
     @ManyToOne
     private Esperto esperto;
 

@@ -5,7 +5,9 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -20,11 +22,11 @@ import java.util.List;
 public class Genere {
 
     @Id
-    @Size(max = 30)
+    @Column(length = 30)
     private String nome;
 
-    @NotNull
-    @Size(max = 255)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String descrizione;
 
     @ManyToMany(mappedBy = "generi")

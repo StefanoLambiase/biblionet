@@ -3,7 +3,9 @@ package it.unisa.c07.biblionet.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -16,14 +18,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Possesso implements Serializable {
     @Id
-    @Size(max = 30)
-    @NotNull
+    @Column(length = 30)
     private String nomeBiblioteca;
 
     @Id
-    @NotNull
     private int idLibro;
 
-    @NotNull
+    @NonNull
+    @Column(nullable = false)
     private int numeroCopie;
 }
