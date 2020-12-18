@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,24 +24,28 @@ public class Libro {
     private int idLibro;
 
     @NotNull
-    @Size(max = 30)
+    @Column(length = 30)
     private String titolo;
 
-    @Size(max = 30)
+    @Column(length = 30)
+    @NonNull
     private String autore;
 
-    @Column(unique = true)
-    @Size(max = 13,min = 13) //Questa cosa serve per definire che l'ISBN deve essere solamente di 13 cifre
+    @Column(unique = true, length = 13)
+    @NonNull
     private String ISBN;
 
-    @NotNull
+    @Column(nullable = false)
+    @NonNull
     private LocalDateTime annoDiPubblicazione;
 
-    @Size(max = 144)
+
+    @Column(nullable = false, length = 144)
+    @NonNull
     private String descrizione;
 
-    @NotNull
-    @Size(max = 30)
+    @Column(nullable = false, length = 30)
+    @NonNull
     private String casaEditrice;
 
     @OneToMany

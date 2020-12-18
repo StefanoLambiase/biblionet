@@ -2,11 +2,9 @@ package it.unisa.c07.biblionet.model.entity.utente;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.security.MessageDigest;
@@ -19,27 +17,28 @@ import java.security.NoSuchAlgorithmException;
 public class UtenteRegistrato {
 
     @Id
-    @NotNull
-    @Size(max = 320)
+    @Column(nullable = false, length = 320)
+    @NonNull
     private String email;
 
-    @NotNull
+    @Column(nullable = false, length = 30)
+    @NonNull
     private byte[] password;
 
-    @NotNull
-    @Size(max = 30)
+    @Column(nullable = false, length = 30)
+    @NonNull
     private String provincia;
 
-    @NotNull
-    @Size(max = 30)
+    @Column(nullable = false, length = 30)
+    @NonNull
     private String citta;
 
-    @NotNull
-    @Size(max = 30)
+    @Column(nullable = false, length = 30)
+    @NonNull
     private String via;
 
-    @NotNull
-    @Size(max = 30)
+    @Column(nullable = false, length = 30)
+    @NonNull
     private String recapitoTelefonico;
 
     public UtenteRegistrato(String email, String password, String provincia, String citta, String via, String recapitoTelefonico) {
