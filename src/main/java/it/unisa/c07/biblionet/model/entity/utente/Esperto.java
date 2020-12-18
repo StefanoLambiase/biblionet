@@ -45,5 +45,5 @@ public class Esperto extends UtenteRegistrato {
     private List<Genere>generi;
 
     @OneToMany
-    private List<ClubDelLibro>clubsDelLibro;
+    private List<ClubDelLibro>clubs;
 }

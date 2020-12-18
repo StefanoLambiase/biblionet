@@ -39,7 +39,7 @@ public class Lettore extends UtenteRegistrato{
     private List<Genere>generi;
 
     @ManyToMany
-    private List<ClubDelLibro>clubsDelLibro;
+    private List<ClubDelLibro>clubs;
 
     @ManyToMany
     private List<Evento> eventi;
