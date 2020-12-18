@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Blob;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,5 +35,11 @@ public class ClubDelLibro {
 
     @Lob
     private Blob immagineCopertina;
+
+    @ManyToMany
+    private List<Genere> generi;
+
+    @OneToMany
+    private List<Evento> eventi;
 
 }

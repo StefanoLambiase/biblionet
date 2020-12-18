@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,5 +25,10 @@ public class Genere {
     @NotNull
     @Size(max = 255)
     private String descrizione;
+
+    @ManyToMany
+    private List<ClubDelLibro> clubs;
+
+
 
 }

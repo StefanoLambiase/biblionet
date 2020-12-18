@@ -15,7 +15,7 @@ public class BiblionetApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext configurableApplicationContext =
                 SpringApplication.run(BiblionetApplication.class, args);
-
+/*
         UtenteRegistratoDAO lettoreDAO = configurableApplicationContext.getBean(LettoreDAO.class);
         UtenteRegistratoDAO espertoDAO = configurableApplicationContext.getBean(EspertoDAO.class);
 
@@ -46,6 +46,8 @@ public class BiblionetApplication {
         
         System.out.println(lettoreDAO.findById("stefano@gmail.com").get().getCitta());
         System.out.println(espertoDAO.findById("Antonio@gmail.com").get().getCitta());
+        */
+
     }
 
 }
