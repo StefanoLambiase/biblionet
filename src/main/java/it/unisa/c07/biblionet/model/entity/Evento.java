@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Evento {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idEvento;
