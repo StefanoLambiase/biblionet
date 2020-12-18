@@ -30,6 +30,7 @@ public class Esperto extends UtenteRegistrato {
     @Size(max = 30)
     private String cognome;
 
+
     public Esperto(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
         super(email, password, provincia, citta, via, recapitoTelefonico);
         this.username = username;

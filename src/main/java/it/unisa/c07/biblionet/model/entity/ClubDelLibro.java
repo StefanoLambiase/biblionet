@@ -43,4 +43,10 @@ public class ClubDelLibro {
 
     @ManyToMany
     private List<Lettore>lettori;
+    @ManyToMany
+    private List<Genere> generi;
+
+    @OneToMany
+    private List<Evento> eventi;
+
 }

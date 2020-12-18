@@ -20,6 +20,8 @@ public class Biblioteca extends UtenteRegistrato{
     @Size(max = 30)
     String nomeBiblioteca;
 
+
+
     public Biblioteca(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String nomeBiblioteca) {
         super(email, password, provincia, citta, via, recapitoTelefonico);
         this.nomeBiblioteca = nomeBiblioteca;
