@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Esperto extends UtenteRegistrato {
+public class Esperto extends UtenteRegistrato implements HaGenere{
 
     @NotNull
     @Size(max = 30)
@@ -30,14 +30,6 @@ public class Esperto extends UtenteRegistrato {
     @Size(max = 30)
     private String cognome;
 
-
-    public Esperto(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
-        super(email, password, provincia, citta, via, recapitoTelefonico);
-        this.username = username;
-        this.nome = nome;
-        this.cognome = cognome;
-    }
-
     @ManyToOne
     private Biblioteca biblioteca;
 
@@ -46,4 +38,13 @@ public class Esperto extends UtenteRegistrato {
 
     @OneToMany
     private List<ClubDelLibro>clubs;
+
+    //Da Cambiare
+    public Esperto(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
+        super(email, password, provincia, citta, via, recapitoTelefonico);
+        this.username = username;
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+
 }

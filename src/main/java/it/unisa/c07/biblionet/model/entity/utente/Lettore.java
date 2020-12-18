@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Lettore extends UtenteRegistrato{
+public class Lettore extends UtenteRegistrato implements HaGenere{
 
     @NotNull
     @Size(max=30)
