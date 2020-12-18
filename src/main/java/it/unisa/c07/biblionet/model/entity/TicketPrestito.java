@@ -25,25 +25,20 @@ public class TicketPrestito {
     private byte stato;
 
     @NotNull
-    @Size(max = 30)
-    private String emailBiblioteca;
-
-    @NotNull
-    @Size(max = 30)
-    private String emailLettore;
-
-    @NotNull
     private LocalDateTime dataRichiesta;
 
     @NotNull
     private LocalDateTime dataRestituzione;
 
+    @NotNull
     @ManyToOne
     private Libro libro;
 
+    @NotNull
     @ManyToOne
     private Biblioteca biblioteca;
 
+    @NotNull
     @ManyToOne
     private Lettore lettore;
 

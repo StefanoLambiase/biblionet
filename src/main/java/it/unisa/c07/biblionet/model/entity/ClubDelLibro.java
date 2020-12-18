@@ -31,13 +31,10 @@ public class ClubDelLibro {
     @Size (max = 255)
     private String descrizione;
 
-    @NotNull
-    @Size(max = 30)
-    private String emailProprietario;
-
     @Lob
     private Blob immagineCopertina;
 
+    @NotNull
     @ManyToOne
     private Esperto esperto;
 

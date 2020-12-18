@@ -32,14 +32,10 @@ public class Evento {
     @NotNull
     private LocalDateTime dataOra;
 
-    private int idLibro;
-
-    @NotNull
-    private int idClub;
-
     @ManyToMany(mappedBy = "eventi")
     private List<Lettore> lettori;
 
+    @NotNull
     @ManyToOne
     private ClubDelLibro club;
 

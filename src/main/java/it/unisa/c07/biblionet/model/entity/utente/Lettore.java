@@ -31,12 +31,6 @@ public class Lettore extends UtenteRegistrato implements HaGenere{
     @Size(max=30)
     private String cognome;
 
-    public Lettore(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
-        super(email, password, provincia, citta, via, recapitoTelefonico);
-        this.username = username;
-        this.nome = nome;
-        this.cognome = cognome;
-    }
     @ManyToMany
     private List<Genere>generi;
 
@@ -48,5 +42,13 @@ public class Lettore extends UtenteRegistrato implements HaGenere{
 
     @OneToMany
     private List<TicketPrestito> tickets;
+
+    public Lettore(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
+        super(email, password, provincia, citta, via, recapitoTelefonico);
+        this.username = username;
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+
 
 }
