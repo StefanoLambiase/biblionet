@@ -33,6 +33,7 @@ public class Genere {
     @ManyToMany
     private List<Esperto>esperti;
 
+    @ManyToMany
     private List<Libro> libri;
 
     @ManyToMany
