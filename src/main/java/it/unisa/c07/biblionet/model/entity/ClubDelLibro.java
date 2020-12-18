@@ -17,6 +17,7 @@ public class ClubDelLibro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private int idClub;
 
     @NotNull
