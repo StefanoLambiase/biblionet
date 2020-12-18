@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.model.entity;
 
 
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,5 +48,9 @@ public class Libro {
 
     @ManyToMany
     private List<Genere> generi;
+
+
+
+
 
 }

@@ -28,4 +28,6 @@ public class Genere {
     @ManyToMany
     private List<Libro> libri;
 
+    @ManyToMany
+    private List<ClubDelLibro> clubs;
 }

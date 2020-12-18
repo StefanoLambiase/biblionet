@@ -40,4 +40,7 @@ public class Evento {
     @ManyToMany
     private List<Lettore> lettori;
 
+    @ManyToOne
+    private ClubDelLibro club;
+
 }
