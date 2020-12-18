@@ -1,11 +1,16 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
+import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,4 +24,14 @@ public class Biblioteca extends UtenteRegistrato{
         super(email, password, provincia, citta, via, recapitoTelefonico);
         this.nomeBiblioteca = nomeBiblioteca;
     }
+
+    @ManyToMany
+    private List<Libro> libri;
+
+    @OneToMany
+    private List<Esperto>esperti;
+
+    @OneToMany
+    private List<TicketPrestito>tickets;
+
 }

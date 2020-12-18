@@ -1,11 +1,17 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +36,13 @@ public class Esperto extends UtenteRegistrato {
         this.nome = nome;
         this.cognome = cognome;
     }
+
+    @ManyToOne
+    private Biblioteca biblioteca;
+
+    @ManyToMany
+    private List<Genere>generi;
+
+    @OneToMany
+    private List<ClubDelLibro>clubsDelLibro;
 }
