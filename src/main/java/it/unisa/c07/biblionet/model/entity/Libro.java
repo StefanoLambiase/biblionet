@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -41,6 +42,10 @@ public class Libro {
     @Size(max = 30)
     private String casaEditrice;
 
+    @OneToMany
+    private List<TicketPrestito> tickets;
 
+    @ManyToMany
+    private List<Genere> generi;
 
 }
