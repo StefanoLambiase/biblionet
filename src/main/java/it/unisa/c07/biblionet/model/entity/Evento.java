@@ -37,10 +37,13 @@ public class Evento {
     @NotNull
     private int idClub;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "eventi")
     private List<Lettore> lettori;
 
     @ManyToOne
     private ClubDelLibro club;
+
+    @ManyToOne
+    private Libro libro;
 
 }
