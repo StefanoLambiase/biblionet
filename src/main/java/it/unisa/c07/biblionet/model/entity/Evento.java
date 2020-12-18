@@ -4,10 +4,9 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,28 +20,25 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idEvento;
 
-    @NotNull
-    @Size(max = 30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String nomeEvento;
 
-    @NotNull
-    @Size(max = 255)
+    @NonNull
+    @Column(nullable = false, length = 255)
     private String descrizione;
 
-    @NotNull
+    @NonNull
     private LocalDateTime dataOra;
-
-    private int idLibro;
-
-    @NotNull
-    private int idClub;
 
     @ManyToMany(mappedBy = "eventi")
     private List<Lettore> lettori;
 
+    @NonNull
+    @Column(nullable = false)
     @ManyToOne
     private ClubDelLibro club;
-
+    
     @ManyToOne
     private Libro libro;
 

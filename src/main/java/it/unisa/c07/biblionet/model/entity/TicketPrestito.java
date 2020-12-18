@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,33 +18,33 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TicketPrestito {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idTicket;
 
-    @NotNull
+    @NonNull
+    @Column(nullable = false)
     private byte stato;
 
-    @NotNull
-    @Size(max = 30)
-    private String emailBiblioteca;
-
-    @NotNull
-    @Size(max = 30)
-    private String emailLettore;
-
-    @NotNull
+    @NonNull
+    @Column(nullable = false)
     private LocalDateTime dataRichiesta;
 
-    @NotNull
+    @NonNull
+    @Column(nullable = false)
     private LocalDateTime dataRestituzione;
 
+    @NonNull
+    @Column(nullable = false)
     @ManyToOne
     private Libro libro;
 
+    @NonNull
+    @Column(nullable = false)
     @ManyToOne
     private Biblioteca biblioteca;
 
+    @NonNull
+    @Column(nullable = false)
     @ManyToOne
     private Lettore lettore;
 
