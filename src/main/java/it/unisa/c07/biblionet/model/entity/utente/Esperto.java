@@ -4,11 +4,9 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -18,16 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 public class Esperto extends UtenteRegistrato implements HaGenere{
 
-    @NotNull
-    @Size(max = 30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String username;
 
-    @NotNull
-    @Size(max = 30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String nome;
 
-    @NotNull
-    @Size(max = 30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String cognome;
 
     @ManyToOne

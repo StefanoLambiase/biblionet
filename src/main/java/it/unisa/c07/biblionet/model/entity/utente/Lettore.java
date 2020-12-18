@@ -6,12 +6,12 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -19,16 +19,16 @@ import java.util.List;
 @NoArgsConstructor
 public class Lettore extends UtenteRegistrato implements HaGenere{
 
-    @NotNull
-    @Size(max=30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String username;
 
-    @NotNull
-    @Size(max=30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String nome;
 
-    @NotNull
-    @Size(max=30)
+    @NonNull
+    @Column(nullable = false, length = 30)
     private String cognome;
 
     @ManyToMany
