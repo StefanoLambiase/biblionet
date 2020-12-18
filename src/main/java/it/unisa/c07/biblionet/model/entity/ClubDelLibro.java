@@ -12,6 +12,7 @@ import java.sql.Blob;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClubDelLibro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idClub;
