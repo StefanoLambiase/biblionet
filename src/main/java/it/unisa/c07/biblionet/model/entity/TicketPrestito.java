@@ -37,6 +37,8 @@ public class TicketPrestito {
     @NotNull
     private LocalDateTime dataRestituzione;
 
+    @ManyToOne
+    private Libro libro;
 
     @ManyToOne
     private Biblioteca biblioteca;

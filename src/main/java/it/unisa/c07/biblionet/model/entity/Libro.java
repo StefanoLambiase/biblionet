@@ -46,7 +46,11 @@ public class Libro {
     @ManyToMany
     private List<Biblioteca> biblioteche;
 
+    @OneToMany
+    private List<TicketPrestito> tickets;
 
+    @ManyToMany
+    private List<Genere> generi;
 
 
 

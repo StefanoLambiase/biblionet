@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,8 +32,9 @@ public class Genere {
 
     @ManyToMany
     private List<Esperto>esperti;
+
+    private List<Libro> libri;
+
+    @ManyToMany
     private List<ClubDelLibro> clubs;
-
-
-
 }

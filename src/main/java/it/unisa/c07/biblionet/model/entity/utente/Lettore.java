@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.model.entity.utente;
 
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.Evento;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,7 @@ public class Lettore extends UtenteRegistrato{
 
     @ManyToMany
     private List<ClubDelLibro>clubsDelLibro;
+
+    @ManyToMany
+    private List<Evento> eventi;
 }
