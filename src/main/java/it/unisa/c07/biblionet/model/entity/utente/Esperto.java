@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 @SuperBuilder
 @Data
@@ -39,7 +40,6 @@ public class Esperto extends UtenteRegistrato implements HaGenere{
 
     @OneToMany
     private List<ClubDelLibro>clubs;
-
 
     public Esperto(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome, Biblioteca biblioteca) {
         super(email, password, provincia, citta, via, recapitoTelefonico);

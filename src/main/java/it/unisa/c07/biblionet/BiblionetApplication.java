@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.dao.utente.UtenteRegistratoDAO;
 import it.unisa.c07.biblionet.model.entity.*;
+import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -40,7 +41,7 @@ public class BiblionetApplication {
         EventoDAO eventoDAO = configurableApplicationContext.getBean(EventoDAO.class);
         GenereDAO genereDAO = configurableApplicationContext.getBean(GenereDAO.class);
         LibroDAO libroDAO = configurableApplicationContext.getBean(LibroDAO.class);
-        //PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
+        PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
 
 //------------------------------Definizione oggetti per popolamento Database------------------------------------------
@@ -133,6 +134,7 @@ public class BiblionetApplication {
 
         eventoDAO.save(evento);
 
+        
         //Aspetto per un input da linea di comando
         Scanner sc = new Scanner(System.in);
         System.out.println("Inserire un qualsiasi testo per eseguire un aggiornamento e premere Invio");
@@ -142,6 +144,13 @@ public class BiblionetApplication {
         esperto.setGeneri(Arrays.asList(genere));
         espertoDAO.save(esperto);
 
+        //Creo un possesso ad una biblioteca di un libro con un dato numero di copie
+        Possesso possesso=new Possesso(new PossessoId(biblioteca.getEmail(),libro.getIdLibro()),5);
+        possessoDAO.save(possesso);
+
+        //Assegno il possesso alla biblioteca
+        biblioteca.setPossessi(Arrays.asList(possesso));
+        bibliotecaDAO.save(biblioteca);
 
 
 

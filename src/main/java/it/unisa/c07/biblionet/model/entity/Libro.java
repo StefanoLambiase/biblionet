@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -50,7 +51,7 @@ public class Libro {
     @OneToMany
     private List<Evento> eventi;
 
-   /* @OneToMany(mappedBy = "libro")
-    private Set<Possesso> possessi;
-                                    */
+   //@OneToMany(mappedBy = "libro",cascade = CascadeType.ALL)
+   @OneToMany
+    private List<Possesso> possessi;
 }

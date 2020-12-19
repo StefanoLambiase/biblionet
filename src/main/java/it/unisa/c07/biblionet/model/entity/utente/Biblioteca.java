@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
+import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class Biblioteca extends UtenteRegistrato{
     @OneToMany
     private List<TicketPrestito>tickets;
 
-  /*  @OneToMany(mappedBy = "biblioteca")
-    private Set<Possesso> possessi;*/
+    @OneToMany
+    private List<Possesso> possessi;
 
     public Biblioteca(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String nomeBiblioteca) {
         super(email, password, provincia, citta, via, recapitoTelefonico);
