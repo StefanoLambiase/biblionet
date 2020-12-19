@@ -2,9 +2,7 @@ package it.unisa.c07.biblionet.model.entity;
 
 
 import lombok.*;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,5 +50,7 @@ public class Libro {
     @OneToMany
     private List<Evento> eventi;
 
-
+   /* @OneToMany(mappedBy = "libro")
+    private Set<Possesso> possessi;
+                                    */
 }

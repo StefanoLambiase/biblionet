@@ -9,23 +9,23 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+/*
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(PossessoId.class)
+@IdClass(PossessoId.class)*/
 public class Possesso implements Serializable {
 
-    @Id
-    @ManyToOne
+    /*@Id
+    @ManyToOne*/
     private Biblioteca biblioteca;
 
-    @Id
-    @ManyToOne
+    /*@Id
+    @ManyToOne*/
     private Libro libro;
 
-    @NonNull
-    @Column(nullable = false)
+    /*@NonNull
+    @Column(nullable = false)*/
     private int numeroCopie;
 }

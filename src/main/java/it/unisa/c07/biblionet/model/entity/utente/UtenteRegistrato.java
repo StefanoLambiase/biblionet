@@ -1,14 +1,10 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

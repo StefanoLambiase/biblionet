@@ -5,7 +5,6 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -36,7 +35,7 @@ public class TicketPrestito {
 
     @NonNull
     //@Column(nullable = false)
-    @ManyToOne
+    @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Libro libro;
 

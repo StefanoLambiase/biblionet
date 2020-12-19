@@ -31,6 +31,8 @@ public class BiblionetApplication {
         ConfigurableApplicationContext configurableApplicationContext =
                 SpringApplication.run(BiblionetApplication.class, args);
 
+//----------------------------Definizione oggetti DAO per ogni entity-----------------------------------------
+
         BibliotecaDAO bibliotecaDAO = configurableApplicationContext.getBean(BibliotecaDAO.class);
         EspertoDAO espertoDAO = configurableApplicationContext.getBean(EspertoDAO.class);
         LettoreDAO lettoreDAO = configurableApplicationContext.getBean(LettoreDAO.class);
@@ -41,13 +43,9 @@ public class BiblionetApplication {
         //PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
 
-       // Biblioteca test = new Biblioteca("TestBiblio@gmail.com","asdlol123","Salerno","Nocera", "Boh","4567894512", "BellaBiblioteca");
-       // Esperto esperto = new Esperto("esperto@gmail.com","ASDLOL123","Salerno","Bella","Storia","123456123","pippo","Ciccio","Mamma",test);
+//------------------------------Definizione oggetti per popolamento Database------------------------------------------
 
-      //  bibliotecaDAO.save(test);
-       // espertoDAO.save(esperto);
-
-       /* Biblioteca biblioteca = new Biblioteca(
+        Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
                 "BibliotecaPassword",
                 "Napoli",
@@ -135,61 +133,17 @@ public class BiblionetApplication {
 
         eventoDAO.save(evento);
 
-*/
+        //Aspetto per un input da linea di comando
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Inserire un qualsiasi testo per eseguire un aggiornamento e premere Invio");
+        sc.next();
+
+        //Eseguo un aggiornamento di un esperto, associandogli un genere
+        esperto.setGeneri(Arrays.asList(genere));
+        espertoDAO.save(esperto);
+
+
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /* @Bean
-    public ApplicationRunner initializerBiblioteca(BibliotecaDAO bibliotecaDAO) throws NoSuchAlgorithmException {
-
-        MessageDigest md;
-        md = MessageDigest.getInstance("SHA-256");
-
-        return args -> bibliotecaDAO.saveAll(Arrays.asList(
-                Biblioteca.builder().nomeBiblioteca("Bella Biblioteca").citta("Nocera").provincia("Salerno").via("Via Dalle Palle").email("dino@dino.com").password(md.digest("passwordSicura".getBytes())).recapitoTelefonico("456456456456").build()
-
-        ));
-    }
-
-    @Bean
-    public ApplicationRunner initializer(EspertoDAO espertoDAO) throws NoSuchAlgorithmException {
-
-        MessageDigest md;
-        md = MessageDigest.getInstance("SHA-256");
-        Biblioteca b= new Biblioteca();
-        b.setEmail("dino@dino.com");
-        return args -> espertoDAO.saveAll(Arrays.asList(
-                Esperto.builder().nome("Antonio").cognome("DellaPorta").username("Mimmo").biblioteca(b).email("Antonio@gmail.com").citta("Nocera Inferiore").provincia("Salerno").via("Che coas vuoi stalker 46").recapitoTelefonico("4561234564").password(md.digest("passwordSicura".getBytes())).build()
-        ));
-
-
-    }*/
-
-
 }
