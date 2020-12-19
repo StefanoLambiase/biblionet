@@ -17,12 +17,12 @@ public class ClubDelLibroController {
 
     private final ClubDelLibroService clubService;
 
-    @RequestMapping(value = "/crea-club", method = RequestMethod.POST)
+    @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(ClubDelLibro club, HttpServletRequest request) {
         Esperto esperto = (Esperto) request.getSession().getAttribute("utente");
         club.setEsperto(esperto);
         clubService.creaClubDelLibro(club);
-        return "/club-del-libro";
+        return "crea-club";
     }
 
 
