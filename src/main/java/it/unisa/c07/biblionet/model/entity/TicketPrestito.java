@@ -2,30 +2,29 @@ package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class TicketPrestito {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idTicket;
 
+    public enum stati{CREATO,IN_ATTESA_DI_CONFERMA,CONFERMATO,IN_ATTESA_DI_RESTITUZIONE,CHIUSO};
+
     @NonNull
     @Column(nullable = false)
-    private byte stato;
+    private stati stato;
 
     @NonNull
     @Column(nullable = false)

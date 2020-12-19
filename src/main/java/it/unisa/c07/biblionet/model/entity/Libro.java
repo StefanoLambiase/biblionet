@@ -1,15 +1,10 @@
 package it.unisa.c07.biblionet.model.entity;
 
 
-import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,18 +12,19 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idLibro;
 
-    @NotNull
+    @NonNull
     @Column(length = 30)
     private String titolo;
 
-    @Column(length = 30)
     @NonNull
+    @Column(length = 30)
     private String autore;
 
     @Column(unique = true, length = 13)
@@ -55,9 +51,6 @@ public class Libro {
 
     @OneToMany
     private List<Evento> eventi;
-
-
-
 
 
 }

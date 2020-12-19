@@ -5,10 +5,7 @@ import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.dao.utente.UtenteRegistratoDAO;
-import it.unisa.c07.biblionet.model.entity.Genere;
-import it.unisa.c07.biblionet.model.entity.Libro;
-import it.unisa.c07.biblionet.model.entity.Possesso;
-import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.*;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -41,23 +38,132 @@ public class BiblionetApplication {
         EventoDAO eventoDAO = configurableApplicationContext.getBean(EventoDAO.class);
         GenereDAO genereDAO = configurableApplicationContext.getBean(GenereDAO.class);
         LibroDAO libroDAO = configurableApplicationContext.getBean(LibroDAO.class);
-        PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
+        //PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
 
-        Biblioteca test = new Biblioteca("TestBiblio@gmail.com","asdlol123","Salerno","Nocera", "Boh","4567894512", "BellaBiblioteca");
-        Esperto esperto = new Esperto("esperto@gmail.com","ASDLOL123","Salerno","Bella","Storia","123456123","pippo","Ciccio","Mamma",test);
+       // Biblioteca test = new Biblioteca("TestBiblio@gmail.com","asdlol123","Salerno","Nocera", "Boh","4567894512", "BellaBiblioteca");
+       // Esperto esperto = new Esperto("esperto@gmail.com","ASDLOL123","Salerno","Bella","Storia","123456123","pippo","Ciccio","Mamma",test);
 
-        bibliotecaDAO.save(test);
+      //  bibliotecaDAO.save(test);
+       // espertoDAO.save(esperto);
+
+       /* Biblioteca biblioteca = new Biblioteca(
+                "bibliotecacarrisi@gmail.com",
+                "BibliotecaPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Carrisi 47",
+                "1234567890",
+                "Biblioteca Carrisi"
+        );
+
+        bibliotecaDAO.save(biblioteca);
+
+        Esperto esperto = new Esperto(
+                "eliaviviani@gmail.com",
+                "EspertoPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Roma 2",
+                "2345678901",
+                "Espertissimo",
+                "Elia",
+                "Viviani",
+                biblioteca
+        );
+
         espertoDAO.save(esperto);
 
+        Lettore lettore = new Lettore(
+                "giuliociccone@gmail.com",
+                "LettorePassword",
+                "Salerno",
+                "Baronissi",
+                "Via Barone 11",
+                "3456789012",
+                "SuperLettore",
+                "Giulio",
+                "Ciccone"
+        );
 
+        lettoreDAO.save(lettore);
 
-        try (Scanner sc = new Scanner(System.in)) {
-            sc.next();
-            bibliotecaDAO.delete(test);
-        }
+        Genere genere = new Genere(
+                "Fantasy",
+                "Genere fantastico"
+        );
+
+        genereDAO.save(genere);
+
+        Libro libro = new Libro(
+                "BiblioNet",
+                "Stefano Lambiase",
+                "1234567890123",
+                LocalDateTime.now(),
+                "Biblioteche 2.0",
+                "Mondadori"
+
+        );
+
+        libroDAO.save(libro);
+
+        TicketPrestito ticket = new TicketPrestito(
+                TicketPrestito.stati.CREATO,
+                LocalDateTime.now(),
+                LocalDateTime.of(LocalDate.of(2020,12,25), LocalTime.of(12,25,12)),
+                libro,
+                biblioteca,
+                lettore
+        );
+
+        ticketPrestitoDAO.save(ticket);
+
+        ClubDelLibro clubDelLibro = new ClubDelLibro(
+                "Club Fantasy",
+                "Si parla di libri fantasy",
+                esperto
+        );
+
+        clubDelLibroDAO.save(clubDelLibro);
+
+        Evento evento = new Evento(
+                "Evento fantasy",
+                "Evento fantasy",
+                LocalDateTime.now(),
+                clubDelLibro
+        );
+
+        eventoDAO.save(evento);
+
+*/
+
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    /* @Bean
     public ApplicationRunner initializerBiblioteca(BibliotecaDAO bibliotecaDAO) throws NoSuchAlgorithmException {
