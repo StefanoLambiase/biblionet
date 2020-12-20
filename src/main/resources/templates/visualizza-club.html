@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr th:each="club : ${club}">
+            <td>Nome club</td>
+            <td>Descrizione</td>
+            <td>Esperto</td>
+        </tr>
+        <tr th:each="club : ${club}">
+            <td th:text="${club.nome}"></td>
+            <td th:text="${club.descrizione}"></td>
+            <td th:text="${club.esperto.nome}"></td>
+        </tr>
+    </table>
+</body>
+</html>
