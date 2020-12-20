@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
@@ -51,6 +52,7 @@ public class ClubDelLibroControllerTest {
     public void creaClubDelLibro(final ClubDelLibro club) throws Exception {
         when(clubService.creaClubDelLibro(club)).thenReturn(club);
         this.mockMvc.perform(post("/club-del-libro/crea"))
+                .andExpect(model().attribute("club", club))
                 .andExpect(view().name("visualizza-club"));
     }
 

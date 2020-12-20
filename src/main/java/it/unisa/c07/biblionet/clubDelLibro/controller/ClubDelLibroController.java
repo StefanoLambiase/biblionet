@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +44,7 @@ public class ClubDelLibroController {
      * alla view che dovrà visualizzarlo
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public ModelAndView creaClubDelLibro(final ClubDelLibro club) {
+    public String creaClubDelLibro(final Model model, final ClubDelLibro club) {
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
                 "EspertoPassword",
@@ -66,9 +67,8 @@ public class ClubDelLibroController {
         );
         club.setEsperto(esperto);
         ClubDelLibro nuovoClub = clubService.creaClubDelLibro(club);
-        ModelAndView mav = new ModelAndView("visualizza-club");
-        mav.addObject("club", nuovoClub);
-        return mav;
+        model.addAttribute("club", nuovoClub);
+        return "visualizza-club";
     }
 
 
