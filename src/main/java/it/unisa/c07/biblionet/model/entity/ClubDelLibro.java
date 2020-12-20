@@ -59,7 +59,7 @@ public class ClubDelLibro {
     @Column(nullable = false, length = Length.LENGTH_30)
     private String descrizione;
 
-    /*
+    /**
      *  Rappresenta l'immagine di copertina di un club.
      *  L'annotazione serve ad Hibernate, poichè Blob è una interfaccia,
      *  e di conseguenza non saprebbe come mapparla all'interno di un DB,

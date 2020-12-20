@@ -7,30 +7,65 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
+/**
+ * Questa classe rappresenta una Biblioteca.
+ * Una Biblioteca possiede un nome, la lista degli esperti
+ * che lavorano presso di essa, la lista di libri che possiede
+ * che quindi può prestare ad un lettore,
+ * e una lista di ticket che rappresentano le richieste di prestito dei lettori.
+ */
 @Entity
 @SuperBuilder
 @Data
 @NoArgsConstructor
-public class Biblioteca extends UtenteRegistrato{
+public class Biblioteca extends UtenteRegistrato {
+
     //cambiare nell'SDD
+    /**
+     * Rappresenta il nome della biblioteca.
+     */
     @Column(nullable = false, length = Length.LENGTH_60)
     @NonNull
-    String nomeBiblioteca;
+    private String nomeBiblioteca;
 
+    /**
+     * Rapprenseta la lista di esperti che lavorano nella biblioteca.
+     */
     @OneToMany(mappedBy = "biblioteca")
-    private List<Esperto>esperti;
+    private List<Esperto> esperti;
 
+    /**
+     * Rappresenta la lista di ticket riguardanti le richieste di prestito.
+     */
     @OneToMany
-    private List<TicketPrestito>tickets;
+    private List<TicketPrestito> tickets;
 
+    /**
+     * Rappresenta la lista di libri posseduti dalla biblioteca.
+     */
     @OneToMany(mappedBy = "possessoID.bibliotecaID")
     private List<Possesso> possessi;
 
-    public Biblioteca(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String nomeBiblioteca) {
+    /**
+     *
+     * @param email È la mail della biblioteca.
+     * @param password È la password di accesso della biblioteca.
+     * @param provincia È la provincia in cui ha sede la biblioteca.
+     * @param citta È la città in cui ha sede la biblioteca.
+     * @param via È l'indirizzo in cui ha sede la biblioteca.
+     * @param recapitoTelefonico È il numero di telefono della biblioteca.
+     * @param nomeBiblioteca È il nome della biblioteca.
+     */
+    public Biblioteca(final String email, final String password,
+                      final String provincia, final String citta,
+                      final String via, final String recapitoTelefonico,
+                      final String nomeBiblioteca) {
+
         super(email, password, provincia, citta, via, recapitoTelefonico);
         this.nomeBiblioteca = nomeBiblioteca;
     }
