@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,15 +22,15 @@ import java.util.List;
 public class Lettore extends UtenteRegistrato implements HaGenere{
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String username;
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String nome;
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String cognome;
 
     @ManyToMany
@@ -44,7 +45,11 @@ public class Lettore extends UtenteRegistrato implements HaGenere{
     @OneToMany
     private List<TicketPrestito> tickets;
 
-    public Lettore(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String username, String nome, String cognome) {
+    public Lettore(final String email, final String password,
+                   final String provincia, final String citta,
+                   final String via, final String recapitoTelefonico,
+                   final String username, final String nome,
+                   final String cognome) {
         super(email, password, provincia, citta, via, recapitoTelefonico);
         this.username = username;
         this.nome = nome;

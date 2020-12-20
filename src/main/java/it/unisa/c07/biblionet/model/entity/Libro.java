@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.model.entity;
 
+import it.unisa.c07.biblionet.utils.Length;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,14 +19,15 @@ public class Libro {
 
     //Cambiare nell'SDD
     @NonNull
-    @Column(length = 90)
+    @Column(length = Length.LENGTH_90)
     private String titolo;
 
+    //Cambiare nell'SDD
     @NonNull
-    @Column(length = 60)
+    @Column(length = Length.LENGTH_60)
     private String autore;
 
-    @Column(unique = true, length = 13)
+    @Column(unique = true, length = Length.LENGTH_13)
     @NonNull
     private String ISBN;
 
@@ -33,11 +35,11 @@ public class Libro {
     @NonNull
     private LocalDateTime annoDiPubblicazione;
 
-    @Column(nullable = false, length = 144)
+    @Column(nullable = false, length = Length.LENGTH_144)
     @NonNull
     private String descrizione;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String casaEditrice;
 

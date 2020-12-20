@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
+import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,27 +17,27 @@ import java.security.NoSuchAlgorithmException;
 public class UtenteRegistrato {
 
     @Id
-    @Column(nullable = false, length = 320)
+    @Column(nullable = false, length = Length.LENGTH_320)
     @NonNull
     private String email;
 
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = Length.LENGTH_32)
     @NonNull
     private byte[] password;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String provincia;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String citta;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String via;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String recapitoTelefonico;
 

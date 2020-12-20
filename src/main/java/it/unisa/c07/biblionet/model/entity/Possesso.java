@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,13 +15,12 @@ import java.io.Serializable;
  *
  * Questa classe rappresenta la relazione molti a molti fra una biblioteca
  * e un libro. È identificata univocamente da una chiave composta PossessoID
- * e contiene il numero di copie di quel libro possedute dalla biblioteca
+ * e contiene il numero di copie di quel libro possedute dalla biblioteca.
  * @see PossessoId
  * @see Serializable
  */
 @Entity
 @Data
-// Lo tolgo perché così posso commentare il costruttore indicando il modo di procedere per evitare errori in futuro @AllArgsConstructor
 @NoArgsConstructor
 public class Possesso implements Serializable {
 

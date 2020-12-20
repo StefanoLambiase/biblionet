@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.model.entity.utente;
 
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -19,15 +20,15 @@ import java.util.List;
 public class Esperto extends UtenteRegistrato implements HaGenere{
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String username;
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String nome;
 
     @NonNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = Length.LENGTH_30)
     private String cognome;
 
     @ManyToOne

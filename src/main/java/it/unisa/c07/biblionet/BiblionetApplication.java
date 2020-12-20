@@ -1,30 +1,37 @@
 package it.unisa.c07.biblionet;
 
-import it.unisa.c07.biblionet.model.dao.*;
+import it.unisa.c07.biblionet.model.dao.PossessoDAO;
+import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
+import it.unisa.c07.biblionet.model.dao.LibroDAO;
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
+import it.unisa.c07.biblionet.model.dao.EventoDAO;
+import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
-import it.unisa.c07.biblionet.model.dao.utente.UtenteRegistratoDAO;
-import it.unisa.c07.biblionet.model.entity.*;
-import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+import it.unisa.c07.biblionet.model.entity.Possesso;
+import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import org.apache.tomcat.jni.Local;
-import org.springframework.boot.ApplicationRunner;
+import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.Scanner;
 
+/**
+ * Questa è la main class del progetto, che fa partire l'applicazione e popola
+ * il database.
+ */
 @SpringBootApplication
 public class BiblionetApplication {
 

@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.model.entity.utente;
 
 import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Biblioteca extends UtenteRegistrato{
     //cambiare nell'SDD
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = Length.LENGTH_60)
     @NonNull
     String nomeBiblioteca;
 
