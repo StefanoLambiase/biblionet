@@ -7,6 +7,11 @@ package it.unisa.c07.biblionet.utils;
 public abstract class Length {
 
     /**
+     * Lunghezza 10.
+     */
+    public static final int LENGTH_10 = 10;
+
+    /**
      * Lunghezza 13.
      */
     public static final int LENGTH_13 = 13;

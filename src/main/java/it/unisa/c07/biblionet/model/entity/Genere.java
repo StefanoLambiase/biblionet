@@ -36,12 +36,11 @@ public class Genere {
     @Column(nullable = false, length = Length.LENGTH_30)
     private String nome;
 
-    //Cambiare nell'SDD
     /**
      * Rappresenta la descrizione del genere.
      */
     @NonNull
-    @Column(nullable = false, length = Length.LENGTH_90)
+    @Column(nullable = false, length = Length.LENGTH_255)
     private String descrizione;
 
     /**

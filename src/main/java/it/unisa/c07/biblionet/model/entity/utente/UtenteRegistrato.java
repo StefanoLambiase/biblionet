@@ -63,7 +63,7 @@ public class UtenteRegistrato {
     /**
      * Rappresenta il recapito telefonico dell'utente registrato.
      */
-    @Column(nullable = false, length = Length.LENGTH_30)
+    @Column(nullable = false, length = Length.LENGTH_10)
     @NonNull
     private String recapitoTelefonico;
 

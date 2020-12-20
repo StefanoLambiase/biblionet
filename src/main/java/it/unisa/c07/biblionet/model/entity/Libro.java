@@ -34,7 +34,6 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idLibro;
 
-    //Cambiare nell'SDD
     /**
      * Rappresenta il titolo di un libro.
      */
@@ -42,7 +41,6 @@ public class Libro {
     @Column(length = Length.LENGTH_90)
     private String titolo;
 
-    //Cambiare nell'SDD
     /**
      * Rappresenta l'autore di un libro.
      */

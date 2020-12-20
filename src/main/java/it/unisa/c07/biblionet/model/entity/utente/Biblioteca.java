@@ -25,7 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Biblioteca extends UtenteRegistrato {
 
-    //cambiare nell'SDD
+
     /**
      * Rappresenta il nome della biblioteca.
      */
