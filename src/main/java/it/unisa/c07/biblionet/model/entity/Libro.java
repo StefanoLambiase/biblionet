@@ -1,11 +1,25 @@
 package it.unisa.c07.biblionet.model.entity;
 
+import it.unisa.c07.biblionet.utils.Length;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 
-import lombok.*;
-import javax.persistence.*;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Questa classe rappresenta un libro.
+ */
 @Entity
 @Data
 @AllArgsConstructor
@@ -13,44 +27,76 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Libro {
 
+    /**
+     * Rappresenta l'ID autogenerato di un libro.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idLibro;
 
+    /**
+     * Rappresenta il titolo di un libro.
+     */
     @NonNull
-    @Column(length = 30)
+    @Column(length = Length.LENGTH_90)
     private String titolo;
 
+    /**
+     * Rappresenta l'autore di un libro.
+     */
     @NonNull
-    @Column(length = 30)
+    @Column(length = Length.LENGTH_60)
     private String autore;
 
-    @Column(unique = true, length = 13)
+    /**
+     * Rappresenta il codice ISBN di un libro se presente.
+     */
+    @Column(unique = true, length = Length.LENGTH_13)
     @NonNull
-    private String ISBN;
+    private String isbn;
 
+    /**
+     * Rappresenta l'anno di pubblicazione di un libro.
+     */
     @Column(nullable = false)
     @NonNull
     private LocalDateTime annoDiPubblicazione;
 
-    @Column(nullable = false, length = 144)
+    /**
+     * Rappresenta la descrione di un libro.
+     */
+    @Column(nullable = false, length = Length.LENGTH_144)
     @NonNull
     private String descrizione;
 
-    @Column(nullable = false, length = 30)
+    /**
+     * Rappresenta la casa editrice di un libro.
+     */
+    @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String casaEditrice;
 
-    @OneToMany
+    /**
+     * Rappresenta i tickets di cui fa parte il libro.
+     */
+    @OneToMany(mappedBy = "libro")
     private List<TicketPrestito> tickets;
 
+    /**
+     * Rappresenta i generi di un libro.
+     */
     @ManyToMany
     private List<Genere> generi;
 
-    @OneToMany
+    /**
+     * Rappresente gli eventi di cui un libro è parte.
+     */
+    @OneToMany(mappedBy = "libro")
     private List<Evento> eventi;
 
-   /* @OneToMany(mappedBy = "libro")
-    private Set<Possesso> possessi;
-                                    */
+    /**
+     * Rappresenta la relazione di possesso con una blioteca.
+     */
+    @OneToMany(mappedBy = "possessoID.libroID")
+    private List<Possesso> possessi;
 }
