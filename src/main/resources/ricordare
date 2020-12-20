@@ -1,0 +1,40 @@
+
+-----------------------------------------TODO Scrivere in una ManyToMany------------------------------------------------
+
+Quando si vuole scrivere un valore in una tabella di appoggio (quella di mezzo nelle n-n) bisogna scrivere nella lista
+dell'oggetto corrispondente.
+
+ATTENZIONE: non è possibile scrivere in una tabella di appoggio da entrambe le entity, bisogna fare uso della entity
+che è annotata con @ManyToMany che NON possiede l'attributo "mappedBy= ...". L'attributo mappedBy indica ad Hibernate
+che la chiave della relazione è sull'altra entity (quella su cui dovete scrivere)
+
+ESEMPIO: Libro e Genere sono legati da una associazione Many to Many, e Genere nella annotazione Many to Many possiede
+ l'attributo mappedBy, di coseguenza:
+
+ **GIUSTO**
+ libro.setGeneri(Arrays.asList(genere,genere1));
+
+ **SBAGLIATO**
+ genere.setLibri(Arrays.asList(libro,libro1));
+
+----------------------------------------TODO Scrivere in una OneToMany/ManyToOne----------------------------------------
+
+Hibernate per mappare le relazioni 1-n utilizza due annotazioni diverse:
+    @OneToMany (dal lato n della relazione)
+    @ManyToOne (dal lato 1 della relazione)
+
+Quando si vuole scrivere un valore in una relazione 1-n bisogna scivere nella entity annotata con @OneToMany
+
+----------------------------------------TODO Scrivere in Possesso-------------------------------------------------------
+
+Per inserire correttamente un possesso( biblioteca possiede libro) è necessario avere
+    La chiave primaria della biblioteca in cui il libro deve essere inserito: pk_biblio
+    La chiave primaria del libro: pk_libro
+
+ESEMPIO:
+
+     new Possesso( new PossessoId ( pk_biblio , pk_libro), numero_copie );
+
+
+
+

@@ -1,11 +1,9 @@
 package it.unisa.c07.biblionet.model.entity;
 
-
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -18,12 +16,13 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idLibro;
 
+    //Cambiare nell'SDD
     @NonNull
-    @Column(length = 30)
+    @Column(length = 90)
     private String titolo;
 
     @NonNull
-    @Column(length = 30)
+    @Column(length = 60)
     private String autore;
 
     @Column(unique = true, length = 13)
@@ -42,16 +41,15 @@ public class Libro {
     @NonNull
     private String casaEditrice;
 
-    @OneToMany
+    @OneToMany(mappedBy = "libro")
     private List<TicketPrestito> tickets;
 
     @ManyToMany
     private List<Genere> generi;
 
-    @OneToMany
+    @OneToMany(mappedBy = "libro")
     private List<Evento> eventi;
 
-   //@OneToMany(mappedBy = "libro",cascade = CascadeType.ALL)
-   @OneToMany
+    @OneToMany(mappedBy = "possessoID.libroID")
     private List<Possesso> possessi;
 }

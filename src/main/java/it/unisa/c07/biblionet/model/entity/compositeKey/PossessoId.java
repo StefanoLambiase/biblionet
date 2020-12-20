@@ -9,17 +9,17 @@ import java.io.Serializable;
 
 
 /**
- * @author Antonio Della Porta
- *
  * Questa classe rappresenta la chiave composta di Possesso.
  * Sono presenti due campi:
  * <ul>
- *     <li> <br>bibliotecaID</br> è la mail della biblioteca dove il libro è conservato</li>
- *     <li> <br>libroID</br> è l'ID del libro</li>
+ *     <li> <strong>bibliotecaID</strong> è la mail della biblioteca dove il libro è conservato</li>
+ *     <li> <strong>libroID</strong> è l'ID del libro</li>
  * </ul>
  *
+ * @author Antonio Della Porta
  * @see it.unisa.c07.biblionet.model.entity.Possesso
  */
+
 @Embeddable
 @Data
 @AllArgsConstructor

@@ -39,7 +39,7 @@ public class ClubDelLibro {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Esperto esperto;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "clubs")
     private List<Lettore>lettori;
 
     @ManyToMany

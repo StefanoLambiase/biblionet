@@ -6,9 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,18 +15,18 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Biblioteca extends UtenteRegistrato{
-
-    @Column(nullable = false, length = 30)
+    //cambiare nell'SDD
+    @Column(nullable = false, length = 60)
     @NonNull
     String nomeBiblioteca;
 
-    @OneToMany
+    @OneToMany(mappedBy = "biblioteca")
     private List<Esperto>esperti;
 
     @OneToMany
     private List<TicketPrestito>tickets;
 
-    @OneToMany
+    @OneToMany(mappedBy = "possessoID.bibliotecaID")
     private List<Possesso> possessi;
 
     public Biblioteca(String email, String password, String provincia, String citta, String via, String recapitoTelefonico, String nomeBiblioteca) {

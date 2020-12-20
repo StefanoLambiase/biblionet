@@ -34,19 +34,16 @@ public class TicketPrestito {
     private LocalDateTime dataRestituzione;
 
     @NonNull
-    //@Column(nullable = false)
-    @ManyToOne()
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Libro libro;
 
     @NonNull
-    //@Column(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Biblioteca biblioteca;
 
     @NonNull
-    //@Column(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private Lettore lettore;
