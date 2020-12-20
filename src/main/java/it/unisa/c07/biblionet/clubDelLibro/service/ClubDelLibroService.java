@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 
 import java.util.List;
 
@@ -22,5 +23,12 @@ public interface ClubDelLibroService {
      */
     List<ClubDelLibro> visualizzaClubsDelLibro();
 
+    /**
+     * Il metodo serve a recuperare un oggetto
+     * della classe genere dato il nome.
+     * @param generi Lista dei generi sottoforma di stringa
+     * @return Lista dei generi sottoforma di entità
+     */
+    List<Genere> getGeneri(List<String> generi);
 
 }

@@ -1,10 +1,13 @@
 package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,11 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      * Si occupa delle operazioni CRUD.
      */
     private final ClubDelLibroDAO clubDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD.
+     */
+    private final GenereDAO genereDAO;
 
     /**
      * Il metodo consente ad un Esperto di creare un Club del Libro.
@@ -37,4 +45,21 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
     public List<ClubDelLibro> visualizzaClubsDelLibro() {
         return clubDAO.findAll();
     }
+
+    /**
+     * Il metodo serve a recuperare un oggetto
+     * della classe genere dato il nome.
+     * @param generi Lista dei generi sottoforma di stringa
+     * @return Lista dei generi sottoforma di entità
+     */
+    @Override
+    public List<Genere> getGeneri(final List<String> generi) {
+        List<Genere> g = new ArrayList<Genere>();
+        for (String s : generi) {
+            g.add(genereDAO.findByName(s));
+        }
+        return g;
+    }
+
+
 }

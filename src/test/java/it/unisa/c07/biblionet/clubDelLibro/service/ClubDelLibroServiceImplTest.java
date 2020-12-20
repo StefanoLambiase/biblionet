@@ -9,6 +9,9 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -43,6 +46,21 @@ public class ClubDelLibroServiceImplTest {
         ClubDelLibro club = new ClubDelLibro();
         when(clubDAO.save(club)).thenReturn(club);
         assertEquals(club, clubService.creaClubDelLibro(club));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di recupero di
+     * tutti i club nel service.
+     */
+    @Test
+    public void visualizzaClubsDelLibro(){
+        ClubDelLibro club = new ClubDelLibro();
+        List<ClubDelLibro> list = new ArrayList<>();
+        list.add(club);
+
+        when(clubDAO.findAll()).thenReturn(list);
+        assertEquals(list, clubService.visualizzaClubsDelLibro());
     }
 
 

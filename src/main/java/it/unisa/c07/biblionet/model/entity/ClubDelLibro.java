@@ -20,7 +20,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Lob;
 import javax.persistence.GenerationType;
-import java.sql.Blob;
 import java.util.List;
 
 /**

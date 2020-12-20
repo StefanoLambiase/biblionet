@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 
 /**
@@ -38,8 +37,8 @@ public class ClubDelLibroController {
      * @param model L'oggetto model usato per inserire gli attributi
      * @return La pagina di visualizzazione
      */
-    @RequestMapping(value="/", method=RequestMethod.GET)
-    public String visualizzaListaClubs(Model model){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String visualizzaListaClubs(final Model model) {
         model.addAttribute("listaClubs", clubService.visualizzaClubsDelLibro());
         return "visualizza-clubs";
     }
@@ -50,12 +49,15 @@ public class ClubDelLibroController {
      * per creare un club del libro.
      * @param club Il club del libro passato dalla view
      * @param copertina L'immagine di copertina del Club
+     * @param generi Lista dei generi del club
      * @return La view che visualizza i Club del Libro
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(final ClubDelLibro club,
-                                   //@RequestParam("generi") String[] generi,
-                                   @RequestParam("copertina")MultipartFile copertina)  {
+                                   final @RequestParam("generi")
+                                           String[] generi,
+                                   final @RequestParam("copertina")
+                                           MultipartFile copertina) {
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
                 "EspertoPassword",
@@ -82,10 +84,11 @@ public class ClubDelLibroController {
             String base64Image = Base64.getEncoder().encodeToString(imageBytes);
             club.setImmagineCopertina(base64Image);
         } catch (IOException e) {
-            e.printStackTrace(); }
-
-        //INSERIRE LISTA GENERI QUANDO ESISTE GENERI SERVICE
-
+            e.printStackTrace();
+        }
+        List<Genere> gList =
+                clubService.getGeneri(Arrays.asList(generi.clone()));
+        club.setGeneri(gList);
         this.clubService.creaClubDelLibro(club);
         return "redirect:/club-del-libro/";
     }

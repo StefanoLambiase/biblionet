@@ -11,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Viviana Pentangelo, Gianmario Voria
@@ -48,19 +52,38 @@ public class ClubDelLibroControllerTest {
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
-    @MethodSource("provideCreaClubDelLibro")
+    @MethodSource("provideClubDelLibro")
     public void creaClubDelLibro(final ClubDelLibro club) throws Exception {
         when(clubService.creaClubDelLibro(club)).thenReturn(club);
         this.mockMvc.perform(post("/club-del-libro/crea"))
-                .andExpect(view().name("visualizza-club"));
+                .andExpect(status().isOk());
     }
 
     /**
-     * Simula i dati inviati da una POST
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la visualizzazione di
+     * tutti i club del libro
+     * simulando la richiesta http.
+     * @param club Un club per simulare la lista
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaListaClubs(final ClubDelLibro club) throws Exception {
+        List<ClubDelLibro> list = new ArrayList<>();
+        list.add(club);
+        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        this.mockMvc.perform(get("/club-del-libro/"))
+                .andExpect(model().attribute("listaClubs", list))
+                .andExpect(view().name("visualizza-clubs"));
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
      * http attraverso uno stream.
      * @return Lo stream di dati.
      */
-    private static Stream<Arguments> provideCreaClubDelLibro() {
+    private static Stream<Arguments> provideClubDelLibro() {
         return Stream.of(
                 Arguments.of(new ClubDelLibro("Club1",
                         "descrizione1",
