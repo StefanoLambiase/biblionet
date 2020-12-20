@@ -10,6 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
+
 
 /**
  * @author Viviana Pentangelo, Gianmario Voria
@@ -25,10 +33,10 @@ public class ClubDelLibroController {
     private final ClubDelLibroService clubService;
 
     /**
-     * Si occupa del caricamento dell pagina iniziale
-     * per l'inserimento dei campi
-     * SOLO A SCOPO DI TEST.
-     * @return La view col form
+     * Si occupa di visualizzare i Club del Libro
+     * presenti nel Database.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @return La pagina di visualizzazione
      */
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String visualizzaListaClubs(Model model){
@@ -41,13 +49,13 @@ public class ClubDelLibroController {
      * di gestire la chiamata POST
      * per creare un club del libro.
      * @param club Il club del libro passato dalla view
-     * @return ModelAndView: model per passare un attributo
-     * alla view che dovrà visualizzarlo
+     * @param copertina L'immagine di copertina del Club
+     * @return La view che visualizza i Club del Libro
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String creaClubDelLibro(final Model model,
-                                   final ClubDelLibro club,
-                                   @RequestParam("generi") String[] generi) {
+    public String creaClubDelLibro(final ClubDelLibro club,
+                                   //@RequestParam("generi") String[] generi,
+                                   @RequestParam("copertina")MultipartFile copertina)  {
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
                 "EspertoPassword",
@@ -69,6 +77,12 @@ public class ClubDelLibroController {
                 )
         );
         club.setEsperto(esperto);
+        try {
+            byte[] imageBytes = copertina.getBytes();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            club.setImmagineCopertina(base64Image);
+        } catch (IOException e) {
+            e.printStackTrace(); }
 
         //INSERIRE LISTA GENERI QUANDO ESISTE GENERI SERVICE
 
