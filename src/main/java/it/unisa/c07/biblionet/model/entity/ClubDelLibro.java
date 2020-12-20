@@ -68,7 +68,7 @@ public class ClubDelLibro {
      *
      */
     @Lob
-    private Blob immagineCopertina;
+    private String immagineCopertina;
 
     /**
      * Rappresenta l'esperto proprietario di un club.
