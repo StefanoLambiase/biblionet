@@ -474,7 +474,7 @@ public class BiblionetApplication {
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
         TicketPrestito ticket = new TicketPrestito(
-                TicketPrestito.stati.CREATO,
+                TicketPrestito.Stati.CREATO,
                 LocalDateTime.now(),
                 LocalDateTime.of(LocalDate.of(2020,12,25), LocalTime.of(12,25,12)),
                 libro,
@@ -483,7 +483,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket1 = new TicketPrestito(
-                TicketPrestito.stati.CREATO,
+                TicketPrestito.Stati.CREATO,
                 LocalDateTime.now(),
                 LocalDateTime.of(LocalDate.of(2021,12,25), LocalTime.of(12,25,12)),
                 libro2,
@@ -492,7 +492,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket2 = new TicketPrestito(
-                TicketPrestito.stati.CREATO,
+                TicketPrestito.Stati.CREATO,
                 LocalDateTime.now(),
                 LocalDateTime.of(LocalDate.of(2021,11,25), LocalTime.of(12,25,12)),
                 libro4,
@@ -501,7 +501,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket3 = new TicketPrestito(
-                TicketPrestito.stati.CREATO,
+                TicketPrestito.Stati.CREATO,
                 LocalDateTime.now(),
                 LocalDateTime.of(LocalDate.of(2021,12,25), LocalTime.of(12,25,12)),
                 libro3,
@@ -510,7 +510,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket4 = new TicketPrestito(
-                TicketPrestito.stati.CREATO,
+                TicketPrestito.Stati.CREATO,
                 LocalDateTime.now(),
                 LocalDateTime.of(LocalDate.of(2021,12,2), LocalTime.of(12,25,12)),
                 libro5,
