@@ -5,6 +5,8 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Viviana Pentangelo, Gianmario Voria
  */
@@ -25,5 +27,14 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
     @Override
     public ClubDelLibro creaClubDelLibro(final ClubDelLibro club) {
         return (ClubDelLibro) clubDAO.save(club);
+    }
+
+    /**
+     * Il metodo consente di visualizzare tutti i club del libro.
+     * @return La lista dei club
+     */
+    @Override
+    public List<ClubDelLibro> visualizzaClubsDelLibro() {
+        return clubDAO.findAll();
     }
 }

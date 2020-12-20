@@ -52,7 +52,6 @@ public class ClubDelLibroControllerTest {
     public void creaClubDelLibro(final ClubDelLibro club) throws Exception {
         when(clubService.creaClubDelLibro(club)).thenReturn(club);
         this.mockMvc.perform(post("/club-del-libro/crea"))
-                .andExpect(model().attribute("club", club))
                 .andExpect(view().name("visualizza-club"));
     }
 

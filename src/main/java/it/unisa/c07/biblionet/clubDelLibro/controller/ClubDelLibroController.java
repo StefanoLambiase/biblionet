@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Viviana Pentangelo, Gianmario Voria
@@ -30,9 +30,10 @@ public class ClubDelLibroController {
      * SOLO A SCOPO DI TEST.
      * @return La view col form
      */
-    @RequestMapping("/")
-    public String init() {
-        return "crea-club";
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    public String visualizzaListaClubs(Model model){
+        model.addAttribute("listaClubs", clubService.visualizzaClubsDelLibro());
+        return "visualizza-clubs";
     }
 
     /**
@@ -44,7 +45,9 @@ public class ClubDelLibroController {
      * alla view che dovrà visualizzarlo
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String creaClubDelLibro(final Model model, final ClubDelLibro club) {
+    public String creaClubDelLibro(final Model model,
+                                   final ClubDelLibro club,
+                                   @RequestParam("generi") String[] generi) {
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
                 "EspertoPassword",
@@ -66,12 +69,10 @@ public class ClubDelLibroController {
                 )
         );
         club.setEsperto(esperto);
-        ClubDelLibro nuovoClub = clubService.creaClubDelLibro(club);
-        model.addAttribute("club", nuovoClub);
-        return "visualizza-club";
+
+        //INSERIRE LISTA GENERI QUANDO ESISTE GENERI SERVICE
+
+        this.clubService.creaClubDelLibro(club);
+        return "redirect:/club-del-libro/";
     }
-
-
-
-
 }
