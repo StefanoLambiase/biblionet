@@ -5,18 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="/registrazione/lettore" >
-        <p> Email <input type="input" name="email"> </p>
-        <p> Nome <input type="input" name="nome"> </p>
-        <p> Cognome <input type="input" name="cognome"> </p>
-        <p> Username <input type="input" name="username"> </p>
-        <p> Password <input type="password" name="password"> </p>
-        <p> Conferma Password <input type="password"> </p>
-        <p> Provincia <input type="input" name="provicia"> </p>
-        <p> Cittá <input type="input" name="citta"> </p>
-        <p> Via <input type="input" name="via"> </p>
-        <p> Recapito Telefonico <input type="tel" name="recapito_telefonico"> </p>
-        <p> <input type="submit"></p>
+    <form action="/registrazione/scegli">
+        <input type="submit" value="Lettore" name="scelta">
+        <input type="submit" value="Esperto" name="scelta">
+        <input type="submit" value="Biblioteca" name="scelta">
+
+
     </form>
 </body>
 </html>
