@@ -5,15 +5,8 @@
     <title>Modifica dati Club</title>
 </head>
 <body>
-    <table>
-    <tr>
-        <td>Nome club</td>
-        <td>Descrizione</td>
-        <td>Generi</td>
-        <td>Copertina</td>
-        <td>Esperto</td>
-    </tr>
     <form action = "/club-del-libro/modifica-dati" method = "post" enctype="multipart/form-data">
+        <p><input type="hidden" th:value="${club.idClub}" name="idClub"/></p>
         <p><input type="text" th:value="${club.nome}" name="nome" /></p>
         <p><input type="text" th:value="${club.descrizione}" name="descrizione" /></p>
         <p th:each="genere : ${club.generi}">
@@ -22,7 +15,5 @@
         <p><input type="file" name="copertina" accept="image/png, image/jpeg"/></p>
         <p> <input type="submit"></p>
     </form>
-</table>
-
 </body>
 </html>

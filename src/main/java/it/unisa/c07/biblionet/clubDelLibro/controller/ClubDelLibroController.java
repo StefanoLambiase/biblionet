@@ -52,9 +52,9 @@ public class ClubDelLibroController {
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(final ClubDelLibro club,
-                                   final @RequestParam("generi")
+                                   final @RequestParam(value = "generi", required = false)
                                            String[] generi,
-                                   final @RequestParam("copertina")
+                                   final @RequestParam(value = "copertina", required = false)
                                            MultipartFile copertina) {
         //Sarà modificato quando ci sarà la sessione.
         Esperto esperto = new Esperto(
@@ -85,31 +85,38 @@ public class ClubDelLibroController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Genere> gList =
-                clubService.getGeneri(Arrays.asList(generi.clone()));
-        club.setGeneri(gList);
+        if(generi != null) {
+            List<Genere> gList = clubService.getGeneri(Arrays.asList(generi.clone()));
+            club.setGeneri(gList);
+        }
         this.clubService.creaClubDelLibro(club);
         return "redirect:/club-del-libro/";
     }
 
     @RequestMapping(value = "/modifica-dati", method = RequestMethod.POST)
     public String modificaDatiClub(final ClubDelLibro club,
-                                   final @RequestParam("generi") String[] generi,
-                                   final @RequestParam("copertina") MultipartFile copertina) {
+                                   final @RequestParam(value = "generi", required = false) String[] generi,
+                                   final @RequestParam(value = "copertina", required = false) MultipartFile copertina,
+                                   Model model) {
 
+        ClubDelLibro clubPers = this.clubService.getClubByID(club.getIdClub());
         if(!copertina.isEmpty()) {
             try {
                 byte[] imageBytes = copertina.getBytes();
                 String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                club.setImmagineCopertina(base64Image);
+                clubPers.setImmagineCopertina(base64Image);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        List<Genere> gList =
-                clubService.getGeneri(Arrays.asList(generi.clone()));
-        club.setGeneri(gList);
-        this.clubService.modificaDatiClub(club);
+        if(generi != null) {
+            List<Genere> gList = clubService.getGeneri(Arrays.asList(generi.clone()));
+            club.setGeneri(gList);
+        }
+        clubPers.setGeneri(club.getGeneri());
+        clubPers.setNome(club.getNome());
+        clubPers.setDescrizione(club.getDescrizione());
+        this.clubService.modificaDatiClub(clubPers);
         return "redirect:/club-del-libro/";
     }
 

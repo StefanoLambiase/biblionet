@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
 </head>
 <body>
     <table>
@@ -24,12 +25,12 @@
     </table>
 
     <form method="post" action="/club-del-libro/crea" enctype="multipart/form-data">
-        <p> Nome <input type="input" name="nome"> </p>
-        <p> Descrizione <input type="input" name="descrizione"> </p>
-        <p> Genere <input type="input" name="generi"> </p>
-        <p> Genere <input type="input" name="generi"> </p>
-        <p> <input type="file" name="copertina" accept="image/png, image/jpeg"></p>
+        <p> Nome <input type="input" name="nome" required> </p>
+        <p> Descrizione <input type="input" name="descrizione" required> </p>
+        <div id="lista-generi"> </div>
+        <p> <input type="file" name="copertina" accept="image/png, image/jpeg" ></p>
         <p> <input type="submit"></p>
     </form>
+    <p><button onclick="aggiungiRigaGenere()">Aggiungi un altro genere</button></p>
 </body>
 </html>
