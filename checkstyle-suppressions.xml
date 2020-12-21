@@ -13,5 +13,6 @@
     <suppress checks="MagicNumber" files="/src/test"/>
     <suppress checks="FinalParameters" files="/src/test"/>
 
+    <suppress checks="HiddenField" files="\.java"/>
     <suppress checks="[a-zA-Z0-9]*" files="BiblionetApplication\.java"/>
 </suppressions>
