@@ -61,5 +61,27 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
         return g;
     }
 
+    /**
+     * Il metodo serve a modificare ed
+     * effettuare l'update di un club.
+     * @param club Il club da modificare
+     * @return Il club modificato
+     */
+    @Override
+    public ClubDelLibro modificaDatiClub(final ClubDelLibro club) {
+        return (ClubDelLibro) clubDAO.save(club);
+    }
+
+    /**
+     * Il metodo serve a recuperare un
+     * club dato il suo ID.
+     * @param id L'ID del club da recuperare
+     * @return Il club recuperato
+     */
+    @Override
+    public ClubDelLibro getClubByID(final int id) {
+        return (ClubDelLibro) clubDAO.findById(id).get();
+    }
+
 
 }

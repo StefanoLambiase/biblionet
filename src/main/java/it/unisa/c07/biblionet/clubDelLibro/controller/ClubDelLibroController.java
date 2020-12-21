@@ -8,9 +8,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Arrays;
@@ -58,6 +56,7 @@ public class ClubDelLibroController {
                                            String[] generi,
                                    final @RequestParam("copertina")
                                            MultipartFile copertina) {
+        //Sarà modificato quando ci sarà la sessione.
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
                 "EspertoPassword",
@@ -92,4 +91,33 @@ public class ClubDelLibroController {
         this.clubService.creaClubDelLibro(club);
         return "redirect:/club-del-libro/";
     }
+
+    @RequestMapping(value = "/modifica-dati", method = RequestMethod.POST)
+    public String modificaDatiClub(final ClubDelLibro club,
+                                   final @RequestParam("generi") String[] generi,
+                                   final @RequestParam("copertina") MultipartFile copertina) {
+
+        if(!copertina.isEmpty()) {
+            try {
+                byte[] imageBytes = copertina.getBytes();
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                club.setImmagineCopertina(base64Image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        List<Genere> gList =
+                clubService.getGeneri(Arrays.asList(generi.clone()));
+        club.setGeneri(gList);
+        this.clubService.modificaDatiClub(club);
+        return "redirect:/club-del-libro/";
+    }
+
+    @RequestMapping(value = "/modifica-dati/{id}", method = RequestMethod.GET)
+    public String modificaDatiClub(final @PathVariable int id,
+                                   Model model) {
+        model.addAttribute("club", this.clubService.getClubByID(id));
+        return "modifica-club";
+    }
+
 }

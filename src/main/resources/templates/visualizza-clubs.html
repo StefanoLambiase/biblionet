@@ -19,6 +19,7 @@
             <td th:each="genere : ${club.generi}" th:text="${genere.nome}"></td>
             <td> <img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}" /></td>
             <td th:text="${club.esperto.nome}"></td>
+            <td> <a th:href="@{'/club-del-libro/modifica-dati/' + ${club.idClub}}">Modifica</a> </td>
         </tr>
     </table>
 

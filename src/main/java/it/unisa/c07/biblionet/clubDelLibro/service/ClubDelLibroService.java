@@ -31,4 +31,20 @@ public interface ClubDelLibroService {
      */
     List<Genere> getGeneri(List<String> generi);
 
+    /**
+     * Il metodo serve a modificare ed
+     * effettuare l'update di un club.
+     * @param club Il club da modificare
+     * @return Il club modificato
+     */
+    ClubDelLibro modificaDatiClub(ClubDelLibro club);
+
+    /**
+     * Il metodo serve a recuperare un
+     * club dato il suo ID.
+     * @param id L'ID del club da recuperare
+     * @return Il club recuperato
+     */
+    ClubDelLibro getClubByID(int id);
+
 }
