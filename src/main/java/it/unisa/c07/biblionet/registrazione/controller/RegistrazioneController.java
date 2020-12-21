@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Locale;
 
 @Controller
@@ -25,16 +28,28 @@ public class RegistrazioneController {
 
     @RequestMapping(value = "/scegli", method = RequestMethod.GET)
     public String scegliRegistrazione(final @RequestParam("scelta") String scelta) {
-        System.out.println(scelta);
-        return "redirect:/registrazione/"+scelta.toLowerCase();
+        return "registrazione_"+scelta.toLowerCase();
     }
 
+    @RequestMapping(value = "/lettore", method = RequestMethod.POST)
+    public String registrazioneLettore(final Lettore lettore,final @RequestParam("conferma_password") String password){
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] arr = md.digest(password.getBytes());
+            if(Arrays.compare(arr,lettore.getPassword())!=0){
+                System.out.println("La password non coincide\n");
+                return "registrazione_lettore";
+            }
+            else{
+                this.registrazioneService.registraLettore(lettore);
+                return "registrazione";//Questo redirect dovra portarci alla pagina Login
+            }
 
-
-    @RequestMapping(value = "/lettore", method = RequestMethod.GET)
-    public String registrazioneLettore(final Lettore lettore){
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         System.out.println(lettore);
-        return "registrazione_lettore";
+        return null;
     }
-
 }
