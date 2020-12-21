@@ -1,7 +1,9 @@
 package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,6 +39,13 @@ public class ClubDelLibroServiceImplTest {
     private ClubDelLibroDAO clubDAO;
 
     /**
+     * Mocking del dao per simulare le
+     * CRUD.
+     */
+    @Mock
+    private GenereDAO genereDAO;
+
+    /**
      * Metodo che si occupa di testare
      * la funzione di creazione di un
      * club del libro nel service.
@@ -54,12 +63,25 @@ public class ClubDelLibroServiceImplTest {
      * tutti i club nel service.
      */
     @Test
-    public void visualizzaClubsDelLibro(){
+    public void visualizzaClubsDelLibro() {
         ClubDelLibro club = new ClubDelLibro();
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
         when(clubDAO.findAll()).thenReturn(list);
         assertEquals(list, clubService.visualizzaClubsDelLibro());
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di select di una
+     * lista di generi dato il loro nome.
+     */
+    @Test
+    public void getGeneri() {
+        List<Genere> listaGeneri = new ArrayList<Genere>();
+        List<String> nomi = new ArrayList<String>();
+        when(genereDAO.findByName("")).thenReturn(new Genere());
+        assertEquals(listaGeneri, clubService.getGeneri(nomi));
     }
 
 
