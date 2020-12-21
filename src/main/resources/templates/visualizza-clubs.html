@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>Nome club</td>
+            <td>Descrizione</td>
+            <td>Generi</td>
+            <td>Copertina</td>
+            <td>Esperto</td>
+        </tr>
+        <tr th:each="club : ${listaClubs}">
+            <td th:text="${club.nome}"></td>
+            <td th:text="${club.descrizione}"></td>
+            <td th:each="genere : ${club.generi}" th:text="${genere.nome}"></td>
+            <td> <img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}" /></td>
+            <td th:text="${club.esperto.nome}"></td>
+        </tr>
+    </table>
+
+    <form method="post" action="/club-del-libro/crea" enctype="multipart/form-data">
+        <p> Nome <input type="input" name="nome"> </p>
+        <p> Descrizione <input type="input" name="descrizione"> </p>
+        <p> Genere <input type="input" name="generi"> </p>
+        <p> Genere <input type="input" name="generi"> </p>
+        <p> <input type="file" name="copertina" accept="image/png, image/jpeg"></p>
+        <p> <input type="submit"></p>
+    </form>
+</body>
+</html>
