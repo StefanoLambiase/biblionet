@@ -58,7 +58,6 @@ public class ClubDelLibroServiceImplTest {
         ClubDelLibro club = new ClubDelLibro();
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
-
         when(clubDAO.findAll()).thenReturn(list);
         assertEquals(list, clubService.visualizzaClubsDelLibro());
     }

@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,15 +13,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Part;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -54,9 +59,18 @@ public class ClubDelLibroControllerTest {
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void creaClubDelLibro(final ClubDelLibro club) throws Exception {
+        String [] list = {"A", "B"};
+        MockMultipartFile copertina =
+                new MockMultipartFile("copertina",
+                        "filename.png",
+                        "image/png",
+                        "immagine di copertina".getBytes());
+        when(clubService.getGeneri(Arrays.asList(list.clone()))).thenReturn(new ArrayList<Genere>());
         when(clubService.creaClubDelLibro(club)).thenReturn(club);
-        this.mockMvc.perform(post("/club-del-libro/crea"))
-                .andExpect(status().isOk());
+        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/club-del-libro/crea")
+                .file(copertina)
+                .param("generi", list))
+                .andExpect(view().name("redirect:/club-del-libro/"));
     }
 
     /**
