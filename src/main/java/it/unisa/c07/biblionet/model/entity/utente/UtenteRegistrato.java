@@ -101,4 +101,16 @@ public class UtenteRegistrato {
             e.printStackTrace();
         }
     }
+
+    public void setPassword(String password){
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] arr = md.digest(password.getBytes());
+            this.password = arr;
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 }
