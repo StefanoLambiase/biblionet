@@ -6,7 +6,6 @@ import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -38,7 +37,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
                 }
                 else if ((u = bibliotecaDAO.findByEmailAndPassword(email,arr))!=null){
                     return u;
-                 }
+                }
                 else {u = espertoDAO.findByEmailAndPassword(email,arr);
                     return u;
                 }
@@ -46,6 +45,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
