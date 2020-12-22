@@ -7,6 +7,9 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -37,13 +42,6 @@ public class ClubDelLibroControllerTest {
      */
     @MockBean
     private ClubDelLibroService clubService;
-
-    /**
-     * Mock del service per simulare
-     * club temporanei utilizzati nei metodi.
-     */
-    @MockBean
-    private ClubDelLibro clubMock;
 
     /**
      * Inject di MockMvc per simulare
@@ -124,6 +122,7 @@ public class ClubDelLibroControllerTest {
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void modificaDatiClub(final ClubDelLibro club) throws Exception {
+
         String[] nomiGeneri = {"A", "B"};
         MockMultipartFile copertina =
                 new MockMultipartFile("copertina",
@@ -132,10 +131,12 @@ public class ClubDelLibroControllerTest {
                         "immagine di copertina".getBytes());
         when(clubService.getClubByID(club.getIdClub())).thenReturn(club);
         when(clubService.getGeneri(Arrays.asList(nomiGeneri))).thenReturn(new ArrayList<>());
-        when(clubMock.getNome()).thenReturn("A");
         this.mockMvc.perform(MockMvcRequestBuilders
                 .multipart("/club-del-libro/modifica-dati")
                 .file(copertina)
+                .param("idClub", String.valueOf(club.getIdClub()))
+                .param("nome", club.getNome())
+                .param("descrizione", club.getDescrizione())
                 .param("generi", nomiGeneri))
                 .andExpect(view().name("redirect:/club-del-libro/"));
     }

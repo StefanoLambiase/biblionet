@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -112,17 +115,21 @@ public class ClubDelLibroController {
      * Metodo del controller che si occupa
      * di gestire la chiamata POST
      * per modificare i dati di un club del libro.
-     * @param club Il club del libro passato dalla view
+     * @param idClub L'id del club
+     * @param nome Il nome del club
+     * @param descrizione La descrizione del club
      * @param copertina L'immagine di copertina del Club
      * @param generi Lista dei generi del club
      * @return La view che visualizza i Club del Libro
      */
     @RequestMapping(value = "/modifica-dati", method = RequestMethod.POST)
-    public String modificaDatiClub(final ClubDelLibro club,
+    public String modificaDatiClub(final @RequestParam(value = "idClub") String idClub,
+                                   final @RequestParam(value = "nome") String nome,
+                                   final @RequestParam(value = "descrizione") String descrizione,
                                    final @RequestParam(value = "generi", required = false) String[] generi,
                                    final @RequestParam(value = "copertina", required = false) MultipartFile copertina) {
 
-        ClubDelLibro clubPers = this.clubService.getClubByID(club.getIdClub());
+        ClubDelLibro clubPers = this.clubService.getClubByID(Integer.parseInt(idClub));
         if(!copertina.isEmpty()) {
             try {
                 byte[] imageBytes = copertina.getBytes();
@@ -134,11 +141,10 @@ public class ClubDelLibroController {
         }
         if(generi != null) {
             List<Genere> gList = clubService.getGeneri(Arrays.asList(generi.clone()));
-            club.setGeneri(gList);
+            clubPers.setGeneri(gList);
         }
-        clubPers.setGeneri(club.getGeneri());
-        clubPers.setNome(club.getNome());
-        clubPers.setDescrizione(club.getDescrizione());
+        clubPers.setNome(nome);
+        clubPers.setDescrizione(descrizione);
         this.clubService.modificaDatiClub(clubPers);
         return "redirect:/club-del-libro/";
     }
