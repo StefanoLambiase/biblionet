@@ -1,5 +1,8 @@
 package it.unisa.c07.biblionet.autenticazione.service;
 
+import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
+import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.dao.utente.UtenteRegistratoDAO;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
@@ -15,24 +18,31 @@ import java.security.NoSuchAlgorithmException;
 @RequiredArgsConstructor
 public class AutenticazioneServiceImpl implements AutenticazioneService {
 
-    /**
-     * Rapprensenta il DAO dell'utente.
-     */
-    private final UtenteRegistratoDAO utenteDAO;
 
+    private final LettoreDAO lettoreDAO;
+    private final BibliotecaDAO bibliotecaDAO;
+    private final EspertoDAO espertoDAO;
     /**
-     * @param mail dell'utente.
+     * @param email dell'utente.
      * @param password dell'utente.
      * @return un utente registrato.
      */
     @Override
-    public UtenteRegistrato login(final String mail, final String password) {
+    public UtenteRegistrato login(final String email, final String password, final String tipo) {
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
-            return utenteDAO.login(mail, arr);
-
+                UtenteRegistrato u=null;
+            switch (tipo){
+                case "Lettore":
+                    u = lettoreDAO.login(email,arr);
+                case "Biblioteca":
+                    u = bibliotecaDAO.login(email,arr);
+                case "Esperto":
+                    u = espertoDAO.login(email,arr);
+            }
+            return u;
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
