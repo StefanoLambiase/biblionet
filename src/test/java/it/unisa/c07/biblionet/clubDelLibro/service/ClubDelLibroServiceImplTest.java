@@ -78,10 +78,34 @@ public class ClubDelLibroServiceImplTest {
      */
     @Test
     public void getGeneri() {
-        List<Genere> listaGeneri = new ArrayList<Genere>();
-        List<String> nomi = new ArrayList<String>();
+        List<Genere> listaGeneri = new ArrayList<>();
+        List<String> nomi = new ArrayList<>();
         when(genereDAO.findByName("")).thenReturn(new Genere());
         assertEquals(listaGeneri, clubService.getGeneri(nomi));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di modifica dei dati
+     * di un Club del Libro.
+     */
+    @Test
+    public void modificaDatiClub() {
+        ClubDelLibro club = new ClubDelLibro();
+        when(clubDAO.save(club)).thenReturn(club);
+        assertEquals(club, clubService.modificaDatiClub(club));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di select di un
+     * Club del Libro dato il suo ID.
+     */
+    @Test
+    public void getClubByID() {
+        ClubDelLibro club = new ClubDelLibro();
+        when(clubDAO.findById(1)).thenReturn(java.util.Optional.of(club));
+        assertEquals(club, clubService.getClubByID(1));
     }
 
 

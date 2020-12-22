@@ -65,8 +65,10 @@ public class ClubDelLibroControllerTest {
                 .thenReturn(new ArrayList<>());
         when(clubService.creaClubDelLibro(club)).thenReturn(club);
         this.mockMvc.perform(MockMvcRequestBuilders
-                            .multipart("/club-del-libro/crea")
+                .multipart("/club-del-libro/crea")
                 .file(copertina)
+                .param("nome", club.getNome())
+                .param("descrizione", club.getDescrizione())
                 .param("generi", list))
                 .andExpect(view().name("redirect:/club-del-libro/"));
     }
@@ -88,6 +90,56 @@ public class ClubDelLibroControllerTest {
         this.mockMvc.perform(get("/club-del-libro/"))
                 .andExpect(model().attribute("listaClubs", list))
                 .andExpect(view().name("visualizza-clubs"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per il reinderizzamento alla modifica
+     * dei dati di un club del libro
+     * simulando la richiesta http.
+     * @param club Un club per simulare la modifica
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaModificaDatiClub(final ClubDelLibro club)
+                                            throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(get("/club-del-libro/modifica-dati/1"))
+                .andExpect(model().attribute("club", club))
+                .andExpect(view().name("modifica-club"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica dei dati di un club
+     * simulando la richiesta http.
+     * @param club Il club da modificare
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void modificaDatiClub(final ClubDelLibro club) throws Exception {
+
+        String[] nomiGeneri = {"A", "B"};
+        MockMultipartFile copertina =
+                new MockMultipartFile("copertina",
+                        "filename.png",
+                        "image/png",
+                        "immagine di copertina".getBytes());
+        when(clubService.getClubByID(club.getIdClub()))
+                .thenReturn(club);
+        when(clubService.getGeneri(Arrays.asList(nomiGeneri)))
+                .thenReturn(new ArrayList<>());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .multipart("/club-del-libro/modifica-dati")
+                .file(copertina)
+                .param("idClub", String.valueOf(club.getIdClub()))
+                .param("nome", club.getNome())
+                .param("descrizione", club.getDescrizione())
+                .param("generi", nomiGeneri))
+                .andExpect(view().name("redirect:/club-del-libro/"));
     }
 
     /**

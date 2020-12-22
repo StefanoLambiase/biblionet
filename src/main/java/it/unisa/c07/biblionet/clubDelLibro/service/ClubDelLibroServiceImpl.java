@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Viviana Pentangelo, Gianmario Voria
@@ -34,7 +35,7 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public ClubDelLibro creaClubDelLibro(final ClubDelLibro club) {
-        return (ClubDelLibro) clubDAO.save(club);
+        return clubDAO.save(club);
     }
 
     /**
@@ -54,11 +55,34 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public List<Genere> getGeneri(final List<String> generi) {
-        List<Genere> g = new ArrayList<Genere>();
+        List<Genere> g = new ArrayList<>();
         for (String s : generi) {
             g.add(genereDAO.findByName(s));
         }
         return g;
+    }
+
+    /**
+     * Il metodo serve a modificare ed
+     * effettuare l'update di un club.
+     * @param club Il club da modificare
+     * @return Il club modificato
+     */
+    @Override
+    public ClubDelLibro modificaDatiClub(final ClubDelLibro club) {
+        return clubDAO.save(club);
+    }
+
+    /**
+     * Il metodo serve a recuperare un
+     * club dato il suo ID.
+     * @param id L'ID del club da recuperare
+     * @return Il club recuperato
+     */
+    @Override
+    public ClubDelLibro getClubByID(final int id) {
+        Optional<ClubDelLibro> club = clubDAO.findById(id);
+        return club.orElse(null);
     }
 
 
