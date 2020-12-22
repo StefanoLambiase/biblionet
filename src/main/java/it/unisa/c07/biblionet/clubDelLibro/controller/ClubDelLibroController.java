@@ -93,11 +93,34 @@ public class ClubDelLibroController {
         return "redirect:/club-del-libro/";
     }
 
+    /**
+     * Metodo del controller che si occupa
+     * di re-indirizzare alla pagina di modifica
+     * dei dati di un Club del Libro.
+     * @param id l'ID del Club da modificare
+     * @param model l'oggetto model usato per inserire gli attributi
+     * @return La view che visualizza il form di modifica dati
+     */
+    @RequestMapping(value = "/modifica-dati/{id}", method = RequestMethod.GET)
+    public String visualizzaModificaDatiClub(final @PathVariable int id,
+                                             Model model) {
+        model.addAttribute("club", this.clubService.getClubByID(id));
+        return "modifica-club";
+    }
+
+    /**
+     * Metodo del controller che si occupa
+     * di gestire la chiamata POST
+     * per modificare i dati di un club del libro.
+     * @param club Il club del libro passato dalla view
+     * @param copertina L'immagine di copertina del Club
+     * @param generi Lista dei generi del club
+     * @return La view che visualizza i Club del Libro
+     */
     @RequestMapping(value = "/modifica-dati", method = RequestMethod.POST)
     public String modificaDatiClub(final ClubDelLibro club,
                                    final @RequestParam(value = "generi", required = false) String[] generi,
-                                   final @RequestParam(value = "copertina", required = false) MultipartFile copertina,
-                                   Model model) {
+                                   final @RequestParam(value = "copertina", required = false) MultipartFile copertina) {
 
         ClubDelLibro clubPers = this.clubService.getClubByID(club.getIdClub());
         if(!copertina.isEmpty()) {
@@ -118,13 +141,6 @@ public class ClubDelLibroController {
         clubPers.setDescrizione(club.getDescrizione());
         this.clubService.modificaDatiClub(clubPers);
         return "redirect:/club-del-libro/";
-    }
-
-    @RequestMapping(value = "/modifica-dati/{id}", method = RequestMethod.GET)
-    public String modificaDatiClub(final @PathVariable int id,
-                                   Model model) {
-        model.addAttribute("club", this.clubService.getClubByID(id));
-        return "modifica-club";
     }
 
 }

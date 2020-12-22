@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Viviana Pentangelo, Gianmario Voria
@@ -34,7 +35,7 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public ClubDelLibro creaClubDelLibro(final ClubDelLibro club) {
-        return (ClubDelLibro) clubDAO.save(club);
+        return clubDAO.save(club);
     }
 
     /**
@@ -54,7 +55,7 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public List<Genere> getGeneri(final List<String> generi) {
-        List<Genere> g = new ArrayList<Genere>();
+        List<Genere> g = new ArrayList<>();
         for (String s : generi) {
             g.add(genereDAO.findByName(s));
         }
@@ -69,7 +70,7 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public ClubDelLibro modificaDatiClub(final ClubDelLibro club) {
-        return (ClubDelLibro) clubDAO.save(club);
+        return clubDAO.save(club);
     }
 
     /**
@@ -80,7 +81,8 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public ClubDelLibro getClubByID(final int id) {
-        return (ClubDelLibro) clubDAO.findById(id).get();
+        Optional<ClubDelLibro> club = clubDAO.findById(id);
+        return club.orElse(null);
     }
 
 
