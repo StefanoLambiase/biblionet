@@ -37,10 +37,14 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
             switch (tipo){
                 case "Lettore":
                     u = lettoreDAO.login(email,arr);
+                    System.out.println(u);
+                    break;
                 case "Biblioteca":
                     u = bibliotecaDAO.login(email,arr);
+                    break;
                 case "Esperto":
                     u = espertoDAO.login(email,arr);
+                    break;
             }
             return u;
 

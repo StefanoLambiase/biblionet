@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LettoreDAO extends UtenteRegistratoDAO {
 
-    @Query("SELECT l FROM Lettore l WHERE l.email=?1 AND l.password=?2")
+    @Query("SELECT l FROM Lettore l JOIN UtenteRegistrato u WHERE l.email=?1 AND u.email = l.email AND u.password=?2")
     Lettore login(String email, byte[] password);
 }
