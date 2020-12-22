@@ -19,7 +19,8 @@ public class AutenticazioneController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login (final String email, final String password, final String tipo){
             System.out.println(email+ password+ tipo);
-           UtenteRegistrato utente = autenticazioneService.login(email, password, tipo);
+
+            UtenteRegistrato utente = autenticazioneService.login(email, password, tipo);
             if(utente == null){
                 System.out.println("Dati errati\n");
                 return "autenticazione";

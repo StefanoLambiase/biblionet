@@ -3,7 +3,6 @@ package it.unisa.c07.biblionet.autenticazione.service;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
-import it.unisa.c07.biblionet.model.dao.utente.UtenteRegistratoDAO;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,20 +29,21 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
     @Override
     public UtenteRegistrato login(final String email, final String password, final String tipo) {
         try {
+            System.out.println("Sono nel service");
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
                 UtenteRegistrato u=null;
             switch (tipo){
                 case "Lettore":
-                    u = lettoreDAO.login(email,arr);
-                    System.out.println(u);
+                    u = lettoreDAO.findByEmailAndPassword(email,arr);
+                    System.out.println(u.getPassword());
                     break;
                 case "Biblioteca":
-                    u = bibliotecaDAO.login(email,arr);
+                    u = bibliotecaDAO.findByEmailAndPassword(email,arr);
                     break;
                 case "Esperto":
-                    u = espertoDAO.login(email,arr);
+                    u = espertoDAO.findByEmailAndPassword(email,arr);
                     break;
             }
             return u;

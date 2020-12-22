@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.model.dao.utente;
 
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EspertoDAO extends UtenteRegistratoDAO {
 
-    @Query("SELECT e FROM Esperto e WHERE e.email=?1 AND e.password=?2")
-    Esperto login(String email, byte[] password);
+    Esperto findByEmailAndPassword(String email, byte[] password);
 }
