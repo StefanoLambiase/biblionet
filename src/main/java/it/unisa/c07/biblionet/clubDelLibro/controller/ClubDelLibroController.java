@@ -8,11 +8,12 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -48,17 +49,21 @@ public class ClubDelLibroController {
      * Metodo del controller che si occupa
      * di gestire la chiamata POST
      * per creare un club del libro.
-     * @param club Il club del libro passato dalla view
+     * @param nome Il nome del club
+     * @param descrizione La descrizione del club
      * @param copertina L'immagine di copertina del Club
      * @param generi Lista dei generi del club
-     * @return La view che visualizza i Club del Libro
+     * @return La view che visualizza i Club
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String creaClubDelLibro(final ClubDelLibro club,
-                                   final @RequestParam(value = "generi", required = false)
-                                           String[] generi,
-                                   final @RequestParam(value = "copertina", required = false)
-                                           MultipartFile copertina) {
+    public String creaClubDelLibro(final @RequestParam(value = "nome")
+                  String nome,
+                  final @RequestParam(value = "descrizione")
+                  String descrizione,
+                  final @RequestParam(value = "generi", required = false)
+                  String[] generi,
+                  final @RequestParam(value = "copertina", required = false)
+                  MultipartFile copertina) {
         //Sarà modificato quando ci sarà la sessione.
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
@@ -80,6 +85,9 @@ public class ClubDelLibroController {
                         "Biblioteca Carrisi"
                 )
         );
+        ClubDelLibro club = new ClubDelLibro();
+        club.setNome(nome);
+        club.setDescrizione(descrizione);
         club.setEsperto(esperto);
         try {
             byte[] imageBytes = copertina.getBytes();
@@ -88,8 +96,9 @@ public class ClubDelLibroController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(generi != null) {
-            List<Genere> gList = clubService.getGeneri(Arrays.asList(generi.clone()));
+        if (generi != null) {
+            List<Genere> gList = clubService
+                    .getGeneri(Arrays.asList(generi.clone()));
             club.setGeneri(gList);
         }
         this.clubService.creaClubDelLibro(club);
@@ -106,7 +115,7 @@ public class ClubDelLibroController {
      */
     @RequestMapping(value = "/modifica-dati/{id}", method = RequestMethod.GET)
     public String visualizzaModificaDatiClub(final @PathVariable int id,
-                                             Model model) {
+                                             final Model model) {
         model.addAttribute("club", this.clubService.getClubByID(id));
         return "modifica-club";
     }
@@ -122,25 +131,35 @@ public class ClubDelLibroController {
      * @param generi Lista dei generi del club
      * @return La view che visualizza i Club del Libro
      */
-    @RequestMapping(value = "/modifica-dati", method = RequestMethod.POST)
-    public String modificaDatiClub(final @RequestParam(value = "idClub") String idClub,
-                                   final @RequestParam(value = "nome") String nome,
-                                   final @RequestParam(value = "descrizione") String descrizione,
-                                   final @RequestParam(value = "generi", required = false) String[] generi,
-                                   final @RequestParam(value = "copertina", required = false) MultipartFile copertina) {
+    @RequestMapping(value = "/modifica-dati",
+                    method = RequestMethod.POST)
+    public String modificaDatiClub(final @RequestParam(value = "idClub")
+                        String idClub,
+                        final @RequestParam(value = "nome")
+                        String nome,
+                        final @RequestParam(value = "descrizione")
+                        String descrizione,
+                        final @RequestParam(value = "generi", required = false)
+                        String[] generi,
+                        final @RequestParam(value = "copertina",
+                                required = false)
+                        MultipartFile copertina) {
 
-        ClubDelLibro clubPers = this.clubService.getClubByID(Integer.parseInt(idClub));
-        if(!copertina.isEmpty()) {
+        ClubDelLibro clubPers = this.clubService
+                .getClubByID(Integer.parseInt(idClub));
+        if (!copertina.isEmpty()) {
             try {
                 byte[] imageBytes = copertina.getBytes();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                String base64Image = Base64.getEncoder()
+                        .encodeToString(imageBytes);
                 clubPers.setImmagineCopertina(base64Image);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if(generi != null) {
-            List<Genere> gList = clubService.getGeneri(Arrays.asList(generi.clone()));
+        if (generi != null) {
+            List<Genere> gList = clubService
+                    .getGeneri(Arrays.asList(generi.clone()));
             clubPers.setGeneri(gList);
         }
         clubPers.setNome(nome);
