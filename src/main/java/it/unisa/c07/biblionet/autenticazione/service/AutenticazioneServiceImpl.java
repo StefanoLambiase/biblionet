@@ -27,26 +27,21 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
      * @return un utente registrato.
      */
     @Override
-    public UtenteRegistrato login(final String email, final String password, final String tipo) {
+    public UtenteRegistrato login(final String email, final String password) {
         try {
-            System.out.println("Sono nel service");
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
-                UtenteRegistrato u=null;
-            switch (tipo){
-                case "Lettore":
-                    u = lettoreDAO.findByEmailAndPassword(email,arr);
-                    System.out.println(u.getPassword());
-                    break;
-                case "Biblioteca":
-                    u = bibliotecaDAO.findByEmailAndPassword(email,arr);
-                    break;
-                case "Esperto":
-                    u = espertoDAO.findByEmailAndPassword(email,arr);
-                    break;
-            }
-            return u;
+                UtenteRegistrato u;
+                if ((u = lettoreDAO.findByEmailAndPassword(email,arr))!=null){
+                    return u;
+                }
+                else if ((u = bibliotecaDAO.findByEmailAndPassword(email,arr))!=null){
+                    return u;
+                 }
+                else {u = espertoDAO.findByEmailAndPassword(email,arr);
+                    return u;
+                }
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
