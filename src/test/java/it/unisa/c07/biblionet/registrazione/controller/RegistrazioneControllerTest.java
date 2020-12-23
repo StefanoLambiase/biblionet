@@ -58,14 +58,15 @@ public final class RegistrazioneControllerTest {
      * @param esperto L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca la mail della biblioteca
-     * @throws Exception Eccezzione per MockMvc
+     * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @DisplayName("Registrazione Esperto che va a buon fine")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoBuonFine(
             final Esperto esperto, final String confermaPassword,
-            final String emailBiblioteca) throws Exception {
+            final String emailBiblioteca
+            ) throws Exception {
 
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
@@ -93,7 +94,8 @@ public final class RegistrazioneControllerTest {
                 .param("citta", esperto.getCitta())
                 .param("via", esperto.getVia())
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca))
+                .param("email_biblioteca", emailBiblioteca)
+                )
                 .andExpect(view().name("registrazione"));
     }
 
