@@ -21,11 +21,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AutenticazioneControllerTest {
 
+    /**
+     * Mock del service per simulare
+     * le operazioni dei metodi.
+     */
     @MockBean
     private AutenticazioneService autenticazioneService;
 
+    /**
+     * Injext di MockMvc per simulare
+     * le richieste http.
+     */
     @Autowired
     private MockMvc mockMvc;
+
 
     @ParameterizedTest
     @MethodSource("provideAutenticazione")
@@ -45,7 +54,11 @@ public class AutenticazioneControllerTest {
 
     }
 
-
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     * @return Lo stream di dati.
+     */
     private static Stream<Arguments> provideAutenticazione() {
         return Stream.of(Arguments.of("mail@mail.com", "Password"));
     }

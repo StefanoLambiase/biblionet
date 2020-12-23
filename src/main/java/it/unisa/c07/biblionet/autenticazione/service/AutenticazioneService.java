@@ -4,6 +4,7 @@ package it.unisa.c07.biblionet.autenticazione.service;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 
 /**
+ * @author Ciro Maiorino , Giulio Triggiani
  * Interfaccia per i metodi del sottosistema Autenticazione.
  */
 public interface AutenticazioneService {

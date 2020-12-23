@@ -10,29 +10,33 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *Questa classe implementa i metodi di AutenticazioneService.
+ *Implementa la classe che esplicita i metodi
+ * definiti nell'interfaccia service per il
+ * sottosistema Autenticazione.
+ * @author Ciro Maiorino , Giulio Triggiani
  */
 @Service
 @RequiredArgsConstructor
 public class AutenticazioneServiceImpl implements AutenticazioneService {
 
     /**
-     *Dichiarazione di un oggetto lettoreDAO.
+     *Si occupa delle operazioni CRUD per un lettore.
      */
     private final LettoreDAO lettoreDAO;
 
     /**
-     * Dichiarazione di un oggetto BibliotecaDAO.
+     * Si occupa delle operazioni CRUD per una biblioteca.
      */
     private final BibliotecaDAO bibliotecaDAO;
 
     /**
-     * Dichiarazione di un oggetto EspertoDAO.
+     * Si occupa delle operazioni CRUD un esperto.
      */
     private final EspertoDAO espertoDAO;
 
     /**
-     * Implementa la funzionalità di login di un Utente registrato.
+     * Implementa la funzionalità di login
+     * per un Utente registrato.
      * @param email dell'utente.
      * @param password dell'utente.
      * @return un utente registrato.

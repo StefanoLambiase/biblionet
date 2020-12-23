@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
- * Questa è la classe controller per il sottosistema di Autenticazione.
+ * Implementa il controller per il sottosistema
+ * Autenticazione.
+ * @author Ciro Maiorino , Giulio Triggiani
  */
 @Controller
 @SessionAttributes("loggedUser")
@@ -19,16 +21,18 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @RequestMapping("/autenticazione")
 public class AutenticazioneController {
     /**
-     * È una dichiarazione di un oggetto AutenticazioneService.
+     * Il service per effettuare le operazioni di persistenza.
      */
     private final AutenticazioneService autenticazioneService;
 
     /**
-     * Implementa la funzionalità di visualizzazione del login.
+     * Implementa la funzionalità che permette
+     * di visualizzare la view del login.
      * @return la pagina dove è visualizzato
      */
     @RequestMapping(value = "/")
     public String visualizzaLogin() {
+
         return "autenticazione";
     }
 
@@ -57,7 +61,8 @@ public class AutenticazioneController {
     }
 
     /**
-     * Metodo per avere l'utente in sessione.
+     * Implementa la funzionalità che permette
+     * di aggiungere un utente alla sessione.
      * @return dell'utente in sessione.
      */
     @ModelAttribute("loggedUser")
@@ -65,6 +70,13 @@ public class AutenticazioneController {
         return new UtenteRegistrato();
     }
 
+    /**
+     * Implenta la funzionalità che permette
+     * di effettuare il logout dell'utente
+     * togliendolo dalla sessione.
+     * @param model contiene i dati della sessione.
+     * @return Rimanda alla pagina di index.
+     */
     @RequestMapping(value = "/logout")
     public String logout(final Model model) {
         model.addAttribute("loggedUser", null);

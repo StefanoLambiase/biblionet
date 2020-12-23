@@ -6,7 +6,6 @@ import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,22 +16,42 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * @author Ciro Maiorino , Giulio Triggiani
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class AutenticazioneServiceImplTest {
 
+    /**
+     * Inject del service per simulare le operazioni.
+     */
     @InjectMocks
     private AutenticazioneServiceImpl autenticazioneService;
 
+    /**
+     * Mocking del dao per simulare le
+     * CRUD.
+     */
     @Mock
     private LettoreDAO lettoreDAO;
-
+    /**
+     * Mocking del dao per simulare le
+     * CRUD.
+     */
     @Mock
     private EspertoDAO espertoDAO;
-
+    /**
+     * Mocking del dao per simulare le
+     * CRUD.
+     */
     @Mock
     private BibliotecaDAO bibliotecaDAO;
 
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di login nel service.
+     */
     @Test
     public void login() {
         byte[] password = new byte[0];
