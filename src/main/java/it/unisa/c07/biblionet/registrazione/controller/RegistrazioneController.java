@@ -33,10 +33,24 @@ public class RegistrazioneController {
         return "registrazione_" + scelta.toLowerCase();
     }
 
-    @RequestMapping(value = "/lettore", method = RequestMethod.GET)
-    public String registrazioneLettore(final Lettore lettore) {
-        System.out.println(lettore);
-        return "registrazione_lettore";
+    @RequestMapping(value = "/lettore", method = RequestMethod.POST)
+    public String registrazioneLettore(final Lettore lettore,
+                                       final @RequestParam("conferma_password")
+                                               String password) {
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] arr = md.digest(password.getBytes());
+            if (Arrays.compare(arr, lettore.getPassword()) != 0) {
+                System.out.println("Questa password non va bene");
+                return "registrazione_lettore";
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        registrazioneService.registraLettore(lettore);
+        return "registrazione";
     }
 
     @RequestMapping(value = "/biblioteca", method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.registrazione.controller;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,56 +33,62 @@ public class RegistrazioneControllerTest {
 
     @ParameterizedTest
     @DisplayName("Registrazione che va a buon fine")
-    @MethodSource("provideRegistrazioneBiblioteca")
-    public void registrazioneBibliotecaBuonFine(final Biblioteca biblioteca,String confermaPassword) throws Exception {
+    @MethodSource("provideRegistrazioneLettore")
+    public void registrazioneLettoreBuonFine(final Lettore lettore, String confermaPassword) throws Exception {
 
-        when(registrazioneService.registraBiblioteca(new Biblioteca())).thenReturn(biblioteca);
+        when(registrazioneService.registraLettore(new Lettore())).thenReturn(lettore);
 
-        this.mockMvc.perform(post("/registrazione/biblioteca")
-                .param("email",biblioteca.getEmail())
-                .param("nomeBiblioteca",biblioteca.getNomeBiblioteca())
-                .param("password","BibliotecaPassword")
+        this.mockMvc.perform(post("/registrazione/lettore")
+                .param("email",lettore.getEmail())
+                .param("username",lettore.getUsername())
+                .param("nome",lettore.getNome())
+                .param("cognome",lettore.getCognome())
+                .param("password","LettorePassword")
                 .param("conferma_password",confermaPassword)
-                .param("provincia",biblioteca.getProvincia())
-                .param("citta",biblioteca.getCitta())
-                .param("via",biblioteca.getVia())
-                .param("recapito_telefonico",biblioteca.getRecapitoTelefonico()))
+                .param("provincia",lettore.getProvincia())
+                .param("citta",lettore.getCitta())
+                .param("via",lettore.getVia())
+                .param("recapito_telefonico",lettore.getRecapitoTelefonico()))
                 .andExpect(view().name("registrazione"));
     }
 
     @ParameterizedTest
     @DisplayName("Registrazione che non va a buon fine, password e conferma password sbagliate")
-    @MethodSource("provideRegistrazioneBiblioteca")
-    public void registrazioneBibliotecaErrataPassword(final Biblioteca biblioteca,String confermaPassword) throws Exception {
+    @MethodSource("provideRegistrazioneLettore")
+    public void registrazioneLettoreErrataPassword(final Lettore lettore,String confermaPassword) throws Exception {
 
-        when(registrazioneService.registraBiblioteca(new Biblioteca())).thenReturn(biblioteca);
+        when(registrazioneService.registraLettore(new Lettore())).thenReturn(lettore);
 
-        this.mockMvc.perform(post("/registrazione/biblioteca")
-                .param("email",biblioteca.getEmail())
-                .param("nomeBiblioteca",biblioteca.getNomeBiblioteca())
+        this.mockMvc.perform(post("/registrazione/lettore")
+                .param("email",lettore.getEmail())
+                .param("username",lettore.getUsername())
+                .param("nome",lettore.getNome())
+                .param("cognome",lettore.getCognome())
                 .param("password","PASSWORD_SBAGLIATA")//Password errata
                 .param("conferma_password",confermaPassword)
-                .param("provincia",biblioteca.getProvincia())
-                .param("citta",biblioteca.getCitta())
-                .param("via",biblioteca.getVia())
-                .param("recapito_telefonico",biblioteca.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione_biblioteca"));
+                .param("provincia",lettore.getProvincia())
+                .param("citta",lettore.getCitta())
+                .param("via",lettore.getVia())
+                .param("recapito_telefonico",lettore.getRecapitoTelefonico()))
+                .andExpect(view().name("registrazione_lettore"));
     }
 
-    private static Stream<Arguments> provideRegistrazioneBiblioteca() {
+    private static Stream<Arguments> provideRegistrazioneLettore() {
 
         return Stream.of(
                 Arguments.of(
-                        new Biblioteca(
-                                "bibliotecacarrisi@gmail.com",
-                                "BibliotecaPassword",
-                                "Napoli",
-                                "Torre del Greco",
-                                "Via Carrisi 47",
-                                "1234567890",
-                                "Biblioteca Carrisi"
+                         new Lettore(
+                                "giuliociccione@gmail.com",
+                                "LettorePassword",
+                                "Salerno",
+                                "Baronissi",
+                                "Via Barone 11",
+                                "3456789012",
+                                "SuperLettore",
+                                "Giulio",
+                                "Ciccione"
                         )
-                        ,"BibliotecaPassword"//Password Conferma
+                        ,"LettorePassword"//Password Conferma
                 )
         );
     }
