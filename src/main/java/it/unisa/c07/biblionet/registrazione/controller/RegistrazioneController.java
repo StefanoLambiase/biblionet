@@ -62,7 +62,8 @@ public final class RegistrazioneController {
                                        final @RequestParam("conferma_password")
                                                String password,
                                        final @RequestParam("email_biblioteca")
-                                               String bibliotecaEmail) {
+                                               String bibliotecaEmail,
+                                       final @RequestParam("genere") String[]generi) {
 
         Biblioteca biblioteca
                 = registrazioneService.findBibliotecaByEmail(bibliotecaEmail);
@@ -73,6 +74,10 @@ public final class RegistrazioneController {
             return "registrazione_esperto";
         }
         esperto.setBiblioteca(biblioteca);
+
+        if(generi!=null){
+            esperto.setGeneri(registrazioneService.findGeneriByName(generi));
+        }
 
         try {
             MessageDigest md;

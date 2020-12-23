@@ -22,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public final class UtenteRegistrato {
+public class UtenteRegistrato {
 
     /**
      * Rappresenta l'ID di un utente registrato.
