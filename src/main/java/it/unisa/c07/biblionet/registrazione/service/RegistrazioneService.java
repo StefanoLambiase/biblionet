@@ -32,5 +32,13 @@ public interface RegistrazioneService {
      */
     List<Genere> findGeneriByName(String[] generi);
 
+    /**
+     * Implementa la funzionalità di registrazione una Biblioteca.
+     * @param biblioteca La biblioteca da registrare
+     * @return L'utente registrato
+     */
+    UtenteRegistrato registraBiblioteca(Biblioteca biblioteca);
+
+
 
 }

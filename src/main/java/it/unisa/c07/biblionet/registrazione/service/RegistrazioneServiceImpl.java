@@ -46,6 +46,11 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         return espertoDAO.save(esperto);
     }
 
+    /**
+     * Implementa la funzionalità di registrazione una Biblioteca.
+     * @param biblioteca La Biblioteca da registrare
+     * @return L'utente registrato
+     */
     @Override
     public UtenteRegistrato registraBiblioteca(Biblioteca biblioteca) {
         return bibliotecaDAO.save(biblioteca);

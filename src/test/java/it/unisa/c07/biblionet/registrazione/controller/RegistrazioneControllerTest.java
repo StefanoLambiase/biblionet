@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -35,13 +36,14 @@ public final class RegistrazioneControllerTest {
      * controller per la registrazione di un esperto
      * avvenuta correttamente
      * simulando la richiesta http.
-     * @param esperto Il lettore da registrare
+     *
+     * @param esperto          Il lettore da registrare
      * @param confermaPassword il campo conferma password del
-     * form per controllare
+     *                         form per controllare
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
-    @DisplayName("Registrazione che va a buon fine")
+    @DisplayName("Registrazione Esperto che va a buon fine")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoBuonFine(
             final Esperto esperto, final String confermaPassword,
@@ -80,6 +82,7 @@ public final class RegistrazioneControllerTest {
     /**
      * Simula i dati inviati da un metodo
      * http attraverso uno stream.
+     *
      * @return Lo stream di dati.
      */
     private static Stream<Arguments> provideRegistrazioneEsperto() {
@@ -103,6 +106,60 @@ public final class RegistrazioneControllerTest {
                 )
         );
 
+    }
+
+    @ParameterizedTest
+    @DisplayName("Registrazione Biblioteca che va a buon fine")
+    @MethodSource("provideRegistrazioneBiblioteca")
+    public void registrazioneBibliotecaBuonFine(final Biblioteca biblioteca, String confermaPassword) throws Exception {
+        when(registrazioneService.registraBiblioteca(new Biblioteca())).thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/registrazione/biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("password", "BibliotecaPassword")
+                .param("conferma_password", confermaPassword)
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("registrazione"));
+    }
+
+    @ParameterizedTest
+    @DisplayName("Registrazione Biblioteca che non va a buon fine, password e conferma password sbagliate")
+    @MethodSource("provideRegistrazioneBiblioteca")
+    public void registrazioneBibliotecaErrataPassword(final Biblioteca biblioteca,String confermaPassword) throws Exception {
+
+        when(registrazioneService.registraBiblioteca(new Biblioteca())).thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/registrazione/biblioteca")
+                .param("email",biblioteca.getEmail())
+                .param("nomeBiblioteca",biblioteca.getNomeBiblioteca())
+                .param("password","PASSWORD_SBAGLIATA")//Password errata
+                .param("conferma_password",confermaPassword)
+                .param("provincia",biblioteca.getProvincia())
+                .param("citta",biblioteca.getCitta())
+                .param("via",biblioteca.getVia())
+                .param("recapito_telefonico",biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("registrazione_biblioteca"));
+    }
+
+    private static Stream<Arguments> provideRegistrazioneBiblioteca() {
+
+        return Stream.of(Arguments.of(
+                new Biblioteca(
+                        "bibliotecacarrisi@gmail.com",
+                        "BibliotecaPassword",
+                        "Napoli",
+                        "Torre del Greco",
+                        "Via Carrisi 47",
+                        "1234567890",
+                        "Biblioteca Carrisi"
+                )
+                , "BibliotecaPassword"//Password Conferma
+                )
+        );
     }
 
 }
