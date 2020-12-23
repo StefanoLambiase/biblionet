@@ -23,6 +23,7 @@
             <td th:text="${club.esperto.nome}"></td>
             <td> <a th:href="@{'/club-del-libro/modifica-dati/' + ${club.idClub}}">Modifica (Esperto) </a> </td>
             <td> <a th:href="@{'/club-del-libro/iscrizione-club/' + ${club.idClub}}">Iscrivimi (Lettore) </a> </td>
+            <td> <a th:href="@{'/club-del-libro/visualizza-dati-club/' + ${club.idClub}}">Visualizza </a> </td>
         </tr>
     </table>
 

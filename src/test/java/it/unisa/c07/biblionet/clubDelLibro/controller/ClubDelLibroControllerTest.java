@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -159,6 +160,23 @@ public class ClubDelLibroControllerTest {
         this.mockMvc
                 .perform(get("/club-del-libro/iscrizione-club/1"))
                 .andExpect(view().name("redirect:/club-del-libro/"));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione dei dati di un club
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaDatiClub(final ClubDelLibro club) throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(get("/club-del-libro/visualizza-dati-club/1"))
+                .andExpect(model().attribute("club", club))
+                .andExpect(view().name("visualizza-iscritti"));
     }
 
 
