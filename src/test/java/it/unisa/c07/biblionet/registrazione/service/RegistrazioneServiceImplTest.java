@@ -1,18 +1,15 @@
 package it.unisa.c07.biblionet.registrazione.service;
 
-
-import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
-import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
-import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -21,25 +18,18 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class RegistrazioneServiceImplTest {
 
-    @InjectMocks
-    private RegistrazioneServiceImpl registrazioneService;
-
+    /**
+     * Si occupa di gestire le operazioni CRUD dell'Esperto.
+     */
     @Mock
     private EspertoDAO espertoDAO;
 
-    @Mock
-    private BibliotecaDAO bibliotecaDAO;
+    @InjectMocks
+    private RegistrazioneServiceImpl registrazioneService;
 
-    @Mock
-    private LettoreDAO lettoreDAO;
-
-    @Test
-    public void registraLettore() {
-        Lettore lettore = new Lettore();
-        when(lettoreDAO.save(lettore)).thenReturn(lettore);
-        assertEquals(lettore, registrazioneService.registraLettore(lettore));
-    }
-
+    /**
+     * Testa la funzionalità di registrazione di un Esperto.
+     */
     @Test
     public void registraEsperto() {
         Esperto esperto = new Esperto();
