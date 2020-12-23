@@ -67,7 +67,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     private List<Evento> eventi;
 
     /**
-     * Rappreseta i tickets a cui è collegato.
+     * Rappresenta i tickets a cui è collegato.
      */
     @OneToMany
     private List<TicketPrestito> tickets;
