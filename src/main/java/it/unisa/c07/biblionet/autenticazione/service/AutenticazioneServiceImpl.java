@@ -60,14 +60,4 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
         }
         return null;
     }
-
-    /**
-     * Implementa la funzionalità di logout di un utente registrato.
-     * @param utenteRegistrato l'utente che effettua il logout.
-     * @return true se il logout è andato a buon fine , false altrimenti.
-     */
-    @Override
-    public boolean logout(final UtenteRegistrato utenteRegistrato) {
-        return false;
-    }
 }

@@ -14,11 +14,4 @@ public interface AutenticazioneService {
       * @return dell'utente da loggato.
       */
      UtenteRegistrato login(String email, String password);
-
-     /**
-      * Firma del metodo che implementa la funzione di logout.
-      * @param utenteRegistrato è l'utente a cui far fare logout.
-      * @return true se il logout va a buon fine, false altrimenti.
-      */
-     boolean logout(UtenteRegistrato utenteRegistrato);
 }
