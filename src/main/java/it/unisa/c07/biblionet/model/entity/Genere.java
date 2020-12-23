@@ -1,5 +1,4 @@
 package it.unisa.c07.biblionet.model.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.utils.Length;

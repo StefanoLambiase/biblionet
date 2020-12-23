@@ -8,7 +8,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LettoreDAO extends UtenteRegistratoDAO {
-
+    /**
+     * Implementa la funzionalità di ricerca di un utente Lettore nel DB.
+     * @param email dell'utente da cercare.
+     * @param password dell'utente da cercare.
+     * @return dell'utente trovato.
+     */
     Lettore findByEmailAndPassword(String email, byte[] password);
 
 

@@ -16,11 +16,23 @@ import java.security.NoSuchAlgorithmException;
 @RequiredArgsConstructor
 public class AutenticazioneServiceImpl implements AutenticazioneService {
 
-
-    private final LettoreDAO lettoreDAO;
-    private final BibliotecaDAO bibliotecaDAO;
-    private final EspertoDAO espertoDAO;
     /**
+     *Dichiarazione di un oggetto lettoreDAO.
+     */
+    private final LettoreDAO lettoreDAO;
+
+    /**
+     * Dichiarazione di un oggetto BibliotecaDAO.
+     */
+    private final BibliotecaDAO bibliotecaDAO;
+
+    /**
+     * Dichiarazione di un oggetto EspertoDAO.
+     */
+    private final EspertoDAO espertoDAO;
+
+    /**
+     * Implementa la funzionalità di login di un Utente registrato.
      * @param email dell'utente.
      * @param password dell'utente.
      * @return un utente registrato.
@@ -32,10 +44,10 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
                 UtenteRegistrato u;
-                if ((u = lettoreDAO.findByEmailAndPassword(email, arr)) != null) {
+                if ((u = lettoreDAO.findByEmailAndPassword(email,
+                                                            arr)) != null) {
                     return u;
-                }
-                else if ((u = bibliotecaDAO.findByEmailAndPassword(email,
+                } else if ((u = bibliotecaDAO.findByEmailAndPassword(email,
                         arr)) != null) {
                     return u;
                 } else {
@@ -49,6 +61,11 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
         return null;
     }
 
+    /**
+     * Implementa la funzionalità di logout di un utente registrato.
+     * @param utenteRegistrato l'utente che effettua il logout.
+     * @return true se il logout è andato a buon fine , false altrimenti.
+     */
     @Override
     public boolean logout(final UtenteRegistrato utenteRegistrato) {
         return false;

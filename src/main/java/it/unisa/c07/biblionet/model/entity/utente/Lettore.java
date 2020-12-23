@@ -1,6 +1,5 @@
 package it.unisa.c07.biblionet.model.entity.utente;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Evento;
