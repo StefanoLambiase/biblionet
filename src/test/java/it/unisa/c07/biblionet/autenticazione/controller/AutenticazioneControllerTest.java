@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
+import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
@@ -39,12 +41,14 @@ public class AutenticazioneControllerTest {
     @ParameterizedTest
     @MethodSource("provideAutenticazione")
     public void loginBuonFine(final String email, final String password) throws Exception {
-
-        when(autenticazioneService.login(email, password)).thenReturn(?);
+        System.out.println(email + password);
+        UtenteRegistrato utente = new UtenteRegistrato();
+        when(autenticazioneService.login(email, password)).thenReturn(utente);
 
         this.mockMvc.perform(post("/autenticazione/login")
-                .param(email)
-                .param(password))
+                .param("cio")
+                .param("jkf"))
+                .andExpect(model().attribute("loggedUser", utente))
                 .andExpect(view().name("index"));
     }
 
