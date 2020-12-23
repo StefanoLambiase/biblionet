@@ -49,11 +49,11 @@ public final class RegistrazioneController {
     }
 
     /**
-     * Implementa la funzionalità di registrazione di un esperto
+     * Implementa la funzionalità di registrazione di un esperto.
      * @param esperto l'esperto da registrare
      * @param password il campo conferma password del form per controllare
      *                 il corretto inserimento della stessa
-     * @param biblioteca_email la mail dell'account della biblioteca
+     * @param bibliotecaEmail la mail dell'account della biblioteca
      *                         dove l'esperto lavora
      * @return la view per effettuare il login
      */
@@ -62,10 +62,10 @@ public final class RegistrazioneController {
                                        final @RequestParam("conferma_password")
                                                String password,
                                        final @RequestParam("email_biblioteca")
-                                               String biblioteca_email) {
+                                               String bibliotecaEmail) {
 
         Biblioteca biblioteca
-                = registrazioneService.findBibliotecaByEmail(biblioteca_email);
+                = registrazioneService.findBibliotecaByEmail(bibliotecaEmail);
 
 
         if (biblioteca == null) {
@@ -92,10 +92,34 @@ public final class RegistrazioneController {
 
     }
 
+    /**
+     * Implementa la funzionalità di registrazione di una biblioteca.
+     * @param biblioteca la biblioteca da registrare
+     * @param password la password di conferma
+     * @return la view di login
+     */
     @RequestMapping(value = "/biblioteca", method = RequestMethod.POST)
-    public String registrazioneBiblioteca( final Biblioteca biblioteca,
+    public String registrazioneBiblioteca(final Biblioteca biblioteca,
                                         final @RequestParam("conferma_password")
-                                                String password){}
+                                                String password) {
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] arr = md.digest(password.getBytes());
+            if (Arrays.compare(arr, biblioteca.getPassword()) != 0) {
+                System.out.println("Questa password non va bene");
+                return "registrazione_biblioteca";
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        registrazioneService.registraBiblioteca(biblioteca);
+        return "registrazione";
+    }
+
+
+
      /** Implementa la funzionalitá di registrazione di
      * un lettore
      * di gestire la chiamata POST

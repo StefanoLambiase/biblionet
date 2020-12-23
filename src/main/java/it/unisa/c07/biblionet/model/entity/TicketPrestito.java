@@ -43,7 +43,32 @@ public class TicketPrestito {
     /**
      * Rappresenta i vari stati che può avere un ticket.
      */
-    public enum Stati { CREATO, IN_ATTESA_DI_CONFERMA, CONFERMATO, IN_ATTESA_DI_RESTITUZIONE, CHIUSO };
+    public enum Stati {
+
+        /**
+         * Rappresenta lo stato Creato di un TicketPrestito.
+         */
+        CREATO,
+
+        /**
+         * Rappresenta lo stato In attesa di conferma di un TicketPrestito.
+         */
+        IN_ATTESA_DI_CONFERMA,
+
+        /**
+         * Rappresenta lo stato Confermato di un TicketPrestito.
+         */
+        CONFERMATO,
+
+        /**
+         * Rappresenta lo stato In attesa di restituzione di un TicketPrestito.
+         */
+        IN_ATTESA_DI_RESTITUZIONE,
+
+        /**
+         * Rappresenta lo stato Chiuso di un TicketPrestito.
+         */
+        CHIUSO };
 
     /**
      * Rappresenta lo stato del ticket.
@@ -73,6 +98,7 @@ public class TicketPrestito {
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Libro libro;
+
     /**
      * Rappresenta la biblioteca da cui si prende il prestito il libro.
      */

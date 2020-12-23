@@ -1,5 +1,7 @@
 package it.unisa.c07.biblionet.registrazione.controller;
 
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import org.junit.jupiter.api.DisplayName;
@@ -41,22 +43,29 @@ public final class RegistrazioneControllerTest {
     private MockMvc mockMvc;
 
     /**
-     * Metodo che testa la funzionalità gestita dal
-     * controller per la registrazione di un esperto
-     * avvenuta correttamente
-     * simulando la richiesta http.
+     *
      *
      * @param esperto          Il lettore da registrare
      * @param confermaPassword il campo conferma password del
      *                         form per controllare
      * @throws Exception Eccezione per MovkMvc
      */
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la registrazione di un esperto
+     * avvenuta correttamente
+     * simulando la richiesta http.
+     * @param esperto L'esperto da registrare
+     * @param confermaPassword la password da confermare
+     * @param emailBiblioteca la mail della biblioteca
+     * @throws Exception Eccezzione per MockMvc
+     */
     @ParameterizedTest
     @DisplayName("Registrazione Esperto che va a buon fine")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoBuonFine(
             final Esperto esperto, final String confermaPassword,
-            final String email_biblioteca) throws Exception {
+            final String emailBiblioteca) throws Exception {
 
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
@@ -70,7 +79,7 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraEsperto(new Esperto())).
                 thenReturn(esperto);
-        when(registrazioneService.findBibliotecaByEmail(email_biblioteca)).
+        when(registrazioneService.findBibliotecaByEmail(emailBiblioteca)).
                 thenReturn(biblioteca);
 
         this.mockMvc.perform(post("/registrazione/esperto")
@@ -84,7 +93,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", esperto.getCitta())
                 .param("via", esperto.getVia())
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", email_biblioteca))
+                .param("email_biblioteca", emailBiblioteca))
                 .andExpect(view().name("registrazione"));
     }
 
@@ -109,19 +118,26 @@ public final class RegistrazioneControllerTest {
                                 "Elia",
                                 "Viviani",
                                 null
-                        )
-                        , "EspertoPassword"
-                        , "bibliotecacarrisi@gmail.com"
+                        ), "EspertoPassword", "bibliotecacarrisi@gmail.com"
                 )
         );
 
     }
 
+    /**
+     * Test che registra correttamente una biblioteca.
+     * @param biblioteca la biblioteca da registrare
+     * @param confermaPassword la passoword da confermare
+     * @throws Exception Eccezzione di MockMvc
+     */
     @ParameterizedTest
     @DisplayName("Registrazione Biblioteca che va a buon fine")
     @MethodSource("provideRegistrazioneBiblioteca")
-    public void registrazioneBibliotecaBuonFine(final Biblioteca biblioteca, String confermaPassword) throws Exception {
-        when(registrazioneService.registraBiblioteca(new Biblioteca())).thenReturn(biblioteca);
+    public void registrazioneBibliotecaBuonFine(final Biblioteca biblioteca,
+                                                final String confermaPassword)
+            throws Exception {
+        when(registrazioneService.registraBiblioteca(new Biblioteca()))
+                .thenReturn(biblioteca);
 
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
@@ -131,10 +147,10 @@ public final class RegistrazioneControllerTest {
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
-                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .param("recapito_telefonico",
+                        biblioteca.getRecapitoTelefonico()))
                 .andExpect(view().name("registrazione"));
     }
-    
     /**
      * controller per la registrazione di un lettore
      * avvenuta correttamente
@@ -225,5 +241,25 @@ public final class RegistrazioneControllerTest {
                         ), "LettorePassword"//Password Conferma
                 )
         );
+    }
+
+    /**
+     * Restituisce i dati per la registrazione della biblioteca.
+     * @return i dati per il testing
+     */
+    private static Stream<Arguments> provideRegistrazioneBiblioteca() {
+
+        return Stream.of(Arguments.of(
+                new Biblioteca(
+                        "bibliotecacarrisi@gmail.com",
+                        "BibliotecaPassword",
+                        "Napoli",
+                        "Torre del Greco",
+                        "Via Carrisi 47",
+                        "1234567890",
+                        "Biblioteca Carrisi"
+                ),
+                "BibliotecaPassword"//Password Conferma
+        ));
     }
 }

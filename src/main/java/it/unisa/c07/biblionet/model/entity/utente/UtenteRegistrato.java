@@ -22,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UtenteRegistrato {
+public final class UtenteRegistrato {
 
     /**
      * Rappresenta l'ID di un utente registrato.
@@ -102,7 +102,11 @@ public class UtenteRegistrato {
         }
     }
 
-    public void setPassword(String password){
+    /**
+     * Implementa il set della password effettuando l'hash.
+     * @param password la password da settare
+     */
+    public void setPassword(final String password) {
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");

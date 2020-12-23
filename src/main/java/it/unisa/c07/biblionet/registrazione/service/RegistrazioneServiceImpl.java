@@ -3,9 +3,11 @@ package it.unisa.c07.biblionet.registrazione.service;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,10 +37,10 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final GenereDAO genereDAO;
 
-    /** 
-     *  Si occupa delle operazioni CRUD.
+    /**
+     * Si occupa delle operazioni CRUD.
      */
-    final private LettoreDAO lettoreDAO;
+    private final LettoreDAO lettoreDAO;
 
     /**
      * Implementa la funzionalità di registrazione un Esperto.
@@ -56,7 +58,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      * @return L'utente registrato
      */
     @Override
-    public UtenteRegistrato registraBiblioteca(Biblioteca biblioteca) {
+    public UtenteRegistrato registraBiblioteca(final Biblioteca biblioteca) {
         return bibliotecaDAO.save(biblioteca);
     }
 
@@ -81,14 +83,13 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         Optional<UtenteRegistrato> b = bibliotecaDAO.findById(email);
         if (b.isPresent()) {
             return (Biblioteca) b.get();
-        }
-        else {
+        } else {
             return null;
         }
     }
 
     /**
-     * Implementa la funzionalità di trovare dei generi
+     * Implementa la funzionalità di trovare dei generi.
      * @param generi Un'array di nomi di generi da trovare
      * @return Una lista contenente i generi trovati
      */

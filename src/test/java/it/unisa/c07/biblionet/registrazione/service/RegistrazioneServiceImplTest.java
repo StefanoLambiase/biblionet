@@ -48,7 +48,6 @@ public class RegistrazioneServiceImplTest {
     @InjectMocks
     private RegistrazioneServiceImpl registrazioneService;
 
-  
     /**
      * Testa la funzionalità di registrazione di un Esperto.
      */
@@ -66,7 +65,8 @@ public class RegistrazioneServiceImplTest {
     public void registraBiblioteca() {
         Biblioteca biblioteca = new Biblioteca();
         when(bibliotecaDAO.save(biblioteca)).thenReturn(biblioteca);
-        assertEquals(biblioteca, registrazioneService.registraBiblioteca(biblioteca));
+        assertEquals(biblioteca, registrazioneService.
+                registraBiblioteca(biblioteca));
     }
 
     /**
