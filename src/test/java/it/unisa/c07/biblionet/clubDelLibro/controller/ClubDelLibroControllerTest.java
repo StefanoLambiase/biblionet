@@ -25,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
+ * Implementa il testing di unità per la classe
+ * ClubDelLibroController.
  * @author Viviana Pentangelo, Gianmario Voria
  */
 @SpringBootTest
@@ -46,10 +48,10 @@ public class ClubDelLibroControllerTest {
     private MockMvc mockMvc;
 
     /**
-     * Metodo che testa la funzionalità gestita dal
+     * Implementa il test della funzionalità gestita dal
      * controller per la creazione di un club
      * simulando la richiesta http.
-     * @param club Il club da creare
+     * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
@@ -74,11 +76,11 @@ public class ClubDelLibroControllerTest {
     }
 
     /**
-     * Metodo che testa la funzionalità gestita dal
+     * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione di
      * tutti i club del libro
      * simulando la richiesta http.
-     * @param club Un club per simulare la lista
+     * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
@@ -93,11 +95,11 @@ public class ClubDelLibroControllerTest {
     }
 
     /**
-     * Metodo che testa la funzionalità gestita dal
+     * Implementa il test della funzionalità gestita dal
      * controller per il reinderizzamento alla modifica
      * dei dati di un club del libro
      * simulando la richiesta http.
-     * @param club Un club per simulare la modifica
+     * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
@@ -112,10 +114,10 @@ public class ClubDelLibroControllerTest {
     }
 
     /**
-     * Metodo che testa la funzionalità gestita dal
+     * Implementa il test della funzionalità gestita dal
      * controller per la modifica dei dati di un club
      * simulando la richiesta http.
-     * @param club Il club da modificare
+     * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
     @ParameterizedTest
@@ -141,6 +143,24 @@ public class ClubDelLibroControllerTest {
                 .param("generi", nomiGeneri))
                 .andExpect(view().name("redirect:/club-del-libro/"));
     }
+
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'iscrizione di un lettore ad un club
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void partecipaClub(final ClubDelLibro club) throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(get("/club-del-libro/iscrizione-club/1"))
+                .andExpect(view().name("redirect:/club-del-libro/"));
+    }
+
 
     /**
      * Simula i dati inviati da un metodo

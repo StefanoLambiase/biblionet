@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import java.util.List;
 
 
 /**
+ * Implementa il controller per il sottosistema
+ * ClubDelLibro.
  * @author Viviana Pentangelo, Gianmario Voria
  */
 @Controller
@@ -34,7 +37,8 @@ public class ClubDelLibroController {
     private final ClubDelLibroService clubService;
 
     /**
-     * Si occupa di visualizzare i Club del Libro
+     * Implementa la funzionalità che permette
+     * di visualizzare i Club del Libro
      * presenti nel Database.
      * @param model L'oggetto model usato per inserire gli attributi
      * @return La pagina di visualizzazione
@@ -46,7 +50,7 @@ public class ClubDelLibroController {
     }
 
     /**
-     * Metodo del controller che si occupa
+     * Implementa la funzionalità che permette
      * di gestire la chiamata POST
      * per creare un club del libro.
      * @param nome Il nome del club
@@ -106,7 +110,7 @@ public class ClubDelLibroController {
     }
 
     /**
-     * Metodo del controller che si occupa
+     * Implementa la funzionalità che permette
      * di re-indirizzare alla pagina di modifica
      * dei dati di un Club del Libro.
      * @param id l'ID del Club da modificare
@@ -121,7 +125,7 @@ public class ClubDelLibroController {
     }
 
     /**
-     * Metodo del controller che si occupa
+     * Implementa la funzionalità che permette
      * di gestire la chiamata POST
      * per modificare i dati di un club del libro.
      * @param idClub L'id del club
@@ -168,4 +172,29 @@ public class ClubDelLibroController {
         return "redirect:/club-del-libro/";
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * l'iscrizione di un lettore ad un
+     * Club del Libro.
+     * @param id l'ID del Club a cui iscriversi
+     * @return La view che visualizza la lista dei club
+     */
+    @RequestMapping(value = "/iscrizione-club/{id}", method = RequestMethod.GET)
+    public String partecipaClub(final @PathVariable int id) {
+        Lettore lettore = new Lettore(
+                "giuliociccione@gmail.com",
+                "LettorePassword",
+                "Salerno",
+                "Baronissi",
+                "Via Barone 11",
+                "3456789012",
+                "SuperLettore",
+                "Giulio",
+                "Ciccione"
+        );
+        this.clubService.partecipaClub(
+                            this.clubService.getClubByID(id),
+                            lettore);
+        return "redirect:/club-del-libro/";
+    }
 }
