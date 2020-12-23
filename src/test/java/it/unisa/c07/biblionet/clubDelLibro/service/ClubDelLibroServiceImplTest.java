@@ -2,8 +2,10 @@ package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
+ * Implementa il testing di unità per la classe
+ * ClubDelLibroServiceImpl.
  * @author Viviana Pentangelo, Gianmario Voria
  */
 @SpringBootTest
@@ -26,29 +30,35 @@ public class ClubDelLibroServiceImplTest {
 
     /**
      * Inject del service per simulare
-     * le operazioni.
+     * le operazioni del service.
      */
     @InjectMocks
     private ClubDelLibroServiceImpl clubService;
 
     /**
      * Mocking del dao per simulare le
-     * CRUD.
+     * CRUD su clubDelLibro.
      */
     @Mock
     private ClubDelLibroDAO clubDAO;
 
     /**
      * Mocking del dao per simulare le
-     * CRUD.
+     * CRUD su genere.
      */
     @Mock
     private GenereDAO genereDAO;
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di creazione di un
-     * club del libro nel service.
+     * Mocking del dao per simulare le
+     * CRUD su lettore.
+     */
+    @Mock
+    private LettoreDAO lettoreDAO;
+
+    /**
+     * Implementa il test della funzionalità di
+     * creazione  di un club del libro in service.
      */
     @Test
     public void creaClubDelLibro() {
@@ -58,9 +68,9 @@ public class ClubDelLibroServiceImplTest {
     }
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di recupero di
-     * tutti i club nel service.
+     * Implementa il test della funzionalità
+     * di recupero di
+     * tutti i club del libro in service.
      */
     @Test
     public void visualizzaClubsDelLibro() {
@@ -72,9 +82,8 @@ public class ClubDelLibroServiceImplTest {
     }
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di select di una
-     * lista di generi dato il loro nome.
+     * Implementa il test della funzionalità di selezione
+     * di una lista di generi dato il loro nome in service.
      */
     @Test
     public void getGeneri() {
@@ -85,9 +94,9 @@ public class ClubDelLibroServiceImplTest {
     }
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di modifica dei dati
-     * di un Club del Libro.
+     * Implementa il test della funzionalità di
+     * modifica dei dati
+     * di un club del libro in service.
      */
     @Test
     public void modificaDatiClub() {
@@ -97,15 +106,25 @@ public class ClubDelLibroServiceImplTest {
     }
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di select di un
-     * Club del Libro dato il suo ID.
+     * Implementa il test della funzionalità di select di un
+     * club dato il suo ID in service.
      */
     @Test
     public void getClubByID() {
         ClubDelLibro club = new ClubDelLibro();
         when(clubDAO.findById(1)).thenReturn(java.util.Optional.of(club));
         assertEquals(club, clubService.getClubByID(1));
+    }
+
+    /**
+     * Implementa il test della funzionalità di iscrizione
+     * di un lettore ad un club del libro in service.
+     */
+    @Test
+    public void partecipaClub() {
+        Lettore l = new Lettore();
+        when(lettoreDAO.save(l)).thenReturn(l);
+        assertEquals(true, clubService.partecipaClub(new ClubDelLibro(), l));
     }
 
 
