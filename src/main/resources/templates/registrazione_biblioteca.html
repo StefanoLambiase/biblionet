@@ -2,18 +2,18 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrazione Biblioteca</title>
+    <title>Title</title>
 </head>
 <body>
-    <form method="post" action="/registrazione/biblioteca" >
+<form method="post" th:action="@{/registrazione/biblioteca}" >
         <p> Email <input type="input" name="email" required> </p>
         <p> Nome Biblioteca<input type="input" name="nomeBiblioteca" required> </p>
         <p> Password <input type="password" name="password" required> </p>
         <p> Conferma Password <input type="password" name="conferma_password" required> </p>
-        <p> Provincia <input type="input" name="provicia" required> </p>
+        <p> Provincia <input type="input" name="provincia" required> </p>
         <p> Cittá <input type="input" name="citta" required> </p>
         <p> Via <input type="input" name="via" required> </p>
-        <p> Recapito Telefonico <input type="tel" name="recapito_telefonico" required> </p>
+        <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" required> </p>
         <p> <input type="submit"></p>
     </form>
 </body>
