@@ -39,6 +39,11 @@ public interface RegistrazioneService {
      */
     UtenteRegistrato registraBiblioteca(Biblioteca biblioteca);
 
-
+    /**
+     * Implementa la funzionalitá di registrare un Lettore.
+     * @param lettore Il lettore da registrare
+     * @return Il lettore registrato
+     */
+    UtenteRegistrato registraLettore(Lettore lettore);
 
 }

@@ -35,6 +35,10 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final GenereDAO genereDAO;
 
+    /** 
+     *  Si occupa delle operazioni CRUD.
+     */
+    final private LettoreDAO lettoreDAO;
 
     /**
      * Implementa la funzionalità di registrazione un Esperto.
@@ -54,6 +58,16 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Override
     public UtenteRegistrato registraBiblioteca(Biblioteca biblioteca) {
         return bibliotecaDAO.save(biblioteca);
+    }
+
+    /**
+     * Implementa la funzionalitá di registrare un Lettore.
+     * @param lettore Il lettore da registrare
+     * @return Il lettore registrato
+     */
+    @Override
+    public final UtenteRegistrato registraLettore(final Lettore lettore) {
+        return lettoreDAO.save(lettore);
     }
 
     /**
