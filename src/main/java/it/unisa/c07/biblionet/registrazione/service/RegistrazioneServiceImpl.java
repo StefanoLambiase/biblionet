@@ -13,7 +13,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     /**
      * Si occupa delle operazioni CRUD.
      */
-    private LettoreDAO lettoreDAO;
+    final private LettoreDAO lettoreDAO;
 
     /**
      * Implementa la funzionalitá di registrare un Lettore.
