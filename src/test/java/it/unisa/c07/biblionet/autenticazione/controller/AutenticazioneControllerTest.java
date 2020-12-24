@@ -36,11 +36,14 @@ public class AutenticazioneControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    
 
     @ParameterizedTest
     @MethodSource("provideAutenticazione")
     public void loginBuonFine(final String email, final String password) throws Exception {
-        UtenteRegistrato utente = new UtenteRegistrato(email, password, "Napoli", "Torre del Greco", "Via Roma", "1234567890");
+        UtenteRegistrato utente = new UtenteRegistrato(email, password,
+                                            "Napoli", "Torre del Greco",
+                                                "Via Roma", "1234567890");
 
         when(autenticazioneService.login(email, password)).thenReturn(utente);
 
@@ -54,9 +57,12 @@ public class AutenticazioneControllerTest {
     @ParameterizedTest
     @MethodSource("provideAutenticazione")
     public void loginErrata(final String email, final String password) throws Exception {
-        UtenteRegistrato utente = new UtenteRegistrato(email, password, "Napoli", "Torre del Greco", "Via Roma", "1234567890");
+        UtenteRegistrato utente = new UtenteRegistrato(email, password,
+                                            "Napoli", "Torre del Greco",
+                                                "Via Roma", "1234567890");
 
-        when(autenticazioneService.login(email, password)).thenReturn(utente);
+        when(autenticazioneService.login(email,
+                                        password)).thenReturn(utente);
 
 
 

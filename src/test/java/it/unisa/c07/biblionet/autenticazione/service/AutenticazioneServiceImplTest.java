@@ -13,6 +13,9 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -49,23 +52,81 @@ public class AutenticazioneServiceImplTest {
     private BibliotecaDAO bibliotecaDAO;
 
     /**
-     * Metodo che si occupa di testare
-     * la funzione di login nel service.
+     * Implementa il test della
+     * funzionalità di login di un lettore
+     * nel service.
      */
     @Test
-    public void login() {
-        byte[] password = new byte[0];
+    public void loginLettore() throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("SHA-256");
+
+        String email = "lettore@lettore.com";
+        String password = "mipiaccionoglialberi";
+
+        byte[] arr = md.digest(password.getBytes());
 
         Lettore lettore = new Lettore();
-        when(lettoreDAO.findByEmailAndPassword("",  password)).thenReturn(lettore);
-        assertEquals(null, autenticazioneService.login("", ""));
 
-        Esperto esperto = new Esperto();
-        when(espertoDAO.findByEmailAndPassword("", password)).thenReturn(esperto);
-        assertEquals(null, autenticazioneService.login("", ""));
+        when(lettoreDAO.findByEmailAndPassword(email,
+                                            arr)).thenReturn(lettore);
+
+        assertEquals(lettore, autenticazioneService.login(email,
+                                                        password));
+    }
+    /**
+     * Implementa il test della
+     * funzionalità di login di una biblioteca
+     * nel service.
+     */
+    @Test
+    public void loginBiblioteca() throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("SHA-256");
+
+        String email = "biblioteca@biblioteca.com";
+        String password = "mipiacelacarta";
+
+        byte[] arr = md.digest(password.getBytes());
 
         Biblioteca biblioteca = new Biblioteca();
-        when(bibliotecaDAO.findByEmailAndPassword("", password)).thenReturn(biblioteca);
-        assertEquals(null, autenticazioneService.login("", ""));
+
+        when(lettoreDAO.findByEmailAndPassword(email,
+                                                arr)).thenReturn(null);
+
+        when(bibliotecaDAO.findByEmailAndPassword(email,
+                                                arr)).thenReturn(biblioteca);
+
+        assertEquals(biblioteca, autenticazioneService.login(email,
+                                                            password));
+    }
+    /**
+     * Implementa il test della
+     * funzionalità di login di un esperto
+     * nel service.
+     */
+    @Test
+    public void loginEsperto() throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("SHA-256");
+
+        String email = "esperto@esperto.com";
+        String password = "mipiacelaconsocenza";
+
+        byte[] arr = md.digest(password.getBytes());
+
+        Esperto esperto = new Esperto();
+
+        when(lettoreDAO.findByEmailAndPassword(email,
+                                            arr)).thenReturn(null);
+
+        when(bibliotecaDAO.findByEmailAndPassword(email,
+                                            arr)).thenReturn(null);
+
+        when(espertoDAO.findByEmailAndPassword(email,
+                                            arr)).thenReturn(esperto);
+
+        assertEquals(esperto, autenticazioneService.login(email,
+                                                        password));
     }
 }
