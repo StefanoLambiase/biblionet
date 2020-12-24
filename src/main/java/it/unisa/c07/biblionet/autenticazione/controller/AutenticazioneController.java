@@ -58,16 +58,6 @@ public class AutenticazioneController {
     }
 
     /**
-     * Implementa la funzionalità che permette
-     * di aggiungere un utente alla sessione.
-     * @return dell'utente in sessione.
-     */
-    @ModelAttribute("loggedUser")
-    public UtenteRegistrato utenteRegistrato() {
-        return new UtenteRegistrato();
-    }
-
-    /**
      * Implenta la funzionalità che permette
      * di effettuare il logout dell'utente
      * togliendolo dalla sessione.
@@ -79,6 +69,18 @@ public class AutenticazioneController {
         model.addAttribute("loggedUser", null);
 
         return "index";
+    }
+
+    /*------------------------------- ATTRIBUTI DI SESSIONE  ---------------------------------------------*/
+
+    /**
+     * Implementa la funzionalità che permette
+     * di aggiungere un utente alla sessione.
+     * @return dell'utente in sessione.
+     */
+    @ModelAttribute("loggedUser")
+    public UtenteRegistrato utenteRegistrato() {
+        return new UtenteRegistrato();
     }
 
 }

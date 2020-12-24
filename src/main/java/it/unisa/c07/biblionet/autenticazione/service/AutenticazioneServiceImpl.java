@@ -47,7 +47,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
-                UtenteRegistrato u;
+            UtenteRegistrato u;
                 if ((u = lettoreDAO.findByEmailAndPassword(email,
                                                             arr)) != null) {
                     return u;
