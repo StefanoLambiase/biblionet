@@ -30,7 +30,7 @@ public class AutenticazioneControllerTest {
     private AutenticazioneService autenticazioneService;
 
     /**
-     * Injext di MockMvc per simulare
+     * Inject di MockMvc per simulare
      * le richieste http.
      */
     @Autowired
@@ -61,12 +61,27 @@ public class AutenticazioneControllerTest {
                                             "Napoli", "Torre del Greco",
                                                 "Via Roma", "1234567890");
 
-        when(autenticazioneService.login(email,
-                                        password)).thenReturn(utente);
+        when(autenticazioneService.login(email, password)).thenReturn(null);
 
-
+        this.mockMvc.perform(post("/autenticazione/login")
+                .param("email", email)
+                .param("password", password))
+                .andExpect(model().attribute("loggedUser", null))
+                .andExpect(view().name("autenticazione"));
 
     }
+
+    /*
+    @ParameterizedTest
+    @MethodSource("provideAutenticazione")
+    public void logout(final String email, final String password) throws Exception {
+        UtenteRegistrato utente = new UtenteRegistrato(email, password,
+                "Napoli", "Torre del Greco",
+                "Via Roma", "1234567890");
+
+        when(autenticazioneService)
+    }
+    */
 
     /**
      * Simula i dati inviati da un metodo
