@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -63,12 +64,14 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
      * Rappresenta la lista di generi di cui un esperto è esperto.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<Genere> generi;
 
     /**
      * Rappresenta la lista di club gestiti dall'esperto.
      */
     @OneToMany
+    @ToString.Exclude
     private List<ClubDelLibro> clubs;
 
     /**
