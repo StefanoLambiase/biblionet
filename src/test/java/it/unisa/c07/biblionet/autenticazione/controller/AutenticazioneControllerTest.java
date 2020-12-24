@@ -42,12 +42,12 @@ public class AutenticazioneControllerTest {
     @MethodSource("provideAutenticazione")
     public void loginBuonFine(final String email, final String password) throws Exception {
         System.out.println(email + password);
-        UtenteRegistrato utente = new UtenteRegistrato();
+        UtenteRegistrato utente = new UtenteRegistrato(email, password, "Napoli", "Torre del Greco", "Via Roma", "1234567890");
         when(autenticazioneService.login(email, password)).thenReturn(utente);
 
         this.mockMvc.perform(post("/autenticazione/login")
-                .param("cio")
-                .param("jkf"))
+                .param(email)
+                .param(password))
                 .andExpect(model().attribute("loggedUser", utente))
                 .andExpect(view().name("index"));
     }
