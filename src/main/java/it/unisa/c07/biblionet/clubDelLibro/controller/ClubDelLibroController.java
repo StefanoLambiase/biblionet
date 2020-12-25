@@ -1,24 +1,32 @@
 package it.unisa.c07.biblionet.clubDelLibro.controller;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
 
 
 /**
@@ -35,6 +43,12 @@ public class ClubDelLibroController {
      * Il service per effettuare le operazioni di persistenza.
      */
     private final ClubDelLibroService clubService;
+
+    /**
+     * Il service per effettuare le operazioni di persistenza
+     * degli eventi.
+     */
+    private final GestioneEventiService eventiService;
 
     /**
      * Implementa la funzionalità che permette
@@ -197,4 +211,83 @@ public class ClubDelLibroController {
                             lettore);
         return "redirect:/club-del-libro/";
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di gestire la chiamata POST
+     * per creare un evento un club del libro.
+     */
+    // TODO: Gestione efficace degli errori
+    @RequestMapping(value = "/{id}/creaEvento", method = RequestMethod.POST)
+    public String creaEvento(final @PathVariable int clubDelLibro,
+                             final @RequestParam(value = "nome")
+                             String nome,
+                             final @RequestParam(value = "data")
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                             LocalDateTime data,
+                             final @RequestParam(value = "descrizione")
+                             String descrizione,
+                             final @RequestParam(value = "libro",
+                                                 required = false)
+                             Integer libro) {
+        var club = this.clubService.getClubByID(clubDelLibro);
+
+        if (club == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Club del Libro Inesistente"
+            );
+        }
+
+        var evento = new Evento();
+
+        if (!ValidazioneEvento.isNomeValido(nome)) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Lunghezza del nome non valida."
+            );
+        }
+
+        evento.setNomeEvento(nome);
+
+        if (!ValidazioneEvento.isDescrizioneValida(descrizione)) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Lunghezza della descrizione non valida."
+            );
+        }
+
+        evento.setDescrizione(descrizione);
+
+        // TODO: Validazione e Recupero del Libro
+
+        this.eventiService.creaEvento(evento);
+
+        return "redirect:/club-del-libro/{id}/eventi";
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * la creazione da parte di un Esperto
+     * di un Evento.
+     * @param clubDelLibro L'id del ClubDelLibro a cui è collegato l'Evento
+     * @return La view che visualizza il form di creazione Evento
+     */
+    @RequestMapping(value = "/{id}/creaEvento", method = RequestMethod.GET)
+    public String visualizzaCreaEvento(final @PathVariable int clubDelLibro,
+                                        final Model model) {
+        var club = this.clubService.getClubByID(clubDelLibro);
+
+        if (club == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Club del Libro Inesistente"
+            );
+        }
+
+        model.addAttribute("club", club);
+
+        return "aggiungi-evento";
+    }
+
 }
