@@ -55,6 +55,8 @@ public class AutenticazioneServiceImplTest {
      * Implementa il test della
      * funzionalità di login di un lettore
      * nel service.
+     * @throws NoSuchAlgorithmException L'eccezione che può essere lanciata
+     * dal metodo getInstance().
      */
     @Test
     public void loginLettore() throws NoSuchAlgorithmException {
@@ -78,6 +80,8 @@ public class AutenticazioneServiceImplTest {
      * Implementa il test della
      * funzionalità di login di una biblioteca
      * nel service.
+     * @throws NoSuchAlgorithmException L'eccezione che può
+     * essere lanciata dal metodo getInstance().
      */
     @Test
     public void loginBiblioteca() throws NoSuchAlgorithmException {
@@ -104,6 +108,8 @@ public class AutenticazioneServiceImplTest {
      * Implementa il test della
      * funzionalità di login di un esperto
      * nel service.
+     * @throws NoSuchAlgorithmException L'eccezione che può
+     * essere lanciata dal metodo getInstance().
      */
     @Test
     public void loginEsperto() throws NoSuchAlgorithmException {
