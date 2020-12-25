@@ -1,0 +1,4 @@
+/**
+ * package dei Service del sottosistema Autenticazione.
+ */
+package it.unisa.c07.biblionet.autenticazione.service;
