@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.model.dao.utente;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,4 +16,7 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      * @return dell'utente trovato.
      */
     Biblioteca findByEmailAndPassword(String email, byte[] password);
+
+    @Query("SELECT b FROM Biblioteca b WHERE b.nomeBiblioteca=?1")
+    Biblioteca findByNome(String nome);
 }
