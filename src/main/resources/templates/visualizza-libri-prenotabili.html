@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Libri prenotabili</title>
+</head>
+<body>
+    <h2>Ricerca per titolo</h2>
+    <form method="get" action="/prenotazione-libri/ricerca-titolo">
+        <input type="text" name="titolo">
+        <input type="submit">
+    </form>
+
+    <table>
+        <tr th:each="libro : ${listaLibri}">
+            <td th:text="${libro.titolo}"></td>
+            <th th:each="genere : ${libro.generi}" th:text="${genere.nome}"></th>
+            <th th:each="possesso : ${libro.possessi}" th:text="${possesso.possessoID.bibliotecaID}"></th>
+            <th th:each="possesso : ${libro.possessi}" th:text="${possesso.numeroCopie}"></th>
+        </tr>
+    </table>
+</body>
+</html>
