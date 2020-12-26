@@ -135,4 +135,6 @@ public class AutenticazioneServiceImplTest {
         assertEquals(esperto, autenticazioneService.login(email,
                                                         password));
     }
+
+    
 }
