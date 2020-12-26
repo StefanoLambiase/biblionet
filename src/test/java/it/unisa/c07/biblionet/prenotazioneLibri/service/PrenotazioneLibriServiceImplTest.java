@@ -96,7 +96,6 @@ public class PrenotazioneLibriServiceImplTest {
         Optional<Libro> l = Optional.empty();
         for (int i = 0; i < 2; i++) {
             when(libroDAO.findById(1)).thenReturn(l);
-            libri.add(l.orElse(null));
         }
         assertEquals(libri,
                 prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
