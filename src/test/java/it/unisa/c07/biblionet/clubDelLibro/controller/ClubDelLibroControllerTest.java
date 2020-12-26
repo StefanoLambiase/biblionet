@@ -1,9 +1,11 @@
 package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.form.EventoForm;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,6 +41,9 @@ public class ClubDelLibroControllerTest {
      */
     @MockBean
     private ClubDelLibroService clubService;
+
+    @MockBean
+    private GestioneEventiService eventiService;
 
     /**
      * Inject di MockMvc per simulare
@@ -161,6 +166,47 @@ public class ClubDelLibroControllerTest {
                 .andExpect(view().name("redirect:/club-del-libro/"));
     }
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per il reinderizzamento alla creazione di
+     * un evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaCreaEvento(final ClubDelLibro club)
+                                            throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(get("/club-del-libro/1/crea-evento"))
+                .andExpect(model().attribute("club", club))
+                .andExpect(model().attributeExists("evento"))
+                .andExpect(view().name("aggiungi-evento"));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di
+     * un evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void creaEvento(final ClubDelLibro club) throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                                .post("/club-del-libro/1/crea-evento")
+                                .param("nome", "Prova")
+                                .param("descrizione", "Prova")
+                                .param("data", "2024-12-12")
+                                .param("ora", "11:24"))
+                                .andExpect(view().name(
+                                        "redirect:/club-del-libro/1/eventi"
+                                ));
+    }
 
     /**
      * Simula i dati inviati da un metodo
@@ -189,5 +235,4 @@ public class ClubDelLibroControllerTest {
                                     "Vieni che non ti faccio niente"))))
         );
     }
-
 }
