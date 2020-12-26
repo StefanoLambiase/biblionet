@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,12 +20,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
+import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.form.EventoForm;
 import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
 import lombok.RequiredArgsConstructor;
 
@@ -218,19 +221,10 @@ public class ClubDelLibroController {
      * per creare un evento un club del libro.
      */
     // TODO: Gestione efficace degli errori
-    @RequestMapping(value = "/{id}/creaEvento", method = RequestMethod.POST)
-    public String creaEvento(final @PathVariable int clubDelLibro,
-                             final @RequestParam(value = "nome")
-                             String nome,
-                             final @RequestParam(value = "data")
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                             LocalDateTime data,
-                             final @RequestParam(value = "descrizione")
-                             String descrizione,
-                             final @RequestParam(value = "libro",
-                                                 required = false)
-                             Integer libro) {
-        var club = this.clubService.getClubByID(clubDelLibro);
+    @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.POST)
+    public String creaEvento(final @PathVariable int id,
+                             final @ModelAttribute EventoForm eventoForm) {
+        var club = this.clubService.getClubByID(id);
 
         if (club == null) {
             throw new ResponseStatusException(
@@ -241,25 +235,38 @@ public class ClubDelLibroController {
 
         var evento = new Evento();
 
-        if (!ValidazioneEvento.isNomeValido(nome)) {
+        evento.setClub(club);
+
+        if (!ValidazioneEvento.isNomeValido(eventoForm.getNome())) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Lunghezza del nome non valida."
             );
         }
 
-        evento.setNomeEvento(nome);
+        evento.setNomeEvento(eventoForm.getDescrizione());
 
-        if (!ValidazioneEvento.isDescrizioneValida(descrizione)) {
+        if (!ValidazioneEvento.isDescrizioneValida(eventoForm.getDescrizione())) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Lunghezza della descrizione non valida."
             );
         }
 
-        evento.setDescrizione(descrizione);
+        evento.setDescrizione(eventoForm.getDescrizione());
 
-        // TODO: Validazione e Recupero del Libro
+        var dataOra = LocalDateTime.of(eventoForm.getData(), eventoForm.getOra());
+
+        if (dataOra.isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Lunghezza della descrizione non valida."
+            );
+        }
+
+        evento.setDataOra(dataOra);
+
+        // TODO: Recupero e validazione del libro
 
         this.eventiService.creaEvento(evento);
 
@@ -273,10 +280,11 @@ public class ClubDelLibroController {
      * @param clubDelLibro L'id del ClubDelLibro a cui è collegato l'Evento
      * @return La view che visualizza il form di creazione Evento
      */
-    @RequestMapping(value = "/{id}/creaEvento", method = RequestMethod.GET)
-    public String visualizzaCreaEvento(final @PathVariable int clubDelLibro,
-                                        final Model model) {
-        var club = this.clubService.getClubByID(clubDelLibro);
+    @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.GET)
+    public String visualizzaCreaEvento(final @PathVariable int id,
+                                       final @ModelAttribute EventoForm evento,
+                                       final Model model) {
+        var club = this.clubService.getClubByID(id);
 
         if (club == null) {
             throw new ResponseStatusException(
@@ -286,6 +294,7 @@ public class ClubDelLibroController {
         }
 
         model.addAttribute("club", club);
+        model.addAttribute("evento", evento);
 
         return "aggiungi-evento";
     }
