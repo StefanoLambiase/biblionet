@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -57,7 +58,9 @@ public class AutenticazioneController {
             } else {
                 model.addAttribute("loggedUser", utente);
             }
+            Biblioteca b=(Biblioteca)utente;
             return "index";
+
     }
 
     /**
@@ -69,6 +72,7 @@ public class AutenticazioneController {
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(final Model model) {
+
         model.addAttribute("loggedUser", null);
 
         return "index";

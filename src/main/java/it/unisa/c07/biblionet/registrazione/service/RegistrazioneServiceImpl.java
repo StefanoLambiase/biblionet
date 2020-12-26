@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.registrazione.service;
 
+import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
@@ -42,6 +43,8 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final LettoreDAO lettoreDAO;
 
+    private final AutenticazioneService autenticazioneService;
+
     /**
      * Implementa la funzionalità di registrazione un Esperto.
      * @param esperto L'Esperto da registrare
@@ -70,6 +73,21 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     @Override
     public final UtenteRegistrato registraLettore(final Lettore lettore) {
         return lettoreDAO.save(lettore);
+    }
+
+    @Override
+    public boolean isUserEsperto(UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isEsperto(utenteRegistrato);
+    }
+
+    @Override
+    public boolean isUserLettore(UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isLettore(utenteRegistrato);
+    }
+
+    @Override
+    public boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isBiblioteca(utenteRegistrato);
     }
 
     /**
@@ -106,5 +124,8 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         return toReturn;
     }
 
+    public void aggiornaBiblioteca(Biblioteca utente){
+        bibliotecaDAO.save(utente);
+    }
 
 }

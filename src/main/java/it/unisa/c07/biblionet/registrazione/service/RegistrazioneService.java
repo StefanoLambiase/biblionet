@@ -47,4 +47,15 @@ public interface RegistrazioneService {
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
+    boolean isUserEsperto(UtenteRegistrato utenteRegistrato);
+
+    boolean isUserLettore(UtenteRegistrato utenteRegistrato);
+
+    boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato);
+
+    void aggiornaBiblioteca(Biblioteca utente);
+
+
+
+
 }

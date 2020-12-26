@@ -3,12 +3,16 @@ package it.unisa.c07.biblionet.registrazione.controller;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -17,6 +21,7 @@ import java.util.Arrays;
  * @author Alessio Casolaro, Antonio Della Porta
  */
 @Controller
+@SessionAttributes("loggedUser")
 @RequiredArgsConstructor
 @RequestMapping("/registrazione")
 public final class RegistrazioneController {
@@ -29,6 +34,7 @@ public final class RegistrazioneController {
     /**
      * Implementa la funzionalitá di visualizzare
      * la scelta di registrazione.
+     *
      * @return La pagina di visualizzazione
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -39,6 +45,7 @@ public final class RegistrazioneController {
     /**
      * Implementa la funzionalitá di registrazione di
      * scegliere il tipo di utente da registrare.
+     *
      * @param scelta Il tipo di utente da registrare
      * @return La view che visualizza il form di registrazione scelto.
      */
@@ -50,12 +57,13 @@ public final class RegistrazioneController {
 
     /**
      * Implementa la funzionalità di registrazione di un esperto.
-     * @param esperto l'esperto da registrare
-     * @param password il campo conferma password del form per controllare
-     *                 il corretto inserimento della stessa
+     *
+     * @param esperto         l'esperto da registrare
+     * @param password        il campo conferma password del form per controllare
+     *                        il corretto inserimento della stessa
      * @param bibliotecaEmail la mail dell'account della biblioteca
-     *                         dove l'esperto lavora
-     * @param generi gli eventuali generi definiti per l'esperto
+     *                        dove l'esperto lavora
+     * @param generi          gli eventuali generi definiti per l'esperto
      * @return la view per effettuare il login
      */
     @RequestMapping(value = "/esperto", method = RequestMethod.POST)
@@ -65,7 +73,7 @@ public final class RegistrazioneController {
                                        final @RequestParam("email_biblioteca")
                                                String bibliotecaEmail,
                                        final @RequestParam("genere")
-                                                   String[]generi) {
+                                               String[] generi) {
 
         Biblioteca biblioteca
                 = registrazioneService.findBibliotecaByEmail(bibliotecaEmail);
@@ -101,14 +109,15 @@ public final class RegistrazioneController {
 
     /**
      * Implementa la funzionalità di registrazione di una biblioteca.
+     *
      * @param biblioteca la biblioteca da registrare
-     * @param password la password di conferma
+     * @param password   la password di conferma
      * @return la view di login
      */
     @RequestMapping(value = "/biblioteca", method = RequestMethod.POST)
     public String registrazioneBiblioteca(final Biblioteca biblioteca,
-                                        final @RequestParam("conferma_password")
-                                                String password) {
+                                          final @RequestParam("conferma_password")
+                                                  String password) {
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
@@ -126,14 +135,15 @@ public final class RegistrazioneController {
     }
 
 
-
-     /** Implementa la funzionalitá di registrazione di
+    /**
+     * Implementa la funzionalitá di registrazione di
      * un lettore
      * di gestire la chiamata POST
      * per creare un nuovo lettore.
-     * @param lettore Il lettore da registrare
+     *
+     * @param lettore  Il lettore da registrare
      * @param password il campo conferma password del form per controllare
-     * il corretto inserimento della stessa.
+     *                 il corretto inserimento della stessa.
      * @return La view per effettuare il login
      */
     @RequestMapping(value = "/lettore", method = RequestMethod.POST)
@@ -154,5 +164,67 @@ public final class RegistrazioneController {
 
         registrazioneService.registraLettore(lettore);
         return "registrazione";
+    }
+
+
+    @RequestMapping(value = "/modifica-dati", method = RequestMethod.GET)
+    public String modificaDati(final Model model) {
+        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if (utente != null) {
+            if (registrazioneService.isUserBiblioteca(utente)) {
+                Biblioteca biblioteca = (Biblioteca) utente;
+                model.addAttribute("biblioteca", biblioteca);
+                return "modifica_dati_biblioteca";
+
+            } else if (registrazioneService.isUserEsperto(utente)) {
+                Esperto esperto = (Esperto) utente;
+                model.addAttribute("esperto", esperto);
+                return "modifica_dati_esperto";
+
+            } else if (registrazioneService.isUserLettore(utente)) {
+                Lettore lettore = (Lettore) utente;
+                model.addAttribute("lettore", lettore);
+                return "modifica_dati_lettore";
+
+            }
+        }
+        return "autenticazione";
+    }
+
+    @RequestMapping(value = "/conferma-modifica-biblioteca",method = RequestMethod.POST)
+    public String confermaModificaBiblioteca(final Model model,final Biblioteca biblioteca,
+                                   @RequestParam("vecchia_password")String vecchia,
+                                   @RequestParam("nuova_password")String nuova,
+                                   @RequestParam("conferma_password")String conferma,
+                                   @RequestParam("current_email")String email){
+
+
+    Biblioteca toUpload=registrazioneService.findBibliotecaByEmail(email);
+
+        if(!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
+            System.out.println(vecchia+nuova+conferma);
+            try {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA-256");
+                byte[] vecchia_hash = md.digest(vecchia.getBytes());
+
+                if (Arrays.compare(vecchia_hash, biblioteca.getPassword()) == 0) {
+                    biblioteca.setPassword(nuova);
+                    registrazioneService.aggiornaBiblioteca(biblioteca);
+                    model.addAttribute("loggedUser",biblioteca);
+                    return "autenticazione";
+                }
+                else
+                    return "modifica_dati_biblioteca";
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+        biblioteca.setPassword(toUpload.getPassword());
+        registrazioneService.aggiornaBiblioteca(biblioteca);
+        model.addAttribute("loggedUser",biblioteca);
+        return "autenticazione";
+
     }
 }
