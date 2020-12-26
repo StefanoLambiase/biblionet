@@ -52,6 +52,7 @@ public final class RegistrazioneControllerTest {
      * @param esperto          L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
+     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
@@ -102,11 +103,12 @@ public final class RegistrazioneControllerTest {
      * @param esperto L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
+     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
-    @DisplayName("Registrazione Esperto che non va a buon fine " +
-                 "perché la conferma password è sbagliata")
+    @DisplayName("Registrazione Esperto che non va a buon fine "
+               + "perché la conferma password è sbagliata")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoErrorePassword(
             final Esperto esperto, final String confermaPassword,
@@ -153,12 +155,13 @@ public final class RegistrazioneControllerTest {
      * @param esperto          L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
+     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
-    @DisplayName("Registrazione Esperto che non va a buon fine " +
-                 "perché la mail della biblioteca non corrisponde a " +
-                 "nessun utente")
+    @DisplayName("Registrazione Esperto che non va a buon fine "
+               + "perché la mail della biblioteca non corrisponde a "
+               + "nessun utente")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoEmailBibliotecaErrata(
             final Esperto esperto, final String confermaPassword,
@@ -208,8 +211,8 @@ public final class RegistrazioneControllerTest {
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
-    @DisplayName("Registrazione Esperto che va a buon fine anche se i generi " +
-                 "passati sono null")
+    @DisplayName("Registrazione Esperto che va a buon fine anche se i generi "
+               + "passati sono null")
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoBuonFineGeneriNull(
             final Esperto esperto, final String confermaPassword,
@@ -225,7 +228,7 @@ public final class RegistrazioneControllerTest {
                 "Biblioteca Carrisi"
         );
 
-        String [] generi = {""};
+        String[] generi = {""};
 
         when(registrazioneService.registraEsperto(new Esperto())).
                 thenReturn(esperto);
@@ -315,8 +318,8 @@ public final class RegistrazioneControllerTest {
      * @throws Exception Eccezione di MockMvc
      */
     @ParameterizedTest
-    @DisplayName("Registrazione Biblioteca che non va a buon fine " +
-            "perché la conferma password è sbagliata")
+    @DisplayName("Registrazione Biblioteca che non va a buon fine "
+           + "perché la conferma password è sbagliata")
     @MethodSource("provideRegistrazioneBiblioteca")
     public void registrazioneBibliotecaPasswordErrata(
                                                 final Biblioteca biblioteca,
@@ -412,7 +415,7 @@ public final class RegistrazioneControllerTest {
                + "password e conferma password sbagliate")
     @MethodSource("provideRegistrazioneLettore")
     public void registrazioneLettoreErrataPassword(final Lettore lettore,
-                                                   final String confermaPassword)
+                                                 final String confermaPassword)
             throws Exception {
 
         when(registrazioneService.registraLettore(new Lettore()))

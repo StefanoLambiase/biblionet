@@ -55,6 +55,7 @@ public final class RegistrazioneController {
      *                 il corretto inserimento della stessa
      * @param bibliotecaEmail la mail dell'account della biblioteca
      *                         dove l'esperto lavora
+     * @param generi gli eventuali generi definiti per l'esperto
      * @return la view per effettuare il login
      */
     @RequestMapping(value = "/esperto", method = RequestMethod.POST)
@@ -63,7 +64,8 @@ public final class RegistrazioneController {
                                                String password,
                                        final @RequestParam("email_biblioteca")
                                                String bibliotecaEmail,
-                                       final @RequestParam("genere") String[]generi) {
+                                       final @RequestParam("genere")
+                                                   String[]generi) {
 
         Biblioteca biblioteca
                 = registrazioneService.findBibliotecaByEmail(bibliotecaEmail);
@@ -75,7 +77,7 @@ public final class RegistrazioneController {
         }
         esperto.setBiblioteca(biblioteca);
 
-        if(generi!=null){
+        if (generi != null) {
             esperto.setGeneri(registrazioneService.findGeneriByName(generi));
         }
 
