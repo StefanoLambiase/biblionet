@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService{
+public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
 
     /**
      *Si occupa delle operazioni CRUD per libro.
@@ -73,14 +73,16 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService{
      * @return La lista di libri
      */
     @Override
-    public List<Libro> visualizzaListaLibriPerBiblioteca(final String nomeBiblioteca) {
+    public List<Libro> visualizzaListaLibriPerBiblioteca(
+                    final String nomeBiblioteca) {
         Biblioteca b = bibliotecaDAO.findByNome(nomeBiblioteca);
         String bibID = b.getEmail();
         List<Possesso> possessi = possessoDAO.findByBibliotecaID(bibID);
         List<Libro> libri = new ArrayList<>();
         for (Possesso p : possessi) {
-            Optional<Libro> l = libroDAO.findById(p.getPossessoID().getLibroID());
-            libri.add(l.get());
+            Optional<Libro> l =
+                    libroDAO.findById(p.getPossessoID().getLibroID());
+            libri.add(l.orElse(null));
         }
         return libri;
     }

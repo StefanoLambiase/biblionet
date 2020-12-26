@@ -13,6 +13,15 @@ import java.util.List;
 @Repository
 public interface LibroDAO extends JpaRepository<Libro, Integer> {
 
+    /**
+     * Query custom per il recupero dal DB di una lista
+     * di libri che contengono la stringa passata
+     * come parametro.
+     * @param titolo La stringa che deve essere
+     *               contenuta
+     * @return La lista dei libri che contengono
+     *          la stringa
+     */
     @Query("SELECT l FROM Libro l WHERE l.titolo LIKE %?1%")
     List<Libro> findByTitoloLike(String titolo);
 }

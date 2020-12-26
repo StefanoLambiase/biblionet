@@ -1,5 +1,6 @@
 /**
- * Il package contiene il service per la gestione
+ * Il package contiene il testing del
+ * service per la gestione
  * del sottosistema PrenotazioneLibri.
  */
 package it.unisa.c07.biblionet.prenotazioneLibri.service;

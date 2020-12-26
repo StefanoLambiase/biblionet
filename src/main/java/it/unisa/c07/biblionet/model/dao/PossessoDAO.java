@@ -13,6 +13,13 @@ import java.util.List;
  */
 @Repository
 public interface PossessoDAO extends JpaRepository<Possesso, PossessoId> {
+
+    /**
+     * Query custom per il recuper dal DB di una lista dei possessi
+     * di una determinata biblioteca identificata dall'ID.
+     * @param bibliotecaID L'ID della biblioteca
+     * @return La lista di possessi di quella biblioteca
+     */
     @Query("SELECT p FROM Possesso p WHERE p.possessoID.bibliotecaID=?1")
     List<Possesso> findByBibliotecaID(String bibliotecaID);
 }

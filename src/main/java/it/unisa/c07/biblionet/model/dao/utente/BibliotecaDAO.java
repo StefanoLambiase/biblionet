@@ -17,6 +17,12 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      */
     Biblioteca findByEmailAndPassword(String email, byte[] password);
 
+    /**
+     * Query custom che recupera dal DB una biblioteca dato il
+     * suo nome.
+     * @param nome Il nome della biblioteca
+     * @return Biblioteca trovata
+     */
     @Query("SELECT b FROM Biblioteca b WHERE b.nomeBiblioteca=?1")
     Biblioteca findByNome(String nome);
 }

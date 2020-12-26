@@ -18,19 +18,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/prenotazione-libri")
 public class PrenotazioneLibriController {
 
+    /**
+     * Il service per effettuare le operazioni di
+     * persistenza.
+     */
     private final PrenotazioneLibriService prenotazioneService;
 
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare tutti i libri prenotabili.
+     * @param model Il model in cui salvare la lista
+     * @return La view per visualizzare i libri
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String visualizzaListaLibri(final Model model) {
-        model.addAttribute("listaLibri", prenotazioneService.visualizzaListaLibriCompleta());
+        model.addAttribute("listaLibri",
+                prenotazioneService.visualizzaListaLibriCompleta());
         return "visualizza-libri-prenotabili";
     }
 
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare tutti i libri che contengono
+     * una determinata stringa nel titolo.
+     * @param titolo La stringa contenuta nel titolo
+     * @param model Il model per salvare la lista
+     * @return La view che visualizza la lista
+     */
     @RequestMapping(value = "/ricerca-titolo", method = RequestMethod.GET)
     public String visualizzaLibriPerTitolo(
-                           @RequestParam("titolo") String titolo,
+                           @RequestParam("titolo") final String titolo,
                            final Model model) {
-        model.addAttribute("listaLibri", prenotazioneService.visualizzaListaLibriPerTitolo(titolo));
+        model.addAttribute("listaLibri",
+                prenotazioneService.visualizzaListaLibriPerTitolo(titolo));
         return "visualizza-libri-prenotabili";
     }
 
