@@ -1,10 +1,7 @@
 package it.unisa.c07.biblionet.model.form;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,14 +35,14 @@ public class EventoForm {
      * La data dell'evento.
      */
     @NonNull
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
 
     /**
      * L'ora dell'evento.
      */
     @NonNull
-    @DateTimeFormat(pattern="HH:mm")
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime ora;
 
     /**
