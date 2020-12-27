@@ -1,0 +1,20 @@
+#navbar-principale {
+    height: 5em;
+    background-color: #073763;
+}
+
+.pagina {
+    background-color: #f5f5f5;
+}
+
+.contenuto-pagina {
+    width: 95%;
+    margin: auto;
+    margin-top: 1%;
+}
+
+.btn-main {
+    background-color: #b20909;
+    color: #ffffff;
+    border-radius: 0 !important;
+}
