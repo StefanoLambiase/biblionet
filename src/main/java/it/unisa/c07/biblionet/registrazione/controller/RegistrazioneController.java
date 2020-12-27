@@ -245,14 +245,21 @@ public final class RegistrazioneController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchia_hash = md.digest(vecchia.getBytes());
 
+                System.out.println("ESP.get password:  " + esperto.getPassword() + vecchia_hash);
+
                 if (Arrays.compare(vecchia_hash, esperto.getPassword()) == 0) {
+                    System.out.println("SALVO");
                     esperto.setPassword(nuova);
                     registrazioneService.aggiornaEsperto(esperto);
                     model.addAttribute("loggedUser",esperto);
                     return "autenticazione";
                 }
-                else
+                else{
+                    System.out.println("NON SALVO");
                     return "modifica_dati_esperto";
+
+                }
+
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }

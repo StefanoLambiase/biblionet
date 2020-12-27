@@ -58,7 +58,6 @@ public class AutenticazioneController {
             } else {
                 model.addAttribute("loggedUser", utente);
             }
-            Biblioteca b=(Biblioteca)utente;
             return "index";
 
     }
