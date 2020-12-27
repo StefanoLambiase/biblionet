@@ -5,11 +5,14 @@ import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,5 +88,57 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
             libri.add(l.orElse(null));
         }
         return libri;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di richiedere un prestito per un libro
+     * da una biblioteca.
+     * @param lettore Il nome della biblioteca
+     * @param possesso la relazione di possesso fra il libro selezionato
+     * e la biblioteca che lo possiede
+     * @return Il ticket aperto in attesa di approvazione
+     */
+    @Override
+    public TicketPrestito richiediPrestito(Lettore lettore, Possesso possesso) {
+        TicketPrestito ticket = new TicketPrestito();
+        ticket.setLettore(lettore);
+        ticket.setDataRichiesta(LocalDateTime.now());
+        ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
+
+        Biblioteca biblioteca = (Biblioteca) bibliotecaDAO.getOne(possesso
+                                        .getPossessoID().getBibliotecaID());
+        Libro libro = libroDAO.getOne(possesso.getPossessoID().getLibroID());
+
+        ticket.setBiblioteca(biblioteca);
+        ticket.setLibro(libro);
+        return ticket;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista delle biblioteche
+     * che posseggono un dato libro
+     * @param libro Il libro di cui estrarre le biblioteche
+     * @return La lista delle biblioteche che possiedono il libro
+     */
+    @Override
+    public  List<Biblioteca> getBibliotecheLibro(Libro libro) {
+        List<Biblioteca> lista = new ArrayList<>();
+        for(Possesso p : libro.getPossessi()) {
+            lista.add(bibliotecaDAO.findByID(p.getPossessoID().getBibliotecaID()));
+        }
+        return lista;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un libro dato il suo ID
+     * @param id L'ID del libro da ottenere
+     * @return Il libro da ottenere
+     */
+    @Override
+    public Libro getLibroByID(int id) {
+        return libroDAO.getOne(id);
     }
 }

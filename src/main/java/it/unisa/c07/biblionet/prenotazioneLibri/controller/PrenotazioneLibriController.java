@@ -1,12 +1,17 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
+import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * Implementa il controller per il sottosistema
@@ -53,5 +58,26 @@ public class PrenotazioneLibriController {
                 prenotazioneService.visualizzaListaLibriPerTitolo(titolo));
         return "visualizza-libri-prenotabili";
     }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare le biblioteche presso cui è
+     * possibile prentoare il libro.
+     * @param id L'ID del libro di cui effettuare la prenotazione
+     * @param model Il model per salvare il libro
+     * @return La view che visualizza la lista delle biblioteche
+     */
+    @RequestMapping(value = "/{id}/prenota-libro", method = RequestMethod.GET)
+    public String prenotaLibro(@PathVariable final int id, final Model model) {
+
+        Libro libro = prenotazioneService.getLibroByID(id);
+        System.out.println(libro.toString());
+
+        List<Biblioteca> listaBiblioteche = prenotazioneService.getBibliotecheLibro(libro);
+        model.addAttribute("lista", listaBiblioteche);
+        model.addAttribute("libro", libro);
+        return "prenota-libro";
+    }
+
 
 }

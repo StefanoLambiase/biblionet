@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prenota libro</title>
+</head>
+
+<body>
+    <h2>Biblioteche che hanno <th th:text="${libro.titolo}"></th>: </h2>
+    <table>
+        <tr th:each="biblioteca : ${lista}">
+            <td th:text="${biblioteca.nomeBiblioteca}"></td>
+            <form th:object="${libro}" method="post" action="/prenota-libro">
+                <button type="submit">Prenota</button>
+            </form>
+        </tr>
+    </table>
+
+
+</body>
+</html>

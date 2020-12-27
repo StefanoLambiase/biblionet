@@ -25,4 +25,7 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      */
     @Query("SELECT b FROM Biblioteca b WHERE b.nomeBiblioteca=?1")
     Biblioteca findByNome(String nome);
+
+    @Query("SELECT b FROM Biblioteca b WHERE b.email=?1")
+    Biblioteca findByID(String email);
 }
