@@ -309,7 +309,8 @@ public class ClubDelLibroController {
         return "aggiungi-evento";
     }
 
-    /* Implementa la funzionalità che permette di gestire
+    /** 
+     * Implementa la funzionalità che permette di gestire
      * la visualizzazione dei dati di un Club del Libro.
      * @param id l'ID del Club di cui visualizzare i dati
      * @param model il model per il passaggio dei dati
@@ -321,6 +322,27 @@ public class ClubDelLibroController {
                                      final Model model) {
         model.addAttribute("club", clubService.getClubByID(id));
         return "visualizza-iscritti";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di eliminare
+     * un evento.
+     * @param id
+     * @return La view con l'evento eliminato
+     */
+    @RequestMapping(value = "/{club}/eventi/{id}", method = RequestMethod.DELETE)
+    public String eliminaEvento(final @PathVariable int club,
+                                final @PathVariable int id) {
+        var eventoEliminato = this.eventiService.eliminaEvento(id);
+
+        if (eventoEliminato.isEmpty()) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Evento Inesistente"
+            );
+        }
+
+        return "redirect:/club-del-libro/" + club + "/eventi";
     }
 
 }

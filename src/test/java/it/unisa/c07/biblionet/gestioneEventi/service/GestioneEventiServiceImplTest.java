@@ -1,9 +1,13 @@
 package it.unisa.c07.biblionet.gestioneEventi.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
@@ -16,19 +20,19 @@ import it.unisa.c07.biblionet.model.dao.EventoDAO;
 import it.unisa.c07.biblionet.model.entity.Evento;
 
 /**
- * Implementa il testing di unità per la classe
- * GestioneEventiServiceImpl.
+ * Implementa il testing di unità per la classe GestioneEventiServiceImpl.
+ *
  * @author Nicola Pagliara
  * @author Luca Topo
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GestioneEventiServiceImplTest {
 
     /**
-     * Servizio di Gestione Eventi, ossia la classe
-     * da testare.
-     * Vengono iniettati i mock tramite InjectMocks.
+     * Servizio di Gestione Eventi, ossia la classe da testare. Vengono iniettati i
+     * mock tramite InjectMocks.
      */
     @InjectMocks
     private GestioneEventiServiceImpl gestioneEventi;
@@ -42,12 +46,22 @@ public class GestioneEventiServiceImplTest {
     /**
      * Prepara i mock bindando le chiamate tramite Mockito.
      */
-    @Before
+    @BeforeAll
     public void preparaMock() {
         Mockito.doAnswer(
             AdditionalAnswers.returnsFirstArg()
         ).when(eventoDAO).save(
             Mockito.any(Evento.class)
+        );
+
+        Mockito.when(
+            eventoDAO.findById(Mockito.anyInt())
+        ).thenAnswer(
+            invocazione -> {
+                var evento = new Evento();
+                evento.setIdEvento((int) invocazione.getArgument(0));
+                return Optional.of(evento);
+            }
         );
     }
 
@@ -68,4 +82,20 @@ public class GestioneEventiServiceImplTest {
             eventoCreato
         );
     }
+
+    /**
+     * Implementa il test della funzionalità di eliminazione
+     * di un evento.
+     */
+    @Test
+    public void eliminaEvento() {
+        var evento = new Evento();
+        evento.setIdEvento(1);
+
+        var eventoEliminato = this.gestioneEventi.eliminaEvento(1);
+
+        assertTrue(eventoEliminato.isPresent());
+        assertEquals(evento, eventoEliminato.get());
+    }
+
 }

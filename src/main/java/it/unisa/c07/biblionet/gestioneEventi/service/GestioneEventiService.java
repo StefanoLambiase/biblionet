@@ -29,4 +29,13 @@ public interface GestioneEventiService {
      */
     Optional<Libro> getLibroById(int id);
 
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Esperto di eliminare un evento.
+     * @param id L'id dell'evento da eliminare
+     * @return L'evento che è stato eliminato, o
+     *         un Optional vuoto se l'evento non
+     *         esiste.
+     */
+    Optional<Evento> eliminaEvento(int id);
 }
