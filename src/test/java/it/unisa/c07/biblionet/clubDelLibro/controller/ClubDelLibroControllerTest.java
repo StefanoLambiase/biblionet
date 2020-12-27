@@ -1,7 +1,9 @@
 package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,9 +17,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
@@ -28,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Implementa il testing di unità per la classe
  * ClubDelLibroController.
- * @author Viviana Pentangelo, Gianmario Voria
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Nicola Pagliara
+ * @author Luca Topo
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,6 +47,13 @@ public class ClubDelLibroControllerTest {
      */
     @MockBean
     private ClubDelLibroService clubService;
+    
+    /**
+     * Mock del service per simulare
+     * le operazioni dei metodi.
+     */
+    @MockBean
+    private GestioneEventiService eventiService;
 
     /**
      * Inject di MockMvc per simulare
@@ -164,6 +178,59 @@ public class ClubDelLibroControllerTest {
 
     /**
      * Implementa il test della funzionalità gestita dal
+     * controller per il reinderizzamento alla creazione di
+     * un evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaCreaEvento(final ClubDelLibro club)
+                                            throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        this.mockMvc
+                .perform(get("/club-del-libro/1/crea-evento"))
+                .andExpect(model().attribute("club", club))
+                .andExpect(model().attributeExists("evento"))
+                .andExpect(view().name("aggiungi-evento"));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di
+     * un evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void creaEvento(final ClubDelLibro club) throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(club);
+        when(eventiService.getLibroById(1)).thenReturn(Optional.of(
+                new Libro(
+                        "Bibbia ebraica. Pentateuco e Haftarot.",
+                        "Dario Disegni",
+                        "9788880578529",
+                        LocalDateTime.of(2020, 1, 1, 0, 0),
+                        "La Torah, a cura di Dario Disegni",
+                        "Giuntina"
+                )
+        ));
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                                .post("/club-del-libro/1/crea-evento")
+                                .param("nome", "Prova")
+                                .param("descrizione", "Prova")
+                                .param("data", "2024-12-12")
+                                .param("ora", "11:24")
+                                .param("libro", "1"))
+                                .andExpect(view().name(
+                                        "redirect:/club-del-libro/1/eventi"
+                                ));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione dei dati di un club
      * simulando la richiesta http.
      * @param club Un club per la simulazione
@@ -178,8 +245,7 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attribute("club", club))
                 .andExpect(view().name("visualizza-iscritti"));
     }
-
-
+  
     /**
      * Simula i dati inviati da un metodo
      * http attraverso uno stream.
@@ -207,5 +273,4 @@ public class ClubDelLibroControllerTest {
                                     "Vieni che non ti faccio niente"))))
         );
     }
-
 }

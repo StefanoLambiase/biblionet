@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,6 +40,17 @@ public class AutenticazioneControllerTest {
      */
     @Autowired
     private MockMvc mockMvc;
+
+    /**
+     * Implementa la funzionalità che permette
+     * di testare la visualizzazione del login
+     * @throws Exception Eccezione che può essere lanciata dal metodo perform.
+     */
+    @Test
+    public void visualizzaLogin() throws Exception {
+        this.mockMvc.perform(get("/autenticazione"))
+                .andExpect(view().name("login"));
+    }
 
     /**
      * Implementa la funzionalità che permette
@@ -84,7 +96,7 @@ public class AutenticazioneControllerTest {
         this.mockMvc.perform(post("/autenticazione/login")
                 .param("email", email)
                 .param("password", password))
-                .andExpect(view().name("autenticazione"));
+                .andExpect(view().name("login"));
     }
 
     /**
@@ -111,4 +123,5 @@ public class AutenticazioneControllerTest {
     private static Stream<Arguments> provideAutenticazione() {
         return Stream.of(Arguments.of("mail@mail.com", "Password"));
     }
+
 }
