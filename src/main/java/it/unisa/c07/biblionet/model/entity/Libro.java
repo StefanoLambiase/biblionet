@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
-
+import lombok.ToString;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.Column;
@@ -80,23 +80,27 @@ public class Libro {
      * Rappresenta i tickets di cui fa parte il libro.
      */
     @OneToMany(mappedBy = "libro")
+    @ToString.Exclude
     private List<TicketPrestito> tickets;
 
     /**
      * Rappresenta i generi di un libro.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<Genere> generi;
 
     /**
      * Rappresente gli eventi di cui un libro è parte.
      */
     @OneToMany(mappedBy = "libro")
+    @ToString.Exclude
     private List<Evento> eventi;
 
     /**
      * Rappresenta la relazione di possesso con una blioteca.
      */
     @OneToMany(mappedBy = "possessoID.libroID")
+    @ToString.Exclude
     private List<Possesso> possessi;
 }

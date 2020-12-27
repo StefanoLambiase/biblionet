@@ -35,7 +35,7 @@ public class Biblioteca extends UtenteRegistrato {
     private String nomeBiblioteca;
 
     /**
-     * Rapprenseta la lista di esperti che lavorano nella biblioteca.
+     * Rappresenta la lista di esperti che lavorano nella biblioteca.
      */
     @OneToMany(mappedBy = "biblioteca")
     @ToString.Exclude

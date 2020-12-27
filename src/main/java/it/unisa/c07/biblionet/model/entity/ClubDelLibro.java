@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.Column;
@@ -82,18 +83,21 @@ public class ClubDelLibro {
      * Rappresenta i lettori di un club.
      */
     @ManyToMany(mappedBy = "clubs")
+    @ToString.Exclude
     private List<Lettore> lettori;
 
     /**
      * Rappresenta i generi di un club.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<Genere> generi;
 
     /**
      * Rappresenta gli eventi di un club.
      */
     @OneToMany
+    @ToString.Exclude
     private List<Evento> eventi;
 
 }

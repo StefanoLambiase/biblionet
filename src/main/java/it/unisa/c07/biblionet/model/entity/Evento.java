@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,6 +65,7 @@ public class Evento {
      * Rappresenta i lettori che partecipano ad un evento.
      */
     @ManyToMany(mappedBy = "eventi")
+    @ToString.Exclude
     private List<Lettore> lettori;
 
     /**
