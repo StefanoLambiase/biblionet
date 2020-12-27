@@ -1,14 +1,31 @@
-<nav class="navbar navbar-expand-lg justify-content-between" id="navbar-principale" layout:fragment="navbar">
-    <a class="navbar-brand" href="/">BiblioNet</a>
-    <div layout:fragment="navbar-content">
-        <div class="d-flex me-auto">
-            <div th:if="${session.loggedUser != null}">
-                <button class="btn btn-main" type="submit">Area Utente</button>
-            </div>
-            <div th:unless="${session.loggedUser != null}">
-                <button class="btn btn-main" type="submit">Registrati</button>
-                <button class="btn btn-main" type="submit">Accedi</button>
-            </div>
+<nav class="navbar navbar-expand-lg justify-content-between " id="navbar-principale" layout:fragment="navbar">
+    
+    <div layout:fragment="navbar-left">
+        <div class="navbar-brand">
+            <a th:href="@{/}"> BiblioNet </a>
         </div>
     </div>
+
+    <div class="mx-auto">
+        <div layout:fragment="navbar-center">
+            
+        </div>
+    </div>
+  
+
+    <div class="d-flex ml-auto">
+        <div layout:fragment="navbar-right">
+
+            <div th:if="${session.loggedUser != null && session.loggedUser.email != null}">
+                <button class="btn btn-main" type="submit">Area Utente</button>
+            </div>
+
+            <div th:unless="${session.loggedUser != null && session.loggedUser.email != null}">
+                <a class="btn btn-main" type="submit" th:href="@{/registrazione}">Registrati</a>
+                <a class="btn btn-main" type="submit" th:href="@{/autenticazione}">Accedi</a>
+            </div>
+
+        </div>
+    </div>
+
 </nav>
