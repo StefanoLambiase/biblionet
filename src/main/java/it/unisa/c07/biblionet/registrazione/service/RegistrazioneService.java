@@ -27,6 +27,14 @@ public interface RegistrazioneService {
     Biblioteca findBibliotecaByEmail(String email);
 
     /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    Esperto findEspertoByEmail(String email);
+
+
+    /**
      * Implementa la funzionalità di trovare dei generi.
      * @param generi Un'array di nomi di generi da trovare
      * @return Una lista contenente i generi trovati
@@ -55,6 +63,7 @@ public interface RegistrazioneService {
 
     void aggiornaBiblioteca(Biblioteca utente);
 
+    void aggiornaEsperto(Esperto utente);
 
 
 

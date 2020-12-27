@@ -107,6 +107,22 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    @Override
+    public final Esperto findEspertoByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = espertoDAO.findById(email);
+        if (b.isPresent()) {
+            return (Esperto) b.get();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Implementa la funzionalità di trovare dei generi.
      * @param generi Un'array di nomi di generi da trovare
      * @return Una lista contenente i generi trovati
@@ -128,4 +144,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         bibliotecaDAO.save(utente);
     }
 
+    public void aggiornaEsperto(Esperto utente){
+        espertoDAO.save(utente);
+    }
 }

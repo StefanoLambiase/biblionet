@@ -227,4 +227,40 @@ public final class RegistrazioneController {
         return "autenticazione";
 
     }
+
+    @RequestMapping(value = "/conferma-modifica-esperto",method = RequestMethod.POST)
+    public String confermaModificaEsperto(final Model model,final Esperto esperto,
+                                             @RequestParam("vecchia_password")String vecchia,
+                                             @RequestParam("nuova_password")String nuova,
+                                             @RequestParam("conferma_password")String conferma,
+                                             @RequestParam("current_email")String email){
+
+
+        Esperto toUpload=registrazioneService.findEspertoByEmail(email);
+
+        if(!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
+            System.out.println(vecchia+nuova+conferma);
+            try {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA-256");
+                byte[] vecchia_hash = md.digest(vecchia.getBytes());
+
+                if (Arrays.compare(vecchia_hash, esperto.getPassword()) == 0) {
+                    esperto.setPassword(nuova);
+                    registrazioneService.aggiornaEsperto(esperto);
+                    model.addAttribute("loggedUser",esperto);
+                    return "autenticazione";
+                }
+                else
+                    return "modifica_dati_esperto";
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+        esperto.setPassword(toUpload.getPassword());
+        registrazioneService.aggiornaEsperto(esperto);
+        model.addAttribute("loggedUser",esperto);
+        return "autenticazione";
+
+    }
 }
