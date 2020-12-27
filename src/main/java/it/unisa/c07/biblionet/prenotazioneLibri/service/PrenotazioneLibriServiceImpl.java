@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
+import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
@@ -41,6 +42,11 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      *Si occupa delle operazioni CRUD per possesso.
      */
     private final PossessoDAO possessoDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per ticket.
+     */
+    private final TicketPrestitoDAO ticketPrestitoDAO;
 
 
     /**
@@ -94,24 +100,27 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * Implementa la funzionalità che permette
      * di richiedere un prestito per un libro
      * da una biblioteca.
-     * @param lettore Il nome della biblioteca
-     * @param possesso la relazione di possesso fra il libro selezionato
-     * e la biblioteca che lo possiede
+     * @param lettore Il lettore che lo richiede
+     * @param idBiblioteca id della biblioteca
+     * @param idLibro id del libro
      * @return Il ticket aperto in attesa di approvazione
      */
     @Override
-    public TicketPrestito richiediPrestito(Lettore lettore, Possesso possesso) {
+    public TicketPrestito richiediPrestito(final Lettore lettore,
+                                           final String idBiblioteca,
+                                           final int idLibro) {
         TicketPrestito ticket = new TicketPrestito();
         ticket.setLettore(lettore);
         ticket.setDataRichiesta(LocalDateTime.now());
         ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
 
-        Biblioteca biblioteca = (Biblioteca) bibliotecaDAO.getOne(possesso
-                                        .getPossessoID().getBibliotecaID());
-        Libro libro = libroDAO.getOne(possesso.getPossessoID().getLibroID());
+        Biblioteca biblioteca = (Biblioteca) bibliotecaDAO.findByID(idBiblioteca);
+        Libro libro = libroDAO.getOne(idLibro);
 
         ticket.setBiblioteca(biblioteca);
         ticket.setLibro(libro);
+
+        ticketPrestitoDAO.save(ticket);
         return ticket;
     }
 

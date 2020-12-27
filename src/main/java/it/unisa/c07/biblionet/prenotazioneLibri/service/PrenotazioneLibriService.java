@@ -46,12 +46,12 @@ public interface PrenotazioneLibriService {
      * Implementa la funzionalità che permette
      * di richiedere un prestito per un libro
      * da una biblioteca.
-     * @param lettore Il nome della biblioteca
-     * @param possesso la relazione di possesso fra il libro selezionato
-     * e le biblioteche che lo contengono
+     * @param lettore Il lettore che lo richiede
+     * @param idBiblioteca id della biblioteca
+     * @param idLibro id del libro
      * @return Il ticket aperto in attesa di approvazione
      */
-    TicketPrestito richiediPrestito(Lettore lettore, Possesso possesso);
+    TicketPrestito richiediPrestito(Lettore lettore, String idBiblioteca, int idLibro);
 
     /**
      * Implementa la funzionalità che permette

@@ -6,13 +6,17 @@
 </head>
 
 <body>
-    <h2>Biblioteche che hanno <th th:text="${libro.titolo}"></th>: </h2>
+    <h2>Biblioteche che hanno <span th:text="${libro.titolo}"></span>: </h2>
     <table>
         <tr th:each="biblioteca : ${lista}">
             <td th:text="${biblioteca.nomeBiblioteca}"></td>
-            <form th:object="${libro}" method="post" action="/prenota-libro">
-                <button type="submit">Prenota</button>
-            </form>
+            <td>
+                <form method="post" action="/prenotazione-libri/conferma-prenotazione">
+                    <input type="hidden" name="idBiblioteca" th:value="${biblioteca.email}">
+                    <input type="hidden" name="idLibro" th:value="${libro.idLibro}">
+                    <button type="submit">Prenota</button>
+                </form>
+            </td>
         </tr>
     </table>
 
