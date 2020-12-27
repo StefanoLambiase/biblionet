@@ -2,10 +2,12 @@ package it.unisa.c07.biblionet.model.entity;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.utils.Length;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -48,18 +50,21 @@ public class Genere {
      * a cui piace questo genere.
      */
     @ManyToMany(mappedBy = "generi")
+    @ToString.Exclude
     private List<Lettore> lettori;
 
     /**
      * Rappresenta la lista degli esperti in questo genere.
      */
     @ManyToMany(mappedBy = "generi")
+    @ToString.Exclude
     private List<Esperto> esperti;
 
     /**
      * Rappresenta la lista di libri aventi questo genere.
      */
     @ManyToMany(mappedBy = "generi")
+    @ToString.Exclude
     private List<Libro> libri;
 
     /**
@@ -67,6 +72,7 @@ public class Genere {
      * riguardanti questo genere.
      */
     @ManyToMany(mappedBy = "generi")
+    @ToString.Exclude
     private List<ClubDelLibro> clubs;
 
 }
