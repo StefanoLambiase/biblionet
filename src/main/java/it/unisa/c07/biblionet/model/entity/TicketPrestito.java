@@ -2,11 +2,7 @@ package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.Column;
@@ -95,6 +91,7 @@ public class TicketPrestito {
     @NonNull
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private Libro libro;
 
     /**
@@ -103,6 +100,7 @@ public class TicketPrestito {
     @NonNull
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
+    @ToString.Exclude
     private Biblioteca biblioteca;
 
     /**
@@ -111,6 +109,7 @@ public class TicketPrestito {
     @NonNull
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
+    @ToString.Exclude
     private Lettore lettore;
 
 }
