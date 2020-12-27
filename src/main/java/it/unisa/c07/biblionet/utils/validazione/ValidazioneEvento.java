@@ -3,6 +3,8 @@ package it.unisa.c07.biblionet.utils.validazione;
 /**
  * Classe che fornisce i parametri di validazione
  * per i campi di evento.
+ * @author Nicola Pagliara
+ * @author Luca Topo
  */
 public final class ValidazioneEvento {
 

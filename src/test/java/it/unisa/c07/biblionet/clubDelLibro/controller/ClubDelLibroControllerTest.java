@@ -3,9 +3,9 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-import it.unisa.c07.biblionet.model.form.EventoForm;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -16,9 +16,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
@@ -29,7 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Implementa il testing di unità per la classe
  * ClubDelLibroController.
- * @author Viviana Pentangelo, Gianmario Voria
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Nicola Pagliara
+ * @author Luca Topo
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -196,13 +202,24 @@ public class ClubDelLibroControllerTest {
     @MethodSource("provideClubDelLibro")
     public void creaEvento(final ClubDelLibro club) throws Exception {
         when(clubService.getClubByID(1)).thenReturn(club);
+        when(eventiService.getLibroById(1)).thenReturn(Optional.of(
+                new Libro(
+                        "Bibbia ebraica. Pentateuco e Haftarot.",
+                        "Dario Disegni",
+                        "9788880578529",
+                        LocalDateTime.of(2020, 1, 1, 0, 0),
+                        "La Torah, a cura di Dario Disegni",
+                        "Giuntina"
+                )
+        ));
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                                 .post("/club-del-libro/1/crea-evento")
                                 .param("nome", "Prova")
                                 .param("descrizione", "Prova")
                                 .param("data", "2024-12-12")
-                                .param("ora", "11:24"))
+                                .param("ora", "11:24")
+                                .param("libro", "1"))
                                 .andExpect(view().name(
                                         "redirect:/club-del-libro/1/eventi"
                                 ));

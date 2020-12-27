@@ -18,7 +18,8 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 /**
  * Implementa il testing di unità per la classe
  * GestioneEventiServiceImpl.
- * @author Nicola Pagliara, Luca Topo
+ * @author Nicola Pagliara
+ * @author Luca Topo
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)

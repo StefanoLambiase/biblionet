@@ -33,7 +33,10 @@ import lombok.RequiredArgsConstructor;
 /**
  * Implementa il controller per il sottosistema
  * ClubDelLibro.
- * @author Viviana Pentangelo, Gianmario Voria
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Nicola Pagliara
+ * @author Luca Topo
  */
 @Controller
 @RequiredArgsConstructor
@@ -264,11 +267,20 @@ public class ClubDelLibroController {
 
         evento.setDataOra(dataOra);
 
-        // TODO: Recupero e validazione del libro
+        if (eventoForm.getLibro() != null) {
+            var libro = this.eventiService.getLibroById(eventoForm.getLibro());
+            if (libro.isEmpty()) {
+                throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Il libro inserito non è valido."
+                );
+            }
+            evento.setLibro(libro.get());
+        }
 
         this.eventiService.creaEvento(evento);
 
-        return "redirect:/club-del-libro/{id}/eventi";
+        return "redirect:/club-del-libro/" + id + "/eventi";
     }
 
     /**
