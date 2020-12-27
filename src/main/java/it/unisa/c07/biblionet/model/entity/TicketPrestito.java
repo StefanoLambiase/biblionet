@@ -87,8 +87,6 @@ public class TicketPrestito {
     /**
      * Rappresenta la data di restituzione del libro.
      */
-    @NonNull
-    @Column(nullable = false)
     private LocalDateTime dataRestituzione;
 
     /**
