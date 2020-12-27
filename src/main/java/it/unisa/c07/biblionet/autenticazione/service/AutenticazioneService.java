@@ -15,4 +15,10 @@ public interface AutenticazioneService {
       * @return dell'utente da loggato.
       */
      UtenteRegistrato login(String email, String password);
+
+     boolean isLettore(UtenteRegistrato utente);
+
+     boolean isEsperto(UtenteRegistrato utente);
+
+     boolean isBiblioteca(UtenteRegistrato utente);
 }

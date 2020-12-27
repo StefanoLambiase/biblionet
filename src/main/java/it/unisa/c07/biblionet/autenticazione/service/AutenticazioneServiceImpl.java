@@ -47,7 +47,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
-                UtenteRegistrato u;
+            UtenteRegistrato u;
                 if ((u = lettoreDAO.findByEmailAndPassword(email,
                                                             arr)) != null) {
                     return u;
@@ -64,4 +64,30 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
         }
         return null;
     }
+
+    @Override
+    public boolean isLettore(UtenteRegistrato utente) {
+        if (utente != null)
+            return "Lettore".equals(utente.getClass().getSimpleName());
+        else
+            return false;
+    }
+
+    @Override
+    public boolean isEsperto(UtenteRegistrato utente) {
+        if (utente != null)
+            return "Esperto".equals(utente.getClass().getSimpleName());
+        else
+            return false;
+    }
+
+    @Override
+    public boolean isBiblioteca(UtenteRegistrato utente) {
+        if (utente != null)
+            return "Biblioteca".equals(utente.getClass().getSimpleName());
+        else
+            return false;
+    }
+
+
 }

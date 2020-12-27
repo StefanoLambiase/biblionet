@@ -1,11 +1,18 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+
 
 /**
  * Implementa il controller per il sottosistema
@@ -42,11 +49,8 @@ public class AutenticazioneController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam final String email,
-                        @RequestParam final String password, final Model model) {
-        /**
-         * Dichiarazione di un utente avente i dati appena
-         * inseriti in login per cercarlo nel DB.
-         */
+                        @RequestParam final String password,
+                        final Model model) {
         UtenteRegistrato utente = autenticazioneService.login(email,
                                                                 password);
             if (utente == null) {
@@ -54,17 +58,9 @@ public class AutenticazioneController {
             } else {
                 model.addAttribute("loggedUser", utente);
             }
+            Biblioteca b=(Biblioteca)utente;
             return "index";
-    }
 
-    /**
-     * Implementa la funzionalità che permette
-     * di aggiungere un utente alla sessione.
-     * @return dell'utente in sessione.
-     */
-    @ModelAttribute("loggedUser")
-    public UtenteRegistrato utenteRegistrato() {
-        return new UtenteRegistrato();
     }
 
     /**
@@ -74,11 +70,23 @@ public class AutenticazioneController {
      * @param model contiene i dati della sessione.
      * @return Rimanda alla pagina di index.
      */
-    @RequestMapping(value = "/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(final Model model) {
+
         model.addAttribute("loggedUser", null);
 
         return "index";
+    }
+
+
+    /**
+     * Implementa la funzionalità che permette
+     * di aggiungere un utente alla sessione.
+     * @return dell'utente in sessione.
+     */
+    @ModelAttribute("loggedUser")
+    public UtenteRegistrato utenteRegistrato() {
+        return new UtenteRegistrato();
     }
 
 }

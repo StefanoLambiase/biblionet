@@ -101,4 +101,24 @@ public class UtenteRegistrato {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Implementa il set della password effettuando l'hash.
+     * @param password la password da settare
+     */
+    public void setPassword(final String password) {
+        try {
+            MessageDigest md;
+            md = MessageDigest.getInstance("SHA-256");
+            byte[] arr = md.digest(password.getBytes());
+            this.password = arr;
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPassword(byte[] hashPassword){
+        this.password=hashPassword;
+    }
 }
