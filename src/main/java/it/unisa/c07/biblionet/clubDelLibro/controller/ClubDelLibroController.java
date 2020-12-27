@@ -309,4 +309,18 @@ public class ClubDelLibroController {
         return "aggiungi-evento";
     }
 
+    /* Implementa la funzionalità che permette di gestire
+     * la visualizzazione dei dati di un Club del Libro.
+     * @param id l'ID del Club di cui visualizzare i dati
+     * @param model il model per il passaggio dei dati
+     * @return La view che visualizza i dati
+     */
+    @RequestMapping(value = "/visualizza-dati-club/{id}",
+                                method = RequestMethod.GET)
+    public String visualizzaDatiClub(final @PathVariable int id,
+                                     final Model model) {
+        model.addAttribute("club", clubService.getClubByID(id));
+        return "visualizza-iscritti";
+    }
+
 }

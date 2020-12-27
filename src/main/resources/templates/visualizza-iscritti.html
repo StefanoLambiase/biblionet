@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizza iscritti al Club</title>
+</head>
+<body>
+    <h3> Iscritti al Club <th th:text="${club.nome}" /> </h3>
+    <table>
+        <tr  th:each="lettore : ${club.lettori}">
+            <td th:text="${lettore.nome}"> </td>
+            <td th:text="${lettore.cognome}"> </td>
+            <td th:text="${lettore.email}"> </td>
+        </tr>
+    </table>
+</body>
+</html>

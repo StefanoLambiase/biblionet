@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg justify-content-between" id="navbar-principale" layout:fragment="navbar">
+    <a class="navbar-brand" href="/">BiblioNet</a>
+    <div layout:fragment="navbar-content">
+        <div class="d-flex me-auto">
+            <div th:if="${session.loggedUser != null}">
+                <button class="btn btn-main" type="submit">Area Utente</button>
+            </div>
+            <div th:unless="${session.loggedUser != null}">
+                <button class="btn btn-main" type="submit">Registrati</button>
+                <button class="btn btn-main" type="submit">Accedi</button>
+            </div>
+        </div>
+    </div>
+</nav>

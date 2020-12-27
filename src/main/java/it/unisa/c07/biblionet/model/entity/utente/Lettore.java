@@ -8,6 +8,7 @@ import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,25 +53,30 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * Rappresenta i generi che interessano ad un lettore.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<Genere> generi;
 
     /**
      * Rappresenta i clubs a cui il lettore appartiene.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<ClubDelLibro> clubs;
 
     /**
      * Rappresenta gli eveti a cui prende parte.
      */
     @ManyToMany
+    @ToString.Exclude
     private List<Evento> eventi;
 
     /**
-     * Rappreseta i tickets a cui è collegato.
+     * Rappresenta i tickets a cui è collegato.
      */
     @OneToMany
+    @ToString.Exclude
     private List<TicketPrestito> tickets;
+
 
     /**
      *

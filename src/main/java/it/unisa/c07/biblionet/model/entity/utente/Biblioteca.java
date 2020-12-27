@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,18 +38,21 @@ public class Biblioteca extends UtenteRegistrato {
      * Rapprenseta la lista di esperti che lavorano nella biblioteca.
      */
     @OneToMany(mappedBy = "biblioteca")
+    @ToString.Exclude
     private List<Esperto> esperti;
 
     /**
      * Rappresenta la lista di ticket riguardanti le richieste di prestito.
      */
     @OneToMany
+    @ToString.Exclude
     private List<TicketPrestito> tickets;
 
     /**
      * Rappresenta la lista di libri posseduti dalla biblioteca.
      */
     @OneToMany(mappedBy = "possessoID.bibliotecaID")
+    @ToString.Exclude
     private List<Possesso> possessi;
 
     /**

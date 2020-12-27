@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <form method="post" th:action="@{/registrazione/esperto}" >
+            <p> Email <input type="email" name="email" required> </p>
+            <p> Nome <input type="input" name="nome" required> </p>
+            <p> Cognome <input type="input" name="cognome" required> </p>
+            <p> Username <input type="input" name="username" required> </p>
+            <p> Password <input type="password" name="password" required> </p>
+            <p> Conferma Password <input type="password" name="conferma_password" required> </p>
+            <p> Provincia <input type="input" name="provincia" required> </p>
+            <p> Cittá <input type="input" name="citta" required> </p>
+            <p> Via <input type="input" name="via" required> </p>
+            <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" required> </p>
+            <p> Lavora in <input type="email" name="email_biblioteca" required> </p>
+            <p> Genere 1 <input type="input" name="genere"> </p>
+            <p> Genere 2 <input type="input" name="genere"> </p>
+            <p> <input type="submit"></p>
+        </form>
+    </body>
+</html>
