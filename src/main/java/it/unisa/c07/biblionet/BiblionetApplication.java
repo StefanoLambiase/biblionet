@@ -396,12 +396,35 @@ public class BiblionetApplication {
 
         );
 
+        Libro libro6= new Libro(
+                "Bestemmiare perché Tyhmeleaf non mette i loghi bene: Life of a Front-end developer",
+                "Luca Topo",
+                "9597845613123",
+                LocalDateTime.now(),
+                "Front-end merda",
+                "Autopubblicato"
+
+        );
+
+        Libro libro7 = new Libro(
+                "Mi scoccio di fare FIA: A day in the life of Viviana Pentangelo",
+                "Viviana Pentangelo",
+                "9597845613130",
+                LocalDateTime.now(),
+                "Non so come farò questo esame sinceramente",
+                "PallinuroEditore"
+
+        );
+
         libroDAO.save(libro);
         libroDAO.save(libro1);
         libroDAO.save(libro2);
         libroDAO.save(libro3);
         libroDAO.save(libro4);
         libroDAO.save(libro5);
+        libroDAO.save(libro6);
+        libroDAO.save(libro7);
+
 
 //----------------------Definizione ed inserimento possessi-------------------------------------------------------------
 
