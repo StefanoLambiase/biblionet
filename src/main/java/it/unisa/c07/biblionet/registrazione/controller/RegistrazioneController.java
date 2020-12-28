@@ -208,7 +208,7 @@ public final class RegistrazioneController {
     }
 
     /**
-     * Implementa la funzionalitá di modifica dati di una bibilioteca.
+     * Implementa la funzionalità di modifica dati di una bibilioteca.
      *
      * @param model Utilizzato per gestire la sessione.
      * @param biblioteca Una biblioteca da modificare.
@@ -217,7 +217,7 @@ public final class RegistrazioneController {
      * @param conferma La password di conferma password dell'account.
      * @param email L'email corrente dell'account.
      *
-     * @return autenticazione Se la modifica va a buon fine.
+     * @return login Se la modifica va a buon fine.
      * modifica_dati_biblioteca Se la modifica non va a buon fine
      */
     @RequestMapping(value = "/conferma-modifica-biblioteca",
@@ -230,38 +230,39 @@ public final class RegistrazioneController {
                     final @RequestParam("current_email")String email) {
 
 
-    Biblioteca toUpload = registrazioneService.findBibliotecaByEmail(email);
+    Biblioteca toUpdate = registrazioneService.findBibliotecaByEmail(email);
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
-            System.out.println(vecchia + nuova + conferma);
             try {
                 MessageDigest md;
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
                 if (Arrays.compare(vecchiaHash,
-                        biblioteca.getPassword()) == 0) {
+                        toUpdate.getPassword()) == 0) {
 
                     biblioteca.setPassword(nuova);
-                    registrazioneService.aggiornaBiblioteca(biblioteca);
-                    model.addAttribute("loggedUser", biblioteca);
-                    return "autenticazione";
+
                 } else {
                     return "modifica_dati_biblioteca";
                 }
+
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
+
+        } else{
+            biblioteca.setPassword(toUpdate.getPassword());
         }
-        biblioteca.setPassword(toUpload.getPassword());
+
         registrazioneService.aggiornaBiblioteca(biblioteca);
         model.addAttribute("loggedUser", biblioteca);
-        return "autenticazione";
+        return "login";
 
     }
 
     /**
-     * Implementa la funzionalitá di modifica dati di un esperto.
+     * Implementa la funzionalità di modifica dati di un esperto.
      *
      * @param model Utilizzato per gestire la sessione.
      * @param esperto Una esperto da modificare.
@@ -271,7 +272,7 @@ public final class RegistrazioneController {
      * @param email L'email corrente dell'account.
      * @param emailBiblioteca L'email della biblioteca scelta.
      *
-     * @return autenticazione Se la modifica va a buon fine.
+     * @return login Se la modifica va a buon fine.
      * modifica_dati_esperto Se la modifica non va a buon fine
      */
     @RequestMapping(value = "/conferma-modifica-esperto",
@@ -297,7 +298,6 @@ public final class RegistrazioneController {
                 if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
                     esperto.setPassword(nuova);
                 } else {
-                    System.out.println("NON SALVO");
                     return "modifica_dati_esperto";
                 }
 
