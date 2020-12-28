@@ -215,7 +215,6 @@ public final class RegistrazioneController {
      * @param vecchia La vecchia password dell'account.
      * @param nuova La nuova password dell'account.
      * @param conferma La password di conferma password dell'account.
-     * @param email L'email corrente dell'account.
      *
      * @return login Se la modifica va a buon fine.
      * modifica_dati_biblioteca Se la modifica non va a buon fine
@@ -240,10 +239,10 @@ public final class RegistrazioneController {
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
                 if (Arrays.compare(vecchiaHash,
-                        toUpdate.getPassword()) == 0) {
-
+                        toUpdate.getPassword()) == 0 &&
+                    nuova.equals(conferma)
+                ) {
                     biblioteca.setPassword(nuova);
-
                 } else {
                     return "modifica_dati_biblioteca";
                 }
@@ -294,7 +293,9 @@ public final class RegistrazioneController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
-                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
+                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0
+                        && nuova.equals(conferma)
+                ) {
                     esperto.setPassword(nuova);
                 } else {
                     return "modifica_dati_esperto";
@@ -351,10 +352,12 @@ public final class RegistrazioneController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
-                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
+                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0
+                        && nuova.equals(conferma)
+                ) {
                     lettore.setPassword(nuova);
                 } else {
-                    return "modifica_dati_esperto";
+                    return "modifica_dati_lettore";
                 }
 
             } catch (NoSuchAlgorithmException e) {

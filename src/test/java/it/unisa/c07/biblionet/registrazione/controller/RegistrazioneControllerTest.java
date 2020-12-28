@@ -463,6 +463,132 @@ public final class RegistrazioneControllerTest {
         );
     }
 
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di un lettore
+     * avvenuta in modo corretto.
+     *
+     * @param lettore Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Lettore")
+    @MethodSource("provideModificaLettore")
+    public void modificaLettoreCorretto(
+            final Lettore lettore,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findLettoreByEmail(lettore.getEmail())).
+                thenReturn(lettore);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-lettore")
+                .param("email", lettore.getEmail())
+                .param("nome", lettore.getNome())
+                .param("cognome", lettore.getCognome())
+                .param("username", lettore.getUsername())
+                .param("vecchia_password", "LettorePassword")
+                .param("nuova_password","NuovaPassword")
+                .param("conferma_password", "NuovaPassword")
+                .param("provincia", lettore.getProvincia())
+                .param("citta", lettore.getCitta())
+                .param("via", lettore.getVia())
+                .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
+                .andExpect(view().name("login"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di un lettore
+     * avvenuta in modo scorretto.
+     * La vecchiaPassword, nuovaPassword oppure confermaPassword
+     * sono vuote.
+     *
+     * @param lettore Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Lettore Errato 1")
+    @MethodSource("provideModificaLettore")
+    public void modificaLettoreErrato1(
+            final Lettore lettore,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findLettoreByEmail(lettore.getEmail())).
+                thenReturn(lettore);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-lettore")
+                .param("email", lettore.getEmail())
+                .param("nome", lettore.getNome())
+                .param("cognome", lettore.getCognome())
+                .param("username", lettore.getUsername())
+                .param("vecchia_password", "")//Vuote
+                .param("nuova_password","")//Vuote
+                .param("conferma_password", "NuovaPassword")
+                .param("provincia", lettore.getProvincia())
+                .param("citta", lettore.getCitta())
+                .param("via", lettore.getVia())
+                .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
+                .andExpect(view().name("login"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di un lettore
+     * avvenuta in modo scorretto.
+     * Se la vecchia password inserita é diversa
+     * da quella corrente.
+     * OPPURE.
+     * Se nuovaPassword é diversa da confermaPassword.
+     *
+     * @param lettore Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Lettore Errato 2")
+    @MethodSource("provideModificaLettore")
+    public void modificaLettoreErrato2(
+            final Lettore lettore,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findLettoreByEmail(lettore.getEmail())).
+                thenReturn(lettore);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-lettore")
+                .param("email", lettore.getEmail())
+                .param("nome", lettore.getNome())
+                .param("cognome", lettore.getCognome())
+                .param("username", lettore.getUsername())
+                .param("vecchia_password", "LettorePassword")
+                .param("nuova_password","PASSWORD DIVERSE")
+                .param("conferma_password", "DIVERSA PASSWORD")
+                .param("provincia", lettore.getProvincia())
+                .param("citta", lettore.getCitta())
+                .param("via", lettore.getVia())
+                .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
+                .andExpect(view().name("modifica_dati_lettore"));
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     *
+     * @return Lo stream di dati.
+     */
     private static Stream<Arguments> provideModificaLettore(){
 
         return Stream.of(
@@ -485,6 +611,153 @@ public final class RegistrazioneControllerTest {
         );
     }
 
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo corretto.
+     *
+     * @param biblioteca Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBiblioteca(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", "BibliotecaPassword")
+                .param("nuova_password","NuovaPassword")
+                .param("conferma_password", "NuovaPassword")
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("login"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo scorretto.
+     * La vecchiaPassword, nuovaPassword oppure confermaPassword
+     * sono vuote.
+     *
+     * @param biblioteca Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca Errato 1")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBibliotecaErrato1(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", "")//Vuote
+                .param("nuova_password","")//Vuote
+                .param("conferma_password", "")//Vuote
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("login"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo scorretto.
+     * Se la vecchia password inserita é diversa
+     * da quella corrente.
+     * OPPURE.
+     * Se nuovaPassword é diversa da confermaPassword.
+     *
+     * @param biblioteca Il lettore da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca Errato 2")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBibliotecaErrato2(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(registrazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", "SBAGLIATA")
+                .param("nuova_password","NuovaPassword")
+                .param("conferma_password", "NuovaPassword")
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("modifica_dati_biblioteca"));
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     *
+     * @return Lo stream di dati.
+     */
+    private static Stream<Arguments> provideModificaBiblioteca(){
+
+        return Stream.of(
+                Arguments.of(
+                        new Biblioteca(
+                                "bibliotecacarrisi@gmail.com",
+                                "BibliotecaPassword",
+                                "Napoli",
+                                "Torre del Greco",
+                                "Via Carrisi 47",
+                                "1234567890",
+                                "Biblioteca Carrisi"
+                        ),
+                        "BibliotecaPassword", // vecchia password
+                        "NuovaPassword",      // nuova password
+                        "NuovaPassword"       // conferma password
+                )
+        );
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     *
+     * @return Lo stream di dati.
+     */
     private static Stream<Arguments> provideModificaEsperto(){
 
         return Stream.of(
@@ -516,30 +789,4 @@ public final class RegistrazioneControllerTest {
                 )
         );
     }
-
-    private static Stream<Arguments> provideModificaBiblioteca(){
-
-        return Stream.of(
-                Arguments.of(
-                        new Biblioteca(
-                                "bibliotecacarrisi@gmail.com",
-                                "BibliotecaPassword",
-                                "Napoli",
-                                "Torre del Greco",
-                                "Via Carrisi 47",
-                                "1234567890",
-                                "Biblioteca Carrisi"
-                        ),
-                        "BibliotecaPassword", // vecchia password
-                        "NuovaPassword",      // nuova password
-                        "NuovaPassword"       // conferma password
-                )
-        );
-    }
-
-
-
-
-
-
 }
