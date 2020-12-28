@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.stream.Stream;
@@ -94,7 +96,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("registrazione"));
+                .andExpect(view().name("login"));
     }
 
     /**
@@ -251,7 +253,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("registrazione"));
+                .andExpect(view().name("login"));
     }
 
     /**
@@ -309,7 +311,7 @@ public final class RegistrazioneControllerTest {
                 .param("via", biblioteca.getVia())
                 .param("recapito_telefonico",
                         biblioteca.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione"));
+                .andExpect(view().name("login"));
     }
 
     /**
@@ -376,7 +378,7 @@ public final class RegistrazioneControllerTest {
      * @param lettore          Il lettore da registrare
      * @param confermaPassword il campo conferma password del
      *                         form per controllare
-     * @throws Exception Eccezione per MovkMvc
+     * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @DisplayName("Registrazione Lettore che va a buon fine")
@@ -399,7 +401,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione"));
+                .andExpect(view().name("login"));
     }
 
     /**
@@ -411,7 +413,7 @@ public final class RegistrazioneControllerTest {
      * @param lettore          Il lettore da registrare
      * @param confermaPassword il campo conferma password del
      *                         form per controllare
-     * @throws Exception Eccezione per MovkMvc
+     * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @DisplayName("Registrazione Lettore che non va a buon fine, "
@@ -491,9 +493,9 @@ public final class RegistrazioneControllerTest {
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())
                 .param("username", lettore.getUsername())
-                .param("vecchia_password", "LettorePassword")
-                .param("nuova_password","NuovaPassword")
-                .param("conferma_password", "NuovaPassword")
+                .param("vecchia_password", vecchiaPassword)
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
                 .param("provincia", lettore.getProvincia())
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
@@ -509,19 +511,13 @@ public final class RegistrazioneControllerTest {
      * sono vuote.
      *
      * @param lettore Il lettore da modificare
-     * @param vecchiaPassword La vecchia password dell'account
-     * @param nuovaPassword La nuova password dell'account
-     * @param confermaPassword La conferma password
      * @throws Exception
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Lettore Errato 1")
     @MethodSource("provideModificaLettore")
     public void modificaLettoreErrato1(
-            final Lettore lettore,
-            final String vecchiaPassword,
-            final String nuovaPassword,
-            final String confermaPassword) throws Exception {
+            final Lettore lettore) throws Exception {
 
         when(registrazioneService.findLettoreByEmail(lettore.getEmail())).
                 thenReturn(lettore);
@@ -552,8 +548,6 @@ public final class RegistrazioneControllerTest {
      *
      * @param lettore Il lettore da modificare
      * @param vecchiaPassword La vecchia password dell'account
-     * @param nuovaPassword La nuova password dell'account
-     * @param confermaPassword La conferma password
      * @throws Exception
      */
     @ParameterizedTest
@@ -561,9 +555,7 @@ public final class RegistrazioneControllerTest {
     @MethodSource("provideModificaLettore")
     public void modificaLettoreErrato2(
             final Lettore lettore,
-            final String vecchiaPassword,
-            final String nuovaPassword,
-            final String confermaPassword) throws Exception {
+            final String vecchiaPassword) throws Exception {
 
         when(registrazioneService.findLettoreByEmail(lettore.getEmail())).
                 thenReturn(lettore);
@@ -573,7 +565,7 @@ public final class RegistrazioneControllerTest {
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())
                 .param("username", lettore.getUsername())
-                .param("vecchia_password", "LettorePassword")
+                .param("vecchia_password", vecchiaPassword)
                 .param("nuova_password","PASSWORD DIVERSE")
                 .param("conferma_password", "DIVERSA PASSWORD")
                 .param("provincia", lettore.getProvincia())
@@ -638,9 +630,9 @@ public final class RegistrazioneControllerTest {
         this.mockMvc.perform(post("/registrazione/conferma-modifica-biblioteca")
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
-                .param("vecchia_password", "BibliotecaPassword")
-                .param("nuova_password","NuovaPassword")
-                .param("conferma_password", "NuovaPassword")
+                .param("vecchia_password", vecchiaPassword)
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
@@ -656,19 +648,13 @@ public final class RegistrazioneControllerTest {
      * sono vuote.
      *
      * @param biblioteca Il lettore da modificare
-     * @param vecchiaPassword La vecchia password dell'account
-     * @param nuovaPassword La nuova password dell'account
-     * @param confermaPassword La conferma password
      * @throws Exception
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Biblioteca Errato 1")
     @MethodSource("provideModificaBiblioteca")
     public void modificaBibliotecaErrato1(
-            final Biblioteca biblioteca,
-            final String vecchiaPassword,
-            final String nuovaPassword,
-            final String confermaPassword) throws Exception {
+            final Biblioteca biblioteca) throws Exception {
 
         when(registrazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
                 thenReturn(biblioteca);
@@ -696,7 +682,6 @@ public final class RegistrazioneControllerTest {
      * Se nuovaPassword é diversa da confermaPassword.
      *
      * @param biblioteca Il lettore da modificare
-     * @param vecchiaPassword La vecchia password dell'account
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
      * @throws Exception
@@ -706,7 +691,6 @@ public final class RegistrazioneControllerTest {
     @MethodSource("provideModificaBiblioteca")
     public void modificaBibliotecaErrato2(
             final Biblioteca biblioteca,
-            final String vecchiaPassword,
             final String nuovaPassword,
             final String confermaPassword) throws Exception {
 
@@ -717,8 +701,8 @@ public final class RegistrazioneControllerTest {
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
                 .param("vecchia_password", "SBAGLIATA")
-                .param("nuova_password","NuovaPassword")
-                .param("conferma_password", "NuovaPassword")
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
@@ -751,6 +735,178 @@ public final class RegistrazioneControllerTest {
                 )
         );
     }
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Esperto Corretto")
+    @MethodSource("provideModificaEsperto")
+    public void modificaEsperto(
+            final Esperto esperto,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword,
+            final String emailBiblioteca) throws Exception {
+
+        when(registrazioneService.findEspertoByEmail(esperto.getEmail())).
+                thenReturn(esperto);
+
+        when(registrazioneService
+                .findBibliotecaByEmail(esperto.getBiblioteca().getEmail()))
+                .thenReturn(esperto.getBiblioteca());
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("vecchia_password", vecchiaPassword)
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca)
+                .param("genere", " "))
+                .andExpect(view().name("login"));
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Esperto Password non cambiata")
+    @MethodSource("provideModificaEsperto")
+    public void modificaEspertoErrato1(
+            final Esperto esperto,
+            final String emailBiblioteca) throws Exception {
+
+        when(registrazioneService.findEspertoByEmail(esperto.getEmail())).
+                thenReturn(esperto);
+
+        when(registrazioneService
+                .findBibliotecaByEmail(esperto.getBiblioteca().getEmail()))
+                .thenReturn(esperto.getBiblioteca());
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("vecchia_password", "")
+                .param("nuova_password","")
+                .param("conferma_password", "")
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca)
+                .param("genere", " "))
+                .andExpect(view().name("login"));
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Esperto vecchia password errata")
+    @MethodSource("provideModificaEsperto")
+    public void modificaEspertoErrato2(
+            final Esperto esperto,
+            final String nuovaPassword,
+            final String confermaPassword,
+            final String emailBiblioteca) throws Exception {
+
+        when(registrazioneService.findEspertoByEmail(esperto.getEmail())).
+                thenReturn(esperto);
+
+        when(registrazioneService
+                .findBibliotecaByEmail(emailBiblioteca))
+                .thenReturn(esperto.getBiblioteca());
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("vecchia_password", "PASSWORD ERRATA")
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca)
+                .param("genere", " "))
+                .andExpect(view().name("modifica_dati_esperto"));
+    }
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Esperto conferma password errata")
+    @MethodSource("provideModificaEsperto")
+    public void modificaEspertoErrato3(
+            final Esperto esperto,
+            final String nuovaPassword,
+            final String emailBiblioteca) throws Exception {
+
+        when(registrazioneService.findEspertoByEmail(esperto.getEmail())).
+                thenReturn(esperto);
+
+        when(registrazioneService
+                .findBibliotecaByEmail(emailBiblioteca))
+                .thenReturn(esperto.getBiblioteca());
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("vecchia_password", "EspertoPassword")
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", "PASSWORDSBAGLIATA")
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca)
+                .param("genere", " "))
+                .andExpect(view().name("modifica_dati_esperto"));
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Esperto biblioteca null")
+    @MethodSource("provideModificaEsperto")
+    public void modificaEspertoErrato4(
+            final Esperto esperto,
+            final String nuovaPassword,
+            final String confermaPassword,
+            final String emailBiblioteca) throws Exception {
+
+        when(registrazioneService.findEspertoByEmail(esperto.getEmail())).
+                thenReturn(esperto);
+
+        when(registrazioneService
+                .findBibliotecaByEmail(emailBiblioteca))
+                .thenReturn(null);
+
+        this.mockMvc.perform(post("/registrazione/conferma-modifica-esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("vecchia_password", "PASSWORD ERRATA")
+                .param("nuova_password",nuovaPassword)
+                .param("conferma_password", confermaPassword)
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca)
+                .param("genere", " "))
+                .andExpect(view().name("modifica_dati_esperto"));
+    }
+
 
     /**
      * Simula i dati inviati da un metodo
@@ -789,4 +945,26 @@ public final class RegistrazioneControllerTest {
                 )
         );
     }
+
+
+    @Test
+    @DisplayName("Modifica Dati Esperto biblioteca null")
+    public void sceltaModificaEsperto() throws Exception {
+
+        when(model.getAttribute("loggedUser")).thenReturn(new Biblioteca(
+                "bibliotecacarrisi@gmail.com",
+                "BibliotecaPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Carrisi 47",
+                "1234567890",
+                "Biblioteca Carrisi"
+        ));
+
+        this.mockMvc.perform(get("/registrazione/modifica-dati"))
+                .andExpect(view().name("modifica_dati_biblioteca"));
+
+
+    }
+
 }

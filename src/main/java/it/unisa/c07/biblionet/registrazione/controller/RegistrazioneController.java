@@ -168,7 +168,7 @@ public final class RegistrazioneController {
     }
 
     /**
-     * Implementa la funzionalitá di smistare l'utente sulla view di
+     * Implementa la funzionalità di smistare l'utente sulla view di
      * modifica dati corretta.
      * @param model Utilizzato per gestire la sessione.
      *
@@ -186,6 +186,7 @@ public final class RegistrazioneController {
         UtenteRegistrato utente = (UtenteRegistrato)
                 model.getAttribute("loggedUser");
 
+        System.out.println(utente);
         if (utente != null) {
             if (registrazioneService.isUserBiblioteca(utente)) {
                 Biblioteca biblioteca = (Biblioteca) utente;
@@ -252,7 +253,7 @@ public final class RegistrazioneController {
             }
 
         } else {
-            biblioteca.setPassword(toUpdate.getPassword());
+            biblioteca.setHashedPassword(toUpdate.getPassword());
         }
 
         registrazioneService.aggiornaBiblioteca(biblioteca);
@@ -287,6 +288,16 @@ public final class RegistrazioneController {
 
         Esperto toUpdate = registrazioneService.findEspertoByEmail(esperto.getEmail());
 
+        Biblioteca b = registrazioneService
+                .findBibliotecaByEmail(emailBiblioteca);
+
+        if (b != null) {
+            esperto.setBiblioteca(b);
+        } else {
+            esperto.setBiblioteca(toUpdate.getBiblioteca());
+            return "modifica_dati_esperto";
+        }
+
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
                 MessageDigest md;
@@ -296,8 +307,10 @@ public final class RegistrazioneController {
                 if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0
                         && nuova.equals(conferma)
                 ) {
+                    System.out.println("password giusta");
                     esperto.setPassword(nuova);
                 } else {
+                    System.out.println("password sbagliata");
                     return "modifica_dati_esperto";
                 }
 
@@ -305,17 +318,10 @@ public final class RegistrazioneController {
                 e.printStackTrace();
             }
         } else {
-            esperto.setPassword(toUpdate.getPassword());
+            esperto.setHashedPassword(toUpdate.getPassword());
         }
 
 
-        Biblioteca b = registrazioneService
-                .findBibliotecaByEmail(emailBiblioteca);
-        if (b != null) {
-            esperto.setBiblioteca(b);
-        } else {
-            return "modifica_dati_esperto";
-        }
         System.out.println(esperto.getEmail());
         registrazioneService.aggiornaEsperto(esperto);
         model.addAttribute("loggedUser", esperto);
@@ -364,7 +370,7 @@ public final class RegistrazioneController {
                 e.printStackTrace();
             }
         } else {
-            lettore.setPassword(toUpdate.getPassword());
+            lettore.setHashedPassword(toUpdate.getPassword());
         }
 
         System.out.println(lettore.getEmail());

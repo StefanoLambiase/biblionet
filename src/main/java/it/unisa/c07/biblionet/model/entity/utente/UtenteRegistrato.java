@@ -118,7 +118,7 @@ public class UtenteRegistrato {
         }
     }
 
-    public void setPassword(byte[] hashPassword){
+    public void setHashedPassword(byte[] hashPassword){
         this.password=hashPassword;
     }
 }
