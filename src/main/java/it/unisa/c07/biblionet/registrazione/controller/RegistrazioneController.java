@@ -226,11 +226,12 @@ public final class RegistrazioneController {
                     final Biblioteca biblioteca,
                     final @RequestParam("vecchia_password")String vecchia,
                     final @RequestParam("nuova_password")String nuova,
-                    final @RequestParam("conferma_password")String conferma,
-                    final @RequestParam("current_email")String email) {
+                    final @RequestParam("conferma_password")String conferma)
+                                                                        {
 
 
-    Biblioteca toUpdate = registrazioneService.findBibliotecaByEmail(email);
+    Biblioteca toUpdate = registrazioneService
+                                 .findBibliotecaByEmail(biblioteca.getEmail());
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
@@ -251,7 +252,7 @@ public final class RegistrazioneController {
                 e.printStackTrace();
             }
 
-        } else{
+        } else {
             biblioteca.setPassword(toUpdate.getPassword());
         }
 
@@ -269,7 +270,6 @@ public final class RegistrazioneController {
      * @param vecchia La vecchia password dell'account.
      * @param nuova La nuova password dell'account.
      * @param conferma La password di conferma password dell'account.
-     * @param email L'email corrente dell'account.
      * @param emailBiblioteca L'email della biblioteca scelta.
      *
      * @return login Se la modifica va a buon fine.
@@ -282,12 +282,11 @@ public final class RegistrazioneController {
                    final @RequestParam("vecchia_password")String vecchia,
                    final @RequestParam("nuova_password")String nuova,
                    final @RequestParam("conferma_password")String conferma,
-                   final @RequestParam("current_email")String email,
                    final @RequestParam("email_biblioteca")
                                                       String emailBiblioteca) {
 
 
-        Esperto toUpdate = registrazioneService.findEspertoByEmail(email);
+        Esperto toUpdate = registrazioneService.findEspertoByEmail(esperto.getEmail());
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
@@ -330,7 +329,6 @@ public final class RegistrazioneController {
      * @param vecchia La vecchia password dell'account.
      * @param nuova La nuova password dell'account.
      * @param conferma La password di conferma password dell'account.
-     * @param email L'email corrente dell'account.
      *
      * @return login Se la modifica va a buon fine.
      * modifica_dati_lettore Se la modifica non va a buon fine
@@ -341,11 +339,11 @@ public final class RegistrazioneController {
                        final Lettore lettore,
                        final @RequestParam("vecchia_password")String vecchia,
                        final @RequestParam("nuova_password")String nuova,
-                       final @RequestParam("conferma_password")String conferma,
-                       final @RequestParam("current_email")String email) {
+                       final @RequestParam("conferma_password")String conferma)
+                                                                            {
 
 
-        Lettore toUpdate = registrazioneService.findLettoreByEmail(email);
+        Lettore toUpdate = registrazioneService.findLettoreByEmail(lettore.getEmail());
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
@@ -356,7 +354,6 @@ public final class RegistrazioneController {
                 if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
                     lettore.setPassword(nuova);
                 } else {
-                    System.out.println("NON SALVO");
                     return "modifica_dati_esperto";
                 }
 

@@ -8,7 +8,6 @@
 <form method="post" action="conferma-modifica-esperto">
     <fieldset>
         <legend>Modifica Dati</legend>
-        <input type="hidden" name="current_email" th:value="${esperto.getEmail()}">
         <p> Email <input type="email" name="email" th:value="${esperto.getEmail()}" readonly> </p>
         <p> Nome <input type="input" name="nome" th:value="${esperto.getNome()}"> </p>
         <p> Cognome <input type="input" name="cognome" th:value="${esperto.getCognome()}"> </p>

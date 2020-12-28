@@ -105,4 +105,3 @@ public interface RegistrazioneService {
      */
     void aggiornaLettore(Lettore utente);
 }
-\

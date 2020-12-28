@@ -8,7 +8,6 @@
 <form method="post" action="conferma-modifica-lettore">
     <fieldset>
         <legend>Modifica Dati</legend>
-        <input type="hidden" name="current_email" th:value="${lettore.getEmail()}">
         <p> Email <input type="email" name="email" th:value="${lettore.getEmail()}" readonly> </p>
         <p> Nome <input type="input" name="nome" th:value="${lettore.getNome()}"> </p>
         <p> Cognome <input type="input" name="cognome" th:value="${lettore.getCognome()}"> </p>

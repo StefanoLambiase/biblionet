@@ -8,8 +8,7 @@
    <form method="post" action="conferma-modifica-biblioteca">
        <fieldset>
            <legend>Modifica Dati</legend>
-           <input type="hidden" name="current_email" th:value="${biblioteca.getEmail()}">
-        <p> Email <input type="email" name="email" th:value="${biblioteca.getEmail()}"> </p>
+        <p> Email <input type="email" name="email" th:value="${biblioteca.getEmail()}" readonly> </p>
         <p> Nome Biblioteca <input type="text" name="nomeBiblioteca" th:value="${biblioteca.getNomeBiblioteca()}"> </p>
         <p> Provincia <input type="text" name="provincia" th:value="${biblioteca.getProvincia()}"> </p>
         <p> Città <input type="text" name="citta" th:value="${biblioteca.getCitta()}"> </p>
