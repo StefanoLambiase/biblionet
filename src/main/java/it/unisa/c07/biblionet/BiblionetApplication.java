@@ -435,6 +435,11 @@ public class BiblionetApplication {
                 libro5.getIdLibro()
         );
 
+        PossessoId possessoId6 = new PossessoId(
+                biblioteca.getEmail(),
+                libro5.getIdLibro()
+        );
+
         Possesso possesso = new Possesso(
                 possessoId,
                 20
@@ -465,12 +470,17 @@ public class BiblionetApplication {
                 10
         );
 
+        Possesso possesso6 = new Possesso(
+                possessoId6,
+                10
+        );
         possessoDAO.save(possesso);
         possessoDAO.save(possesso1);
         possessoDAO.save(possesso2);
         possessoDAO.save(possesso3);
         possessoDAO.save(possesso4);
         possessoDAO.save(possesso5);
+        possessoDAO.save(possesso6);
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
         TicketPrestito ticket = new TicketPrestito(
