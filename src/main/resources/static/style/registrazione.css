@@ -41,3 +41,11 @@
 .registra:hover {
     background-color: #790505;
 }
+
+.logo {
+    width: 35%;
+}
+
+.dx {
+    border-left: 2px solid #b20909;
+}

@@ -11,11 +11,12 @@
 
 <div layout:fragment="pagina" class="container">
 
+    <img class="logo" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet">
 
     <div class="row">
         <form method="post" th:action="@{/registrazione/lettore}" class="form-registrazione">
 
-            <div class="column">
+            <div class="column sx">
 
                 <h2 class="form-registrazione-heading">Registrati come Lettore</h2>
 
@@ -36,7 +37,7 @@
 
             </div>
 
-            <div class="column">
+            <div class="column dx">
 
                 <h2 class="form-registrazione-heading">Dati anagrafici</h2>
 
@@ -57,8 +58,8 @@
 
                 <label for="inputTel">Recapitp telefonico</label>
                 <input type="tel" id="inputTel" class="form-control" placeholder="1234567890" autofocus>
-            </div>
 
+            </div>
 
             <div class="text-center">
                 <label for="privacy">Ho letto e accetto la normativa sulla privacy</label>
