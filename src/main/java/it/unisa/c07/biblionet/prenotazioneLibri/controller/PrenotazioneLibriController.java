@@ -1,8 +1,6 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
 import it.unisa.c07.biblionet.model.entity.Libro;
-import it.unisa.c07.biblionet.model.entity.Possesso;
-import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
@@ -10,7 +8,12 @@ import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.List;
 
@@ -73,7 +76,8 @@ public class PrenotazioneLibriController {
     public String prenotaLibro(@PathVariable final int id, final Model model) {
 
         Libro libro = prenotazioneService.getLibroByID(id);
-        List<Biblioteca> listaBiblioteche = prenotazioneService.getBibliotecheLibro(libro);
+        List<Biblioteca> listaBiblioteche =
+                        prenotazioneService.getBibliotecheLibro(libro);
         model.addAttribute("lista", listaBiblioteche);
         model.addAttribute("libro", libro);
         return "prenota-libro";
@@ -87,13 +91,15 @@ public class PrenotazioneLibriController {
      * @param model Il model per recuperare l'utente loggato
      * @return La view che visualizza la lista dei libri prenotabili
      */
-    @RequestMapping(value= "/conferma-prenotazione", method=RequestMethod.POST)
+    @RequestMapping(value = "/conferma-prenotazione",
+                                    method = RequestMethod.POST)
     public String confermaPrenotazione(@RequestParam final String idBiblioteca,
                                         @RequestParam final String idLibro,
                                         final Model model) {
 
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
-        if(utente.getClass().getSimpleName().equals("Lettore")) {
+        UtenteRegistrato utente =
+                    (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente.getClass().getSimpleName().equals("Lettore")) {
             Lettore l = (Lettore) utente;
             prenotazioneService.richiediPrestito(l,
                                     idBiblioteca,

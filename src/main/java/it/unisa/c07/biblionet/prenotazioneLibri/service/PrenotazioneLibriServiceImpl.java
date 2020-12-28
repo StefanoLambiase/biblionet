@@ -114,7 +114,8 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         ticket.setDataRichiesta(LocalDateTime.now());
         ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
 
-        Biblioteca biblioteca = (Biblioteca) bibliotecaDAO.findByID(idBiblioteca);
+        Biblioteca biblioteca =
+                    (Biblioteca) bibliotecaDAO.findByID(idBiblioteca);
         Libro libro = libroDAO.getOne(idLibro);
 
         ticket.setBiblioteca(biblioteca);
@@ -127,27 +128,28 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     /**
      * Implementa la funzionalità che permette
      * di ottenere la lista delle biblioteche
-     * che posseggono un dato libro
+     * che posseggono un dato libro.
      * @param libro Il libro di cui estrarre le biblioteche
      * @return La lista delle biblioteche che possiedono il libro
      */
     @Override
-    public  List<Biblioteca> getBibliotecheLibro(Libro libro) {
+    public  List<Biblioteca> getBibliotecheLibro(final Libro libro) {
         List<Biblioteca> lista = new ArrayList<>();
-        for(Possesso p : libro.getPossessi()) {
-            lista.add(bibliotecaDAO.findByID(p.getPossessoID().getBibliotecaID()));
+        for (Possesso p : libro.getPossessi()) {
+            lista.add(bibliotecaDAO.
+                        findByID(p.getPossessoID().getBibliotecaID()));
         }
         return lista;
     }
 
     /**
      * Implementa la funzionalità che permette
-     * di ottenere un libro dato il suo ID
+     * di ottenere un libro dato il suo ID.
      * @param id L'ID del libro da ottenere
      * @return Il libro da ottenere
      */
     @Override
-    public Libro getLibroByID(int id) {
+    public Libro getLibroByID(final int id) {
         return libroDAO.getOne(id);
     }
 }

@@ -113,7 +113,7 @@ public class PrenotazioneLibriServiceImplTest {
                 prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
     }
 
-    /**
+   /**
      * Implementa il test della funzionalità che
      * permette di richiedere un prestito per un libro
      * da una biblioteca.
@@ -127,10 +127,43 @@ public class PrenotazioneLibriServiceImplTest {
         when(libroDAO.getOne(2)).thenReturn(l);
         when(ticketPrestitoDAO.save(t)).thenReturn(t);
         t.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
-        t.setDataRichiesta(LocalDateTime.now());
-        assertEquals(new TicketPrestito(),
-                    prenotazioneService.richiediPrestito(
-                            new Lettore(),"id", 2));
+        LocalDateTime ld = LocalDateTime.of(1, 1, 1, 1, 1);
+        t.setDataRichiesta(ld);
+        TicketPrestito test = prenotazioneService.richiediPrestito(
+                new Lettore(), "id", 2);
+        test.setDataRichiesta(ld);
+        assertEquals(t.toString(), test.toString());
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere la lista delle biblioteche
+     * che posseggono un dato libro.
+     */
+    @Test
+    public void getBibliotecheLibro() {
+        Libro l = new Libro();
+        List<Possesso> pl = new ArrayList<>();
+        l.setPossessi(pl);
+        List<Biblioteca> bl = new ArrayList<>();
+        Biblioteca b = new Biblioteca();
+        for (Possesso p : l.getPossessi()) {
+            when(bibliotecaDAO.findByID("a"))
+                    .thenReturn(b);
+            bl.add(b);
+        }
+        assertEquals(bl, prenotazioneService.getBibliotecheLibro(l));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere un libro dato il suo ID.
+     */
+    @Test
+    public void getLibroByID() {
+        Libro l = new Libro();
+        when(libroDAO.getOne(1)).thenReturn(l);
+        assertEquals(l, prenotazioneService.getLibroByID(1));
     }
 
 }
