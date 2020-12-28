@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Lob;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -75,6 +76,12 @@ public class Libro {
     @Column(nullable = false, length = Length.LENGTH_30)
     @NonNull
     private String casaEditrice;
+
+    /**
+     * Rappresenta l'immagine di copertina del libro
+     */
+    @Lob
+    private String immagineLibro;
 
     /**
      * Rappresenta i tickets di cui fa parte il libro.
