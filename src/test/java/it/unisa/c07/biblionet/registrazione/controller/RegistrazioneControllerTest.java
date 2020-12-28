@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.Model;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -42,6 +43,8 @@ public final class RegistrazioneControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private Model model;
 
     /**
      * Metodo che testa la funzionalità gestita dal
@@ -459,4 +462,84 @@ public final class RegistrazioneControllerTest {
                 )
         );
     }
+
+    private static Stream<Arguments> provideModificaLettore(){
+
+        return Stream.of(
+                Arguments.of(
+                        new Lettore(
+                                "giuliociccione@gmail.com",
+                                "LettorePassword",
+                                "Salerno",
+                                "Baronissi",
+                                "Via Barone 11",
+                                "3456789012",
+                                "SuperLettore",
+                                "Giulio",
+                                "Ciccione"
+                        ),
+                        "LettorePassword", // vecchia password
+                        "NuovaPassword",   // nuova password
+                        "NuovaPassword"    // conferma password
+                )
+        );
+    }
+
+    private static Stream<Arguments> provideModificaEsperto(){
+
+        return Stream.of(
+                Arguments.of(
+                        new Esperto(
+                                "eliaviviani@gmail.com",
+                                "EspertoPassword",
+                                "Napoli",
+                                "Torre del Greco",
+                                "Via Roma 2",
+                                "2345678901",
+                                "Espertissimo",
+                                "Elia",
+                                "Viviani",
+                                new Biblioteca(
+                                        "bibliotecacarrisi@gmail.com",
+                                        "BibliotecaPassword",
+                                        "Napoli",
+                                        "Torre del Greco",
+                                        "Via Carrisi 47",
+                                        "1234567890",
+                                        "Biblioteca Carrisi"
+                                )
+                        ),
+                        "EspertoPassword",              // vecchia password
+                        "NuovaPassword",                // nuova password
+                        "NuovaPassword",                // conferma password
+                        "bibliotecacarrisi@gmail.com"   // mail della biblioteca
+                )
+        );
+    }
+
+    private static Stream<Arguments> provideModificaBiblioteca(){
+
+        return Stream.of(
+                Arguments.of(
+                        new Biblioteca(
+                                "bibliotecacarrisi@gmail.com",
+                                "BibliotecaPassword",
+                                "Napoli",
+                                "Torre del Greco",
+                                "Via Carrisi 47",
+                                "1234567890",
+                                "Biblioteca Carrisi"
+                        ),
+                        "BibliotecaPassword", // vecchia password
+                        "NuovaPassword",      // nuova password
+                        "NuovaPassword"       // conferma password
+                )
+        );
+    }
+
+
+
+
+
+
 }
