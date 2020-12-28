@@ -103,7 +103,7 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraEsperto(esperto);
-        return "registrazione";
+        return "login";
 
 
     }
@@ -132,7 +132,7 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraBiblioteca(biblioteca);
-        return "registrazione";
+        return "login";
     }
 
 
@@ -164,13 +164,13 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraLettore(lettore);
-        return "registrazione";
+        return "login";
     }
 
     /**
      * Implementa la funzionalitá di smistare l'utente sulla view di
      * modifica dati corretta.
-     * @param model CHE ROBB É???????????????????????????????????????????
+     * @param model Utilizzato per gestire la sessione.
      *
      * @return modifica_dati_biblioteca se l'account
      * da modificare é una biblioteca.
@@ -204,7 +204,7 @@ public final class RegistrazioneController {
 
             }
         }
-        return "autenticazione";
+        return "login";
     }
 
     /**
