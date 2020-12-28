@@ -2,22 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
-    <link rel ="stylesheet" type="text/css" href="../../style/login.css">
+    <link rel="stylesheet" type="text/css" href="../../style/login.css">
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
-    <div layout:fragment="contenuto-pagina" class="container">
-        <form th:action ="@{/autenticazione/login}" method="post" class="form-signin">
+<div layout:fragment="contenuto-pagina" class="container">
+    <form th:action="@{/autenticazione/login}" method="post" class="form-signin">
 
-            <h3 class="form-signin-heading">Login Utente</h3>
-            <label for="inputEmail" class="visually-hidden">Indirizzo Email</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="esempio@esempio.com" required autofocus>
-            <label for="inputPassword" class="visually-hidden">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-    </div>
+        <h3 class="form-signin-heading">Login Utente</h3>
+        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="esempio@esempio.com">
+        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+</div>
 </body>
 </html>
 <body>
