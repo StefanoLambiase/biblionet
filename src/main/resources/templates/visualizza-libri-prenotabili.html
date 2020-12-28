@@ -17,6 +17,16 @@
             <th th:each="genere : ${libro.generi}" th:text="${genere.nome}"></th>
             <th th:each="possesso : ${libro.possessi}" th:text="${possesso.possessoID.bibliotecaID}"></th>
             <th th:each="possesso : ${libro.possessi}" th:text="${possesso.numeroCopie}"></th>
+            <td>
+                <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/prenota-libro'}">
+                    <div th:if="${session.loggedUser != null}">
+                        <button type="submit">Prenota</button>
+                    </div>
+                    <div th:unless="${session.loggedUser != null}">
+                        <button type="submit" disabled>Prenota</button>
+                    </div>
+                </form>
+            </td>
         </tr>
     </table>
 </body>

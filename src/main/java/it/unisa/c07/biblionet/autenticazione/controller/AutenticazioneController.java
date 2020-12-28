@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.support.SessionStatus;
 
 
 /**
@@ -64,13 +64,12 @@ public class AutenticazioneController {
      * Implenta la funzionalità che permette
      * di effettuare il logout dell'utente
      * togliendolo dalla sessione.
-     * @param model contiene i dati della sessione.
+     * @param status contiene i dati della sessione.
      * @return Rimanda alla pagina di index.
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(final Model model) {
-        model.addAttribute("loggedUser", null);
-
+    public String logout(final SessionStatus status) {
+        status.setComplete();
         return "index";
     }
 

@@ -25,4 +25,13 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      */
     @Query("SELECT b FROM Biblioteca b WHERE b.nomeBiblioteca=?1")
     Biblioteca findByNome(String nome);
+
+    /**
+     * Query custom che recupera dal DB una biblioteca dato il
+     * suo id.
+     * @param email L'ID della biblioteca
+     * @return Biblioteca trovata
+     */
+    @Query("SELECT b FROM Biblioteca b WHERE b.email=?1")
+    Biblioteca findByID(String email);
 }
