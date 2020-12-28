@@ -34,6 +34,13 @@ public interface RegistrazioneService {
      */
     Esperto findEspertoByEmail(String email);
 
+    /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    Lettore findLettoreByEmail(String email);
+
 
     /**
      * Implementa la funzionalità di trovare dei generi.
@@ -90,5 +97,12 @@ public interface RegistrazioneService {
      * @param utente L'esperto da aggiornare
      */
     void aggiornaEsperto(Esperto utente);
+
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     */
+    void aggiornaLettore(Lettore utente);
 }
 \

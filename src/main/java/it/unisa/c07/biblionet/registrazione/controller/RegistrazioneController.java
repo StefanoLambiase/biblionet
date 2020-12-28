@@ -265,7 +265,7 @@ public final class RegistrazioneController {
      * Implementa la funzionalità di modifica dati di un esperto.
      *
      * @param model Utilizzato per gestire la sessione.
-     * @param esperto Una esperto da modificare.
+     * @param esperto Un esperto da modificare.
      * @param vecchia La vecchia password dell'account.
      * @param nuova La nuova password dell'account.
      * @param conferma La password di conferma password dell'account.
@@ -319,6 +319,57 @@ public final class RegistrazioneController {
         System.out.println(esperto.getEmail());
         registrazioneService.aggiornaEsperto(esperto);
         model.addAttribute("loggedUser", esperto);
+        return "login";
+    }
+
+    /**
+     * Implementa la funzionalitá di modifica dati di un lettore.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param lettore Un lettore da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     * @param email L'email corrente dell'account.
+     *
+     * @return login Se la modifica va a buon fine.
+     * modifica_dati_lettore Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = "/conferma-modifica-lettore",
+            method = RequestMethod.POST)
+    public String confermaModificaLettore(final Model model,
+                       final Lettore lettore,
+                       final @RequestParam("vecchia_password")String vecchia,
+                       final @RequestParam("nuova_password")String nuova,
+                       final @RequestParam("conferma_password")String conferma,
+                       final @RequestParam("current_email")String email) {
+
+
+        Lettore toUpdate = registrazioneService.findLettoreByEmail(email);
+
+        if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
+            try {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA-256");
+                byte[] vecchiaHash = md.digest(vecchia.getBytes());
+
+                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
+                    lettore.setPassword(nuova);
+                } else {
+                    System.out.println("NON SALVO");
+                    return "modifica_dati_esperto";
+                }
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        } else {
+            lettore.setPassword(toUpdate.getPassword());
+        }
+
+        System.out.println(lettore.getEmail());
+        registrazioneService.aggiornaLettore(lettore);
+        model.addAttribute("loggedUser", lettore);
         return "login";
     }
 }

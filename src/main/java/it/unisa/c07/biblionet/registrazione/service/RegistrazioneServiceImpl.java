@@ -145,6 +145,22 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    @Override
+    public final Lettore findLettoreByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = lettoreDAO.findById(email);
+        if (b.isPresent()) {
+            return (Lettore) b.get();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Implementa la funzionalità di trovare dei generi.
      * @param generi Un'array di nomi di generi da trovare
      * @return Una lista contenente i generi trovati
@@ -178,5 +194,14 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     public void aggiornaEsperto(final Esperto utente) {
         espertoDAO.save(utente);
+    }
+
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     */
+    public void aggiornaLettore(final Lettore utente) {
+        lettoreDAO.save(utente);
     }
 }
