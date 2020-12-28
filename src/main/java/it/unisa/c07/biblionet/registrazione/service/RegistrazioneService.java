@@ -9,7 +9,8 @@ import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import java.util.List;
 
 /**
- * @author Alessio Casolaro, Antonio Della Porta.
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta.
  */
 public interface RegistrazioneService {
     /**
@@ -55,16 +56,38 @@ public interface RegistrazioneService {
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
+    /**
+     * Implementa la funziolitá di ritorno di un esperto.
+     * @param utenteRegistrato L'utente esperto
+     * @return L'utente esperto relativo all'utenteRegistrato
+     */
     boolean isUserEsperto(UtenteRegistrato utenteRegistrato);
 
+    /**
+     * Implementa la funziolitá di ritorno di un lettore.
+     * @param utenteRegistrato L'utente lettore
+     * @return L'utente lettore relativo all'utenteRegistrato
+     */
     boolean isUserLettore(UtenteRegistrato utenteRegistrato);
 
+    /**
+     * Implementa la funziolitá di ritorno di una biblioteca.
+     * @param utenteRegistrato L'utente biblioteca
+     * @return L'utente biblioteca relativo all'utenteRegistrato
+     */
     boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato);
 
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     */
     void aggiornaBiblioteca(Biblioteca utente);
 
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     */
     void aggiornaEsperto(Esperto utente);
-
-
-
 }

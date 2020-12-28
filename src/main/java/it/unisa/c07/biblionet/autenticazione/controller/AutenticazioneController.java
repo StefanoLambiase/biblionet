@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
-import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

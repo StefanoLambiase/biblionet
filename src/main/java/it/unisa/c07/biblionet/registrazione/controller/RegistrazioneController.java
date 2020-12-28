@@ -18,7 +18,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 /**
- * @author Alessio Casolaro, Antonio Della Porta
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta
  */
 @Controller
 @SessionAttributes("loggedUser")
@@ -58,9 +59,9 @@ public final class RegistrazioneController {
     /**
      * Implementa la funzionalità di registrazione di un esperto.
      *
-     * @param esperto         l'esperto da registrare
-     * @param password        il campo conferma password del form per controllare
-     *                        il corretto inserimento della stessa
+     * @param esperto l'esperto da registrare
+     * @param password il campo conferma password del form per controllare
+     *                 il corretto inserimento della stessa
      * @param bibliotecaEmail la mail dell'account della biblioteca
      *                        dove l'esperto lavora
      * @param generi          gli eventuali generi definiti per l'esperto
@@ -116,7 +117,7 @@ public final class RegistrazioneController {
      */
     @RequestMapping(value = "/biblioteca", method = RequestMethod.POST)
     public String registrazioneBiblioteca(final Biblioteca biblioteca,
-                                          final @RequestParam("conferma_password")
+                                 final @RequestParam("conferma_password")
                                                   String password) {
         try {
             MessageDigest md;
@@ -137,8 +138,8 @@ public final class RegistrazioneController {
 
     /**
      * Implementa la funzionalitá di registrazione di
-     * un lettore
-     * di gestire la chiamata POST
+     * un lettore.
+     * Gestisce la chiamata POST
      * per creare un nuovo lettore.
      *
      * @param lettore  Il lettore da registrare
@@ -166,10 +167,24 @@ public final class RegistrazioneController {
         return "registrazione";
     }
 
-
+    /**
+     * Implementa la funzionalitá di smistare l'utente sulla view di
+     * modifica dati corretta.
+     * @param model CHE ROBB É???????????????????????????????????????????
+     *
+     * @return modifica_dati_biblioteca se l'account
+     * da modificare é una biblioteca.
+     *
+     * modifica_dati_esperto se l'account
+     * da modificare é un esperto.
+     *
+     * modifica_dati_lettore se l'account
+     * da modificare é un lettore.
+     */
     @RequestMapping(value = "/modifica-dati", method = RequestMethod.GET)
     public String modificaDati(final Model model) {
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato utente = (UtenteRegistrato)
+                model.getAttribute("loggedUser");
 
         if (utente != null) {
             if (registrazioneService.isUserBiblioteca(utente)) {
@@ -192,82 +207,118 @@ public final class RegistrazioneController {
         return "autenticazione";
     }
 
-    @RequestMapping(value = "/conferma-modifica-biblioteca",method = RequestMethod.POST)
-    public String confermaModificaBiblioteca(final Model model,final Biblioteca biblioteca,
-                                   @RequestParam("vecchia_password")String vecchia,
-                                   @RequestParam("nuova_password")String nuova,
-                                   @RequestParam("conferma_password")String conferma,
-                                   @RequestParam("current_email")String email){
+    /**
+     * Implementa la funzionalitá di modifica dati di una bibilioteca.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param biblioteca Una biblioteca da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     * @param email L'email corrente dell'account.
+     *
+     * @return autenticazione Se la modifica va a buon fine.
+     * modifica_dati_biblioteca Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = "/conferma-modifica-biblioteca",
+                    method = RequestMethod.POST)
+    public String confermaModificaBiblioteca(final Model model,
+                    final Biblioteca biblioteca,
+                    final @RequestParam("vecchia_password")String vecchia,
+                    final @RequestParam("nuova_password")String nuova,
+                    final @RequestParam("conferma_password")String conferma,
+                    final @RequestParam("current_email")String email) {
 
 
-    Biblioteca toUpload=registrazioneService.findBibliotecaByEmail(email);
+    Biblioteca toUpload = registrazioneService.findBibliotecaByEmail(email);
 
-        if(!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
-            System.out.println(vecchia+nuova+conferma);
+        if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
+            System.out.println(vecchia + nuova + conferma);
             try {
                 MessageDigest md;
                 md = MessageDigest.getInstance("SHA-256");
-                byte[] vecchia_hash = md.digest(vecchia.getBytes());
+                byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
-                if (Arrays.compare(vecchia_hash, biblioteca.getPassword()) == 0) {
+                if (Arrays.compare(vecchiaHash,
+                        biblioteca.getPassword()) == 0) {
+
                     biblioteca.setPassword(nuova);
                     registrazioneService.aggiornaBiblioteca(biblioteca);
-                    model.addAttribute("loggedUser",biblioteca);
+                    model.addAttribute("loggedUser", biblioteca);
                     return "autenticazione";
-                }
-                else
+                } else {
                     return "modifica_dati_biblioteca";
+                }
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         }
         biblioteca.setPassword(toUpload.getPassword());
         registrazioneService.aggiornaBiblioteca(biblioteca);
-        model.addAttribute("loggedUser",biblioteca);
+        model.addAttribute("loggedUser", biblioteca);
         return "autenticazione";
 
     }
 
-    @RequestMapping(value = "/conferma-modifica-esperto",method = RequestMethod.POST)
-    public String confermaModificaEsperto(final Model model,final Esperto esperto,
-                                             @RequestParam("vecchia_password")String vecchia,
-                                             @RequestParam("nuova_password")String nuova,
-                                             @RequestParam("conferma_password")String conferma,
-                                             @RequestParam("current_email")String email){
+    /**
+     * Implementa la funzionalitá di modifica dati di un esperto.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param esperto Una esperto da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     * @param email L'email corrente dell'account.
+     * @param emailBiblioteca L'email della biblioteca scelta.
+     *
+     * @return autenticazione Se la modifica va a buon fine.
+     * modifica_dati_esperto Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = "/conferma-modifica-esperto",
+            method = RequestMethod.POST)
+    public String confermaModificaEsperto(final Model model,
+                   final Esperto esperto,
+                   final @RequestParam("vecchia_password")String vecchia,
+                   final @RequestParam("nuova_password")String nuova,
+                   final @RequestParam("conferma_password")String conferma,
+                   final @RequestParam("current_email")String email,
+                   final @RequestParam("email_biblioteca")
+                                                      String emailBiblioteca) {
 
 
-        Esperto toUpload=registrazioneService.findEspertoByEmail(email);
+        Esperto toUpdate = registrazioneService.findEspertoByEmail(email);
 
-        if(!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
-            System.out.println(vecchia+nuova+conferma);
+        if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
                 MessageDigest md;
                 md = MessageDigest.getInstance("SHA-256");
-                byte[] vecchia_hash = md.digest(vecchia.getBytes());
+                byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
-                System.out.println("ESP.get password:  " + esperto.getPassword() + vecchia_hash);
-
-                if (Arrays.compare(vecchia_hash, esperto.getPassword()) == 0) {
-                    System.out.println("SALVO");
+                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0) {
                     esperto.setPassword(nuova);
-                    registrazioneService.aggiornaEsperto(esperto);
-                    model.addAttribute("loggedUser",esperto);
-                    return "autenticazione";
-                }
-                else{
+                } else {
                     System.out.println("NON SALVO");
                     return "modifica_dati_esperto";
-
                 }
 
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
+        } else {
+            esperto.setPassword(toUpdate.getPassword());
         }
-        esperto.setPassword(toUpload.getPassword());
-        registrazioneService.aggiornaEsperto(esperto);
-        model.addAttribute("loggedUser",esperto);
-        return "autenticazione";
 
+
+        Biblioteca b = registrazioneService
+                .findBibliotecaByEmail(emailBiblioteca);
+        if (b != null) {
+            esperto.setBiblioteca(b);
+        } else {
+            return "modifica_dati_esperto";
+        }
+        System.out.println(esperto.getEmail());
+        registrazioneService.aggiornaEsperto(esperto);
+        model.addAttribute("loggedUser", esperto);
+        return "login";
     }
 }

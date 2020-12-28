@@ -9,7 +9,7 @@
     <fieldset>
         <legend>Modifica Dati</legend>
         <input type="hidden" name="current_email" th:value="${esperto.getEmail()}">
-        <p> Email <input type="email" name="email" th:value="${esperto.getEmail()}"> </p>
+        <p> Email <input type="email" name="email" th:value="${esperto.getEmail()}" readonly> </p>
         <p> Nome <input type="input" name="nome" th:value="${esperto.getNome()}"> </p>
         <p> Cognome <input type="input" name="cognome" th:value="${esperto.getCognome()}"> </p>
         <p> Username <input type="input" name="username" th:value="${esperto.getUsername()}"> </p>
@@ -17,6 +17,7 @@
         <p> Cittá <input type="input" name="citta" th:value="${esperto.getCitta()}"> </p>
         <p> Via <input type="input" name="via" th:value="${esperto.getVia()}"> </p>
         <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" th:value="${esperto.getRecapitoTelefonico()}"> </p>
+        <p> Email Biblioteca <input type="email" name="email_biblioteca" th:value="${esperto.getBiblioteca.getEmail()}"> </p>
     </fieldset>
 
     <fieldset>

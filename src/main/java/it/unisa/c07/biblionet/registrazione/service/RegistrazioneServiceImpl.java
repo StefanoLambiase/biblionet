@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Alessio Casolaro, Antonio Della Porta.
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta.
  */
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,9 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final LettoreDAO lettoreDAO;
 
+    /**
+     *  Si occupa di controllare il tipo di account.
+     */
     private final AutenticazioneService autenticazioneService;
 
     /**
@@ -75,18 +79,36 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         return lettoreDAO.save(lettore);
     }
 
+    /**
+     * Implementa la funziolitá di ritorno di un esperto.
+     * @param utenteRegistrato L'utente esperto
+     * @return L'utente esperto relativo all'utenteRegistrato
+     */
     @Override
-    public boolean isUserEsperto(UtenteRegistrato utenteRegistrato) {
+    public final boolean isUserEsperto(
+            final UtenteRegistrato utenteRegistrato) {
         return autenticazioneService.isEsperto(utenteRegistrato);
     }
 
+    /**
+     * Implementa la funziolitá di ritorno di un lettore.
+     * @param utenteRegistrato L'utente lettore
+     * @return L'utente lettore relativo all'utenteRegistrato
+     */
     @Override
-    public boolean isUserLettore(UtenteRegistrato utenteRegistrato) {
+    public final boolean isUserLettore(
+            final UtenteRegistrato utenteRegistrato) {
         return autenticazioneService.isLettore(utenteRegistrato);
     }
 
+    /**
+     * Implementa la funziolitá di ritorno di una biblioteca.
+     * @param utenteRegistrato L'utente biblioteca
+     * @return L'utente biblioteca relativo all'utenteRegistrato
+     */
     @Override
-    public boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato) {
+    public final boolean isUserBiblioteca(
+            final UtenteRegistrato utenteRegistrato) {
         return autenticazioneService.isBiblioteca(utenteRegistrato);
     }
 
@@ -140,11 +162,21 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         return toReturn;
     }
 
-    public void aggiornaBiblioteca(Biblioteca utente){
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     */
+    public void aggiornaBiblioteca(final Biblioteca utente) {
         bibliotecaDAO.save(utente);
     }
 
-    public void aggiornaEsperto(Esperto utente){
+    /**
+     * Implementa la funziolitá di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     */
+    public void aggiornaEsperto(final Esperto utente) {
         espertoDAO.save(utente);
     }
 }
