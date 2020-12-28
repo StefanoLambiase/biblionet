@@ -7,12 +7,13 @@
 </head>
 <body>
     <h2>Ricerca per titolo</h2>
-    <form method="get" action="/prenotazione-libri/ricerca-titolo">
-        <input type="text" name="titolo">
-        <input type="submit">
-    </form>
-
+    
     <div layout:fragment="contenuto-pagina" class="container">
+        <h2>Ricerca per titolo</h2>
+        <form method="get" action="/prenotazione-libri/ricerca-titolo">
+            <input type="text" name="titolo">
+            <input type="submit">
+        </form>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
