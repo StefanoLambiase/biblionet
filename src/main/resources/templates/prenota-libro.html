@@ -8,13 +8,30 @@
 
 <body>
     <div layout:fragment="contenuto-pagina">
-        <div class="container-md" style="margin-top: 5%">
+        <div class="container-md" style="margin-top: 4%">
             <div class="row">
-                <div class="col border">
-
+                <!-- Colonna che contiene la card per la visualizzazione del libro -->
+                <div class="col">
+                    <div class="card" style="width : 80%; border: none">
+                        <img class="card-img-top" th:src="@{~/images/logo.png}" alt="Copertina Libro" width="80%">
+                        <div class="card-body"  style="font-size: 1.5em">
+                            <h1 class="card-title text-center" th:text="${libro.titolo}"></h1>
+                            <p class="card-text" style="margin-top:2%" th:text="${libro.descrizione}"></p>
+                            <ul class="card-text" th:each="genere : ${libro.generi}" style="list-style-type: circle" >
+                                <li th:text="${genere.nome}"></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col border">
-                    
+                <!-- Colonna che contiene la card per la visualizzazione del libro -->
+                <div class="col jumbotron text-center">
+                    <h1>Effettua la prenotazione del libro</h1>
+                    <p>Scegli fra le biblioteche di seguito quella che preferisci</p>
+                    <ul style="list-style-type: none" th:each="biblioteca : ${lista}">
+                        <li>
+
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
