@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Libri prenotabili</title>
@@ -11,23 +12,37 @@
         <input type="submit">
     </form>
 
-    <table>
-        <tr th:each="libro : ${listaLibri}">
-            <td th:text="${libro.titolo}"></td>
-            <th th:each="genere : ${libro.generi}" th:text="${genere.nome}"></th>
-            <th th:each="possesso : ${libro.possessi}" th:text="${possesso.possessoID.bibliotecaID}"></th>
-            <th th:each="possesso : ${libro.possessi}" th:text="${possesso.numeroCopie}"></th>
-            <td>
-                <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/prenota-libro'}">
-                    <div th:if="${session.loggedUser != null}">
-                        <button type="submit">Prenota</button>
-                    </div>
-                    <div th:unless="${session.loggedUser != null}">
-                        <button type="submit" disabled>Prenota</button>
-                    </div>
-                </form>
-            </td>
-        </tr>
-    </table>
+    <div layout:fragment="contenuto-pagina" class="container">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Titolo</th>
+                    <th scope="col">Genere</th>
+                    <th scope="col">Genere</th>
+                    <th scope="col">Biblioteca</th>
+                    <th scope="col">Numero Copie</th>
+                    <th scope="col">Prenotalo</th>
+                </tr>
+            </thead>
+            <thbody>
+                <tr th:each="libro : ${listaLibri}">
+                    <th th:text="${libro.titolo}" scope="row"></th>
+                    <td th:each="genere : ${libro.generi}" th:text="${genere.nome}"></td>
+                    <td th:each="possesso : ${libro.possessi}" th:text="${possesso.possessoID.bibliotecaID}"></td>
+                    <td th:each="possesso : ${libro.possessi}" th:text="${possesso.numeroCopie}"></td>
+                    <td>
+                        <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/prenota-libro'}">
+                            <div th:if="${session.loggedUser != null}">
+                                <button type="submit">Prenota</button>
+                            </div>
+                            <div th:unless="${session.loggedUser != null}">
+                                <button type="submit" disabled>Prenota</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </thbody>
+        </table>
+    </div>
 </body>
 </html>
