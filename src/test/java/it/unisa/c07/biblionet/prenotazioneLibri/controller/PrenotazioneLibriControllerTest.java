@@ -128,4 +128,27 @@ public class PrenotazioneLibriControllerTest {
                             .andExpect(view().name("prenota-libro"));
 
     }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * ad una biblioteca di visualizzare le richieste di
+     * prenotazione ricevute.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void visualizzaRichieste() throws Exception {
+        UtenteRegistrato u = (Biblioteca) new Biblioteca();
+        List<TicketPrestito> list = new ArrayList<>();
+
+        if (true) {
+            Biblioteca b = (Biblioteca) u;
+            when(prenotazioneService.getTicketsByBiblioteca(b))
+                    .thenReturn(list);
+        }
+        this.mockMvc.perform(get("/prenotazione-libri/visualizza-richieste")
+                            .sessionAttr("loggedUser", u))
+                            .andExpect(model().attribute("listaTicket", list))
+                            .andExpect(view().name("visualizza-richieste"));
+
+    }
 }

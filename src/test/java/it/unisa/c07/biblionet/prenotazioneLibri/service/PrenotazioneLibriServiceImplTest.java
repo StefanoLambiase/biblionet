@@ -147,7 +147,7 @@ public class PrenotazioneLibriServiceImplTest {
         l.setPossessi(pl);
         List<Biblioteca> bl = new ArrayList<>();
         Biblioteca b = new Biblioteca();
-        for (Possesso p : l.getPossessi()) {
+        for (Possesso ignored : l.getPossessi()) {
             when(bibliotecaDAO.findByID("a"))
                     .thenReturn(b);
             bl.add(b);
@@ -164,6 +164,19 @@ public class PrenotazioneLibriServiceImplTest {
         Libro l = new Libro();
         when(libroDAO.getOne(1)).thenReturn(l);
         assertEquals(l, prenotazioneService.getLibroByID(1));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere una lista di richieste per una biblioteca.
+     */
+    @Test
+    public void getTicketsByBiblioteca() {
+        List<TicketPrestito> list = new ArrayList<>();
+        when(ticketPrestitoDAO.findAllByBiblioteca_Email("email"))
+                .thenReturn(list);
+        assertEquals(list, prenotazioneService
+                .getTicketsByBiblioteca(new Biblioteca()));
     }
 
 }

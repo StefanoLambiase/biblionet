@@ -99,6 +99,7 @@ public class PrenotazioneLibriController {
 
         UtenteRegistrato utente =
                     (UtenteRegistrato) model.getAttribute("loggedUser");
+        assert utente != null;
         if (utente.getClass().getSimpleName().equals("Lettore")) {
             Lettore l = (Lettore) utente;
             prenotazioneService.richiediPrestito(l,
@@ -107,5 +108,27 @@ public class PrenotazioneLibriController {
         }
         return "redirect:/prenotazione-libri";
     }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ad una biblioteca di visualizzare le richieste di
+     * prenotazione ricevute.
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle richieste
+     */
+    @RequestMapping(value = "/visualizza-richieste",
+                             method = RequestMethod.GET)
+    public String visualizzaRichieste(final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        assert utente != null;
+        if (utente.getClass().getSimpleName().equals("Biblioteca")) {
+            Biblioteca biblioteca = (Biblioteca) utente;
+            model.addAttribute("listaTicket",
+                    prenotazioneService.getTicketsByBiblioteca(biblioteca));
+        }
+        return "visualizza-richieste";
+    }
+
 
 }
