@@ -70,7 +70,6 @@ public class AutenticazioneController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(final SessionStatus status) {
         status.setComplete();
-
         return "index";
     }
 

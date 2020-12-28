@@ -108,9 +108,7 @@ public class AutenticazioneControllerTest {
     @ParameterizedTest
     @MethodSource("provideAutenticazione")
     public void logout() throws Exception {
-
         this.mockMvc.perform(get("/autenticazione/logout"))
-                .andExpect(model().attributeDoesNotExist("loggedUser"))
                 .andExpect(view().name("index"));
     }
 
