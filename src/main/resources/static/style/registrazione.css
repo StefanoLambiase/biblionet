@@ -1,0 +1,43 @@
+.container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-registrazione-heading{
+    margin-bottom: 10px;
+    color: #073763;
+}
+
+.form-control {
+    width: 75%;
+    margin: 1%;
+}
+ .form-control:focus {
+    z-index: 2;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#privacy {
+    margin-top: 2%;
+}
+
+.registra {
+    background-color: #b20909;
+    border: none;
+    margin-top: 2%;
+    color: white;
+}
+
+.registra:hover {
+    background-color: #790505;
+}

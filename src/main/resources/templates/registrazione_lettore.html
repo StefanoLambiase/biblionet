@@ -1,22 +1,76 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common}">
 <head>
+    <link rel="stylesheet" type="text/css" href="../../style/registrazione.css">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registrazione Lettore</title>
 </head>
+
 <body>
-<form method="post" th:action="@{/registrazione/lettore}" >
-        <p> Email <input type="input" name="email" required> </p>
-        <p> Username<input type="input" name="username" required> </p>
-        <p> Nome<input type="input" name="nome" required> </p>
-        <p> Cognome<input type="input" name="cognome" required> </p>
-        <p> Password <input type="password" name="password" required> </p>
-        <p> Conferma Password <input type="password" name="conferma_password" required> </p>
-        <p> Provincia <input type="input" name="provincia" required> </p>
-        <p> Cittá <input type="input" name="citta" required> </p>
-        <p> Via <input type="input" name="via" required> </p>
-        <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" required> </p>
-        <p> <input type="submit"></p>
-    </form>
+
+<div layout:fragment="pagina" class="container">
+
+
+    <div class="row">
+        <form method="post" th:action="@{/registrazione/lettore}" class="form-registrazione">
+
+            <div class="column">
+
+                <h2 class="form-registrazione-heading">Registrati come Lettore</h2>
+
+                <label for="inputEmail">Indirizzo Email</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="esempio@esempio.com" required
+                       autofocus>
+
+                <label for="inputUsurname">Usurname</label>
+                <input type="text" id="inputUsurname" class="form-control" placeholder="usurname" required autofocus>
+
+                <label for="inputPassword">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
+                       autofocus>
+
+                <label for="inputConfermaPassword">Conferma Password</label>
+                <input type="password" id="inputConfermaPassword" class="form-control" placeholder="Password" required
+                       autofocus>
+
+            </div>
+
+            <div class="column">
+
+                <h2 class="form-registrazione-heading">Dati anagrafici</h2>
+
+                <label for="inputNome">Nome</label>
+                <input type="text" id="inputNome" class="form-control" placeholder="Filippo" required autofocus>
+
+                <label for="inputCognome">Cognome</label>
+                <input type="text" id="inputCognome" class="form-control" placeholder="Ganna" required autofocus>
+
+                <label for="inputProvincia">Provincia</label>
+                <input type="text" id="inputProvincia" class="form-control" placeholder="Salerno" required autofocus>
+
+                <label for="inputCitta">Città</label>
+                <input type="text" id="inputCitta" class="form-control" placeholder="Baronissi" required autofocus>
+
+                <label for="inputVia">Via</label>
+                <input type="text" id="inputVia" class="form-control" placeholder="Via Roma" required autofocus>
+
+                <label for="inputTel">Recapitp telefonico</label>
+                <input type="tel" id="inputTel" class="form-control" placeholder="1234567890" autofocus>
+            </div>
+
+
+            <div class="text-center">
+                <label for="privacy">Ho letto e accetto la normativa sulla privacy</label>
+                <input type="checkbox" id="privacy">
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-lg btn-block registra" type="submit">Registrami</button>
+            </div>
+
+        </form>
+    </div>
+</div>
 </body>
 </html>
