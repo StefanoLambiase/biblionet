@@ -44,6 +44,15 @@ public class PrenotazioneLibriController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String visualizzaListaLibri(final Model model) {
+        UtenteRegistrato u =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (u.getClass().getSimpleName().equals("Biblioteca")) {
+            model.addAttribute("utente", 1);
+        } else if (u.getClass().getSimpleName().equals("Lettore")) {
+            model.addAttribute("utente", 2);
+        } else if (u.getClass().getSimpleName().equals("Esperto")) {
+            model.addAttribute("utente", 3);
+        }
         model.addAttribute("listaLibri",
                 prenotazioneService.visualizzaListaLibriCompleta());
         return "visualizza-libri-prenotabili";
