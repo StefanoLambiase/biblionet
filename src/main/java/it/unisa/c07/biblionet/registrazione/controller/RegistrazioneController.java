@@ -226,8 +226,7 @@ public final class RegistrazioneController {
                     final Biblioteca biblioteca,
                     final @RequestParam("vecchia_password")String vecchia,
                     final @RequestParam("nuova_password")String nuova,
-                    final @RequestParam("conferma_password")String conferma)
-                                                                        {
+                    final @RequestParam("conferma_password")String conferma) {
 
 
     Biblioteca toUpdate = registrazioneService
@@ -240,7 +239,8 @@ public final class RegistrazioneController {
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
                 if (Arrays.compare(vecchiaHash,
-                        toUpdate.getPassword()) == 0 &&
+                        toUpdate.getPassword()) == 0
+                        &&
                     nuova.equals(conferma)
                 ) {
                     biblioteca.setPassword(nuova);
@@ -286,7 +286,8 @@ public final class RegistrazioneController {
                                                       String emailBiblioteca) {
 
 
-        Esperto toUpdate = registrazioneService.findEspertoByEmail(esperto.getEmail());
+        Esperto toUpdate = registrazioneService
+                .findEspertoByEmail(esperto.getEmail());
 
         Biblioteca b = registrazioneService
                 .findBibliotecaByEmail(emailBiblioteca);
@@ -346,11 +347,11 @@ public final class RegistrazioneController {
                        final Lettore lettore,
                        final @RequestParam("vecchia_password")String vecchia,
                        final @RequestParam("nuova_password")String nuova,
-                       final @RequestParam("conferma_password")String conferma)
-                                                                            {
+                       final @RequestParam("conferma_password")String conferma) {
 
 
-        Lettore toUpdate = registrazioneService.findLettoreByEmail(lettore.getEmail());
+        Lettore toUpdate = registrazioneService
+                .findLettoreByEmail(lettore.getEmail());
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {

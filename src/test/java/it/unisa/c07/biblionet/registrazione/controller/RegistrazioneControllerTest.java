@@ -681,7 +681,7 @@ public final class RegistrazioneControllerTest {
      * OPPURE.
      * Se nuovaPassword é diversa da confermaPassword.
      *
-     * @param biblioteca Il lettore da modificare
+     * @param biblioteca La biblioteca da modificare
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
      * @throws Exception
@@ -736,6 +736,17 @@ public final class RegistrazioneControllerTest {
         );
     }
 
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di un esperto
+     * avvenuta in modo corretto.
+     *
+     * @param esperto L'esperto da modificare
+     * @param vecchiaPassword La vecchia password dell'account
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @throws Exception
+     */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto Corretto")
     @MethodSource("provideModificaEsperto")
@@ -772,6 +783,17 @@ public final class RegistrazioneControllerTest {
     }
 
 
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di un esperto
+     * avvenuta in modo scorretto.
+     * La vecchiaPassword, nuovaPassword oppure confermaPassword
+     * sono vuote.
+     *
+     * @param esperto L'esperto da modificare
+     * @param emailBiblioteca L'email della biblioteca in cui lavora.
+     * @throws Exception
+     */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto Password non cambiata")
     @MethodSource("provideModificaEsperto")
@@ -804,7 +826,19 @@ public final class RegistrazioneControllerTest {
                 .andExpect(view().name("login"));
     }
 
-
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo scorretto.
+     * Se la vecchia password inserita é diversa
+     * da quella corrente.
+     *
+     * @param esperto L'esperto da modificare
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @param emailBiblioteca L'email della biblioteca in cui lavora.
+     * @throws Exception
+     */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto vecchia password errata")
     @MethodSource("provideModificaEsperto")
@@ -839,6 +873,17 @@ public final class RegistrazioneControllerTest {
                 .andExpect(view().name("modifica_dati_esperto"));
     }
 
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo scorretto.
+     * Se nuovaPassword é diversa da confermaPassword.
+     *
+     * @param esperto L'esperto da modificare
+     * @param nuovaPassword La nuova password dell'account
+     * @param emailBiblioteca L'email della biblioteca in cui lavora.
+     * @throws Exception
+     */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto conferma password errata")
     @MethodSource("provideModificaEsperto")
@@ -872,7 +917,17 @@ public final class RegistrazioneControllerTest {
                 .andExpect(view().name("modifica_dati_esperto"));
     }
 
-
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la modifica di una biblioteca
+     * avvenuta in modo scorretto.
+     *
+     * @param esperto L'esperto da modificare
+     * @param nuovaPassword La nuova password dell'account
+     * @param confermaPassword La conferma password
+     * @param emailBiblioteca L'email della biblioteca in cui lavora.
+     * @throws Exception
+     */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto biblioteca null")
     @MethodSource("provideModificaEsperto")
