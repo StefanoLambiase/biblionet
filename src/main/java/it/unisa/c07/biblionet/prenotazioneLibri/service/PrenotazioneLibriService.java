@@ -96,5 +96,12 @@ public interface PrenotazioneLibriService {
      */
     TicketPrestito accettaRichiesta(TicketPrestito ticket, int giorni);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di rifiutare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @return Il ticket aggiornato
+     */
+    TicketPrestito rifiutaRichiesta(TicketPrestito ticket);
 
 }

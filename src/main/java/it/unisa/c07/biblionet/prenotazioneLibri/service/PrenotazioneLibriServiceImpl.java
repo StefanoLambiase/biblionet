@@ -192,5 +192,18 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         return ticket;
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * di rifiutare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @return Il ticket aggiornato
+     */
+    @Override
+    public TicketPrestito rifiutaRichiesta(TicketPrestito ticket) {
+        ticket.setStato(TicketPrestito.Stati.RIFIUTATO);
+        ticketPrestitoDAO.save(ticket);
+        return ticket;
+    }
+
 }
 

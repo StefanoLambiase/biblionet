@@ -154,16 +154,30 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * richiedere il prestito di un libro.
-     * @param model Il model per recuperare l'utente loggato
+     * @param id l'ID del ticket da accettare
+     * @param giorni il tempo di concessione del prestito
      * @return La view che visualizza la lista delle prenotazioni
      */
     @RequestMapping(value = "/ticket/{id}/accetta",
-            method = RequestMethod.GET)
+            method = RequestMethod.POST)
     public String accettaPrenotazione(final @PathVariable int id,
-                                      final @RequestParam(value = "giorni") int giorni,
-                                      final Model model) {
+                  final @RequestParam(value = "giorni") int giorni) {
         TicketPrestito ticket = prenotazioneService.getTicketByID(id);
         prenotazioneService.accettaRichiesta(ticket, giorni);
+        return "redirect:/prenotazione-libri/visualizza-richieste";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * richiedere il prestito di un libro.
+     * @param id l'ID del ticket da rifiutare
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = "/ticket/{id}/rifiuta",
+            method = RequestMethod.POST)
+    public String rifiutaPrenotazione(final @PathVariable int id) {
+        TicketPrestito ticket = prenotazioneService.getTicketByID(id);
+        prenotazioneService.rifiutaRichiesta(ticket);
         return "redirect:/prenotazione-libri/visualizza-richieste";
     }
 
