@@ -42,19 +42,9 @@ public class TicketPrestito {
     public enum Stati {
 
         /**
-         * Rappresenta lo stato Creato di un TicketPrestito.
-         */
-        CREATO,
-
-        /**
          * Rappresenta lo stato In attesa di conferma di un TicketPrestito.
          */
         IN_ATTESA_DI_CONFERMA,
-
-        /**
-         * Rappresenta lo stato Confermato di un TicketPrestito.
-         */
-        CONFERMATO,
 
         /**
          * Rappresenta lo stato In attesa di restituzione di un TicketPrestito.
@@ -64,7 +54,12 @@ public class TicketPrestito {
         /**
          * Rappresenta lo stato Chiuso di un TicketPrestito.
          */
-        CHIUSO };
+        CHIUSO,
+
+        /**
+         * Rappresenta lo stato Rifiutato di un TicketPrestito.
+         */
+        RIFIUTATO };
 
     /**
      * Rappresenta lo stato del ticket.

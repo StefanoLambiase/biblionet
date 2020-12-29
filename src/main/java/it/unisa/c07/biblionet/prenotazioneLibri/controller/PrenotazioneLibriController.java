@@ -151,5 +151,21 @@ public class PrenotazioneLibriController {
         return "visualizza-richieste";
     }
 
+    /**
+     * Implementa la funzionalità che permette di
+     * richiedere il prestito di un libro.
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = "/ticket/{id}/accetta",
+            method = RequestMethod.GET)
+    public String accettaPrenotazione(final @PathVariable int id,
+                                      final @RequestParam(value = "giorni") int giorni,
+                                      final Model model) {
+        TicketPrestito ticket = prenotazioneService.getTicketByID(id);
+        prenotazioneService.accettaRichiesta(ticket, giorni);
+        return "redirect:/prenotazione-libri/visualizza-richieste";
+    }
+
 
 }

@@ -79,5 +79,22 @@ public interface PrenotazioneLibriService {
      */
     List<TicketPrestito> getTicketsByBiblioteca(Biblioteca biblioteca);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un ticket dato il suo ID.
+     * @param id L'ID del ticket da recuperare
+     * @return Il ticket ottenuto
+     */
+    TicketPrestito getTicketByID(int id);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @param giorni il tempo di concessione del libro
+     * @return Il ticket aggiornato
+     */
+    TicketPrestito accettaRichiesta(TicketPrestito ticket, int giorni);
+
 
 }

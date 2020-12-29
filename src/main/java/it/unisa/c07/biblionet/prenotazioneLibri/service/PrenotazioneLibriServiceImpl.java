@@ -166,5 +166,31 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
                 findAllByBiblioteca_Email(biblioteca.getEmail());
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un ticket dato il suo ID.
+     * @param id L'ID del ticket da recuperare
+     * @return Il ticket ottenuto
+     */
+    @Override
+    public TicketPrestito getTicketByID(int id) {
+        return ticketPrestitoDAO.getOne(id);
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @param giorni il tempo di concessione del libro
+     * @return Il ticket aggiornato
+     */
+    @Override
+    public TicketPrestito accettaRichiesta(TicketPrestito ticket, int giorni) {
+        ticket.setDataRestituzione(LocalDateTime.now().plusDays(giorni));
+        ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE);
+        ticketPrestitoDAO.save(ticket);
+        return ticket;
+    }
+
 }
 
