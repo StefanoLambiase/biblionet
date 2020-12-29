@@ -1,6 +1,6 @@
 .container {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     background-color: white;
     padding: 2%;
 }
@@ -22,6 +22,7 @@
 .column {
     float: left;
     width: 50%;
+    padding: 2%;
 }
 
 .row:after {
@@ -43,6 +44,7 @@
 
 .registra:hover {
     background-color: #790505;
+    color: white;
 }
 
 .logo-index {
