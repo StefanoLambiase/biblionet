@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
 import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,6 +101,7 @@ public class PrenotazioneLibriController {
 
         UtenteRegistrato utente =
                     (UtenteRegistrato) model.getAttribute("loggedUser");
+        assert utente != null;
         if (utente.getClass().getSimpleName().equals("Lettore")) {
             Lettore l = (Lettore) utente;
             prenotazioneService.richiediPrestito(l,
@@ -107,5 +110,46 @@ public class PrenotazioneLibriController {
         }
         return "redirect:/prenotazione-libri";
     }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ad una biblioteca di visualizzare le richieste di
+     * prenotazione ricevute.
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle richieste
+     */
+    @RequestMapping(value = "/visualizza-richieste",
+                             method = RequestMethod.GET)
+    public String visualizzaRichieste(final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        assert utente != null;
+        if (utente.getClass().getSimpleName().equals("Biblioteca")) {
+            Biblioteca biblioteca = (Biblioteca) utente;
+            List<TicketPrestito> lista =
+                    prenotazioneService.getTicketsByBiblioteca(biblioteca);
+            List<TicketPrestito> list1 = new ArrayList<>();
+            List<TicketPrestito> list2 = new ArrayList<>();
+            List<TicketPrestito> list3 = new ArrayList<>();
+            for (TicketPrestito t : lista) {
+                if (t.getStato().equals(
+                            TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
+                    list1.add(t);
+                } else if (t.getStato().equals(
+                        TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
+                    list2.add(t);
+                } else if (t.getStato().equals(
+                        TicketPrestito.Stati.CHIUSO)) {
+                    list3.add(t);
+                }
+            }
+
+            model.addAttribute("listaTicketDaAccettare", list1);
+            model.addAttribute("listaTicketAccettati", list2);
+            model.addAttribute("listaTicketChiusi", list3);
+        }
+        return "visualizza-richieste";
+    }
+
 
 }
