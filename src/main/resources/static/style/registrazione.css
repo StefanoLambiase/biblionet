@@ -1,11 +1,14 @@
 .container {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    background-color: white;
+    padding: 2%;
 }
 
 .form-registrazione-heading{
     margin-bottom: 10px;
     color: #073763;
+    font-size: 25px;
 }
 
 .form-control {
@@ -42,10 +45,14 @@
     background-color: #790505;
 }
 
-.logo {
-    width: 35%;
+.logo-index {
+    width: 20%;
 }
 
 .dx {
     border-left: 2px solid #b20909;
+}
+
+body{
+    background-color: #073763;
 }

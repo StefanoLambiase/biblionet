@@ -11,18 +11,24 @@
 
 <div layout:fragment="pagina" class="container">
 
-    <img class="logo" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet">
+    <div class="text-center">
+        <img class="logo-index" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet">
+    </div>
 
     <div class="row">
-        <form method="post" th:action="@{/registrazione/lettore}" class="form-registrazione">
+        <form method="post" th:action="@{/registrazione/lettore}" class="form-registrazione form-horizontal">
 
             <div class="column sx">
 
-                <h2 class="form-registrazione-heading">Registrati come Lettore</h2>
+                <h2 class="form-registrazione-heading text-center">Registrati come Lettore</h2>
 
-                <label for="inputEmail">Indirizzo Email</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="esempio@esempio.com" required
-                       autofocus>
+                <div class="form-group row">
+                    <label for="inputEmail" class="col-form-label col-sm-3">Indirizzo Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" id="inputEmail" class="form-control" placeholder="esempio@esempio.com" required
+                               autofocus>
+                    </div>
+                </div>
 
                 <label for="inputUsurname">Usurname</label>
                 <input type="text" id="inputUsurname" class="form-control" placeholder="usurname" required autofocus>
@@ -39,7 +45,7 @@
 
             <div class="column dx">
 
-                <h2 class="form-registrazione-heading">Dati anagrafici</h2>
+                <h2 class="form-registrazione-heading text-center">Dati anagrafici</h2>
 
                 <label for="inputNome">Nome</label>
                 <input type="text" id="inputNome" class="form-control" placeholder="Filippo" required autofocus>
