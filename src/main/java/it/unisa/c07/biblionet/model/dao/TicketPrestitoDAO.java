@@ -13,5 +13,12 @@ import java.util.List;
 public interface TicketPrestitoDAO
             extends JpaRepository<TicketPrestito, Integer> {
 
-    public List<TicketPrestito> findAllByBiblioteca_Email(String bibliotecaEmail);
+    /**
+     * Seleziona la lista dei ticket di una determinata
+     * biblioteca.
+     * @param bibliotecaEmail L'email della biblioteca
+     * @return I ticket della biblioteca
+     */
+    List<TicketPrestito>
+                findAllByBiblioteca_Email(String bibliotecaEmail);
 }

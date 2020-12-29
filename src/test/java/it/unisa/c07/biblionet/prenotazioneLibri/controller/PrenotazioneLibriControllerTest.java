@@ -147,7 +147,12 @@ public class PrenotazioneLibriControllerTest {
         }
         this.mockMvc.perform(get("/prenotazione-libri/visualizza-richieste")
                             .sessionAttr("loggedUser", u))
-                            .andExpect(model().attribute("listaTicket", list))
+                            .andExpect(model().
+                                    attribute("listaTicketDaAccettare", list))
+                            .andExpect(model().
+                                    attribute("listaTicketAccettati", list))
+                            .andExpect(model().
+                                    attribute("listaTicketChiusi", list))
                             .andExpect(view().name("visualizza-richieste"));
 
     }

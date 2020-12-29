@@ -132,23 +132,21 @@ public class PrenotazioneLibriController {
             List<TicketPrestito> list2 = new ArrayList<>();
             List<TicketPrestito> list3 = new ArrayList<>();
             for (TicketPrestito t : lista) {
-                if(t.getStato().equals(
+                if (t.getStato().equals(
                             TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
                     list1.add(t);
-                }
-                else if(t.getStato().equals(
+                } else if (t.getStato().equals(
                         TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
                     list2.add(t);
-                }
-                else if(t.getStato().equals(
+                } else if (t.getStato().equals(
                         TicketPrestito.Stati.CHIUSO)) {
                     list3.add(t);
                 }
             }
 
-            model.addAttribute("listaTicketDaAccettare",list1);
-            model.addAttribute("listaTicketAccettati",list2);
-            model.addAttribute("listaTicketChiusi",list3);
+            model.addAttribute("listaTicketDaAccettare", list1);
+            model.addAttribute("listaTicketAccettati", list2);
+            model.addAttribute("listaTicketChiusi", list3);
         }
         return "visualizza-richieste";
     }
