@@ -20,7 +20,7 @@
                     <th scope="col">Prenotalo</th>
                 </tr>
                 <tr th:each="libro : ${listaLibri}">
-                    <td><img th:src="@{/static/image.logo/Solo_libro.png}"/> </td>
+                    <td><img th:src="${libro.immagineLibro}"/> </td>
                     <th th:text="${libro.titolo}" scope="row"></th>
                     <td><p th:each="genere : ${libro.generi}" th:text="${genere.nome}"></p></td>
                     <td>
