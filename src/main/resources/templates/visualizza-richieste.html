@@ -4,18 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizza richieste</title>
+    <link rel="stylesheet" th:href="@{~/style/prenotazione-libri.css}" />
 </head>
 <body>
     <div layout:fragment="contenuto-pagina">
-        <table>
-            <tr th:each="ticket : ${listaTicket}">
-                <td th:text="${ticket.idTicket}"></td>
-                <td th:text="${ticket.libro.titolo}"></td>
-                <td th:text="${ticket.dataRichiesta.dayOfMonth + '/' + ticket.dataRichiesta.monthValue + '/' + ticket.dataRichiesta.year
-                    + ' ' +  ticket.dataRichiesta.hour + ':' + ticket.dataRichiesta.minute}"> </td>
-                <td th:text=" ${ticket.lettore.nome + ' ' + ticket.lettore.cognome}"></td>
-            </tr>
-        </table>
+        <div class="container-fluid">
+            <div class="row row-scrollable-panels">
+                <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                    <div class="text-center column-fixed-title">
+                        <h2>Ticket aperti</h2>
+                    </div>
+                    <div th:each="ticket : ${listaTicketDaAccettare}">
+                        <div class="card text-center" style="margin-top: 2%;">
+                            <div class="card-header ticket-blue-section" th:text="${'Richiesto da: '+ticket.lettore.nome+' '+ticket.lettore.cognome}"></div>
+                            <div class="card-body border-blue">
+                                <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
+                                <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <form>
+                                    <div class="card-text">
+                                        Giorni di durata del prestito
+                                        <input type="number" min="7" max="60" width="60px" >
+                                    </div>
+                                    <input type="submit" class="btn red-button" value="Accetta" style="width: 80px"></input>
+                                </form>
+                                <div  class="card-text" style="margin-top: 1%;">
+                                    <input type="submit" class="btn red-button" value="Rifiuta" style="width: 80px"></input>
+                                </div>
+
+                            </div>
+                            <div class="card-footer ticket-blue-section">
+                                Data richiesta:
+                                <span th:text="${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                    <div class="text-center column-fixed-title ">
+                        <h2>Ticket accettati</h2>
+                    </div>
+                    <div th:each="ticket : ${listaTicketAccettati}">
+                        <div class="card text-center" style="margin-top: 2%;">
+                            <div class="card-header ticket-blue-section" th:text="${'Richiesto da: '+ticket.lettore.nome+' '+ticket.lettore.cognome}"></div>
+                            <div class="card-body border-blue">
+                                <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
+                                <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div  class="card-text" style="margin-top: 1%;">
+                                    <input type="submit" class="btn red-button" value="Chiudi" style="width: 80px"></input>
+                                </div>
+
+                            </div>
+                            <div class="card-footer ticket-blue-section">
+                                Data richiesta:
+                                <span th:text="${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}">
+                                </span>
+                            </div>
+                            <div class="card-footer ticket-blue-section">
+                                Data restituzione:
+                                <span th:text="${#temporals.format(ticket.dataRestituzione,'dd/MM/yyyy')}">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                    <div class="text-center column-fixed-title ">
+                        <h2>Ticket chiusi</h2>
+                    </div>
+                    <div th:each="ticket : ${listaTicketChiusi}">
+                        <div class="card text-center" style="margin-top: 2%;">
+                            <div class="card-header ticket-blue-section" th:text="${'Richiesto da: '+ticket.lettore.nome+' '+ticket.lettore.cognome}"></div>
+                            <div class="card-body border-blue">
+                                <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
+                                <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                            </div>
+                            <div class="card-footer ticket-blue-section">
+                                Data richiesta:
+                                <span th:text="${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}">
+                                </span>
+                            </div>
+                            <div class="card-footer ticket-blue-section">
+                                Data restituzione:
+                                <span th:text="${#temporals.format(ticket.dataRestituzione,'dd/MM/yyyy')}">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
