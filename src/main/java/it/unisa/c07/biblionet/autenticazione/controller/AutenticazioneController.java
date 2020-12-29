@@ -58,6 +58,7 @@ public class AutenticazioneController {
                 model.addAttribute("loggedUser", utente);
             }
             return "index";
+
     }
 
     /**
