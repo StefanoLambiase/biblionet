@@ -89,19 +89,19 @@ public interface RegistrazioneService {
      * all'account biblioteca.
      * @param utente La biblioteca da aggiornare
      */
-    void aggiornaBiblioteca(Biblioteca utente);
+    Biblioteca aggiornaBiblioteca(Biblioteca utente);
 
     /**
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account esperto.
      * @param utente L'esperto da aggiornare
      */
-    void aggiornaEsperto(Esperto utente);
+    Esperto aggiornaEsperto(Esperto utente);
 
     /**
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account lettore.
      * @param utente Lettore da aggiornare
      */
-    void aggiornaLettore(Lettore utente);
+    Lettore aggiornaLettore(Lettore utente);
 }

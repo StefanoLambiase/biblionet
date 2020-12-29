@@ -70,7 +70,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funzionalitá di registrare un Lettore.
+     * Implementa la funzionalità di registrare un Lettore.
      * @param lettore Il lettore da registrare
      * @return Il lettore registrato
      */
@@ -80,7 +80,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funziolitá di ritorno di un esperto.
+     * Implementa la funzionalità di ritorno di un esperto.
      * @param utenteRegistrato L'utente esperto
      * @return L'utente esperto relativo all'utenteRegistrato
      */
@@ -91,7 +91,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funziolitá di ritorno di un lettore.
+     * Implementa la funzionalità di ritorno di un lettore.
      * @param utenteRegistrato L'utente lettore
      * @return L'utente lettore relativo all'utenteRegistrato
      */
@@ -102,7 +102,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funziolitá di ritorno di una biblioteca.
+     * Implementa la funzionalità di ritorno di una biblioteca.
      * @param utenteRegistrato L'utente biblioteca
      * @return L'utente biblioteca relativo all'utenteRegistrato
      */
@@ -121,11 +121,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     public final Biblioteca findBibliotecaByEmail(final String email) {
 
         Optional<UtenteRegistrato> b = bibliotecaDAO.findById(email);
-        if (b.isPresent()) {
-            return (Biblioteca) b.get();
-        } else {
-            return null;
-        }
+        return (Biblioteca) b.orElse(null);
     }
 
     /**
@@ -137,11 +133,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     public final Esperto findEspertoByEmail(final String email) {
 
         Optional<UtenteRegistrato> b = espertoDAO.findById(email);
-        if (b.isPresent()) {
-            return (Esperto) b.get();
-        } else {
-            return null;
-        }
+        return (Esperto) b.orElse(null);
     }
 
     /**
@@ -153,11 +145,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     public final Lettore findLettoreByEmail(final String email) {
 
         Optional<UtenteRegistrato> b = lettoreDAO.findById(email);
-        if (b.isPresent()) {
-            return (Lettore) b.get();
-        } else {
-            return null;
-        }
+        return (Lettore) b.orElse(null);
     }
 
     /**
@@ -179,29 +167,29 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account biblioteca.
      * @param utente La biblioteca da aggiornare
      */
-    public void aggiornaBiblioteca(final Biblioteca utente) {
-        bibliotecaDAO.save(utente);
+    public Biblioteca aggiornaBiblioteca(final Biblioteca utente) {
+        return bibliotecaDAO.save(utente);
     }
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account esperto.
      * @param utente L'esperto da aggiornare
      */
-    public void aggiornaEsperto(final Esperto utente) {
-        espertoDAO.save(utente);
+    public Esperto aggiornaEsperto(final Esperto utente) {
+        return espertoDAO.save(utente);
     }
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account lettore.
      * @param utente Lettore da aggiornare
      */
-    public void aggiornaLettore(final Lettore utente) {
-        lettoreDAO.save(utente);
+    public Lettore aggiornaLettore(final Lettore utente) {
+        return lettoreDAO.save(utente);
     }
 }
