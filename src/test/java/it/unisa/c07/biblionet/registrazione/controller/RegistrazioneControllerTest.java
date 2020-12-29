@@ -4,7 +4,6 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,9 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
@@ -254,38 +250,6 @@ public final class RegistrazioneControllerTest {
                 .param("genere", generi))
                 .andExpect(view().name("login"));
     }
-
-    @ParameterizedTest
-    @DisplayName("Registrazione Esperto che va a buon fine anche se i generi "
-            + "passati sono null")
-    @MethodSource("provideRegistrazioneEsperto")
-    public void registrazioneEspertoEccezione( final Esperto esperto, final String confermaPassword,
-                                               final String emailBiblioteca,
-                                               final String[] generi) throws Exception {
-
-        Assertions.assertThrows(NoSuchAlgorithmException.class,()->{
-            MessageDigest.getInstance("");
-        });
-
-        this.mockMvc.perform(post("/registrazione/esperto")
-                .param("email", esperto.getEmail())
-                .param("nome", esperto.getNome())
-                .param("cognome", esperto.getCognome())
-                .param("username", esperto.getUsername())
-                .param("password", "EspertoPassword")
-                .param("conferma_password", confermaPassword)
-                .param("provincia", esperto.getProvincia())
-                .param("citta", esperto.getCitta())
-                .param("via", esperto.getVia())
-                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca)
-                .param("genere", generi))
-                .andExpect(view().name("registrazione_esperto"));
-
-
-
-    }
-
 
     /**
      * Simula i dati inviati da un metodo

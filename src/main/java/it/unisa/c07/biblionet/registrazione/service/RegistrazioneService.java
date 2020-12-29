@@ -88,6 +88,7 @@ public interface RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account biblioteca.
      * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
      */
     Biblioteca aggiornaBiblioteca(Biblioteca utente);
 
@@ -95,6 +96,7 @@ public interface RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account esperto.
      * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
      */
     Esperto aggiornaEsperto(Esperto utente);
 
@@ -102,6 +104,7 @@ public interface RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account lettore.
      * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
      */
     Lettore aggiornaLettore(Lettore utente);
 }

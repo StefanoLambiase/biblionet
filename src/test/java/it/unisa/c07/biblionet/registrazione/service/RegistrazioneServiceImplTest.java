@@ -1,6 +1,5 @@
 package it.unisa.c07.biblionet.registrazione.service;
 
-import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneServiceImpl;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
@@ -17,12 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -65,6 +64,10 @@ public class RegistrazioneServiceImplTest {
     @InjectMocks
     private RegistrazioneServiceImpl registrazioneService;
 
+    /**
+     * Inject del service per simulare
+     * le operazioni.
+     */
     @Mock
     private AutenticazioneServiceImpl autenticazioneService;
 
@@ -103,11 +106,11 @@ public class RegistrazioneServiceImplTest {
 
     /**
      * Metodo che si occupa di testare
-     * se l'utente è un esperto
+     * se l'utente è un esperto.
      */
     @Test
-    public void isUserEsperto(){
-        UtenteRegistrato utenteRegistrato= new Esperto();
+    public void isUserEsperto() {
+        UtenteRegistrato utenteRegistrato = new Esperto();
 
         when(autenticazioneService.isEsperto(utenteRegistrato))
                 .thenReturn(true);
@@ -117,11 +120,11 @@ public class RegistrazioneServiceImplTest {
 
     /**
      * Metodo che si occupa di testare
-     * se l'utente è un lettore
+     * se l'utente è un lettore.
      */
     @Test
-    public void isUserLettore(){
-        UtenteRegistrato utenteRegistrato= new Lettore();
+    public void isUserLettore() {
+        UtenteRegistrato utenteRegistrato = new Lettore();
 
         when(autenticazioneService.isLettore(utenteRegistrato))
                 .thenReturn(true);
@@ -131,11 +134,11 @@ public class RegistrazioneServiceImplTest {
 
     /**
      * Metodo che si occupa di testare
-     * se l'utente è una biblioteca
+     * se l'utente è una biblioteca.
      */
     @Test
-    public void isUserBiblioteca(){
-        UtenteRegistrato utenteRegistrato= new Biblioteca();
+    public void isUserBiblioteca() {
+        UtenteRegistrato utenteRegistrato = new Biblioteca();
 
         when(autenticazioneService.isBiblioteca(utenteRegistrato))
                 .thenReturn(true);
@@ -149,11 +152,11 @@ public class RegistrazioneServiceImplTest {
      * biblioteca nel service.
      */
     @Test
-    public void aggiornaBiblioteca(){
-        Biblioteca utente= new Biblioteca();
+    public void aggiornaBiblioteca() {
+        Biblioteca utente = new Biblioteca();
         when(bibliotecaDAO.save(utente))
                 .thenReturn(utente);
-        assertEquals(utente,registrazioneService.aggiornaBiblioteca(utente));
+        assertEquals(utente, registrazioneService.aggiornaBiblioteca(utente));
     }
 
     /**
@@ -162,11 +165,11 @@ public class RegistrazioneServiceImplTest {
      * esperto nel service.
      */
     @Test
-    public void aggiornaEsperto(){
-        Esperto utente= new Esperto();
+    public void aggiornaEsperto() {
+        Esperto utente = new Esperto();
         when(espertoDAO.save(utente))
                 .thenReturn(utente);
-        assertEquals(utente,registrazioneService.aggiornaEsperto(utente));
+        assertEquals(utente, registrazioneService.aggiornaEsperto(utente));
     }
 
     /**
@@ -175,11 +178,11 @@ public class RegistrazioneServiceImplTest {
      * lettore nel service.
      */
     @Test
-    public void aggiornaLettore(){
-        Lettore utente= new Lettore();
+    public void aggiornaLettore() {
+        Lettore utente = new Lettore();
         when(lettoreDAO.save(utente))
                 .thenReturn(utente);
-        assertEquals(utente,registrazioneService.aggiornaLettore(utente));
+        assertEquals(utente, registrazioneService.aggiornaLettore(utente));
     }
 
     /**
@@ -188,12 +191,12 @@ public class RegistrazioneServiceImplTest {
      * biblioteca nel service.
      */
     @Test
-    public void findBibliotecaByEmail(){
-        Biblioteca dummy= new Biblioteca();
-        String email="";
+    public void findBibliotecaByEmail() {
+        Biblioteca dummy = new Biblioteca();
+        String email = "";
         when(bibliotecaDAO.findById(email))
                 .thenReturn(Optional.of(dummy));
-        assertEquals(dummy,registrazioneService.findBibliotecaByEmail(email));
+        assertEquals(dummy, registrazioneService.findBibliotecaByEmail(email));
     }
 
     /**
@@ -202,12 +205,12 @@ public class RegistrazioneServiceImplTest {
      * nel service.
      */
     @Test
-    public void findEspertoByEmail(){
-        Esperto dummy= new Esperto();
-        String email="";
+    public void findEspertoByEmail() {
+        Esperto dummy = new Esperto();
+        String email = "";
         when(espertoDAO.findById(email))
                 .thenReturn(Optional.of(dummy));
-        assertEquals(dummy,registrazioneService.findEspertoByEmail(email));
+        assertEquals(dummy, registrazioneService.findEspertoByEmail(email));
     }
 
     /**
@@ -216,12 +219,12 @@ public class RegistrazioneServiceImplTest {
      * Lettore nel service.
      */
     @Test
-    public void findLettoreByEmail(){
-        Lettore dummy= new Lettore();
-        String email="";
+    public void findLettoreByEmail() {
+        Lettore dummy = new Lettore();
+        String email = "";
         when(lettoreDAO.findById(email))
                 .thenReturn(Optional.of(dummy));
-        assertEquals(dummy,registrazioneService.findLettoreByEmail(email));
+        assertEquals(dummy, registrazioneService.findLettoreByEmail(email));
     }
 
     /**
@@ -230,11 +233,11 @@ public class RegistrazioneServiceImplTest {
      * genere facendo 0 iterazioni nel service.
      */
     @Test
-    public void findGeneriByName0IT(){
+    public void findGeneriByName0IT() {
 
         List<Genere> list = new ArrayList<>();
-        String[] generi={""};
-        assertEquals(list,registrazioneService.findGeneriByName(generi));
+        String[] generi = {""};
+        assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
 
     /**
@@ -243,13 +246,13 @@ public class RegistrazioneServiceImplTest {
      * genere facendo una iterazione nel service.
      */
     @Test
-    public void findGeneriByName1IT(){
+    public void findGeneriByName1IT() {
 
         List<Genere> list = new ArrayList<>();
         list.add(new Genere());
-        String[] generi={"test"};
+        String[] generi = {"test"};
         when(genereDAO.findByName("test")).thenReturn(new Genere());
-        assertEquals(list,registrazioneService.findGeneriByName(generi));
+        assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
 
     /**
@@ -258,15 +261,15 @@ public class RegistrazioneServiceImplTest {
      * genere facendo due iterazioni nel service.
      */
     @Test
-    public void findGeneriByName2IT(){
+    public void findGeneriByName2IT() {
 
         List<Genere> list = new ArrayList<>();
         list.add(new Genere());
         list.add(new Genere());
-        String[] generi={"test","test2"};
+        String[] generi = {"test", "test2"};
         when(genereDAO.findByName("test")).thenReturn(new Genere());
         when(genereDAO.findByName("test2")).thenReturn(new Genere());
-        assertEquals(list,registrazioneService.findGeneriByName(generi));
+        assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
 
     /**
@@ -275,12 +278,12 @@ public class RegistrazioneServiceImplTest {
      * facendo fallire l'if nel service.
      */
     @Test
-    public void findGeneriByName(){
+    public void findGeneriByName() {
 
         List<Genere> list = new ArrayList<>();
-        String[] generi={"test"};
+        String[] generi = {"test"};
         when(genereDAO.findByName("test")).thenReturn(null);
-        assertEquals(list,registrazioneService.findGeneriByName(generi));
+        assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
 
     /**
@@ -289,13 +292,13 @@ public class RegistrazioneServiceImplTest {
      * facendo riuscire l'if nel service.
      */
     @Test
-    public void findGeneriByName2(){
+    public void findGeneriByName2() {
 
         List<Genere> list = new ArrayList<>();
         list.add(new Genere());
-        String[] generi={"test"};
+        String[] generi = {"test"};
         when(genereDAO.findByName("test")).thenReturn(new Genere());
-        assertEquals(list,registrazioneService.findGeneriByName(generi));
+        assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
 
 

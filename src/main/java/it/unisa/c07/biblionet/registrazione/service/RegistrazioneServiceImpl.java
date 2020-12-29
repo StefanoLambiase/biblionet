@@ -170,6 +170,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account biblioteca.
      * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
      */
     public Biblioteca aggiornaBiblioteca(final Biblioteca utente) {
         return bibliotecaDAO.save(utente);
@@ -179,6 +180,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account esperto.
      * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
      */
     public Esperto aggiornaEsperto(final Esperto utente) {
         return espertoDAO.save(utente);
@@ -188,6 +190,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      * Implementa la funzionalità di salvataggio delle modifiche
      * all'account lettore.
      * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
      */
     public Lettore aggiornaLettore(final Lettore utente) {
         return lettoreDAO.save(utente);
