@@ -95,10 +95,21 @@ public class BiblionetApplication {
                 "Vieni che non ti faccio niente bookstore"
         );
 
+        Biblioteca biblioteca4 = new Biblioteca(
+                "b4@gmail.com",
+                "aaaaa",
+                "Napoli",
+                "Scampia",
+                "Via Portici 47",
+                "3341278415",
+                "Naboli"
+        );
+
         bibliotecaDAO.save(biblioteca);
         bibliotecaDAO.save(biblioteca1);
         bibliotecaDAO.save(biblioteca2);
         bibliotecaDAO.save(biblioteca3);
+        bibliotecaDAO.save(biblioteca4);
 
 //----------------------Definizione ed inserimento esperti--------------------------------------------------------------
 
@@ -431,12 +442,27 @@ public class BiblionetApplication {
         );
 
         PossessoId possessoId5 = new PossessoId(
-                biblioteca1.getEmail(),
+                biblioteca.getEmail(),
                 libro5.getIdLibro()
         );
 
         PossessoId possessoId6 = new PossessoId(
-                biblioteca.getEmail(),
+                biblioteca1.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId7 = new PossessoId(
+                biblioteca2.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId8 = new PossessoId(
+                biblioteca3.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId9 = new PossessoId(
+                biblioteca4.getEmail(),
                 libro5.getIdLibro()
         );
 
@@ -474,6 +500,22 @@ public class BiblionetApplication {
                 possessoId6,
                 10
         );
+
+        Possesso possesso7 = new Possesso(
+                possessoId7,
+                10
+        );
+
+        Possesso possesso8 = new Possesso(
+                possessoId8,
+                10
+        );
+
+        Possesso possesso9 = new Possesso(
+                possessoId9,
+                10
+        );
+
         possessoDAO.save(possesso);
         possessoDAO.save(possesso1);
         possessoDAO.save(possesso2);
@@ -481,6 +523,9 @@ public class BiblionetApplication {
         possessoDAO.save(possesso4);
         possessoDAO.save(possesso5);
         possessoDAO.save(possesso6);
+        possessoDAO.save(possesso7);
+        possessoDAO.save(possesso8);
+        possessoDAO.save(possesso9);
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
         TicketPrestito ticket = new TicketPrestito(

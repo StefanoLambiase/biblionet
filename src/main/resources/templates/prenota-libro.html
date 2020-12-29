@@ -1,25 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Prenota libro</title>
+    <link rel="stylesheet" th:href="@{~/style/prenotazione-libri.css}"></style>
 </head>
 
 <body>
-    <h2>Biblioteche che hanno <span th:text="${libro.titolo}"></span>: </h2>
-    <table>
-        <tr th:each="biblioteca : ${lista}">
-            <td th:text="${biblioteca.nomeBiblioteca}"></td>
-            <td>
-                <form method="post" action="/prenotazione-libri/conferma-prenotazione">
-                    <input type="hidden" name="idBiblioteca" th:value="${biblioteca.email}">
-                    <input type="hidden" name="idLibro" th:value="${libro.idLibro}">
-                    <button type="submit">Prenota</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+    <div layout:fragment="contenuto-pagina">
+        <div class="container-md" style="margin-top: 4%">
+            <div class="row">
+                <!-- Colonna che contiene la card per la visualizzazione del libro -->
+                <div class="col">
+                    <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width : 80%;">
+                        <img class="card-img-top border" th:src="@{'data:image/png;base64,'+ ${libro.immagineLibro}}" alt="Nessuna copertina trovata" width="70%">
+                        <div class="card-body" style="font-size: 18px;">
+                            <h3 class="card-title text-center rounded shadow p-3 mb-5" th:text="${libro.titolo}" style="background-color:#073763; color:white; padding: 2%;"></h3>
+                            <div class="row card-content">
+                                <div class="col-4">
+                                    <p class="card-text bold-text">Descrizione</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="card-text" th:text="${libro.descrizione}"></p>
+                                </div>
+                            </div>
+                            <th th:if="${libro.isbn} != null">
+                                <div class="row card-content">
+                                    <div class="col-4">
+                                        <p class="card-text bold-text" >ISBN</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="card-text" th:text="${libro.isbn}"></p>
+                                    </div>
+                                </div>
+                            </th>
+                            <div class="row card-content">
+                                <div class="col-4">
+                                    <p class="card-text bold-text" >Autore</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="card-text" th:text="${libro.autore}"></p>
+                                </div>
+                            </div>
+                            <div class="row card-content">
+                                <div class="col-4">
+                                    <p class="card-text bold-text" >Casa Editrice</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="card-text" th:text="${libro.casaEditrice}+', '+${#temporals.year(libro.annoDiPubblicazione)}"></p>
+                                </div>
+                            </div>
+                            <div class="row card-content">
+                                <div class="col-4">
+                                    <p class="card-text bold-text" >Generi</p>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row" th:each="genere : ${libro.generi}">
+                                        <div class="col" th:text="${genere.nome}"></div>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+                <!-- Colonna che contiene la card per la scelta della biblioteca -->
+                <div class="col">
+                    <h1 class="text-center" style="border-bottom: 2px solid #b20909; padding-bottom: 5%; margin-top:5%;">Scegli la biblioteca che preferisci!</h1>
+                    <ul class="list-group-flush" style="list-style-type: none; border-bottom: 2px solid #b20909;" th:each="biblioteca : ${lista}">
+                        <li class="list-group-item" style="padding: 5%">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h3 th:text="${biblioteca.nomeBiblioteca}"></h3>
+                                    <small class="text-muted"><th th:text="${biblioteca.citta}"></th></small>
+                                </div>
+                                <div>
+                                    <form method="post" action="/prenotazione-libri/conferma-prenotazione">
+                                        <input type="hidden" name="idBiblioteca" th:value="${biblioteca.email}">
+                                        <input type="hidden" name="idLibro" th:value="${libro.idLibro}">
+                                        <button class="btn btn-primary btn-lg" style="background-color: #073763" type="submit">Prenota</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+    </div>
 </body>
 </html>
