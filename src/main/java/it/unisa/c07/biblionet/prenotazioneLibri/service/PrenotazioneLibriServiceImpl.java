@@ -163,7 +163,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     public List<TicketPrestito> getTicketsByBiblioteca(
                             final Biblioteca biblioteca) {
         return ticketPrestitoDAO.
-                findAllByBiblioteca_Email(biblioteca.getEmail());
+                findAllByBibliotecaEmail(biblioteca.getEmail());
     }
 
     /**
@@ -173,7 +173,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return Il ticket ottenuto
      */
     @Override
-    public TicketPrestito getTicketByID(int id) {
+    public TicketPrestito getTicketByID(final int id) {
         return ticketPrestitoDAO.getOne(id);
     }
 
@@ -185,7 +185,8 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return Il ticket aggiornato
      */
     @Override
-    public TicketPrestito accettaRichiesta(TicketPrestito ticket, int giorni) {
+    public TicketPrestito accettaRichiesta(final TicketPrestito ticket,
+                                           final int giorni) {
         ticket.setDataRestituzione(LocalDateTime.now().plusDays(giorni));
         ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE);
         ticketPrestitoDAO.save(ticket);
@@ -199,7 +200,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return Il ticket aggiornato
      */
     @Override
-    public TicketPrestito rifiutaRichiesta(TicketPrestito ticket) {
+    public TicketPrestito rifiutaRichiesta(final TicketPrestito ticket) {
         ticket.setStato(TicketPrestito.Stati.RIFIUTATO);
         ticketPrestitoDAO.save(ticket);
         return ticket;

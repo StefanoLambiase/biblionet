@@ -2,7 +2,12 @@ package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.Column;
@@ -59,7 +64,7 @@ public class TicketPrestito {
         /**
          * Rappresenta lo stato Rifiutato di un TicketPrestito.
          */
-        RIFIUTATO };
+        RIFIUTATO }
 
     /**
      * Rappresenta lo stato del ticket.

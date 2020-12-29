@@ -91,7 +91,7 @@ public class PrenotazioneLibriControllerTest {
      */
     @Test
     public void confermaPrenotazione() throws Exception {
-        UtenteRegistrato u = (Lettore) new Lettore();
+        UtenteRegistrato u = new Lettore();
         TicketPrestito t = new TicketPrestito();
         if (true) {
             Lettore l = (Lettore) u;
@@ -155,5 +155,37 @@ public class PrenotazioneLibriControllerTest {
                                     attribute("listaTicketChiusi", list))
                             .andExpect(view().name("visualizza-richieste"));
 
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * accettare la richiesta di prestito di un libro.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void accettaPrenotazione() throws Exception {
+        TicketPrestito ticket = new TicketPrestito();
+        when(prenotazioneService.getTicketByID(1)).thenReturn(ticket);
+        when(prenotazioneService.accettaRichiesta(ticket, 1))
+                .thenReturn(ticket);
+        this.mockMvc.perform(post("/prenotazione-libri/ticket/1/accetta")
+                .param("giorni", "1"))
+                .andExpect(view()
+                .name("redirect:/prenotazione-libri/visualizza-richieste"));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * rifiutare la richiesta di prestito di un libro.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void rifiutaPrenotazione() throws Exception {
+        TicketPrestito ticket = new TicketPrestito();
+        when(prenotazioneService.getTicketByID(1)).thenReturn(ticket);
+        when(prenotazioneService.rifiutaRichiesta(ticket)).thenReturn(ticket);
+        this.mockMvc.perform(post("/prenotazione-libri/ticket/1/rifiuta"))
+                .andExpect(view()
+                .name("redirect:/prenotazione-libri/visualizza-richieste"));
     }
 }

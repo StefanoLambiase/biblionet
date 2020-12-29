@@ -173,10 +173,43 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void getTicketsByBiblioteca() {
         List<TicketPrestito> list = new ArrayList<>();
-        when(ticketPrestitoDAO.findAllByBiblioteca_Email("email"))
+        when(ticketPrestitoDAO.findAllByBibliotecaEmail("email"))
                 .thenReturn(list);
         assertEquals(list, prenotazioneService
                 .getTicketsByBiblioteca(new Biblioteca()));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere un ticket dato il suo ID.
+     */
+    @Test
+    public void getTicketByID() {
+        TicketPrestito ticket = new TicketPrestito();
+        when(ticketPrestitoDAO.getOne(1)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.getTicketByID(1));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     */
+    @Test
+    public void accettaRichiesta() {
+        TicketPrestito ticket = new TicketPrestito();
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di rifiutare la richiesta di prestito di un libro.
+     */
+    @Test
+    public void rifiutaRichiesta() {
+        TicketPrestito ticket = new TicketPrestito();
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.rifiutaRichiesta(ticket));
     }
 
 }
