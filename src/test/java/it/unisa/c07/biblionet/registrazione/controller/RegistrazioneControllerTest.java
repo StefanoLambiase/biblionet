@@ -14,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -45,8 +43,6 @@ public final class RegistrazioneControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private Model model;
 
     /**
      * Metodo che testa la funzionalità gestita dal
@@ -474,7 +470,7 @@ public final class RegistrazioneControllerTest {
      * @param vecchiaPassword La vecchia password dell'account
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
-     * @throws Exception
+     * @throws Exception eccezione di mockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Lettore")
@@ -494,7 +490,7 @@ public final class RegistrazioneControllerTest {
                 .param("cognome", lettore.getCognome())
                 .param("username", lettore.getUsername())
                 .param("vecchia_password", vecchiaPassword)
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", lettore.getProvincia())
                 .param("citta", lettore.getCitta())
@@ -511,7 +507,7 @@ public final class RegistrazioneControllerTest {
      * sono vuote.
      *
      * @param lettore Il lettore da modificare
-     * @throws Exception
+     * @throws Exception eccezione di mockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Lettore Errato 1")
@@ -528,7 +524,7 @@ public final class RegistrazioneControllerTest {
                 .param("cognome", lettore.getCognome())
                 .param("username", lettore.getUsername())
                 .param("vecchia_password", "")//Vuote
-                .param("nuova_password","")//Vuote
+                .param("nuova_password", "")//Vuote
                 .param("conferma_password", "NuovaPassword")
                 .param("provincia", lettore.getProvincia())
                 .param("citta", lettore.getCitta())
@@ -548,7 +544,7 @@ public final class RegistrazioneControllerTest {
      *
      * @param lettore Il lettore da modificare
      * @param vecchiaPassword La vecchia password dell'account
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Lettore Errato 2")
@@ -566,7 +562,7 @@ public final class RegistrazioneControllerTest {
                 .param("cognome", lettore.getCognome())
                 .param("username", lettore.getUsername())
                 .param("vecchia_password", vecchiaPassword)
-                .param("nuova_password","PASSWORD DIVERSE")
+                .param("nuova_password", "PASSWORD DIVERSE")
                 .param("conferma_password", "DIVERSA PASSWORD")
                 .param("provincia", lettore.getProvincia())
                 .param("citta", lettore.getCitta())
@@ -581,7 +577,7 @@ public final class RegistrazioneControllerTest {
      *
      * @return Lo stream di dati.
      */
-    private static Stream<Arguments> provideModificaLettore(){
+    private static Stream<Arguments> provideModificaLettore() {
 
         return Stream.of(
                 Arguments.of(
@@ -613,7 +609,7 @@ public final class RegistrazioneControllerTest {
      * @param vecchiaPassword La vecchia password dell'account
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Biblioteca")
@@ -631,12 +627,13 @@ public final class RegistrazioneControllerTest {
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
                 .param("vecchia_password", vecchiaPassword)
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
-                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .param("recapito_telefonico",
+                        biblioteca.getRecapitoTelefonico()))
                 .andExpect(view().name("login"));
     }
 
@@ -648,7 +645,7 @@ public final class RegistrazioneControllerTest {
      * sono vuote.
      *
      * @param biblioteca Il lettore da modificare
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Biblioteca Errato 1")
@@ -663,12 +660,13 @@ public final class RegistrazioneControllerTest {
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
                 .param("vecchia_password", "")//Vuote
-                .param("nuova_password","")//Vuote
+                .param("nuova_password", "")//Vuote
                 .param("conferma_password", "")//Vuote
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
-                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .param("recapito_telefonico",
+                        biblioteca.getRecapitoTelefonico()))
                 .andExpect(view().name("login"));
     }
 
@@ -684,7 +682,7 @@ public final class RegistrazioneControllerTest {
      * @param biblioteca La biblioteca da modificare
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Biblioteca Errato 2")
@@ -701,12 +699,13 @@ public final class RegistrazioneControllerTest {
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
                 .param("vecchia_password", "SBAGLIATA")
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", biblioteca.getProvincia())
                 .param("citta", biblioteca.getCitta())
                 .param("via", biblioteca.getVia())
-                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .param("recapito_telefonico",
+                        biblioteca.getRecapitoTelefonico()))
                 .andExpect(view().name("modifica_dati_biblioteca"));
     }
 
@@ -716,7 +715,7 @@ public final class RegistrazioneControllerTest {
      *
      * @return Lo stream di dati.
      */
-    private static Stream<Arguments> provideModificaBiblioteca(){
+    private static Stream<Arguments> provideModificaBiblioteca() {
 
         return Stream.of(
                 Arguments.of(
@@ -745,7 +744,8 @@ public final class RegistrazioneControllerTest {
      * @param vecchiaPassword La vecchia password dell'account
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
-     * @throws Exception
+     * @param emailBiblioteca la mail della biblioteca dove lavora
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto Corretto")
@@ -771,7 +771,7 @@ public final class RegistrazioneControllerTest {
                 .param("username", esperto.getUsername())
                 .param("password", "EspertoPassword")
                 .param("vecchia_password", vecchiaPassword)
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", esperto.getProvincia())
                 .param("citta", esperto.getCitta())
@@ -792,7 +792,7 @@ public final class RegistrazioneControllerTest {
      *
      * @param esperto L'esperto da modificare
      * @param emailBiblioteca L'email della biblioteca in cui lavora.
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto Password non cambiata")
@@ -815,7 +815,7 @@ public final class RegistrazioneControllerTest {
                 .param("username", esperto.getUsername())
                 .param("password", "EspertoPassword")
                 .param("vecchia_password", "")
-                .param("nuova_password","")
+                .param("nuova_password", "")
                 .param("conferma_password", "")
                 .param("provincia", esperto.getProvincia())
                 .param("citta", esperto.getCitta())
@@ -823,7 +823,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("modifica_dati_esperto"));
     }
 
     /**
@@ -837,7 +837,7 @@ public final class RegistrazioneControllerTest {
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
      * @param emailBiblioteca L'email della biblioteca in cui lavora.
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto vecchia password errata")
@@ -862,7 +862,7 @@ public final class RegistrazioneControllerTest {
                 .param("username", esperto.getUsername())
                 .param("password", "EspertoPassword")
                 .param("vecchia_password", "PASSWORD ERRATA")
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", esperto.getProvincia())
                 .param("citta", esperto.getCitta())
@@ -882,7 +882,7 @@ public final class RegistrazioneControllerTest {
      * @param esperto L'esperto da modificare
      * @param nuovaPassword La nuova password dell'account
      * @param emailBiblioteca L'email della biblioteca in cui lavora.
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto conferma password errata")
@@ -906,7 +906,7 @@ public final class RegistrazioneControllerTest {
                 .param("username", esperto.getUsername())
                 .param("password", "EspertoPassword")
                 .param("vecchia_password", "EspertoPassword")
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", "PASSWORDSBAGLIATA")
                 .param("provincia", esperto.getProvincia())
                 .param("citta", esperto.getCitta())
@@ -926,7 +926,7 @@ public final class RegistrazioneControllerTest {
      * @param nuovaPassword La nuova password dell'account
      * @param confermaPassword La conferma password
      * @param emailBiblioteca L'email della biblioteca in cui lavora.
-     * @throws Exception
+     * @throws Exception eccezione di MockMvc
      */
     @ParameterizedTest
     @DisplayName("Modifica Dati Esperto biblioteca null")
@@ -951,7 +951,7 @@ public final class RegistrazioneControllerTest {
                 .param("username", esperto.getUsername())
                 .param("password", "EspertoPassword")
                 .param("vecchia_password", "PASSWORD ERRATA")
-                .param("nuova_password",nuovaPassword)
+                .param("nuova_password", nuovaPassword)
                 .param("conferma_password", confermaPassword)
                 .param("provincia", esperto.getProvincia())
                 .param("citta", esperto.getCitta())
@@ -969,7 +969,7 @@ public final class RegistrazioneControllerTest {
      *
      * @return Lo stream di dati.
      */
-    private static Stream<Arguments> provideModificaEsperto(){
+    private static Stream<Arguments> provideModificaEsperto() {
 
         return Stream.of(
                 Arguments.of(
@@ -1001,25 +1001,77 @@ public final class RegistrazioneControllerTest {
         );
     }
 
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di modificare un esperto loggato.
+     * @param esperto l'esperto in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaEsperto")
+    @DisplayName("Scelta modifica esperto")
+    public void sceltaModificaEsperto(final Esperto esperto) throws Exception {
 
-    @Test
-    @DisplayName("Modifica Dati Esperto biblioteca null")
-    public void sceltaModificaEsperto() throws Exception {
+        when(registrazioneService.isUserEsperto(esperto)).thenReturn(true);
 
-        when(model.getAttribute("loggedUser")).thenReturn(new Biblioteca(
-                "bibliotecacarrisi@gmail.com",
-                "BibliotecaPassword",
-                "Napoli",
-                "Torre del Greco",
-                "Via Carrisi 47",
-                "1234567890",
-                "Biblioteca Carrisi"
-        ));
-
-        this.mockMvc.perform(get("/registrazione/modifica-dati"))
-                .andExpect(view().name("modifica_dati_biblioteca"));
+        this.mockMvc.perform(get("/registrazione/modifica-dati")
+                .sessionAttr("loggedUser", esperto))
+                .andExpect(view().name("modifica_dati_esperto"));
 
 
     }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di modificare un lettore loggato.
+     * @param lettore il lettore in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaLettore")
+    @DisplayName("Scelta modifica lettore")
+    public void sceltaModificaLettore(final Lettore lettore) throws Exception {
+
+        when(registrazioneService.isUserLettore(lettore)).thenReturn(true);
+
+        this.mockMvc.perform(get("/registrazione/modifica-dati")
+                .sessionAttr("loggedUser", lettore))
+                .andExpect(view().name("modifica_dati_lettore"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di modificare una biblioteca loggato.
+     * @param biblioteca la biblioteca in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaBiblioteca")
+    @DisplayName("Scelta modifica biblioteca")
+    public void sceltaModificaBiblioteca(final Biblioteca biblioteca)
+                                                            throws Exception {
+
+        when(registrazioneService.isUserBiblioteca(biblioteca))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/registrazione/modifica-dati")
+                .sessionAttr("loggedUser", biblioteca))
+                .andExpect(view().name("modifica_dati_biblioteca"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di modificare un utente che non è presente in sessione.
+     * @throws Exception eccezione di mockMvc
+     */
+    @Test
+    @DisplayName("Scelta modifica utente non presente in sessione")
+    public void sceltaModificaNull() throws Exception {
+
+        this.mockMvc.perform(get("/registrazione/modifica-dati"))
+                .andExpect(view().name("login"));
+    }
+
+
 
 }

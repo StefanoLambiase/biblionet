@@ -186,7 +186,6 @@ public final class RegistrazioneController {
         UtenteRegistrato utente = (UtenteRegistrato)
                 model.getAttribute("loggedUser");
 
-        System.out.println(utente);
         if (utente != null) {
             if (registrazioneService.isUserBiblioteca(utente)) {
                 Biblioteca biblioteca = (Biblioteca) utente;
@@ -344,10 +343,10 @@ public final class RegistrazioneController {
     @RequestMapping(value = "/conferma-modifica-lettore",
             method = RequestMethod.POST)
     public String confermaModificaLettore(final Model model,
-                       final Lettore lettore,
-                       final @RequestParam("vecchia_password")String vecchia,
-                       final @RequestParam("nuova_password")String nuova,
-                       final @RequestParam("conferma_password")String conferma) {
+                     final Lettore lettore,
+                     final @RequestParam("vecchia_password")String vecchia,
+                     final @RequestParam("nuova_password")String nuova,
+                     final @RequestParam("conferma_password")String conferma) {
 
 
         Lettore toUpdate = registrazioneService

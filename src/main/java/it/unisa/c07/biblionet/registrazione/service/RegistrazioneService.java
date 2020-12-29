@@ -57,49 +57,49 @@ public interface RegistrazioneService {
     UtenteRegistrato registraBiblioteca(Biblioteca biblioteca);
 
     /**
-     * Implementa la funzionalitá di registrare un Lettore.
+     * Implementa la funzionalità di registrare un Lettore.
      * @param lettore Il lettore da registrare
      * @return Il lettore registrato
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
     /**
-     * Implementa la funziolitá di ritorno di un esperto.
+     * Implementa la funzionalità di ritorno di un esperto.
      * @param utenteRegistrato L'utente esperto
      * @return L'utente esperto relativo all'utenteRegistrato
      */
     boolean isUserEsperto(UtenteRegistrato utenteRegistrato);
 
     /**
-     * Implementa la funziolitá di ritorno di un lettore.
+     * Implementa la funzionalità di ritorno di un lettore.
      * @param utenteRegistrato L'utente lettore
      * @return L'utente lettore relativo all'utenteRegistrato
      */
     boolean isUserLettore(UtenteRegistrato utenteRegistrato);
 
     /**
-     * Implementa la funziolitá di ritorno di una biblioteca.
+     * Implementa la funzionalità di ritorno di una biblioteca.
      * @param utenteRegistrato L'utente biblioteca
      * @return L'utente biblioteca relativo all'utenteRegistrato
      */
     boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato);
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account biblioteca.
      * @param utente La biblioteca da aggiornare
      */
     void aggiornaBiblioteca(Biblioteca utente);
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account esperto.
      * @param utente L'esperto da aggiornare
      */
     void aggiornaEsperto(Esperto utente);
 
     /**
-     * Implementa la funziolitá di salvataggio delle modifiche
+     * Implementa la funzionalità di salvataggio delle modifiche
      * all'account lettore.
      * @param utente Lettore da aggiornare
      */
