@@ -115,7 +115,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
 
         Biblioteca biblioteca =
-                    (Biblioteca) bibliotecaDAO.findByID(idBiblioteca);
+                bibliotecaDAO.findByID(idBiblioteca);
         Libro libro = libroDAO.getOne(idLibro);
 
         ticket.setBiblioteca(biblioteca);
@@ -152,4 +152,19 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     public Libro getLibroByID(final int id) {
         return libroDAO.getOne(id);
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere una lista di richieste per una biblioteca.
+     * @param biblioteca la biblioteca di cui vedere le richieste
+     * @return La lista di richieste
+     */
+    @Override
+    public List<TicketPrestito> getTicketsByBiblioteca(
+                            final Biblioteca biblioteca) {
+        return ticketPrestitoDAO.
+                findAllByBiblioteca_Email(biblioteca.getEmail());
+    }
+
 }
+

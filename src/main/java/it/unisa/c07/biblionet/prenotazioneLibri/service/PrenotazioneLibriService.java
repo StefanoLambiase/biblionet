@@ -71,5 +71,13 @@ public interface PrenotazioneLibriService {
      */
     Libro getLibroByID(int id);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere una lista di richieste per una biblioteca.
+     * @param biblioteca la biblioteca di cui vedere le richieste
+     * @return La lista di richieste
+     */
+    List<TicketPrestito> getTicketsByBiblioteca(Biblioteca biblioteca);
+
 
 }
