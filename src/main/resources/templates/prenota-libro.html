@@ -48,7 +48,7 @@
                                     <p class="card-text bold-text" >Casa Editrice</p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="card-text" th:text="${libro.casaEditrice+', '+libro.annoDiPubblicazione.year}"></p>
+                                    <p class="card-text" th:text="${libro.casaEditrice}+', '+${#temporals.year(libro.annoDiPubblicazione)}"></p>
                                 </div>
                             </div>
                             <div class="row card-content">
