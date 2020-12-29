@@ -4,49 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrazione</title>
-    <style>
-        button{
-            width: 25%;
-            margin-right: 4%;
-        }
-        img{
-            width: 100%;
-        }
-
-
-    </style>
 </head>
 <body>
-<div layout:fragment="contenuto-pagina" class="container">
-
-    <form th:action="@{/registrazione/scegli}" method="post" class="text-center">
+<div layout:fragment="contenuto-pagina">
+    <div class="container">
         <div class="row">
-            <div class="col">
-                <button type="submit" value="Lettore" name="scelta"><img
-                        th:src="@{https://data.whicdn.com/images/231423612/original.jpg}"></button>
+            <form th:action="@{/registrazione/scegli}" method="post">
+                <div class="col">
+                    <button type="submit" value="Lettore" name="scelta"><img
+                            th:src="@{https://data.whicdn.com/images/231423612/original.jpg}"></button>
 
-                <p>Ciao! Clicca qui se sei un lettore.</p>
-            </div>
+                    <p>Ciao! Clicca qui se sei un lettore.</p>
+                </div>
 
-            <div class="col">
-                <button type="submit" value="Esperto" name="scelta"><img
-                        th:src="@{https://lh3.googleusercontent.com/proxy/jfHIv7jA7JyFGfki-2Ajzo_bbaVmU0If0K_NEgiO-gXXW16ttj3UYyTxswdCHMH6sRxHPymLGxxiGYMEWpM_NbLPqN2UveM1_ApQZvyRmsN6jkA}">
-                </button>
+                <div class="col">
+                    <button type="submit" value="Esperto" name="scelta"><img
+                            th:src="@{https://lh3.googleusercontent.com/proxy/jfHIv7jA7JyFGfki-2Ajzo_bbaVmU0If0K_NEgiO-gXXW16ttj3UYyTxswdCHMH6sRxHPymLGxxiGYMEWpM_NbLPqN2UveM1_ApQZvyRmsN6jkA}">
+                    </button>
 
-                <p>Ciao! Clicca qui se sei un esperto.</p>
-            </div>
+                    <p>Ciao! Clicca qui se sei un esperto.</p>
+                </div>
 
-            <div class="col">
-                <button type="submit" value="Biblioteca" name="scelta"><img
-                        th:src="@{https://i.kym-cdn.com/entries/icons/facebook/000/026/029/8P68F-_I_400x400.jpg}">
-                </button>
+                <div class="col">
+                    <button type="submit" value="Biblioteca" name="scelta"><img
+                            th:src="@{https://i.kym-cdn.com/entries/icons/facebook/000/026/029/8P68F-_I_400x400.jpg}">
+                    </button>
 
-                <p>Ciao! Clicca qui se sei una biblioteca.</p>
-            </div>
+                    <p>Ciao! Clicca qui se sei una biblioteca.</p>
+                </div>
+            </form>
         </div>
 
-    </form>
 
+    </div>
 </div>
 </body>
 </html>
