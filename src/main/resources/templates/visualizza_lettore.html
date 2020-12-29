@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../style/area-utente.css">
+    <meta charset="UTF-8">
+    <title>Area Lettore</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Benvenuto
+                        <td th:text="${lettore.getUsername()}"></td>
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Nome:</td>
+                                    <td th:text="${lettore.getNome()}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cognome:</td>
+                                    <td th:text="${lettore.getCognome()}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td th:text="${lettore.getEmail()}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Provincia:</td>
+                                    <td th:text="${lettore.getProvincia()}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cittá:</td>
+                                    <td th:text="${lettore.getCitta()}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Via</td>
+                                    <td th:text="${lettore.getVia()}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Recapito Telefonico</td>
+                                    <td th:text="${lettore.getRecapitoTelefonico()}"></td>
+                                </tr>
+                                <td>Phone Number</td>
+                                <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                                </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <a href="#" class="btn btn-primary">Modifica Dati Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -8,10 +8,7 @@ import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -378,4 +375,39 @@ public final class RegistrazioneController {
         model.addAttribute("loggedUser", lettore);
         return "login";
     }
+
+    @RequestMapping(value = "/area-utente", method = RequestMethod.GET)
+    public String areaUtente(final Model model) {
+        UtenteRegistrato utente = (UtenteRegistrato)
+                model.getAttribute("loggedUser");
+
+        if (utente != null) {
+            if (registrazioneService.isUserBiblioteca(utente)) {
+                Biblioteca biblioteca = (Biblioteca) utente;
+                model.addAttribute("biblioteca", biblioteca);
+                return "visualizza_biblioteca";
+
+            } else if (registrazioneService.isUserEsperto(utente)) {
+                Esperto esperto = (Esperto) utente;
+                model.addAttribute("esperto", esperto);
+                return "visualizza_esperto";
+
+            } else if (registrazioneService.isUserLettore(utente)) {
+                Lettore lettore = (Lettore) utente;
+                model.addAttribute("lettore", lettore);
+                return "visualizza_lettore";
+
+            }
+        }
+        return "login";
+    }
+
+    @RequestMapping(value = "/visualizza-lettore",
+            method = RequestMethod.GET)
+    public String visualizzaDatiLettore(final Model model,
+                                     final Lettore lettore) {
+        model.addAttribute("lettore",lettore);
+        return "visualizza_lettore";
+    }
+
 }
