@@ -1,20 +1,107 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common}">
 <head>
+    <link rel="stylesheet" type="text/css" href="../../style/registrazione.css">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registrazione Biblioteca</title>
 </head>
+
 <body>
-<form method="post" th:action="@{/registrazione/biblioteca}" >
-        <p> Email <input type="input" name="email" required> </p>
-        <p> Nome Biblioteca<input type="input" name="nomeBiblioteca" required> </p>
-        <p> Password <input type="password" name="password" required> </p>
-        <p> Conferma Password <input type="password" name="conferma_password" required> </p>
-        <p> Provincia <input type="input" name="provincia" required> </p>
-        <p> Cittá <input type="input" name="citta" required> </p>
-        <p> Via <input type="input" name="via" required> </p>
-        <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" required> </p>
-        <p> <input type="submit"></p>
-    </form>
+
+<div layout:fragment="pagina" class="container">
+
+    <div class="text-center">
+        <img class="logo-index" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet">
+    </div>
+
+    <div class="row">
+
+        <form method="post" th:action="@{/registrazione/biblioteca}" class="form-registrazione form-horizontal">
+
+            <div class="column sx">
+
+                <h2 class="form-registrazione-heading text-center">Registrati come Biblioteca</h2>
+
+                <div class="form-group row">
+                    <label for="inputEmail" class="col-form-label col-sm-3">Indirizzo Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="esempio@esempio.com" required
+                               autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputNomeBiblioteca" class="col-form-label col-sm-3">Nome biblioteca</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="inputNomeBiblioteca" name="nomeBiblioteca" class="form-control" placeholder="Biblioteca Carrisi" required autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-form-label col-sm-3">Password</label>
+                    <div class="col-sm-8">
+                        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required
+                               autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputconferma_password" class="col-form-label col-sm-3">Conferma Password</label>
+                    <div class="col-sm-8">
+                        <input type="password" id="inputconferma_password" name="conferma_password" class="form-control" placeholder="Password" required
+                               autofocus>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="column dx">
+
+                <h2 class="form-registrazione-heading text-center">Dati</h2>
+
+                <div class="form-group row">
+                    <label for="inputProvincia" class="col-form-label col-sm-3">Provincia</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="inputProvincia" name="provincia" class="form-control" placeholder="Salerno" required
+                               autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputCitta" class="col-form-label col-sm-3">Città</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="inputCitta" name="citta" class="form-control" placeholder="Baronissi" required
+                               autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputVia" class="col-form-label col-sm-3">Via</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="inputVia" name="via" class="form-control" placeholder="Via Roma" required autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputTel" class="col-form-label col-sm-3">Recapito telefonico</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="inputTel" name="recapitoTelefonico" class="form-control" placeholder="1234567890" autofocus>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <label for="privacy">Ho letto e accetto la normativa sulla privacy</label>
+                <input type="checkbox" id="privacy">
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-lg btn-block registra" type="submit">Registrami</button>
+            </div>
+
+        </form>
+    </div>
+</div>
 </body>
 </html>
