@@ -117,4 +117,8 @@ public class UtenteRegistrato {
             e.printStackTrace();
         }
     }
+
+    public void setHashedPassword(byte[] hashPassword){
+        this.password=hashPassword;
+    }
 }
