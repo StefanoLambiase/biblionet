@@ -552,7 +552,7 @@ public class BiblionetApplication {
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
         TicketPrestito ticket = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro,
                 biblioteca,
@@ -560,7 +560,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket1 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro2,
                 biblioteca3,
@@ -568,7 +568,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket2 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro4,
                 biblioteca2,
@@ -576,7 +576,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket3 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro3,
                 biblioteca3,
@@ -584,18 +584,30 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket4 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE,
                 LocalDateTime.now(),
                 libro5,
                 biblioteca,
                 lettore1
         );
 
+        TicketPrestito ticket5 = new TicketPrestito(
+                TicketPrestito.Stati.CHIUSO,
+                LocalDateTime.now(),
+                libro4,
+                biblioteca,
+                lettore2
+        );
+
+        ticket4.setDataRestituzione(LocalDateTime.now().plusDays(5l));
+        ticket5.setDataRestituzione(LocalDateTime.now().plusDays(6l));
+
         ticketPrestitoDAO.save(ticket);
         ticketPrestitoDAO.save(ticket1);
         ticketPrestitoDAO.save(ticket2);
         ticketPrestitoDAO.save(ticket3);
         ticketPrestitoDAO.save(ticket4);
+        ticketPrestitoDAO.save(ticket5);
 
 //----------------------Definizione ed inserimento clubs----------------------------------------------------------------
 
