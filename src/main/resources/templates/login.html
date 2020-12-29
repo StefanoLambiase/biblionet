@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
+    <link rel="stylesheet" type="text/css" href="../../style/login.css">
     <meta charset="UTF-8">
-    <title>Autenticazione</title>
+    <title>Login</title>
 </head>
 <body>
-    <form method="post" action="/autenticazione/login">
-        <p> Email <input type="email" name="email" required> </p>
-        <p> Password <input type="password" name="password" required> </p>
-        <p> <input type="submit"> </p>
+<div layout:fragment="contenuto-pagina" class="container">
+    <form th:action="@{/autenticazione/login}" method="post" class="form-signin">
+
+        <h3 class="form-signin-heading">Login Utente</h3>
+        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="esempio@esempio.com" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
+</div>
 </body>
 </html>
+<body>
