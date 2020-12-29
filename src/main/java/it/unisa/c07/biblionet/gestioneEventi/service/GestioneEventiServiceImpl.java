@@ -43,13 +43,33 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         return eventoDAO.save(evento);
     }
 
-    /**
-     * Implementa la funzionalità che permette di recuperare un libro a
-     * partire dall'ID.
+   /**
+     * Metodo di utilità per recuperare
+     * un libro a partire dall'ID.
+     * @param id Id del libro da recuperare
+     * @return Il libro recuperato
      */
     @Override
     public Optional<Libro> getLibroById(final int id) {
         return libroDAO.findById(id);
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Esperto di eliminare un evento.
+     * @param id L'id dell'evento da eliminare
+     * @return L'evento che è stato eliminato, o
+     *         un Optional vuoto se l'evento non
+     *         esiste.
+     */
+    @Override
+    public Optional<Evento> eliminaEvento(final int id) {
+        var evento = this.eventoDAO.findById(id);
+        if (evento.isEmpty()) {
+            return Optional.empty();
+        }
+        this.eventoDAO.deleteById(id);
+        return evento;
+    };
 
 }

@@ -5,7 +5,7 @@
     <title>Home</title>
 </head>
 <body>
-    <p th:text = "${loggedUser}"></p>
+    <p th:text = "${session.loggedUser}"></p>
     <a href="/autenticazione/logout">Logout</a>
     <a href="/autenticazione/">Login</a>
     <a href="/registrazione/modifica-dati">Modifica i dati inseriti</a>

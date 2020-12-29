@@ -2,14 +2,18 @@ package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
+import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +42,11 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      *Si occupa delle operazioni CRUD per possesso.
      */
     private final PossessoDAO possessoDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per ticket.
+     */
+    private final TicketPrestitoDAO ticketPrestitoDAO;
 
 
     /**
@@ -86,4 +95,76 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         }
         return libri;
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di richiedere un prestito per un libro
+     * da una biblioteca.
+     * @param lettore Il lettore che lo richiede
+     * @param idBiblioteca id della biblioteca
+     * @param idLibro id del libro
+     * @return Il ticket aperto in attesa di approvazione
+     */
+    @Override
+    public TicketPrestito richiediPrestito(final Lettore lettore,
+                                           final String idBiblioteca,
+                                           final int idLibro) {
+        TicketPrestito ticket = new TicketPrestito();
+        ticket.setLettore(lettore);
+        ticket.setDataRichiesta(LocalDateTime.now());
+        ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);
+
+        Biblioteca biblioteca =
+                bibliotecaDAO.findByID(idBiblioteca);
+        Libro libro = libroDAO.getOne(idLibro);
+
+        ticket.setBiblioteca(biblioteca);
+        ticket.setLibro(libro);
+
+        ticketPrestitoDAO.save(ticket);
+        return ticket;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista delle biblioteche
+     * che posseggono un dato libro.
+     * @param libro Il libro di cui estrarre le biblioteche
+     * @return La lista delle biblioteche che possiedono il libro
+     */
+    @Override
+    public  List<Biblioteca> getBibliotecheLibro(final Libro libro) {
+        List<Biblioteca> lista = new ArrayList<>();
+        for (Possesso p : libro.getPossessi()) {
+            lista.add(bibliotecaDAO.
+                        findByID(p.getPossessoID().getBibliotecaID()));
+        }
+        return lista;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un libro dato il suo ID.
+     * @param id L'ID del libro da ottenere
+     * @return Il libro da ottenere
+     */
+    @Override
+    public Libro getLibroByID(final int id) {
+        return libroDAO.getOne(id);
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere una lista di richieste per una biblioteca.
+     * @param biblioteca la biblioteca di cui vedere le richieste
+     * @return La lista di richieste
+     */
+    @Override
+    public List<TicketPrestito> getTicketsByBiblioteca(
+                            final Biblioteca biblioteca) {
+        return ticketPrestitoDAO.
+                findAllByBiblioteca_Email(biblioteca.getEmail());
+    }
+
 }
+

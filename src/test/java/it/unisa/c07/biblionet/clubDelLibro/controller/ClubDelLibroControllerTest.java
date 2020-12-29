@@ -3,9 +3,12 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -245,7 +248,24 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attribute("club", club))
                 .andExpect(view().name("visualizza-iscritti"));
     }
-  
+
+    @Test
+    public void eliminaEvento() throws Exception {
+        when(
+                eventiService.eliminaEvento(1)
+        ).thenReturn(
+                Optional.of(
+                        new Evento()
+                )
+        );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.delete(
+                        "/club-del-libro/1/eventi/1"
+                ))
+                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+    }
+
     /**
      * Simula i dati inviati da un metodo
      * http attraverso uno stream.

@@ -95,10 +95,21 @@ public class BiblionetApplication {
                 "Vieni che non ti faccio niente bookstore"
         );
 
+        Biblioteca biblioteca4 = new Biblioteca(
+                "b4@gmail.com",
+                "aaaaa",
+                "Napoli",
+                "Scampia",
+                "Via Portici 47",
+                "3341278415",
+                "Naboli"
+        );
+
         bibliotecaDAO.save(biblioteca);
         bibliotecaDAO.save(biblioteca1);
         bibliotecaDAO.save(biblioteca2);
         bibliotecaDAO.save(biblioteca3);
+        bibliotecaDAO.save(biblioteca4);
 
 //----------------------Definizione ed inserimento esperti--------------------------------------------------------------
 
@@ -454,7 +465,27 @@ public class BiblionetApplication {
         );
 
         PossessoId possessoId5 = new PossessoId(
+                biblioteca.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId6 = new PossessoId(
                 biblioteca1.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId7 = new PossessoId(
+                biblioteca2.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId8 = new PossessoId(
+                biblioteca3.getEmail(),
+                libro5.getIdLibro()
+        );
+
+        PossessoId possessoId9 = new PossessoId(
+                biblioteca4.getEmail(),
                 libro5.getIdLibro()
         );
 
@@ -488,16 +519,40 @@ public class BiblionetApplication {
                 10
         );
 
+        Possesso possesso6 = new Possesso(
+                possessoId6,
+                10
+        );
+
+        Possesso possesso7 = new Possesso(
+                possessoId7,
+                10
+        );
+
+        Possesso possesso8 = new Possesso(
+                possessoId8,
+                10
+        );
+
+        Possesso possesso9 = new Possesso(
+                possessoId9,
+                10
+        );
+
         possessoDAO.save(possesso);
         possessoDAO.save(possesso1);
         possessoDAO.save(possesso2);
         possessoDAO.save(possesso3);
         possessoDAO.save(possesso4);
         possessoDAO.save(possesso5);
+        possessoDAO.save(possesso6);
+        possessoDAO.save(possesso7);
+        possessoDAO.save(possesso8);
+        possessoDAO.save(possesso9);
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
         TicketPrestito ticket = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro,
                 biblioteca,
@@ -505,7 +560,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket1 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro2,
                 biblioteca3,
@@ -513,7 +568,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket2 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro4,
                 biblioteca2,
@@ -521,7 +576,7 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket3 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                 LocalDateTime.now(),
                 libro3,
                 biblioteca3,
@@ -529,18 +584,30 @@ public class BiblionetApplication {
         );
 
         TicketPrestito ticket4 = new TicketPrestito(
-                TicketPrestito.Stati.CREATO,
+                TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE,
                 LocalDateTime.now(),
                 libro5,
                 biblioteca,
                 lettore1
         );
 
+        TicketPrestito ticket5 = new TicketPrestito(
+                TicketPrestito.Stati.CHIUSO,
+                LocalDateTime.now(),
+                libro4,
+                biblioteca,
+                lettore2
+        );
+
+        ticket4.setDataRestituzione(LocalDateTime.now().plusDays(5l));
+        ticket5.setDataRestituzione(LocalDateTime.now().plusDays(6l));
+
         ticketPrestitoDAO.save(ticket);
         ticketPrestitoDAO.save(ticket1);
         ticketPrestitoDAO.save(ticket2);
         ticketPrestitoDAO.save(ticket3);
         ticketPrestitoDAO.save(ticket4);
+        ticketPrestitoDAO.save(ticket5);
 
 //----------------------Definizione ed inserimento clubs----------------------------------------------------------------
 
