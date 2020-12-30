@@ -100,21 +100,7 @@ public class RegistrazioneServiceImplTest {
         when(lettoreDAO.save(lettore)).thenReturn(lettore);
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }
-
-    /**
-     * Metodo che si occupa di testare
-     * la funzione di ricerca di una
-     * biblioteca nel service.
-     */
-    @Test
-    public void getBibliotecaByEmail() {
-        Biblioteca dummy = new Biblioteca();
-        String email = "";
-        when(bibliotecaDAO.findById(email))
-                .thenReturn(Optional.of(dummy));
-        assertEquals(dummy, registrazioneService.getBibliotecaByEmail(email));
-    }
-
+    
     /**
      * Metodo che si occupa di testare
      * la funzione di ricerca di un
