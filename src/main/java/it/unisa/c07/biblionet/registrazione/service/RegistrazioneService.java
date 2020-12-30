@@ -21,35 +21,6 @@ public interface RegistrazioneService {
     UtenteRegistrato registraEsperto(Esperto utente);
 
     /**
-     * Implementa la funzionalità di trovare una biblioteca.
-     * @param email La mail della biblioteca
-     * @return La biblioteca se c'è, altrimenti null
-     */
-    Biblioteca findBibliotecaByEmail(String email);
-
-    /**
-     * Implementa la funzionalità di trovare un esperto.
-     * @param email La mail dell esperto
-     * @return L'esperto se c'è, altrimenti null
-     */
-    Esperto findEspertoByEmail(String email);
-
-    /**
-     * Implementa la funzionalità di trovare un lettore.
-     * @param email La mail dell lettore
-     * @return Il lettore se c'è, altrimenti null
-     */
-    Lettore findLettoreByEmail(String email);
-
-
-    /**
-     * Implementa la funzionalità di trovare dei generi.
-     * @param generi Un'array di nomi di generi da trovare
-     * @return Una lista contenente i generi trovati
-     */
-    List<Genere> findGeneriByName(String[] generi);
-
-    /**
      * Implementa la funzionalità di registrazione una Biblioteca.
      * @param biblioteca La biblioteca da registrare
      * @return L'utente registrato
@@ -63,48 +34,21 @@ public interface RegistrazioneService {
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
-    /**
-     * Implementa la funzionalità di ritorno di un esperto.
-     * @param utenteRegistrato L'utente esperto
-     * @return L'utente esperto relativo all'utenteRegistrato
-     */
-    boolean isUserEsperto(UtenteRegistrato utenteRegistrato);
 
     /**
-     * Implementa la funzionalità di ritorno di un lettore.
-     * @param utenteRegistrato L'utente lettore
-     * @return L'utente lettore relativo all'utenteRegistrato
+     * Implementa la funzionalità di trovare dei generi.
+     * @param generi Un'array di nomi di generi da trovare
+     * @return Una lista contenente i generi trovati
      */
-    boolean isUserLettore(UtenteRegistrato utenteRegistrato);
+    List<Genere> findGeneriByName(String[] generi);
 
     /**
-     * Implementa la funzionalità di ritorno di una biblioteca.
-     * @param utenteRegistrato L'utente biblioteca
-     * @return L'utente biblioteca relativo all'utenteRegistrato
+     * Implementa la funzionalità di prendere una biblioteca
+     * data la sua mail, utilizzando il service del package
+     * Autenticazione.
+     * @param email la mail dell'account
+     * @return la biblioteca se presente, null altrimenti
      */
-    boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato);
+    Biblioteca getBibliotecaByEmail(String email);
 
-    /**
-     * Implementa la funzionalità di salvataggio delle modifiche
-     * all'account biblioteca.
-     * @param utente La biblioteca da aggiornare
-     * @return la biblioteca aggiornata
-     */
-    Biblioteca aggiornaBiblioteca(Biblioteca utente);
-
-    /**
-     * Implementa la funzionalità di salvataggio delle modifiche
-     * all'account esperto.
-     * @param utente L'esperto da aggiornare
-     * @return l'esperto aggiornato
-     */
-    Esperto aggiornaEsperto(Esperto utente);
-
-    /**
-     * Implementa la funzionalità di salvataggio delle modifiche
-     * all'account lettore.
-     * @param utente Lettore da aggiornare
-     * @return il lettore aggiornato
-     */
-    Lettore aggiornaLettore(Lettore utente);
 }

@@ -1,6 +1,9 @@
 package it.unisa.c07.biblionet.autenticazione.service;
 
 
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 
 /**
@@ -36,4 +39,50 @@ public interface AutenticazioneService {
       * @return true se l'utente è una biblioteca altrimenti false.
       */
      boolean isBiblioteca(UtenteRegistrato utente);
+
+     /**
+      * Implementa la funzionalità di salvataggio delle modifiche
+      * all'account biblioteca.
+      * @param utente La biblioteca da aggiornare
+      * @return la biblioteca aggiornata
+      */
+     Biblioteca aggiornaBiblioteca(Biblioteca utente);
+
+     /**
+      * Implementa la funzionalità di salvataggio delle modifiche
+      * all'account esperto.
+      * @param utente L'esperto da aggiornare
+      * @return l'esperto aggiornato
+      */
+     Esperto aggiornaEsperto(Esperto utente);
+
+     /**
+      * Implementa la funzionalità di salvataggio delle modifiche
+      * all'account lettore.
+      * @param utente Lettore da aggiornare
+      * @return il lettore aggiornato
+      */
+     Lettore aggiornaLettore(Lettore utente);
+
+
+     /**
+      * Implementa la funzionalità di trovare un esperto.
+      * @param email La mail dell esperto
+      * @return L'esperto se c'è, altrimenti null
+      */
+     Esperto findEspertoByEmail(String email);
+
+     /**
+      * Implementa la funzionalità di trovare un lettore.
+      * @param email La mail dell lettore
+      * @return Il lettore se c'è, altrimenti null
+      */
+     Lettore findLettoreByEmail(String email);
+
+     /**
+      * Implementa la funzionalità di trovare una biblioteca.
+      * @param email La mail della biblioteca
+      * @return La biblioteca se c'è, altrimenti null
+      */
+     Biblioteca findBibliotecaByEmail(String email);
 }
