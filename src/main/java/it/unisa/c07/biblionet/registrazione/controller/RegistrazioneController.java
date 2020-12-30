@@ -33,7 +33,7 @@ public final class RegistrazioneController {
     private final RegistrazioneService registrazioneService;
 
     /**
-     * Implementa la funzionalitá di visualizzare
+     * Implementa la funzionalità di visualizzare
      * la scelta di registrazione.
      *
      * @return La pagina di visualizzazione
@@ -44,7 +44,7 @@ public final class RegistrazioneController {
     }
 
     /**
-     * Implementa la funzionalitá di registrazione di
+     * Implementa la funzionalità di registrazione di
      * scegliere il tipo di utente da registrare.
      *
      * @param scelta Il tipo di utente da registrare
