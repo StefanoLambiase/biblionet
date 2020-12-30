@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
-import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneServiceImpl;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.stream.Stream;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,12 +29,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AreaUtenteControllerTest {
 
+
     /**
      * Mock del service per simulare
      * le operazioni dei metodi.
      */
     @MockBean
-    private AutenticazioneServiceImpl autenticazioneService;
+    private AutenticazioneService autenticazioneService;
 
     /**
      * Inject di MockMvc per simulare
