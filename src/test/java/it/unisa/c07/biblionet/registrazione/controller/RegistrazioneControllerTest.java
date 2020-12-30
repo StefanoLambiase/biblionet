@@ -1072,6 +1072,63 @@ public final class RegistrazioneControllerTest {
                 .andExpect(view().name("login"));
     }
 
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Biblioteca.
+     * @param biblioteca la biblioteca in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaBiblioteca")
+    @DisplayName("Visualizza Area Utente Biblioteca")
+    public void visualizzaAreaUtenteBiblioteca(final Biblioteca biblioteca)
+            throws Exception {
 
+        when(registrazioneService.isUserBiblioteca(biblioteca))
+                .thenReturn(true);
 
+        this.mockMvc.perform(get("/registrazione/area-utente")
+                .sessionAttr("loggedUser", biblioteca))
+                .andExpect(view().name("visualizza-biblioteca"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Esperto.
+     * @param esperto l'esperto in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaEsperto")
+    @DisplayName("Visualizza Area Utente Esperto")
+    public void visualizzaAreaUtenteEsperto(final Esperto esperto)
+            throws Exception {
+
+        when(registrazioneService.isUserEsperto(esperto))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/registrazione/area-utente")
+                .sessionAttr("loggedUser", esperto))
+                .andExpect(view().name("visualizza-esperto"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Lettore.
+     * @param lettore Il lettore in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaLettore")
+    @DisplayName("Visualizza Area Utente Lettore")
+    public void visualizzaAreaUtenteLettore(final Lettore lettore)
+            throws Exception {
+
+        when(registrazioneService.isUserLettore(lettore))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/registrazione/area-utente")
+                .sessionAttr("loggedUser", lettore))
+                .andExpect(view().name("visualizza-lettore"));
+    }
 }

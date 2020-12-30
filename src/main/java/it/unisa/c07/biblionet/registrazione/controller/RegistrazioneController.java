@@ -8,7 +8,11 @@ import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -380,7 +384,7 @@ public final class RegistrazioneController {
      * Implementa la funzionalitá di visualizzazione area utente
      * in base al tipo.
      *
-     * @param model
+     * @param model Utilizzato per gestire la sessione.
      * @return La view di visualizzazione area utente
      */
     @RequestMapping(value = "/area-utente", method = RequestMethod.GET)
