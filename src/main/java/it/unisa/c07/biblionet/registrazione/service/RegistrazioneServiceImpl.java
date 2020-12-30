@@ -43,6 +43,9 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final LettoreDAO lettoreDAO;
 
+    /**
+     * autenticazione
+     */
     private final AutenticazioneServiceImpl autenticazioneService;
 
     /**
