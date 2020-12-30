@@ -20,17 +20,24 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
-                                <form>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
+
+                                <form method="post" th:action="@{'/prenotazione-libri/ticket/'+${ticket.idTicket}+'/accetta'}">
                                     <div class="card-text">
                                         Giorni di durata del prestito
-                                        <input type="number" min="7" max="60" width="60px" >
+                                        <input type="number" name="giorni" min="7" max="60" width="60px" >
                                     </div>
                                     <input type="submit" class="btn red-button" value="Accetta" style="width: 80px"></input>
                                 </form>
-                                <div  class="card-text" style="margin-top: 1%;">
-                                    <input type="submit" class="btn red-button" value="Rifiuta" style="width: 80px"></input>
-                                </div>
-
+                                <form method="post" th:action="@{'/prenotazione-libri/ticket/'+${ticket.idTicket}+'/rifiuta'}">
+                                    <div class="card-text" style="margin-top: 1%;">
+                                        <input type="submit" class="btn red-button" value="Rifiuta" style="width: 80px"></input>
+                                    </div>
+                                </form>
                             </div>
                             <div class="card-footer ticket-blue-section">
                                 Data richiesta:
@@ -50,6 +57,11 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
                                 <div  class="card-text" style="margin-top: 1%;">
                                     <input type="submit" class="btn red-button" value="Chiudi" style="width: 80px"></input>
                                 </div>
@@ -78,6 +90,11 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer ticket-blue-section">
                                 Data richiesta:

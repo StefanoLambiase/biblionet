@@ -20,5 +20,5 @@ public interface TicketPrestitoDAO
      * @return I ticket della biblioteca
      */
     List<TicketPrestito>
-                findAllByBiblioteca_Email(String bibliotecaEmail);
+                findAllByBibliotecaEmail(String bibliotecaEmail);
 }

@@ -2,7 +2,12 @@ package it.unisa.c07.biblionet.model.entity;
 
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.Column;
@@ -42,19 +47,9 @@ public class TicketPrestito {
     public enum Stati {
 
         /**
-         * Rappresenta lo stato Creato di un TicketPrestito.
-         */
-        CREATO,
-
-        /**
          * Rappresenta lo stato In attesa di conferma di un TicketPrestito.
          */
         IN_ATTESA_DI_CONFERMA,
-
-        /**
-         * Rappresenta lo stato Confermato di un TicketPrestito.
-         */
-        CONFERMATO,
 
         /**
          * Rappresenta lo stato In attesa di restituzione di un TicketPrestito.
@@ -64,7 +59,12 @@ public class TicketPrestito {
         /**
          * Rappresenta lo stato Chiuso di un TicketPrestito.
          */
-        CHIUSO };
+        CHIUSO,
+
+        /**
+         * Rappresenta lo stato Rifiutato di un TicketPrestito.
+         */
+        RIFIUTATO }
 
     /**
      * Rappresenta lo stato del ticket.
