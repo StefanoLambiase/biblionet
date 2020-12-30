@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Dati della tua Biblioteca</title>
+</head>
+<body>
+   <form method="post" action="conferma-modifica-biblioteca">
+       <fieldset>
+           <legend>Modifica Dati</legend>
+        <p> Email <input type="email" name="email" th:value="${biblioteca.getEmail()}" readonly> </p>
+        <p> Nome Biblioteca <input type="text" name="nomeBiblioteca" th:value="${biblioteca.getNomeBiblioteca()}"> </p>
+        <p> Provincia <input type="text" name="provincia" th:value="${biblioteca.getProvincia()}"> </p>
+        <p> Città <input type="text" name="citta" th:value="${biblioteca.getCitta()}"> </p>
+        <p> Via <input type="text" name="via" th:value="${biblioteca.getVia()}"> </p>
+        <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" th:value="${biblioteca.getRecapitoTelefonico()}"> </p>
+       </fieldset>
+
+       <fieldset>
+           <legend>Modifica Password</legend>
+          <p> Vecchia Password <input type="password" name="vecchia_password"> </p>
+          <p> Nuova Password <input type="password" name="nuova_password"> </p>
+          <p> Conferma Nuova Password <input type="password" name="conferma_password"> </p>
+       </fieldset>
+        <p> <input type="submit" value="Conferma la modifica"></p>
+
+    </form>
+
+
+</body>
+</html>

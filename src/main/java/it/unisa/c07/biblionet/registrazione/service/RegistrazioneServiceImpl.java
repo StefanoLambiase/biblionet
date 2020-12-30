@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.registrazione.service;
 
+import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
@@ -16,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Alessio Casolaro, Antonio Della Porta.
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta.
  */
 @Service
 @RequiredArgsConstructor
@@ -43,6 +45,11 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     private final LettoreDAO lettoreDAO;
 
     /**
+     *  Si occupa di controllare il tipo di account.
+     */
+    private final AutenticazioneService autenticazioneService;
+
+    /**
      * Implementa la funzionalità di registrazione un Esperto.
      * @param esperto L'Esperto da registrare
      * @return L'utente registrato
@@ -63,13 +70,46 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     }
 
     /**
-     * Implementa la funzionalitá di registrare un Lettore.
+     * Implementa la funzionalità di registrare un Lettore.
      * @param lettore Il lettore da registrare
      * @return Il lettore registrato
      */
     @Override
     public final UtenteRegistrato registraLettore(final Lettore lettore) {
         return lettoreDAO.save(lettore);
+    }
+
+    /**
+     * Implementa la funzionalità di ritorno di un esperto.
+     * @param utenteRegistrato L'utente esperto
+     * @return L'utente esperto relativo all'utenteRegistrato
+     */
+    @Override
+    public final boolean isUserEsperto(
+            final UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isEsperto(utenteRegistrato);
+    }
+
+    /**
+     * Implementa la funzionalità di ritorno di un lettore.
+     * @param utenteRegistrato L'utente lettore
+     * @return L'utente lettore relativo all'utenteRegistrato
+     */
+    @Override
+    public final boolean isUserLettore(
+            final UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isLettore(utenteRegistrato);
+    }
+
+    /**
+     * Implementa la funzionalità di ritorno di una biblioteca.
+     * @param utenteRegistrato L'utente biblioteca
+     * @return L'utente biblioteca relativo all'utenteRegistrato
+     */
+    @Override
+    public final boolean isUserBiblioteca(
+            final UtenteRegistrato utenteRegistrato) {
+        return autenticazioneService.isBiblioteca(utenteRegistrato);
     }
 
     /**
@@ -81,11 +121,31 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
     public final Biblioteca findBibliotecaByEmail(final String email) {
 
         Optional<UtenteRegistrato> b = bibliotecaDAO.findById(email);
-        if (b.isPresent()) {
-            return (Biblioteca) b.get();
-        } else {
-            return null;
-        }
+        return (Biblioteca) b.orElse(null);
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    @Override
+    public final Esperto findEspertoByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = espertoDAO.findById(email);
+        return (Esperto) b.orElse(null);
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    @Override
+    public final Lettore findLettoreByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = lettoreDAO.findById(email);
+        return (Lettore) b.orElse(null);
     }
 
     /**
@@ -106,5 +166,33 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
         return toReturn;
     }
 
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
+     */
+    public Biblioteca aggiornaBiblioteca(final Biblioteca utente) {
+        return bibliotecaDAO.save(utente);
+    }
 
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
+     */
+    public Esperto aggiornaEsperto(final Esperto utente) {
+        return espertoDAO.save(utente);
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
+     */
+    public Lettore aggiornaLettore(final Lettore utente) {
+        return lettoreDAO.save(utente);
+    }
 }

@@ -9,7 +9,8 @@ import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import java.util.List;
 
 /**
- * @author Alessio Casolaro, Antonio Della Porta.
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta.
  */
 public interface RegistrazioneService {
     /**
@@ -27,6 +28,21 @@ public interface RegistrazioneService {
     Biblioteca findBibliotecaByEmail(String email);
 
     /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    Esperto findEspertoByEmail(String email);
+
+    /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    Lettore findLettoreByEmail(String email);
+
+
+    /**
      * Implementa la funzionalità di trovare dei generi.
      * @param generi Un'array di nomi di generi da trovare
      * @return Una lista contenente i generi trovati
@@ -41,10 +57,54 @@ public interface RegistrazioneService {
     UtenteRegistrato registraBiblioteca(Biblioteca biblioteca);
 
     /**
-     * Implementa la funzionalitá di registrare un Lettore.
+     * Implementa la funzionalità di registrare un Lettore.
      * @param lettore Il lettore da registrare
      * @return Il lettore registrato
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
+    /**
+     * Implementa la funzionalità di ritorno di un esperto.
+     * @param utenteRegistrato L'utente esperto
+     * @return L'utente esperto relativo all'utenteRegistrato
+     */
+    boolean isUserEsperto(UtenteRegistrato utenteRegistrato);
+
+    /**
+     * Implementa la funzionalità di ritorno di un lettore.
+     * @param utenteRegistrato L'utente lettore
+     * @return L'utente lettore relativo all'utenteRegistrato
+     */
+    boolean isUserLettore(UtenteRegistrato utenteRegistrato);
+
+    /**
+     * Implementa la funzionalità di ritorno di una biblioteca.
+     * @param utenteRegistrato L'utente biblioteca
+     * @return L'utente biblioteca relativo all'utenteRegistrato
+     */
+    boolean isUserBiblioteca(UtenteRegistrato utenteRegistrato);
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
+     */
+    Biblioteca aggiornaBiblioteca(Biblioteca utente);
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
+     */
+    Esperto aggiornaEsperto(Esperto utente);
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
+     */
+    Lettore aggiornaLettore(Lettore utente);
 }

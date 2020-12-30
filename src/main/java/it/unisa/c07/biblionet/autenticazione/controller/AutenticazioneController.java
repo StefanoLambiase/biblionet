@@ -58,6 +58,7 @@ public class AutenticazioneController {
                 model.addAttribute("loggedUser", utente);
             }
             return "index";
+
     }
 
     /**
@@ -68,6 +69,7 @@ public class AutenticazioneController {
      * @return Rimanda alla pagina di index.
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
+
     public String logout(final SessionStatus status) {
         status.setComplete();
         return "index";

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Dati Account Lettore</title>
+</head>
+<body>
+<form method="post" action="conferma-modifica-lettore">
+    <fieldset>
+        <legend>Modifica Dati</legend>
+        <p> Email <input type="email" name="email" th:value="${lettore.getEmail()}" readonly> </p>
+        <p> Nome <input type="input" name="nome" th:value="${lettore.getNome()}"> </p>
+        <p> Cognome <input type="input" name="cognome" th:value="${lettore.getCognome()}"> </p>
+        <p> Username <input type="input" name="username" th:value="${lettore.getUsername()}"> </p>
+        <p> Provincia <input type="input" name="provincia" th:value="${lettore.getProvincia()}"> </p>
+        <p> Cittá <input type="input" name="citta" th:value="${lettore.getCitta()}"> </p>
+        <p> Via <input type="input" name="via" th:value="${lettore.getVia()}"> </p>
+        <p> Recapito Telefonico <input type="tel" name="recapitoTelefonico" th:value="${lettore.getRecapitoTelefonico()}"> </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Modifica Password</legend>
+        <p> Vecchia Password <input type="password" name="vecchia_password"> </p>
+        <p> Nuova Password <input type="password" name="nuova_password"> </p>
+        <p> Conferma Nuova Password <input type="password" name="conferma_password"> </p>
+    </fieldset>
+    <p> <input type="submit" value="Conferma la modifica"></p>
+
+</form>
+
+
+</body>
+</html>
