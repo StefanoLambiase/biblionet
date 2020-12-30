@@ -376,6 +376,13 @@ public final class RegistrazioneController {
         return "login";
     }
 
+    /**
+     * Implementa la funzionalitá di visualizzazione area utente
+     * in base al tipo.
+     *
+     * @param model
+     * @return La view di visualizzazione area utente
+     */
     @RequestMapping(value = "/area-utente", method = RequestMethod.GET)
     public String areaUtente(final Model model) {
         UtenteRegistrato utente = (UtenteRegistrato)
@@ -385,29 +392,20 @@ public final class RegistrazioneController {
             if (registrazioneService.isUserBiblioteca(utente)) {
                 Biblioteca biblioteca = (Biblioteca) utente;
                 model.addAttribute("biblioteca", biblioteca);
-                return "visualizza_biblioteca";
+                return "visualizza-biblioteca";
 
             } else if (registrazioneService.isUserEsperto(utente)) {
                 Esperto esperto = (Esperto) utente;
                 model.addAttribute("esperto", esperto);
-                return "visualizza_esperto";
+                return "visualizza-esperto";
 
             } else if (registrazioneService.isUserLettore(utente)) {
                 Lettore lettore = (Lettore) utente;
                 model.addAttribute("lettore", lettore);
-                return "visualizza_lettore";
+                return "visualizza-lettore";
 
             }
         }
         return "login";
     }
-
-    @RequestMapping(value = "/visualizza-lettore",
-            method = RequestMethod.GET)
-    public String visualizzaDatiLettore(final Model model,
-                                     final Lettore lettore) {
-        model.addAttribute("lettore",lettore);
-        return "visualizza_lettore";
-    }
-
 }

@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -52,7 +50,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     /**
      * Rappresenta i generi che interessano ad un lettore.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Genere> generi;
 

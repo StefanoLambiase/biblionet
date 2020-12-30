@@ -4,6 +4,7 @@
     background-color: white;
     padding: 2%;
 }
+
 .column {
     float: left;
     width: 50%;
@@ -16,9 +17,6 @@
     clear: both;
 }
 
-body{
-    background-color: #073763;
-}
 
 .user-row {
     margin-bottom: 14px;
@@ -40,6 +38,19 @@ body{
 .table-user-information > tbody > tr > td {
     border-top: 0;
 }
-.toppad
-{margin-top:20px;
+
+.toppad {
+    margin-top: 20px;
+}
+
+.modifica {
+    background-color: #b20909;
+    border: none;
+    margin-top: 2%;
+    color: white;
+}
+
+.modifica:hover {
+    background-color: #790505;
+    color: white;
 }
