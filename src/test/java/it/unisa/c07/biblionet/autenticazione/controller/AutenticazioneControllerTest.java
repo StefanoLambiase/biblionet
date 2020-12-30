@@ -43,7 +43,7 @@ public class AutenticazioneControllerTest {
 
     /**
      * Implementa la funzionalità che permette
-     * di testare la visualizzazione del login
+     * di testare la visualizzazione del login.
      * @throws Exception Eccezione che può essere lanciata dal metodo perform.
      */
     @Test

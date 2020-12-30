@@ -3,11 +3,15 @@ package it.unisa.c07.biblionet.autenticazione.service;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 /**
  *Implementa la classe che esplicita i metodi
@@ -97,6 +101,73 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
     public boolean isBiblioteca(final UtenteRegistrato utente) {
         return "Biblioteca".equals(utente.getClass().getSimpleName());
     }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
+     */
+    public Biblioteca aggiornaBiblioteca(final Biblioteca utente) {
+        return bibliotecaDAO.save(utente);
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
+     */
+    public Esperto aggiornaEsperto(final Esperto utente) {
+        return espertoDAO.save(utente);
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
+     */
+    public Lettore aggiornaLettore(final Lettore utente) {
+        return lettoreDAO.save(utente);
+    }
+
+    /**
+     * Implementa la funzionalità di trovare una biblioteca.
+     * @param email La mail della biblioteca
+     * @return La biblioteca se c'è, altrimenti null
+     */
+    @Override
+    public final Biblioteca findBibliotecaByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = bibliotecaDAO.findById(email);
+        return (Biblioteca) b.orElse(null);
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    @Override
+    public final Esperto findEspertoByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = espertoDAO.findById(email);
+        return (Esperto) b.orElse(null);
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    @Override
+    public final Lettore findLettoreByEmail(final String email) {
+
+        Optional<UtenteRegistrato> b = lettoreDAO.findById(email);
+        return (Lettore) b.orElse(null);
+    }
+
 
 
 }
