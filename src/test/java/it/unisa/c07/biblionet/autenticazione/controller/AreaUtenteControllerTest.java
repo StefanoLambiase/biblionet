@@ -34,7 +34,7 @@ public class AreaUtenteControllerTest {
      * le operazioni dei metodi.
      */
     @MockBean
-    private AutenticazioneServiceImpl autenticazioneService;
+    private AutenticazioneService autenticazioneService;
 
     /**
      * Inject di MockMvc per simulare
