@@ -101,11 +101,12 @@ public class RegistrazioneServiceImplTest {
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }
 
+
     /**
      * Metodo che si occupa di testare
      * la funzione di ricerca di una
      * biblioteca nel service.
-     */
+     *
     @Test
     public void getBibliotecaByEmail() {
         Biblioteca dummy = new Biblioteca();
@@ -114,6 +115,7 @@ public class RegistrazioneServiceImplTest {
                 .thenReturn(Optional.of(dummy));
         assertEquals(dummy, registrazioneService.getBibliotecaByEmail(email));
     }
+    */
 
     /**
      * Metodo che si occupa di testare
