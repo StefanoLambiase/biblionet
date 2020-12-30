@@ -4,7 +4,6 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
-import it.unisa.c07.biblionet.registrazione.service.RegistrazioneServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -32,7 +31,7 @@ public final class RegistrazioneControllerTest {
      * le operazioni dei metodi.
      */
     @MockBean
-    private RegistrazioneServiceImpl registrazioneService;
+    private RegistrazioneService registrazioneService;
 
     /**
      * Inject di MockMvc per simulare
