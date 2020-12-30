@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -100,7 +99,6 @@ public class RegistrazioneServiceImplTest {
         when(lettoreDAO.save(lettore)).thenReturn(lettore);
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }
-    
     /**
      * Metodo che si occupa di testare
      * la funzione di ricerca di un
@@ -108,7 +106,6 @@ public class RegistrazioneServiceImplTest {
      */
     @Test
     public void findGeneriByName0IT() {
-
         List<Genere> list = new ArrayList<>();
         String[] generi = {""};
         assertEquals(list, registrazioneService.findGeneriByName(generi));

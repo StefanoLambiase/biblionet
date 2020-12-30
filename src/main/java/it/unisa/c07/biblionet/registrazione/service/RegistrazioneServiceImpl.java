@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.registrazione.service;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
-import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneServiceImpl;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
@@ -44,6 +43,10 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
      */
     private final LettoreDAO lettoreDAO;
 
+    /**
+     * Inject del service per simulare
+     * le operazioni.
+     */
     private final AutenticazioneService autenticazioneService;
 
     /**
