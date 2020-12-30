@@ -26,10 +26,10 @@
                     <td>
                         <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/prenota-libro'}">
                             <div th:if="${session.loggedUser != null}">
-                                <button type="submit">Prenota</button>
+                                <button class="btn-main" type="submit">Prenota</button>
                             </div>
                             <div th:unless="${session.loggedUser != null}">
-                                <button type="submit" disabled>Prenota</button>
+                                <button class="btn-main" type="submit" disabled>Prenota</button>
                             </div>
                         </form>
                     </td>

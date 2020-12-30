@@ -20,6 +20,12 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
+
                                 <form method="post" th:action="@{'/prenotazione-libri/ticket/'+${ticket.idTicket}+'/accetta'}">
                                     <div class="card-text">
                                         Giorni di durata del prestito
@@ -51,6 +57,11 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
                                 <div  class="card-text" style="margin-top: 1%;">
                                     <input type="submit" class="btn red-button" value="Chiudi" style="width: 80px"></input>
                                 </div>
@@ -79,6 +90,11 @@
                             <div class="card-body border-blue">
                                 <h5 class="card-title" th:text="${ticket.libro.titolo}"></h5>
                                 <p class="card-text" th:text="${ticket.libro.descrizione}"></p>
+                                <div th:each="possesso : ${ticket.biblioteca.possessi}">
+                                    <div th:if="${possesso.possessoID.libroID == ticket.libro.idLibro}">
+                                        <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer ticket-blue-section">
                                 Data richiesta:

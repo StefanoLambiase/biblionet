@@ -7,6 +7,7 @@ import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
@@ -189,6 +190,14 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
                                            final int giorni) {
         ticket.setDataRestituzione(LocalDateTime.now().plusDays(giorni));
         ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE);
+        Libro l = ticket.getLibro();
+        Biblioteca b = ticket.getBiblioteca();
+        Possesso pos = possessoDAO.
+                    getOne(new PossessoId(b.getEmail(),l.getIdLibro()));
+        if(pos != null) {
+            pos.setNumeroCopie(pos.getNumeroCopie() - 1);
+            possessoDAO.save(pos);
+        }
         ticketPrestitoDAO.save(ticket);
         return ticket;
     }

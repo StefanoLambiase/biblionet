@@ -7,6 +7,7 @@ import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.junit.jupiter.api.Test;
@@ -197,7 +198,12 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void accettaRichiesta() {
         TicketPrestito ticket = new TicketPrestito();
+        ticket.setBiblioteca(new Biblioteca());
+        ticket.setLibro(new Libro());
+        Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        when(possessoDAO.getOne(new PossessoId("a",1)))
+                                        .thenReturn(pos);
         assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
     }
 
