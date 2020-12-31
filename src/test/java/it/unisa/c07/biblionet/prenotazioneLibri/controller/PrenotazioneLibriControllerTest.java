@@ -61,7 +61,7 @@ public class PrenotazioneLibriControllerTest {
                         .thenReturn(list);
         this.mockMvc.perform(get("/prenotazione-libri/"))
                 .andExpect(model().attribute("listaLibri", list))
-                .andExpect(view().name("visualizza-libri-prenotabili"));
+                .andExpect(view().name("prenotazione-libri/visualizza-libri-prenotabili"));
     }
 
     /**
@@ -80,7 +80,7 @@ public class PrenotazioneLibriControllerTest {
         this.mockMvc.perform(get("/prenotazione-libri/ricerca-titolo")
                 .param("titolo", "titolo"))
                 .andExpect(model().attribute("listaLibri", list))
-                .andExpect(view().name("visualizza-libri-prenotabili"));
+                .andExpect(view().name("prenotazione-libri/visualizza-libri-prenotabili"));
     }
 
     /**
@@ -125,7 +125,7 @@ public class PrenotazioneLibriControllerTest {
         this.mockMvc.perform(post("/prenotazione-libri/1/prenota-libro"))
                             .andExpect(model().attribute("lista", bl))
                             .andExpect(model().attribute("libro", l))
-                            .andExpect(view().name("prenota-libro"));
+                            .andExpect(view().name("prenotazione-libri/visualizza-prenota-libro"));
 
     }
 
@@ -153,7 +153,7 @@ public class PrenotazioneLibriControllerTest {
                                     attribute("listaTicketAccettati", list))
                             .andExpect(model().
                                     attribute("listaTicketChiusi", list))
-                            .andExpect(view().name("visualizza-richieste"));
+                            .andExpect(view().name("/prenotazione-libri/visualizza-richieste-biblioteca"));
 
     }
 
