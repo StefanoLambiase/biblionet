@@ -40,7 +40,7 @@ public class AutenticazioneController {
     }
 
     /**
-     * Implementa la funzionionalità di login come utente.
+     * Implementa la funzionalità di login come utente.
      * @param email dell'utente.
      * @param password password dell'utente.
      * @param model la sessione in cui salvare l'utente.
@@ -53,7 +53,7 @@ public class AutenticazioneController {
         UtenteRegistrato utente = autenticazioneService.login(email,
                                                                 password);
             if (utente == null) {
-                return "login";
+                return "autenticazione/login";
             } else {
                 model.addAttribute("loggedUser", utente);
             }

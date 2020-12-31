@@ -49,7 +49,7 @@ public class AutenticazioneControllerTest {
     @Test
     public void visualizzaLogin() throws Exception {
         this.mockMvc.perform(get("/autenticazione"))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -96,7 +96,7 @@ public class AutenticazioneControllerTest {
         this.mockMvc.perform(post("/autenticazione/login")
                 .param("email", email)
                 .param("password", password))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
