@@ -79,7 +79,7 @@ public class AreaUtenteControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -113,7 +113,7 @@ public class AreaUtenteControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -151,7 +151,7 @@ public class AreaUtenteControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("modifica_dati_lettore"));
+                .andExpect(view().name("area-utente/modifica_dati_lettore"));
     }
 
     /**
@@ -227,7 +227,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -270,7 +270,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica_dati_esperto"));
     }
 
     /**
@@ -317,7 +317,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica_dati_esperto"));
     }
 
     /**
@@ -361,7 +361,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica_dati_esperto"));
     }
 
     /**
@@ -406,7 +406,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica_dati_esperto"));
     }
 
 
@@ -464,7 +464,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", esperto))
-                .andExpect(view().name("modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica_dati_esperto"));
 
 
     }
@@ -484,7 +484,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", lettore))
-                .andExpect(view().name("modifica_dati_lettore"));
+                .andExpect(view().name("area-utente/modifica_dati_lettore"));
     }
 
     /**
@@ -504,7 +504,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", biblioteca))
-                .andExpect(view().name("modifica_dati_biblioteca"));
+                .andExpect(view().name("area-utente/modifica_dati_biblioteca"));
     }
 
     /**
@@ -517,7 +517,7 @@ public class AreaUtenteControllerTest {
     public void sceltaModificaNull() throws Exception {
 
         this.mockMvc.perform(get("/modifica-dati"))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**

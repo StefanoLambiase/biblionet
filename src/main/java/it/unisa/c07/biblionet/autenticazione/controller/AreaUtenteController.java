@@ -53,21 +53,21 @@ public class AreaUtenteController {
             if (autenticazioneService.isBiblioteca(utente)) {
                 Biblioteca biblioteca = (Biblioteca) utente;
                 model.addAttribute("biblioteca", biblioteca);
-                return "modifica_dati_biblioteca";
+                return "area-utente/modifica_dati_biblioteca";
 
             } else if (autenticazioneService.isEsperto(utente)) {
                 Esperto esperto = (Esperto) utente;
                 model.addAttribute("esperto", esperto);
-                return "modifica_dati_esperto";
+                return "area-utente/modifica_dati_esperto";
 
             } else if (autenticazioneService.isLettore(utente)) {
                 Lettore lettore = (Lettore) utente;
                 model.addAttribute("lettore", lettore);
-                return "modifica_dati_lettore";
+                return "area-utente/modifica_dati_lettore";
 
             }
         }
-        return "login";
+        return "autenticazione/login";
     }
 
 
@@ -108,7 +108,7 @@ public class AreaUtenteController {
                 ) {
                     biblioteca.setPassword(nuova);
                 } else {
-                    return "modifica_dati_biblioteca";
+                    return "area-utente/modifica_dati_biblioteca";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -121,7 +121,7 @@ public class AreaUtenteController {
 
         autenticazioneService.aggiornaBiblioteca(biblioteca);
         model.addAttribute("loggedUser", biblioteca);
-        return "login";
+        return "autenticazione/login";
 
     }
 
@@ -159,7 +159,7 @@ public class AreaUtenteController {
             esperto.setBiblioteca(b);
         } else {
             esperto.setBiblioteca(toUpdate.getBiblioteca());
-            return "modifica_dati_esperto";
+            return "area-utente/modifica_dati_esperto";
         }
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
@@ -175,7 +175,7 @@ public class AreaUtenteController {
                     esperto.setPassword(nuova);
                 } else {
                     System.out.println("password sbagliata");
-                    return "modifica_dati_esperto";
+                    return "area-utente/modifica_dati_esperto";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -189,7 +189,7 @@ public class AreaUtenteController {
         System.out.println(esperto.getEmail());
         autenticazioneService.aggiornaEsperto(esperto);
         model.addAttribute("loggedUser", esperto);
-        return "login";
+        return "autenticazione/login";
     }
 
     /**
@@ -227,7 +227,7 @@ public class AreaUtenteController {
                 ) {
                     lettore.setPassword(nuova);
                 } else {
-                    return "modifica_dati_lettore";
+                    return "area-utente/modifica_dati_lettore";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -240,7 +240,7 @@ public class AreaUtenteController {
         System.out.println(lettore.getEmail());
         autenticazioneService.aggiornaLettore(lettore);
         model.addAttribute("loggedUser", lettore);
-        return "login";
+        return "autenticazione/login";
     }
 
 
