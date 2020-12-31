@@ -36,7 +36,7 @@ public class AutenticazioneController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String visualizzaLogin() {
 
-        return "login";
+        return "autenticazione/login";
     }
 
     /**
