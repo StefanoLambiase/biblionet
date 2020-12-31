@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,14 +24,15 @@ public class PreferenzeDiLetturaController {
 
     /**
      * Implementa la funzionalità di inserimento di generi letterari
-     * preferiti di un esperto
+     * preferiti di un esperto.
      * @param esperto l'esperto a cui inserire i generi
      * @param generi i nomi dei generi da eseguire
      * @return la view della home
      */
-    @RequestMapping(value = "/inserisci-generi-esperto", method = RequestMethod.POST)
+    @RequestMapping(value = "/inserisci-generi-esperto",
+                                              method = RequestMethod.POST)
     public String inserimentoConoscenzeLetturaEsperto(final Esperto esperto,
-                              final @RequestParam("genere")String[] generi){
+                              final @RequestParam("genere")String[] generi) {
 
         preferenzeDiLetturaService.addGeneriEsperto(
                 preferenzeDiLetturaService.getGeneriByName(generi),
