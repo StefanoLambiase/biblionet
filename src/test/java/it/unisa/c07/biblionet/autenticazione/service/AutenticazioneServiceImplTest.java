@@ -16,8 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -135,5 +137,100 @@ public class AutenticazioneServiceImplTest {
 
         assertEquals(esperto, autenticazioneService.login(email,
                                                         password));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * se l'utente è un esperto.
+     */
+    @Test
+    public void isEsperto() {
+        UtenteRegistrato utenteRegistrato = new Esperto();
+
+        when(autenticazioneService.isEsperto(utenteRegistrato))
+                .thenReturn(true);
+
+        assertTrue(autenticazioneService.isEsperto(utenteRegistrato));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * se l'utente è un lettore.
+     */
+    @Test
+    public void isLettore() {
+        UtenteRegistrato utenteRegistrato = new Lettore();
+
+        when(autenticazioneService.isLettore(utenteRegistrato))
+                .thenReturn(true);
+
+        assertTrue(autenticazioneService.isLettore(utenteRegistrato));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di aggiornamento una
+     * biblioteca nel service.
+     */
+   @Test
+    public void aggiornaBiblioteca() {
+        Biblioteca utente = new Biblioteca();
+        when(bibliotecaDAO.save(utente))
+                .thenReturn(utente);
+        assertEquals(utente, autenticazioneService.aggiornaBiblioteca(utente));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di aggiornamento un
+     * esperto nel service.
+     */
+    @Test
+    public void aggiornaEsperto() {
+        Esperto utente = new Esperto();
+        when(espertoDAO.save(utente))
+                .thenReturn(utente);
+        assertEquals(utente, autenticazioneService.aggiornaEsperto(utente));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di aggiornamento un
+     * lettore nel service.
+     */
+    @Test
+    public void aggiornaLettore() {
+        Lettore utente = new Lettore();
+        when(lettoreDAO.save(utente))
+                .thenReturn(utente);
+        assertEquals(utente, autenticazioneService.aggiornaLettore(utente));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di ricerca di un Esperto
+     * nel service.
+     */
+    @Test
+    public void findEspertoByEmail() {
+        Esperto dummy = new Esperto();
+        String email = "";
+        when(espertoDAO.findById(email))
+                .thenReturn(Optional.of(dummy));
+        assertEquals(dummy, autenticazioneService.findEspertoByEmail(email));
+    }
+
+    /**
+     * Metodo che si occupa di testare
+     * la funzione di ricerca di un
+     * Lettore nel service.
+     */
+    @Test
+    public void findLettoreByEmail() {
+        Lettore dummy = new Lettore();
+        String email = "";
+        when(lettoreDAO.findById(email))
+                .thenReturn(Optional.of(dummy));
+        assertEquals(dummy, autenticazioneService.findLettoreByEmail(email));
     }
 }

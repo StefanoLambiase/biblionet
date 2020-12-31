@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Libri prenotabili</title>
+</head>
+<body>
+    <div layout:fragment="contenuto-pagina" class="container">
+        <h2>Ricerca per titolo</h2>
+        <form method="get" action="/prenotazione-libri/ricerca-titolo">
+            <input type="text" name="titolo">
+            <input class="btn-main" type="submit" value="Cerca">
+        </form>
+        <table class="table" style="border-color:#b20909">
+                <tr>
+                    <th scope="col">Copertina</th>
+                    <th scope="col">Titolo</th>
+                    <th scope="col">Generi</th>
+                    <th scope="col">Prenotalo</th>
+                </tr>
+                <tr th:each="libro : ${listaLibri}">
+                    <td><img th:src="${libro.immagineLibro}"/> </td>
+                    <th th:text="${libro.titolo}" scope="row"></th>
+                    <td><p th:each="genere : ${libro.generi}" th:text="${genere.nome}"></p></td>
+                    <td>
+                        <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/prenota-libro'}">
+                            <div th:if="${session.loggedUser != null}">
+                                <button class="btn-main" type="submit">Prenota</button>
+                            </div>
+                            <div th:unless="${session.loggedUser != null}">
+                                <button class="btn-main" type="submit" disabled>Prenota</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+        </table>
+    </div>
+</body>
+</html>
