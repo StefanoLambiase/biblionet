@@ -51,7 +51,7 @@ public final class RegistrazioneController {
     @RequestMapping(value = "/scegli", method = RequestMethod.POST)
     public String scegliRegistrazione(final @RequestParam("scelta")
                                               String scelta) {
-        return "registrazione_" + scelta.toLowerCase();
+        return "registrazione/registrazione_" + scelta.toLowerCase();
     }
 
     /**
@@ -80,7 +80,7 @@ public final class RegistrazioneController {
 
         if (biblioteca == null) {
             System.out.println("Questa biblioteca non va bene");
-            return "registrazione_esperto";
+            return "registrazione/registrazione_esperto";
         }
         esperto.setBiblioteca(biblioteca);
 
@@ -94,14 +94,14 @@ public final class RegistrazioneController {
             byte[] arr = md.digest(password.getBytes());
             if (Arrays.compare(arr, esperto.getPassword()) != 0) {
                 System.out.println("Questa password non va bene");
-                return "registrazione_esperto";
+                return "registrazione/registrazione_esperto";
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
         registrazioneService.registraEsperto(esperto);
-        return "login";
+        return "autenticazione/login";
 
 
     }
@@ -123,14 +123,14 @@ public final class RegistrazioneController {
             byte[] arr = md.digest(password.getBytes());
             if (Arrays.compare(arr, biblioteca.getPassword()) != 0) {
                 System.out.println("Questa password non va bene");
-                return "registrazione_biblioteca";
+                return "registrazione/registrazione_biblioteca";
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
         registrazioneService.registraBiblioteca(biblioteca);
-        return "login";
+        return "autenticazione/login";
     }
 
 
@@ -155,14 +155,14 @@ public final class RegistrazioneController {
             byte[] arr = md.digest(password.getBytes());
             if (Arrays.compare(arr, lettore.getPassword()) != 0) {
                 System.out.println("Questa password non va bene");
-                return "registrazione_lettore";
+                return "registrazione/registrazione_lettore";
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
         registrazioneService.registraLettore(lettore);
-        return "login";
+        return "autenticazione/login";
     }
 
 }

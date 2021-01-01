@@ -89,7 +89,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -141,7 +141,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("registrazione_esperto"));
+                .andExpect(view().name("registrazione/registrazione_esperto"));
     }
 
     /**
@@ -194,7 +194,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("registrazione_esperto"));
+                .andExpect(view().name("registrazione/registrazione_esperto"));
     }
 
     /**
@@ -246,7 +246,7 @@ public final class RegistrazioneControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", generi))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -304,7 +304,7 @@ public final class RegistrazioneControllerTest {
                 .param("via", biblioteca.getVia())
                 .param("recapito_telefonico",
                         biblioteca.getRecapitoTelefonico()))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -337,7 +337,7 @@ public final class RegistrazioneControllerTest {
                 .param("via", biblioteca.getVia())
                 .param("recapito_telefonico",
                         biblioteca.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione_biblioteca"));
+                .andExpect(view().name("registrazione/registrazione_biblioteca"));
     }
 
 
@@ -394,7 +394,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("login"));
+                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -430,7 +430,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione_lettore"));
+                .andExpect(view().name("registrazione/registrazione_lettore"));
     }
 
     /**

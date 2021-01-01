@@ -48,7 +48,7 @@ public class PrenotazioneLibriController {
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         model.addAttribute("listaLibri",
                 prenotazioneService.visualizzaListaLibriCompleta());
-        return "visualizza-libri-prenotabili";
+        return "prenotazione-libri/visualizza-libri-prenotabili";
     }
 
     /**
@@ -65,7 +65,7 @@ public class PrenotazioneLibriController {
                            final Model model) {
         model.addAttribute("listaLibri",
                 prenotazioneService.visualizzaListaLibriPerTitolo(titolo));
-        return "visualizza-libri-prenotabili";
+        return "prenotazione-libri/visualizza-libri-prenotabili";
     }
 
     /**
@@ -84,7 +84,7 @@ public class PrenotazioneLibriController {
                         prenotazioneService.getBibliotecheLibro(libro);
         model.addAttribute("lista", listaBiblioteche);
         model.addAttribute("libro", libro);
-        return "prenota-libro";
+        return "prenotazione-libri/visualizza-prenota-libro";
     }
 
     /**
@@ -149,7 +149,7 @@ public class PrenotazioneLibriController {
             model.addAttribute("listaTicketAccettati", list2);
             model.addAttribute("listaTicketChiusi", list3);
         }
-        return "visualizza-richieste";
+        return "/prenotazione-libri/visualizza-richieste-biblioteca";
     }
 
     /**

@@ -64,7 +64,7 @@ public class ClubDelLibroController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String visualizzaListaClubs(final Model model) {
         model.addAttribute("listaClubs", clubService.visualizzaClubsDelLibro());
-        return "visualizza-clubs";
+        return "club-del-libro/visualizza-clubs";
     }
 
     /**
@@ -139,7 +139,7 @@ public class ClubDelLibroController {
     public String visualizzaModificaDatiClub(final @PathVariable int id,
                                              final Model model) {
         model.addAttribute("club", this.clubService.getClubByID(id));
-        return "modifica-club";
+        return "club-del-libro/modifica-club";
     }
 
     /**
@@ -306,7 +306,7 @@ public class ClubDelLibroController {
         model.addAttribute("club", club);
         model.addAttribute("evento", evento);
 
-        return "aggiungi-evento";
+        return "club-del-libro/aggiungi-evento";
     }
 
     /** 
@@ -321,7 +321,7 @@ public class ClubDelLibroController {
     public String visualizzaDatiClub(final @PathVariable int id,
                                      final Model model) {
         model.addAttribute("club", clubService.getClubByID(id));
-        return "visualizza-iscritti";
+        return "club-del-libro/visualizza-iscritti";
     }
 
     /**
