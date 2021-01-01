@@ -193,8 +193,8 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         Libro l = ticket.getLibro();
         Biblioteca b = ticket.getBiblioteca();
         Possesso pos = possessoDAO.
-                    getOne(new PossessoId(b.getEmail(),l.getIdLibro()));
-        if(pos != null) {
+                    getOne(new PossessoId(b.getEmail(), l.getIdLibro()));
+        if (pos != null) {
             pos.setNumeroCopie(pos.getNumeroCopie() - 1);
             possessoDAO.save(pos);
         }
@@ -213,6 +213,27 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         ticket.setStato(TicketPrestito.Stati.RIFIUTATO);
         ticketPrestitoDAO.save(ticket);
         return ticket;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di chiudere un ticket di prenotazione di un libro
+     * quando questo viene riconsegnato.
+     * @param ticket il ticket che rappresenta la richiesta da chiudere
+     * @return Il ticket aggiornato a chiuso
+     */
+    @Override
+    public TicketPrestito chiudiTicket(final TicketPrestito ticket) {
+        ticket.setStato(TicketPrestito.Stati.CHIUSO);
+        Libro l = ticket.getLibro();
+        Biblioteca b = ticket.getBiblioteca();
+        Possesso pos = possessoDAO.
+                getOne(new PossessoId(b.getEmail(), l.getIdLibro()));
+        if (pos != null) {
+            pos.setNumeroCopie(pos.getNumeroCopie() + 1);
+            possessoDAO.save(pos);
+        }
+        return ticketPrestitoDAO.save(ticket);
     }
 
 }

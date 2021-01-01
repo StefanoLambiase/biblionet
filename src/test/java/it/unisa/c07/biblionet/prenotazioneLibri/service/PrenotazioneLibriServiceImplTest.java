@@ -202,7 +202,7 @@ public class PrenotazioneLibriServiceImplTest {
         ticket.setLibro(new Libro());
         Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
-        when(possessoDAO.getOne(new PossessoId("a",1)))
+        when(possessoDAO.getOne(new PossessoId("a", 1)))
                                         .thenReturn(pos);
         assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
     }
@@ -216,6 +216,23 @@ public class PrenotazioneLibriServiceImplTest {
         TicketPrestito ticket = new TicketPrestito();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         assertEquals(ticket, prenotazioneService.rifiutaRichiesta(ticket));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di chiudere un ticket quando il libro viene
+     * restituito.
+     */
+    @Test
+    public void chiudiTicket() {
+        TicketPrestito ticket = new TicketPrestito();
+        ticket.setBiblioteca(new Biblioteca());
+        ticket.setLibro(new Libro());
+        Possesso pos = new Possesso();
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        when(possessoDAO.getOne(new PossessoId("a", 1)))
+                .thenReturn(pos);
+        assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
     }
 
 }
