@@ -255,7 +255,7 @@ public class ClubDelLibroControllerTest {
         this.mockMvc
                 .perform(get("/club-del-libro/visualizza-dati-club/1"))
                 .andExpect(model().attribute("club", club))
-                .andExpect(view().name("club-del-libro/visualizza-iscritti"));
+                .andExpect(view().name("club-del-libro/visualizza-singolo-club"));
     }
 
     @Test
