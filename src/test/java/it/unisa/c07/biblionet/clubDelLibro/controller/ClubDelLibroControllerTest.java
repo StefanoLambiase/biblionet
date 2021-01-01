@@ -109,7 +109,7 @@ public class ClubDelLibroControllerTest {
         when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
         this.mockMvc.perform(get("/club-del-libro/"))
                 .andExpect(model().attribute("listaClubs", list))
-                .andExpect(view().name("visualizza-clubs"));
+                .andExpect(view().name("club-del-libro/visualizza-clubs"));
     }
 
     /**
@@ -128,7 +128,7 @@ public class ClubDelLibroControllerTest {
         this.mockMvc
                 .perform(get("/club-del-libro/modifica-dati/1"))
                 .andExpect(model().attribute("club", club))
-                .andExpect(view().name("modifica-club"));
+                .andExpect(view().name("club-del-libro/modifica-club"));
     }
 
     /**
@@ -195,7 +195,7 @@ public class ClubDelLibroControllerTest {
                 .perform(get("/club-del-libro/1/crea-evento"))
                 .andExpect(model().attribute("club", club))
                 .andExpect(model().attributeExists("evento"))
-                .andExpect(view().name("aggiungi-evento"));
+                .andExpect(view().name("club-del-libro/aggiungi-evento"));
     }
 
     /**
@@ -246,7 +246,7 @@ public class ClubDelLibroControllerTest {
         this.mockMvc
                 .perform(get("/club-del-libro/visualizza-dati-club/1"))
                 .andExpect(model().attribute("club", club))
-                .andExpect(view().name("visualizza-iscritti"));
+                .andExpect(view().name("club-del-libro/visualizza-iscritti"));
     }
 
     @Test
