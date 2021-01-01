@@ -100,8 +100,4 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
         this.biblioteca = biblioteca;
     }
 
-    @Override
-    public String getTipo() {
-        return "Esperto";
-    }
 }

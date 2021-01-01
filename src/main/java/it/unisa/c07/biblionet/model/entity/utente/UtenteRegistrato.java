@@ -22,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class UtenteRegistrato {
+public class UtenteRegistrato {
 
     /**
      * Rappresenta l'ID di un utente registrato.
@@ -117,8 +117,6 @@ public abstract class UtenteRegistrato {
             e.printStackTrace();
         }
     }
-
-    public abstract String getTipo();
 
     public void setHashedPassword(byte[] hashPassword){
         this.password=hashPassword;
