@@ -104,4 +104,13 @@ public interface PrenotazioneLibriService {
      */
     TicketPrestito rifiutaRichiesta(TicketPrestito ticket);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di chiudere un ticket di prenotazione di un libro
+     * quando questo viene riconsegnato.
+     * @param ticket il ticket che rappresenta la richiesta da chiudere
+     * @return Il ticket aggiornato a chiuso
+     */
+    TicketPrestito chiudiTicket(TicketPrestito ticket);
+
 }

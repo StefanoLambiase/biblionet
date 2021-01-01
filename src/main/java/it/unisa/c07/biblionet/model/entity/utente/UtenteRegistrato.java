@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Column;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -68,11 +68,19 @@ public class UtenteRegistrato {
     private String recapitoTelefonico;
 
     /**
+     * Rappresenta il tipo di utente.
+     * Utile per essere chiamato sui figli, nella entity UtenteRegistrato
+     * non ha senso di essere chiamato.
+     */
+    @Transient
+    private String tipo;
+
+    /**
      *
      * @param email la mail dell'utente registrato.
      * @param password la password dell'utente registrato.
      * @param provincia la provincia dove vive l'utente.
-     * @param citta la città dove vive l'utete.
+     * @param citta la città dove vive l'utente.
      * @param via la via dove vive l'utente.
      * @param recapitoTelefonico il recapito telefonico dell'utente.
      */
