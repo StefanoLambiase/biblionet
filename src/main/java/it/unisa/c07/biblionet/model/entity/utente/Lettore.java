@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -29,7 +27,7 @@ import java.util.List;
 public class Lettore extends UtenteRegistrato implements HaGenere {
 
     /**
-     * Rappresenta un lettore sulla piattaforma.
+     * Rappresente un lettore sulla piattaforma.
      */
     @NonNull
     @Column(nullable = false, length = Length.LENGTH_30)
@@ -77,6 +75,12 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     @ToString.Exclude
     private List<TicketPrestito> tickets;
 
+    /**
+     * Rappresenta il tipo di utente
+     */
+    @Transient
+    private String tipo = "Lettore";
+
 
     /**
      *
@@ -86,7 +90,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * @param citta la città del lettore.
      * @param via la via dove vive.
      * @param recapitoTelefonico il recapito del lettore.
-     * @param username l'username del lettore.
+     * @param username l'usurname del lettore.
      * @param nome il nome del lettore.
      * @param cognome il cognome del lettore.
      */
@@ -102,8 +106,4 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     }
 
 
-    @Override
-    public String getTipo() {
-        return "Lettore";
-    }
 }

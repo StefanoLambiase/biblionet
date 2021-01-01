@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -56,6 +57,12 @@ public class Biblioteca extends UtenteRegistrato {
     private List<Possesso> possessi;
 
     /**
+     * Rappresenta il tipo di utente
+     */
+    @Transient
+    String tipo = "Biblioteca";
+
+    /**
      *
      * @param email È la mail della biblioteca.
      * @param password È la password di accesso della biblioteca.
@@ -74,8 +81,4 @@ public class Biblioteca extends UtenteRegistrato {
         this.nomeBiblioteca = nomeBiblioteca;
     }
 
-    @Override
-    public String getTipo() {
-        return "Biblioteca";
-    }
 }

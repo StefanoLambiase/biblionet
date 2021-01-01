@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -22,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class UtenteRegistrato {
+public class UtenteRegistrato {
 
     /**
      * Rappresenta l'ID di un utente registrato.
@@ -67,12 +66,14 @@ public abstract class UtenteRegistrato {
     @NonNull
     private String recapitoTelefonico;
 
+
+
     /**
      *
      * @param email la mail dell'utente registrato.
      * @param password la password dell'utente registrato.
      * @param provincia la provincia dove vive l'utente.
-     * @param citta la città dove vive l'utete.
+     * @param citta la città dove vive l'utente.
      * @param via la via dove vive l'utente.
      * @param recapitoTelefonico il recapito telefonico dell'utente.
      */
@@ -117,8 +118,6 @@ public abstract class UtenteRegistrato {
             e.printStackTrace();
         }
     }
-
-    public abstract String getTipo();
 
     public void setHashedPassword(byte[] hashPassword){
         this.password=hashPassword;

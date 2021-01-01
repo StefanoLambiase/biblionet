@@ -10,12 +10,8 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -75,6 +71,12 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
     private List<ClubDelLibro> clubs;
 
     /**
+     * Rappresenta il tipo di utente
+     */
+    @Transient
+    String tipo = "Esperto";
+
+    /**
      *
      * @param email È la mail dell'esperto.
      * @param password È la password di accesso dell'esperto.
@@ -100,8 +102,4 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
         this.biblioteca = biblioteca;
     }
 
-    @Override
-    public String getTipo() {
-        return "Esperto";
-    }
 }
