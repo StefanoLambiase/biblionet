@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,9 +28,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
@@ -50,7 +55,7 @@ public class ClubDelLibroControllerTest {
      */
     @MockBean
     private ClubDelLibroService clubService;
-    
+
     /**
      * Mock del service per simulare
      * le operazioni dei metodi.
@@ -123,7 +128,7 @@ public class ClubDelLibroControllerTest {
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void visualizzaModificaDatiClub(final ClubDelLibro club)
-                                            throws Exception {
+            throws Exception {
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
                 .perform(get("/club-del-libro/modifica-dati/1"))
@@ -189,7 +194,7 @@ public class ClubDelLibroControllerTest {
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void visualizzaCreaEvento(final ClubDelLibro club)
-                                            throws Exception {
+            throws Exception {
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
                 .perform(get("/club-del-libro/1/crea-evento"))
@@ -221,15 +226,15 @@ public class ClubDelLibroControllerTest {
         ));
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                                .post("/club-del-libro/1/crea-evento")
-                                .param("nome", "Prova")
-                                .param("descrizione", "Prova")
-                                .param("data", "2024-12-12")
-                                .param("ora", "11:24")
-                                .param("libro", "1"))
-                                .andExpect(view().name(
-                                        "redirect:/club-del-libro/1/eventi"
-                                ));
+                        .post("/club-del-libro/1/crea-evento")
+                        .param("nome", "Prova")
+                        .param("descrizione", "Prova")
+                        .param("data", "2024-12-12")
+                        .param("ora", "11:24")
+                        .param("libro", "1"))
+                .andExpect(view().name(
+                        "redirect:/club-del-libro/1/eventi"
+                ));
     }
 
     /**
@@ -276,21 +281,43 @@ public class ClubDelLibroControllerTest {
                 Arguments.of(new ClubDelLibro("Club1",
                         "descrizione1",
                         new Esperto("drink@home.com",
-                            "ALotOfBeerInMyLife",
-                            "Salerno",
-                            "Salerno",
-                            "Via vicino casa di Stefano 2",
-                            "3694578963",
-                            "mrDuff",
-                            "Nicola",
-                            "Pagliara",
-                            new Biblioteca("gmail@gmail.com",
-                                    "Ueuagliobellstuorolog69",
-                                    "Napoli",
-                                    "Scampia",
-                                    "Via Portici 47",
-                                    "3341278415",
-                                    "Vieni che non ti faccio niente"))))
+                                "ALotOfBeerInMyLife",
+                                "Salerno",
+                                "Salerno",
+                                "Via vicino casa di Stefano 2",
+                                "3694578963",
+                                "mrDuff",
+                                "Nicola",
+                                "Pagliara",
+                                new Biblioteca("gmail@gmail.com",
+                                        "Ueuagliobellstuorolog69",
+                                        "Napoli",
+                                        "Scampia",
+                                        "Via Portici 47",
+                                        "3341278415",
+                                        "Vieni che non ti faccio niente"))))
         );
     }
+
+    /*************************** Tests for Exception ******************************/
+
+    @Test
+    public void creaEventoFirstException() throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(null);          // Mock che consente di entrare nella prima condizione e lanciare l'eccezione
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/club-del-libro/1/crea-evento")
+                        .param("nome", "Prova")
+                        .param("descrizione", "Prova")
+                        .param("data", "2024-12-12")
+                        .param("ora", "11:24")
+                        .param("libro", "1"))
+                .andExpect(status().isBadRequest())             // Verifica lo status della eccezione
+                .andExpect(result ->
+                        assertTrue(result.getResolvedException() instanceof ResponseStatusException))       // Verifica la classe del lancio della eccezione
+                .andExpect(result ->
+                        assertEquals("400 BAD_REQUEST \"Club del Libro Inesistente\"", result.getResolvedException().getMessage()));        // Verifica il messaggio di ritorno della eccezione
+    }
+
 }
