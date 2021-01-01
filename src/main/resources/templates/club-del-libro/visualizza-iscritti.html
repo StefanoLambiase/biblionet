@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Visualizza iscritti al Club</title>
+    <title>Visualizza iscritti al club</title>
+    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
 </head>
 <body>
-    <h3> Iscritti al Club <th th:text="${club.nome}" /> </h3>
-    <table>
-        <tr  th:each="lettore : ${club.lettori}">
+<div layout:fragment="contenuto-pagina" class="container">
+    <h3> Iscritti al Club: <th th:text="${club.nome}" /> </h3>
+    <table class="table" style="border-color: #b20909">
+        <tr>
+            <th scope="col">Nome lettore</th>
+            <th scope="col">Cognome lettore</th>
+            <th scope="col">Email lettore</th>
+        </tr>
+        <tr th:each="lettore : ${club.lettori}">
             <td th:text="${lettore.nome}"> </td>
             <td th:text="${lettore.cognome}"> </td>
             <td th:text="${lettore.email}"> </td>
         </tr>
     </table>
+</div>
 </body>
 </html>
