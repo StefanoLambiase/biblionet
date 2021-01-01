@@ -4,35 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Dettaglio Club del libro</title>
-    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
 </head>
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
+    <!-- Immagine del club usata come header -->
     <header>
         <img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}" class="img-fluid" alt="Responsive image" />
     </header>
 
+    <!-- Header per visualizzare il nome e le core info del club -->
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12 text-center">
                 <h1 class="font-weight-light"
-                    th:text = "${club.nome}"></h1>
+                    th:text = "${club.nome}">
+                </h1>
                 <p class="lead"
-                   th:text = "${' Esperto: ' + club.esperto.nome}"></p>
+                   th:text = "${' Esperto: ' + club.esperto.nome}">
+                </p>
             </div>
         </div>
     </div>
 
+    <!-- Corpo principale che contiene tutte le cards della view -->
     <div class="row">
+        <!-- Card per la visualizzazione della descrizione -->
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Descrizione</h3>
+                    <h3 class="card-title">Informazioni</h3>
+                    <p class="card-text" th:text = "${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
+                    <p class="card-text" th:text = "${'Email di contatto: ' + club.esperto.email}"></p>
+
+                    <h6>Descrizione del club</h6>
                     <p class="card-text" th:text = "${club.descrizione}"></p>
                 </div>
             </div>
         </div>
 
+        <!-- Card per la visualizzazione dei generi -->
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
@@ -52,6 +62,7 @@
         </div>
     </div>
 
+    <!-- Card per la visualizzazione degli iscritti -->
     <div class="row" style="margin-top: 20px">
         <div class="card w-100">
             <div class="card-body">
@@ -76,6 +87,7 @@
         </div>
     </div>
 
+    <!-- Card per la visualizzazione degli eventi del club -->
     <div class="row" style="margin-top: 20px">
         <div class="card w-100">
             <div class="card-body">
@@ -98,7 +110,7 @@
                 </table>
 
                 <button class="btn btn-main ">
-                    <a th:href="@{'/club-del-libro/visualizza-iscritti/' + ${club.idClub}}">Visualizza iscritti </a>
+                    <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
                 </button>
             </div>
         </div>

@@ -15,11 +15,29 @@ public interface GestioneEventiService {
 
     /**
      * Implementa la funzionalità che permette
+     * di trovare un evento dato il suo identificativo
+     * @param idEvento L'identificativo dell'evento
+     * @return L'Evento trovato
+     */
+    Optional<Evento> getEventoById(int idEvento);
+
+    /**
+     * Implementa la funzionalità che permette
      * ad un Esperto di organizzare un Evento.
      * @param evento L'Evento da memorizzare
      * @return L'Evento appena creato
      */
     Evento creaEvento(Evento evento);
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Esperto di modificare un Evento
+     * precentemente creato da lui stesso.
+     * @param evento L'Evento modificato da
+     *               memorizzare
+     * @return L'Evento modificato
+     */
+    Evento modificaEvento(Evento evento);
 
     /**
      * Metodo di utilità per recuperare

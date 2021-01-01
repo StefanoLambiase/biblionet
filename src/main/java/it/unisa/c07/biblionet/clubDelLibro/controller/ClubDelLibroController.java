@@ -326,8 +326,9 @@ public class ClubDelLibroController {
     /**
      * Implementa la funzionalità che permette di eliminare
      * un evento.
-     * @param id
-     * @return La view con l'evento eliminato
+     * @param club L'identificativo del Club dell'evento
+     * @param id L'identificativo dell'evento da eliminare
+     * @return La view della lista degli eventi
      */
     @RequestMapping(value = "/{club}/eventi/{id}", method = RequestMethod.DELETE)
     public String eliminaEvento(final @PathVariable int club,
@@ -350,5 +351,13 @@ public class ClubDelLibroController {
                                          final Model model) {
         model.addAttribute("club", clubService.getClubByID(id));
         return "club-del-libro/visualizza-iscritti";
+    }
+
+    @RequestMapping(value = "/{id}/eventi",
+            method = RequestMethod.GET)
+    public String visualizzaListaEventiClub(final @PathVariable int id,
+                                            final Model model) {
+        model.addAttribute("club", clubService.getClubByID(id));
+        return "club-del-libro/visualizza-eventi";
     }
 }

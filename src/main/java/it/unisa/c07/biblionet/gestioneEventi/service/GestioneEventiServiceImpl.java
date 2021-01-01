@@ -31,15 +31,37 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
      */
     private final LibroDAO libroDAO;
 
+
+    /**
+     * Implementa la funzionalità che permette
+     * di trovare un evento dato il suo identificativo
+     * @param idEvento L'identificativo dell'evento
+     * @return L'Evento trovato
+     */
+    public Optional<Evento> getEventoById(int idEvento) {
+        return eventoDAO.findById(idEvento);
+    }
+
     /**
      * Implementa la funzionalità che permette ad un Esperto di organizzare un
      * Evento.
-     *
      * @param evento L'Evento da memorizzare
      * @return L'Evento appena creato
      */
     @Override
     public Evento creaEvento(final Evento evento) {
+        return eventoDAO.save(evento);
+    }
+
+    /**
+     * Implementa la funzionalità che permette ad un Esperto
+     * di modificare un evento precedentemente creato.
+     * @param evento L'Evento modificato da
+     *               memorizzare
+     * @return L'Evento modificato
+     */
+    @Override
+    public Evento modificaEvento(final Evento evento) {
         return eventoDAO.save(evento);
     }
 
