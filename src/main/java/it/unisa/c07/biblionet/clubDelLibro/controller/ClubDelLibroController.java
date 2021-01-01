@@ -287,7 +287,6 @@ public class ClubDelLibroController {
      * Implementa la funzionalità che permette
      * la creazione da parte di un Esperto
      * di un Evento.
-     * @param clubDelLibro L'id del ClubDelLibro a cui è collegato l'Evento
      * @return La view che visualizza il form di creazione Evento
      */
     @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.GET)
