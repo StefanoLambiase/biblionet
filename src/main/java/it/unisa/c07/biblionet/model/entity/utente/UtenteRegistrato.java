@@ -67,6 +67,7 @@ public class UtenteRegistrato {
     @NonNull
     private String recapitoTelefonico;
 
+
     /**
      * Rappresenta il tipo di utente.
      * Utile per essere chiamato sui figli, nella entity UtenteRegistrato

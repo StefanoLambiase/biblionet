@@ -1,9 +1,11 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
@@ -33,6 +35,11 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      *Si occupa delle operazioni CRUD per libro.
      */
     private final LibroDAO libroDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per genere.
+     */
+    private final GenereDAO genereDAO;
 
     /**
      *Si occupa delle operazioni CRUD per biblioteca.
@@ -78,23 +85,49 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * Implementa la funzionalità che permette
      * di visualizzare la lista completa dei libri
      * prenotabili da una determinata biblioteca.
-     * MI RIFIUTO DI TESTARLO.
      * @param nomeBiblioteca Il nome della biblioteca
      * @return La lista di libri
      */
     @Override
     public List<Libro> visualizzaListaLibriPerBiblioteca(
                     final String nomeBiblioteca) {
-        Biblioteca b = bibliotecaDAO.findByNome(nomeBiblioteca);
-        String bibID = b.getEmail();
-        List<Possesso> possessi = possessoDAO.findByBibliotecaID(bibID);
+        List<Biblioteca> b = bibliotecaDAO.findByNome(nomeBiblioteca);
         List<Libro> libri = new ArrayList<>();
-        for (Possesso p : possessi) {
-            Optional<Libro> l =
-                    libroDAO.findById(p.getPossessoID().getLibroID());
-            libri.add(l.orElse(null));
+        for (Biblioteca bib : b) {
+            String bibID = bib.getEmail();
+            List<Possesso> possessi = possessoDAO.findByBibliotecaID(bibID);
+            for (Possesso p : possessi) {
+                Optional<Libro> l =
+                        libroDAO.findById(p.getPossessoID().getLibroID());
+                if (!libri.contains(l.orElse(null))) {
+                    libri.add(l.orElse(null));
+                }
+            }
         }
+
         return libri;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili di un dato genere.
+     * @param genere Il nome del genere
+     * @return La lista di libri
+     */
+    @Override
+    public List<Libro> visualizzaListaLibriPerGenere(
+            final String genere) {
+
+        List<Libro> libri = libroDAO.findAll();
+        List<Libro> list = new ArrayList<>();
+        Genere g = genereDAO.findByName(genere);
+        for (Libro l : libri) {
+            if (l.getGeneri().contains(g)) {
+                list.add(l);
+            }
+        }
+        return list;
     }
 
     /**

@@ -43,6 +43,15 @@ public interface PrenotazioneLibriService {
 
     /**
      * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili di un dato genere.
+     * @param genere Il nome del genere
+     * @return La lista di libri
+     */
+    List<Libro> visualizzaListaLibriPerGenere(String genere);
+
+    /**
+     * Implementa la funzionalità che permette
      * di richiedere un prestito per un libro
      * da una biblioteca.
      * @param lettore Il lettore che lo richiede
