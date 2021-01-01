@@ -74,4 +74,8 @@ public class Biblioteca extends UtenteRegistrato {
         this.nomeBiblioteca = nomeBiblioteca;
     }
 
+    @Override
+    public String getTipo() {
+        return "Biblioteca";
+    }
 }
