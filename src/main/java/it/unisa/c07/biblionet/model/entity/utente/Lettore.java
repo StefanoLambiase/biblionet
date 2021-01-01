@@ -29,7 +29,7 @@ import java.util.List;
 public class Lettore extends UtenteRegistrato implements HaGenere {
 
     /**
-     * Rappresente un lettore sulla piattaforma.
+     * Rappresenta un lettore sulla piattaforma.
      */
     @NonNull
     @Column(nullable = false, length = Length.LENGTH_30)
@@ -86,7 +86,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * @param citta la città del lettore.
      * @param via la via dove vive.
      * @param recapitoTelefonico il recapito del lettore.
-     * @param username l'usurname del lettore.
+     * @param username l'username del lettore.
      * @param nome il nome del lettore.
      * @param cognome il cognome del lettore.
      */
@@ -102,4 +102,8 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     }
 
 
+    @Override
+    public String getTipo() {
+        return "Lettore";
+    }
 }
