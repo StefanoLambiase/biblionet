@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -54,6 +55,12 @@ public class Biblioteca extends UtenteRegistrato {
     @OneToMany(mappedBy = "possessoID.bibliotecaID")
     @ToString.Exclude
     private List<Possesso> possessi;
+
+    /**
+     * Rappresenta il tipo di utente
+     */
+    @Transient
+    String tipo = "Biblioteca";
 
     /**
      *

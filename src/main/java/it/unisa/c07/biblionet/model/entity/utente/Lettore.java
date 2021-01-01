@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -76,6 +74,12 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     @OneToMany
     @ToString.Exclude
     private List<TicketPrestito> tickets;
+
+    /**
+     * Rappresenta il tipo di utente
+     */
+    @Transient
+    private String tipo = "Lettore";
 
 
     /**
