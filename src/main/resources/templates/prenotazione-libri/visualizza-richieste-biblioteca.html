@@ -29,7 +29,7 @@
                                 <form method="post" th:action="@{'/prenotazione-libri/ticket/'+${ticket.idTicket}+'/accetta'}">
                                     <div class="card-text">
                                         Giorni di durata del prestito
-                                        <input type="number" name="giorni" min="7" max="60" width="60px" >
+                                        <input type="number" name="giorni" min="7" max="60" width="60px" required>
                                     </div>
                                     <input type="submit" class="btn red-button" value="Accetta" style="width: 80px"></input>
                                 </form>
@@ -62,10 +62,11 @@
                                         <p class="card-text" th:text="'Copie rimaste: '+${possesso.numeroCopie}"></p>
                                     </div>
                                 </div>
-                                <div  class="card-text" style="margin-top: 1%;">
-                                    <input type="submit" class="btn red-button" value="Chiudi" style="width: 80px"></input>
-                                </div>
-
+                                <form method="post" th:action="@{'/prenotazione-libri/ticket/'+${ticket.idTicket}+'/chiudi'}">
+                                    <div  class="card-text" style="margin-top: 1%;">
+                                        <input type="submit" class="btn red-button" value="Chiudi" style="width: 80px"></input>
+                                    </div>
+                                </form>
                             </div>
                             <div class="card-footer ticket-blue-section">
                                 Data richiesta:
@@ -73,7 +74,7 @@
                                 </span>
                             </div>
                             <div class="card-footer ticket-blue-section">
-                                Data restituzione:
+                                Data limite per la restituzione:
                                 <span th:text="${#temporals.format(ticket.dataRestituzione,'dd/MM/yyyy')}">
                                 </span>
                             </div>
@@ -102,7 +103,7 @@
                                 </span>
                             </div>
                             <div class="card-footer ticket-blue-section">
-                                Data restituzione:
+                                Data limite per la restituzione:
                                 <span th:text="${#temporals.format(ticket.dataRestituzione,'dd/MM/yyyy')}">
                                 </span>
                             </div>

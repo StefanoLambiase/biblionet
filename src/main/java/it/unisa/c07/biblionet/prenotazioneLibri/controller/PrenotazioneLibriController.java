@@ -182,5 +182,20 @@ public class PrenotazioneLibriController {
         return "redirect:/prenotazione-libri/visualizza-richieste";
     }
 
+    /**
+     * Implementa la funzionalità che permette di
+     * chiudere una prenotazione di un libro quando
+     * questo viene riconsegnato.
+     * @param id l'ID del ticket da chiudere
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = "/ticket/{id}/chiudi",
+            method = RequestMethod.POST)
+    public String chiudiPrenotazione(final @PathVariable int id) {
+        TicketPrestito ticket = prenotazioneService.getTicketByID(id);
+        prenotazioneService.chiudiTicket(ticket);
+        return "redirect:/prenotazione-libri/visualizza-richieste";
+    }
+
 
 }
