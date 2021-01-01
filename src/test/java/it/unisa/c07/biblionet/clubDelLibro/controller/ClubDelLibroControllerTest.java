@@ -8,10 +8,13 @@ import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 
+import it.unisa.c07.biblionet.model.form.EventoForm;
+import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -320,4 +324,23 @@ public class ClubDelLibroControllerTest {
                         assertEquals("400 BAD_REQUEST \"Club del Libro Inesistente\"", result.getResolvedException().getMessage()));        // Verifica il messaggio di ritorno della eccezione
     }
 
+    /* Non possibile il mocking poiche il metodo è statico */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void creaEventoSecondExcpetion(final ClubDelLibro club) throws Exception{
+            when(clubService.getClubByID(1)).thenReturn(club);
+
+            this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
+                     .param("nome","Discussione sopra i due massimi sistemi")
+                .param("descrizione", "TestDescrizione")
+                    .param("data","2024-11-11")
+                       .param("ora", "12:24")
+                        .param("libro", "2"))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(result ->
+                                assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                        .andExpect(result ->
+                                assertEquals("400 BAD_REQUEST \"Lunghezza della nome non valida\"", result.getResolvedException().getMessage()));
+
+    }
 }
