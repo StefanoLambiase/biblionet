@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Questa classe rappresenta il DAO di un Genere.
  */
 @Repository
 public interface GenereDAO extends JpaRepository<Genere, String> {
+
     /**
      * Query custom made per mappare nome
      * del genere ad un oggetto Genere.

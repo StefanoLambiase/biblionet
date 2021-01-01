@@ -2,8 +2,11 @@ package it.unisa.c07.biblionet.preferenzeDiLettura.service;
 
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,11 @@ public class PreferenzeDiLetturaServiceImpl implements
      * Si occupa delle funzioni CRUD per l'esperto.
      */
     private final EspertoDAO espertoDAO;
+
+    /**
+     * Si occupa delle funzioni CRUD per l'utente
+     */
+    private final LettoreDAO lettoreDAO;
 
     /**
      * Implementa la funzionalità di restituire tutti i generi

@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/preferenzeDiLettura/gestioneGeneri.js}"></script>
+    
+    <title>Inserisci i tuoi generi preferiti!</title>
+
 </head>
 <body>
+
+    <div layout:fragment="contenuto-pagina">
+
+        <form th:action="inserisci-generi-esperto" method="post">
+            <div class="column sx">
+                <select id="select_generi">
+                    <option th:each="genere: ${generi}" th:value="${genere.nome}" th:text="${genere.nome}"></option>
+                </select>
+                <input type="button" value="Aggungimi" onclick="aggiungiGenere()">
+            </div>
+
+            <div class="column dx">
+                <table id="utente_generi">
+                    <tr>
+                        <th>Generi utente</th>
+                    </tr>
+                    <tr th:each="genereUtente : ${generiUtente}">
+                        <td th:text="${genereUtente.nome}"></td>
+                        <td><input type="button" value="Rimuovi" th:name="${genereUtente.nome}" onclick="rimuoviGenere()"> </td>
+                    </tr>
+                </table>
+            </div>
+
+        </form>
+
+    </div>
 
 </body>
 </html>
