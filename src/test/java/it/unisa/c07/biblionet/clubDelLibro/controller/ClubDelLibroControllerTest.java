@@ -340,7 +340,7 @@ public class ClubDelLibroControllerTest {
                         .andExpect(result ->
                                 assertTrue(result.getResolvedException() instanceof ResponseStatusException))
                         .andExpect(result ->
-                                assertEquals("400 BAD_REQUEST \"Lunghezza del nome non valida\"", result.getResolvedException().getMessage()));
+                                assertEquals("400 BAD_REQUEST \"Lunghezza del nome non valida.\"", result.getResolvedException().getMessage()));
 
     }
 }
