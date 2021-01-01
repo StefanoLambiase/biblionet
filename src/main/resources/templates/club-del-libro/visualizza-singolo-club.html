@@ -1,10 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dettaglio Club del libro</title>
+    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
 </head>
 <body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <header>
+        <img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}" class="img-fluid" alt="Responsive image" />
+    </header>
 
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="font-weight-light"
+                    th:text = "${club.nome}"></h1>
+                <p class="lead"
+                   th:text = "${' Esperto: ' + club.esperto.nome}"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Descrizione</h3>
+                    <p class="card-text" th:text = "${club.descrizione}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Generi trattati</h3>
+                    <table class="table">
+                        <tr>
+                            <th scope="col">Nome Genere</th>
+                            <th scope="col">Descrizione</th>
+                        </tr>
+                        <tr th:each="genere : ${club.generi}">
+                            <td th:text="${genere.nome}"></td>
+                            <td th:text="${genere.descrizione}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="card-title"> Iscritti al Club </h3>
+                <table class="table">
+                    <tr>
+                        <th scope="col">Nome lettore</th>
+                        <th scope="col">Cognome lettore</th>
+                        <th scope="col">Email lettore</th>
+                    </tr>
+                    <tr th:each="lettore : ${club.lettori}">
+                        <td th:text="${lettore.nome}"> </td>
+                        <td th:text="${lettore.cognome}"> </td>
+                        <td th:text="${lettore.email}"> </td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-main ">
+                    <a th:href="@{'/club-del-libro/visualizza-iscritti/' + ${club.idClub}}">Visualizza iscritti </a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="card-title"> Eventi del club </h3>
+                <table class="table">
+                    <tr>
+                        <th scope="col">Nome Evento</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ora</th>
+                        <th scope="col">Libro trattato</th>
+                    </tr>
+                    <tr th:each="evento : ${club.eventi}">
+                        <td th:text="${evento.nomeEvento}"> </td>
+                        <td th:text="${evento.descrizione}"> </td>
+                        <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
+                        <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
+                        <td th:text="${evento.libro} ? ${evento.libro} : 'NA'"> </td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-main ">
+                    <a th:href="@{'/club-del-libro/visualizza-iscritti/' + ${club.idClub}}">Visualizza iscritti </a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
