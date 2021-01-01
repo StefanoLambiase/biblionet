@@ -53,18 +53,29 @@ public class PrenotazioneLibriController {
 
     /**
      * Implementa la funzionalità che permette di
-     * visualizzare tutti i libri che contengono
-     * una determinata stringa nel titolo.
-     * @param titolo La stringa contenuta nel titolo
+     * visualizzare tutti i libri filtrati.
+     * @param stringa La stringa di ricerca
+     * @param filtro L'informazione su cui filtrare
      * @param model Il model per salvare la lista
      * @return La view che visualizza la lista
      */
-    @RequestMapping(value = "/ricerca-titolo", method = RequestMethod.GET)
-    public String visualizzaLibriPerTitolo(
-                           @RequestParam("titolo") final String titolo,
+    @RequestMapping(value = "/ricerca", method = RequestMethod.GET)
+    public String visualizzaListaFiltrata(
+                           @RequestParam("stringa") final String stringa,
+                           @RequestParam("filtro") final String filtro,
                            final Model model) {
-        model.addAttribute("listaLibri",
-                prenotazioneService.visualizzaListaLibriPerTitolo(titolo));
+        if (filtro != null) {
+            if (filtro.equals("titolo")) {
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerTitolo(stringa));
+            } else if (filtro.equals("genere")) {
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerGenere(stringa));
+            } else if (filtro.equals("biblioteca")) {
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerBiblioteca(stringa));
+            }
+        }
         return "prenotazione-libri/visualizza-libri-prenotabili";
     }
 
@@ -76,7 +87,8 @@ public class PrenotazioneLibriController {
      * @param model Il model per salvare il libro
      * @return La view che visualizza la lista delle biblioteche
      */
-    @RequestMapping(value = "/{id}/prenota-libro", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/visualizza-libro",
+            method = RequestMethod.POST)
     public String prenotaLibro(@PathVariable final int id, final Model model) {
 
         Libro libro = prenotazioneService.getLibroByID(id);

@@ -73,13 +73,19 @@ public class PrenotazioneLibriControllerTest {
      * @throws Exception Eccezione per MockMvc
      */
     @Test
-    public void visualizzaListaLibriPerTitolo() throws Exception {
+    public void visualizzaListaFiltrata() throws Exception {
         List<Libro> list = new ArrayList<>();
-        list.add(new Libro());
         when(prenotazioneService.visualizzaListaLibriPerTitolo("titolo"))
                         .thenReturn(list);
-        this.mockMvc.perform(get("/prenotazione-libri/ricerca-titolo")
-                .param("titolo", "titolo"))
+        when(prenotazioneService.visualizzaListaLibriPerGenere("genere"))
+                        .thenReturn(list);
+        when(prenotazioneService.
+                visualizzaListaLibriPerBiblioteca("biblioteca"))
+                .thenReturn(list);
+
+        this.mockMvc.perform(get("/prenotazione-libri/ricerca")
+                .param("filtro", "titolo")
+                .param("stringa", "a"))
                 .andExpect(model().attribute("listaLibri", list))
                 .andExpect(view().name(
                 "prenotazione-libri/visualizza-libri-prenotabili"));
@@ -124,7 +130,7 @@ public class PrenotazioneLibriControllerTest {
         when(prenotazioneService.getLibroByID(1)).thenReturn(l);
         when(prenotazioneService.getBibliotecheLibro(l)).thenReturn(bl);
 
-        this.mockMvc.perform(post("/prenotazione-libri/1/prenota-libro"))
+        this.mockMvc.perform(post("/prenotazione-libri/1/visualizza-libro"))
                             .andExpect(model().attribute("lista", bl))
                             .andExpect(model().attribute("libro", l))
                             .andExpect(view().name(
