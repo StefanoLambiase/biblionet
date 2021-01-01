@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Column;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -66,7 +67,13 @@ public class UtenteRegistrato {
     @NonNull
     private String recapitoTelefonico;
 
-
+    /**
+     * Rappresenta il tipo di utente.
+     * Utile per essere chiamato sui figli, nella entity UtenteRegistrato
+     * non ha senso di essere chiamato.
+     */
+    @Transient
+    private String tipo;
 
     /**
      *
