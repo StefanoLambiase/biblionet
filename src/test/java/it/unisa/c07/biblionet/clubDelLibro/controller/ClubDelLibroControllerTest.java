@@ -343,4 +343,22 @@ public class ClubDelLibroControllerTest {
                                 assertEquals("400 BAD_REQUEST \"Lunghezza del nome non valida.\"", result.getResolvedException().getMessage()));
 
     }
+
+
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void creaEventoThridException(final ClubDelLibro club) throws Exception{
+                when(clubService.getClubByID(1)).thenReturn(club);
+
+                this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
+                .param("nome","TestNome")
+                .param("descrizione","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum")
+                .param("data","2024-08-11")
+                .param("ora", "13:24")
+                .param("libro","3"))
+                .andExpect(status().isBadRequest())
+                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                 .andExpect(result->
+                         assertEquals("400 BAD_REQUEST \"Lunghezza della descrizione non valida.\"", result.getResolvedException().getMessage()));
+    }
 }

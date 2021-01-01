@@ -261,7 +261,7 @@ public class ClubDelLibroController {
         if (dataOra.isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Lunghezza della descrizione non valida."
+                    "Ora inserita non valida."
             );
         }
 
