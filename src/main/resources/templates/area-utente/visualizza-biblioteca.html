@@ -21,10 +21,10 @@
                                         <td th:text="${biblioteca.getNomeBiblioteca()}"></td>
                                     </h3>
                                     <div class="text-center d-xl-flex justify-content-xl-center align-items-xl-center mb-3">
-                                        <picture><img class="border rounded-circle d-xl-flex justify-content-xl-center" src="https://resizeimage.net/mypic/in5aL53oOZZPHQJV/eQ1sz/71ntox3m5-l.png"></picture>
+                                        <picture><img class="border rounded-circle d-xl-flex justify-content-xl-center" th:src="@{~/image/area-utente/user.png}"></picture>
                                     </div>
                                         <div class="mb-3">
-                                            <a class="btn btn-main" href="/area-utente/modifica-dati" type="button">Modifica Dati Account</a>
+                                            <a class="btn btn-main" href="/modifica-dati" type="button">Modifica Dati Account</a>
                                         </div>
                                         <div class="mb-3">
                                             <a class="btn btn-main" type="button">Visualizza Lista Tickets</a>
@@ -62,11 +62,11 @@
                                                             <td th:text="${biblioteca.getCitta()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Via</th>
+                                                            <th>Via:</th>
                                                             <td th:text="${biblioteca.getVia()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Recapito Telefonico</th>
+                                                            <th>Recapito Telefonico:</th>
                                                             <td th:text="${biblioteca.getRecapitoTelefonico()}"></td>
                                                         </tr>
                                                         </tbody>

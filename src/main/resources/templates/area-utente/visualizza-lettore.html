@@ -22,7 +22,7 @@
                                     </h3>
                                     <div class="text-center d-xl-flex justify-content-xl-center align-items-xl-center mb-3">
                                         <picture><img class="border rounded-circle d-xl-flex justify-content-xl-center"
-                                                      src="../../static/image/area-utente/biblioteca.png">
+                                                      th:src="@{~/image/area-utente/user.png}">
                                         </picture>
                                     </div>
                                     <div class="mb-3">
@@ -59,36 +59,36 @@
                                                     <table class="table table-user-information">
                                                         <tbody>
                                                         <tr>
-                                                            <td>Nome:</td>
+                                                            <th>Nome:</th>
                                                             <td th:text="${lettore.getNome()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Cognome:</td>
+                                                            <th>Cognome:</th>
                                                             <td th:text="${lettore.getCognome()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Email:</td>
+                                                            <th>Email:</th>
                                                             <td th:text="${lettore.getEmail()}"></td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td>Provincia:</td>
+                                                            <th>Provincia:</th>
                                                             <td th:text="${lettore.getProvincia()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Cittá:</td>
+                                                            <th>Cittá:</th>
                                                             <td th:text="${lettore.getCitta()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Via</td>
+                                                            <th>Via:</th>
                                                             <td th:text="${lettore.getVia()}"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Recapito Telefonico</td>
+                                                            <th>Recapito Telefonico:</th>
                                                             <td th:text="${lettore.getRecapitoTelefonico()}"></td>
                                                         </tr>
                                                         <tr th:each="genere : ${lettore.generi}">
-                                                            <td>Generi preferiti</td>
+                                                            <th>Genere preferito:</th>
                                                             <td th:text="${genere.nome}"></td>
                                                             <br>
                                                         </tr>
