@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -304,7 +301,12 @@ public class ClubDelLibroControllerTest {
     }
 
     /*************************** Tests for Exception ******************************/
-
+/**
+    * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
     @Test
     public void creaEventoFirstException() throws Exception {
         when(clubService.getClubByID(1)).thenReturn(null);          // Mock che consente di entrare nella prima condizione e lanciare l'eccezione
@@ -324,6 +326,13 @@ public class ClubDelLibroControllerTest {
                         assertEquals("400 BAD_REQUEST \"Club del Libro Inesistente\"", result.getResolvedException().getMessage()));        // Verifica il messaggio di ritorno della eccezione
     }
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di un evento,
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
     /* Non possibile il mocking poiche il metodo è statico */
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
@@ -344,7 +353,13 @@ public class ClubDelLibroControllerTest {
 
     }
 
-
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di un evento,
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void creaEventoThridException(final ClubDelLibro club) throws Exception{
@@ -360,5 +375,28 @@ public class ClubDelLibroControllerTest {
                  .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
                  .andExpect(result->
                          assertEquals("400 BAD_REQUEST \"Lunghezza della descrizione non valida.\"", result.getResolvedException().getMessage()));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di un evento
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void creaEventoFourthException(final ClubDelLibro club) throws Exception{
+                    when(clubService.getClubByID(1)).thenReturn(club);
+                    this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
+                    .param("nome","TestNome")
+                    .param("descrizione","TestDescrizione")
+                    .param("data","1985-11-10")
+                    .param("ora","14:24")
+                    .param("libro","4"))
+                            .andExpect(status().isBadRequest())
+                            .andExpect(result-> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                            .andExpect(result->
+                                    assertEquals("400 BAD_REQUEST \"Ora inserita non valida.\"", result.getResolvedException().getMessage()));
     }
 }
