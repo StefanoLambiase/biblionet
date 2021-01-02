@@ -10,7 +10,10 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 
 import it.unisa.c07.biblionet.model.form.EventoForm;
 import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
+import org.hibernate.cfg.Environment;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,9 +29,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Stream;
-
+import static org.junit.jupiter.api.extension.ParameterResolver.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -399,4 +404,31 @@ public class ClubDelLibroControllerTest {
                             .andExpect(result->
                                     assertEquals("400 BAD_REQUEST \"Ora inserita non valida.\"", result.getResolvedException().getMessage()));
     }
+
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la creazione di un evento
+     * simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+   @ParameterizedTest
+   @MethodSource("provideClubDelLibro")
+    public void creaEventoFiveException(final ClubDelLibro club) throws Exception{
+                when(clubService.getClubByID(1)).thenReturn(club);
+                when(eventiService.getLibroById(5)).thenReturn(Optional.empty());
+                this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
+                    .param("nome","TestNome")
+                    .param("descrizione","TestDescrizione")
+                    .param("data","2024-09-11")
+                    .param("ora","15:24")
+                    .param("libro","5"))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(result-> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                        .andExpect(result ->
+                                assertEquals("400 BAD_REQUEST \"Il libro inserito non è valido.\"",result.getResolvedException().getMessage()));
+
+   }
+
 }
