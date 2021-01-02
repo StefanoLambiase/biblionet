@@ -118,7 +118,7 @@ public class PrenotazioneLibriController {
         UtenteRegistrato utente =
                     (UtenteRegistrato) model.getAttribute("loggedUser");
         assert utente != null;
-        if (utente.getClass().getSimpleName().equals("Lettore")) {
+        if (utente.getTipo().equals("Lettore")) {
             Lettore l = (Lettore) utente;
             prenotazioneService.richiediPrestito(l,
                                     idBiblioteca,
@@ -140,7 +140,7 @@ public class PrenotazioneLibriController {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         assert utente != null;
-        if (utente.getClass().getSimpleName().equals("Biblioteca")) {
+        if (utente.getTipo().equals("Biblioteca")) {
             Biblioteca biblioteca = (Biblioteca) utente;
             List<TicketPrestito> lista =
                     prenotazioneService.getTicketsByBiblioteca(biblioteca);
@@ -219,7 +219,7 @@ public class PrenotazioneLibriController {
      */
     @RequestMapping(value = "/visualizza-prenotazioni",
             method = RequestMethod.GET)
-    public String chiudiPrenotazione(final Model model) {
+    public String visualizzaPrenotazioniLettore(final Model model) {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         assert utente != null;

@@ -214,4 +214,26 @@ public class PrenotazioneLibriControllerTest {
                 .andExpect(view()
                 .name("redirect:/prenotazione-libri/visualizza-richieste"));
     }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * ottenere la lista di ticket di un lettore.
+     * @throws Exception Eccezione per MockMvc
+     */
+    @Test
+    public void  visualizzaPrenotazioniLettore() throws Exception {
+        List<TicketPrestito> list = new ArrayList<>();
+        UtenteRegistrato u = (Lettore) new Lettore();
+        if (true) {
+            Lettore lettore = (Lettore) u;
+            when(prenotazioneService.getTicketsLettore(lettore))
+                    .thenReturn(list);
+        }
+        this.mockMvc.perform(get("/prenotazione-libri/visualizza-prenotazioni")
+                            .sessionAttr("loggedUser", u))
+                .andExpect(model().
+                        attribute("listaTicket", list))
+                .andExpect(view().name(
+                        "prenotazione-libri/visualizza-richieste-lettore"));
+    }
 }
