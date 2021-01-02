@@ -233,6 +233,14 @@ public class PrenotazioneLibriControllerTest {
                             .sessionAttr("loggedUser", u))
                 .andExpect(model().
                         attribute("listaTicket", list))
+                .andExpect(model().
+                        attribute("listaTicketDaAccettare", list))
+                .andExpect(model().
+                        attribute("listaTicketAccettati", list))
+                .andExpect(model().
+                        attribute("listaTicketChiusi", list))
+                .andExpect(model().
+                        attribute("listaTicketRifiutati", list))
                 .andExpect(view().name(
                         "prenotazione-libri/visualizza-richieste-lettore"));
     }

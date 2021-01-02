@@ -229,6 +229,30 @@ public class PrenotazioneLibriController {
 
             List<TicketPrestito> listaTicket =
                 prenotazioneService.getTicketsLettore(lettore);
+            List<TicketPrestito> list1 = new ArrayList<>();
+            List<TicketPrestito> list2 = new ArrayList<>();
+            List<TicketPrestito> list3 = new ArrayList<>();
+            List<TicketPrestito> list4 = new ArrayList<>();
+            for (TicketPrestito t : listaTicket) {
+                if (t.getStato().equals(
+                        TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
+                    list1.add(t);
+                } else if (t.getStato().equals(
+                        TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
+                    list2.add(t);
+                } else if (t.getStato().equals(
+                        TicketPrestito.Stati.CHIUSO)) {
+                    list3.add(t);
+                } else if (t.getStato().equals(
+                        TicketPrestito.Stati.RIFIUTATO)) {
+                    list4.add(t);
+                }
+            }
+            model.addAttribute("listaTicketDaAccettare", list1);
+            model.addAttribute("listaTicketAccettati", list2);
+            model.addAttribute("listaTicketChiusi", list3);
+            model.addAttribute("listaTicketRifiutati", list4);
+
             model.addAttribute("listaTicket", listaTicket);
         }
         return "prenotazione-libri/visualizza-richieste-lettore";
