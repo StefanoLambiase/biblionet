@@ -21,4 +21,10 @@ public interface TicketPrestitoDAO
      */
     List<TicketPrestito>
                 findAllByBibliotecaEmail(String bibliotecaEmail);
+    /**
+     * Seleziona la lista dei ticket di un lettore.
+     * @param lettoreEmail L'email della biblioteca
+     * @return I ticket del lettore
+     */
+    List<TicketPrestito> findAllByLettoreEmail(String lettoreEmail);
 }

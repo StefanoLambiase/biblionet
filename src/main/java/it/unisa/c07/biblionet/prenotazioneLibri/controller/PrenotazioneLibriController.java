@@ -44,8 +44,6 @@ public class PrenotazioneLibriController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String visualizzaListaLibri(final Model model) {
-        UtenteRegistrato u =
-                (UtenteRegistrato) model.getAttribute("loggedUser");
         model.addAttribute("listaLibri",
                 prenotazioneService.visualizzaListaLibriCompleta());
         return "prenotazione-libri/visualizza-libri-prenotabili";
@@ -65,15 +63,19 @@ public class PrenotazioneLibriController {
                            @RequestParam("filtro") final String filtro,
                            final Model model) {
         if (filtro != null) {
-            if (filtro.equals("titolo")) {
-                model.addAttribute("listaLibri", prenotazioneService.
-                        visualizzaListaLibriPerTitolo(stringa));
-            } else if (filtro.equals("genere")) {
-                model.addAttribute("listaLibri", prenotazioneService.
-                        visualizzaListaLibriPerGenere(stringa));
-            } else if (filtro.equals("biblioteca")) {
-                model.addAttribute("listaLibri", prenotazioneService.
-                        visualizzaListaLibriPerBiblioteca(stringa));
+            switch (filtro) {
+                case "titolo":
+                    model.addAttribute("listaLibri", prenotazioneService.
+                            visualizzaListaLibriPerTitolo(stringa));
+                    break;
+                case "genere":
+                    model.addAttribute("listaLibri", prenotazioneService.
+                            visualizzaListaLibriPerGenere(stringa));
+                    break;
+                case "biblioteca":
+                    model.addAttribute("listaLibri", prenotazioneService.
+                            visualizzaListaLibriPerBiblioteca(stringa));
+                    break;
             }
         }
         return "prenotazione-libri/visualizza-libri-prenotabili";
@@ -209,5 +211,26 @@ public class PrenotazioneLibriController {
         return "redirect:/prenotazione-libri/visualizza-richieste";
     }
 
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere la lista di ticket di un lettore.
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle prenotazioni del lettore
+     */
+    @RequestMapping(value = "/visualizza-prenotazioni",
+            method = RequestMethod.GET)
+    public String chiudiPrenotazione(final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        assert utente != null;
+        if (utente.getTipo().equals("Lettore")) {
+            Lettore lettore = (Lettore) utente;
+
+            List<TicketPrestito> listaTicket =
+                prenotazioneService.getTicketsLettore(lettore);
+            model.addAttribute("listaTicket", listaTicket);
+        }
+        return "prenotazione-libri/visualizza-richieste-lettore";
+    }
 
 }

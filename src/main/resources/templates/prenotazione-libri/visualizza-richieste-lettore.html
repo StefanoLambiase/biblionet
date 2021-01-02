@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Richieste di prenotazione</title>
 </head>
 <body>
-
+    <div layout:fragment="contenuto-pagina">
+        <table>
+            <tr th:each="ticket : ${listaTicket}">
+                <td th:text="${ticket.libro.titolo}"></td>
+                <td th:text="${ticket.dataRichiesta}"></td>
+                <td th:text="${ticket.lettore.nome}"></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
