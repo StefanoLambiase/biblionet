@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Questa classe rappresenta un form
- * contenente i dati di un evento
+ * contenente i dati di un evento.
  * @author Nicola Pagliara
  * @author Luca Topo
  */

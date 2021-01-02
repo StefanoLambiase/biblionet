@@ -1,6 +1,5 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 
-import com.sun.istack.Nullable;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
@@ -9,8 +8,12 @@ import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaSer
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,25 +43,35 @@ public class PreferenzeDiLetturaController {
      * Esperto o Lettore, la home altrimenti,
      */
     @RequestMapping("/generi")
-    public String generiLetterari(final Model model){
+    public String generiLetterari(final Model model) {
 
-            UtenteRegistrato utenteRegistrato= (UtenteRegistrato) model.getAttribute("loggedUser");
+            UtenteRegistrato utenteRegistrato =
+                    (UtenteRegistrato) model.getAttribute("loggedUser");
 
-            if(utenteRegistrato!= null && (utenteRegistrato.getTipo().equals("Esperto") || utenteRegistrato.getTipo().equals("Lettore"))) {
+            if (utenteRegistrato != null
+                    && (utenteRegistrato.getTipo().equals("Esperto")
+                    ||  utenteRegistrato.getTipo().equals("Lettore"))) {
 
-                HaGenere utente=(HaGenere) utenteRegistrato;
-                List<Genere> allGeneri = preferenzeDiLetturaService.getAllGeneri();
+                HaGenere utente = (HaGenere) utenteRegistrato;
+                List<Genere> allGeneri =
+                        preferenzeDiLetturaService.getAllGeneri();
+
                 List<Genere> generiUtente = utente.getGeneri();
 
-                for(Genere genere : generiUtente){
-                    allGeneri.remove(genere);
+                if (generiUtente != null) {
+
+                    for (Genere genere : generiUtente) {
+                        allGeneri.remove(genere);
+                    }
+                } else {
+                    generiUtente = new ArrayList<>();
                 }
 
-                model.addAttribute("generiUtente",generiUtente);
-                model.addAttribute("generi",allGeneri);
+
+                model.addAttribute("generiUtente", generiUtente);
+                model.addAttribute("generi", allGeneri);
                 return "preferenze-lettura/modifica-generi";
-            }
-            else {
+            } else {
                 return "index";
             }
     }
@@ -71,15 +84,19 @@ public class PreferenzeDiLetturaController {
      *              i generi
      * @return la pagina home
      */
-    @RequestMapping(value = "/modifica-generi",method = RequestMethod.POST)
-    public String test(@RequestParam("genere") String[]generi, final Model model){
+    @RequestMapping(value = "/modifica-generi", method = RequestMethod.POST)
+    public String modificaGeneri(@RequestParam("genere") final String[]generi,
+                                            final Model model) {
 
-        List<Genere> toAdd= preferenzeDiLetturaService.getGeneriByName(generi);
-        UtenteRegistrato utenteRegistrato= (UtenteRegistrato) model.getAttribute("loggedUser");
+        List<Genere> toAdd = preferenzeDiLetturaService.getGeneriByName(generi);
+        UtenteRegistrato utenteRegistrato =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
 
-        if(utenteRegistrato!=null && utenteRegistrato.getTipo().equals("Esperto")) {
+        if (utenteRegistrato != null
+                && utenteRegistrato.getTipo().equals("Esperto")) {
 
-            preferenzeDiLetturaService.addGeneriEsperto(toAdd,(Esperto) utenteRegistrato);
+            preferenzeDiLetturaService
+                  .addGeneriEsperto(toAdd, (Esperto) utenteRegistrato);
 
         }
         return "index";

@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,7 @@ public final class RegistrazioneController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String visualizzaRegistrazione() {
-        return "registrazione";
+        return "registrazione/registrazione";
     }
 
     /**
@@ -62,7 +63,7 @@ public final class RegistrazioneController {
      *                 il corretto inserimento della stessa
      * @param bibliotecaEmail la mail dell'account della biblioteca
      *                        dove l'esperto lavora
-     * @param generi          gli eventuali generi definiti per l'esperto
+     * @param model utilizzato per la sessione
      * @return la view per effettuare il login
      */
     @RequestMapping(value = "/esperto", method = RequestMethod.POST)
@@ -71,8 +72,7 @@ public final class RegistrazioneController {
                                                String password,
                                        final @RequestParam("email_biblioteca")
                                                String bibliotecaEmail,
-                                       final @RequestParam("genere")
-                                               String[] generi) {
+                                       final Model model) {
 
         Biblioteca biblioteca
                 = registrazioneService.getBibliotecaByEmail(bibliotecaEmail);
@@ -83,10 +83,6 @@ public final class RegistrazioneController {
             return "registrazione/registrazione_esperto";
         }
         esperto.setBiblioteca(biblioteca);
-
-        if (generi != null) {
-            esperto.setGeneri(registrazioneService.findGeneriByName(generi));
-        }
 
         try {
             MessageDigest md;
@@ -101,7 +97,8 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraEsperto(esperto);
-        return "autenticazione/login";
+        model.addAttribute("loggedUser", esperto);
+        return "redirect:/preferenze-di-lettura/generi";
 
 
     }

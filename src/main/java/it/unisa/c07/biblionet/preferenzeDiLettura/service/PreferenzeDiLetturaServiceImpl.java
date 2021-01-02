@@ -5,8 +5,6 @@ import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
-import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +31,7 @@ public class PreferenzeDiLetturaServiceImpl implements
     private final EspertoDAO espertoDAO;
 
     /**
-     * Si occupa delle funzioni CRUD per l'utente
+     * Si occupa delle funzioni CRUD per l'utente.
      */
     private final LettoreDAO lettoreDAO;
 
@@ -78,7 +76,7 @@ public class PreferenzeDiLetturaServiceImpl implements
     @Override
     public void addGeneriEsperto(final List<Genere> generi,
                                  final Esperto esperto) {
-        esperto.setGeneri(generi); //forse qua si deve fare il controllo per vedere se la lista è null
+        esperto.setGeneri(generi);
         espertoDAO.save(esperto);
     }
 

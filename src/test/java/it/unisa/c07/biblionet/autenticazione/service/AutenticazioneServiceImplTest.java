@@ -13,11 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -34,6 +32,8 @@ public class AutenticazioneServiceImplTest {
      */
     @InjectMocks
     private AutenticazioneServiceImpl autenticazioneService;
+
+
 
     /**
      * Mocking del dao per simulare le

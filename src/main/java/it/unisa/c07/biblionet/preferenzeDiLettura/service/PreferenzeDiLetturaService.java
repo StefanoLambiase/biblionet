@@ -2,9 +2,6 @@ package it.unisa.c07.biblionet.preferenzeDiLettura.service;
 
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
-import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
-
 import java.util.List;
 
 /**

@@ -99,6 +99,7 @@ public class RegistrazioneServiceImplTest {
         when(lettoreDAO.save(lettore)).thenReturn(lettore);
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }
+
     /**
      * Metodo che si occupa di testare
      * la funzione di ricerca di un

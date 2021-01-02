@@ -57,10 +57,10 @@ public class Biblioteca extends UtenteRegistrato {
     private List<Possesso> possessi;
 
     /**
-     * Rappresenta il tipo di utente
+     * Rappresenta il tipo di utente.
      */
     @Transient
-    String tipo = "Biblioteca";
+    private String tipo = "Biblioteca";
 
     /**
      *
