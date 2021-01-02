@@ -258,4 +258,16 @@ public class PrenotazioneLibriServiceImplTest {
         assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
     }
 
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere la lista di ticket aperti da un Lettore.
+     */
+    @Test
+    public void getTicketsLettore() {
+        List<TicketPrestito> list = new ArrayList<>();
+        when(ticketPrestitoDAO.findAllByLettoreEmail("a")).thenReturn(list);
+        assertEquals(list,
+                prenotazioneService.getTicketsLettore(new Lettore()));
+    }
+
 }

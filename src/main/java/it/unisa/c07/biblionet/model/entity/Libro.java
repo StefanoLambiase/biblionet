@@ -78,7 +78,7 @@ public class Libro {
     private String casaEditrice;
 
     /**
-     * Rappresenta l'immagine di copertina del libro
+     * Rappresenta l'immagine di copertina del libro.
      */
     @Lob
     private String immagineLibro;

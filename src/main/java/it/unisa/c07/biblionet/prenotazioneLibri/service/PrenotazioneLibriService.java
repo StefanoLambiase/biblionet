@@ -122,4 +122,13 @@ public interface PrenotazioneLibriService {
      */
     TicketPrestito chiudiTicket(TicketPrestito ticket);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista di ticket aperti da un Lettore.
+     * @param lettore il Lettore di cui recuperare i ticket
+     * @return la lista dei ticket
+     */
+    List<TicketPrestito> getTicketsLettore(Lettore lettore);
+
+
 }

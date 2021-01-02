@@ -127,7 +127,11 @@ public class UtenteRegistrato {
         }
     }
 
-    public void setHashedPassword(byte[] hashPassword){
-        this.password=hashPassword;
+    /**
+     * Implementa il set della password effettuando l'hash.
+     * @param hashPassword la password da settare
+     */
+    public void setHashedPassword(byte[] hashPassword) {
+        this.password = hashPassword;
     }
 }

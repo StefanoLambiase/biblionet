@@ -1,10 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Richieste di prenotazione</title>
+    <link rel="stylesheet" th:href="@{~/style/prenotazione-libri.css}" />
 </head>
 <body>
+<div layout:fragment="contenuto-pagina">
 
+    <div class="container-fluid">
+        <h1 class="text-center" style="color:#073763">I miei ticket</h1>
+        <div class="row row-scrollable-panels">
+            <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                <div th:each="ticket : ${listaTicketDaAccettare}">
+                    <div class="card" style="margin-bottom:4%">
+                        <img class="card-img-top" th:src="@{'data:image/png;base64,'+ ${ticket.libro.immagineLibro}}"
+                             alt="Copertina libro" width="400px">
+                        <div class="card-body">
+                            <span class="badge badge-pill" style="background-color: goldenrod">In attesa di conferma</span>
+                            <h5 class="card-title" th:text="'Libro: '+${ticket.libro.titolo}"></h5>
+                            <p class="card-text" th:text="'Biblioteca: '+${ticket.biblioteca.nomeBiblioteca}"></p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text"
+                               th:text="'Data richiesta: '+${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                <div th:each="ticket : ${listaTicketAccettati}">
+                    <div class="card" style="margin-bottom:4%">
+                        <img class="card-img-top" th:src="@{'data:image/png;base64,'+ ${ticket.libro.immagineLibro}}"
+                             alt="Copertina libro">
+                        <div class="card-body">
+                            <span class="badge badge-pill" style="background-color: green">Accettato</span>
+                            <h5 class="card-title" th:text="'Libro: '+${ticket.libro.titolo}"></h5>
+                            <p class="card-text" th:text="'Biblioteca: '+${ticket.biblioteca.nomeBiblioteca}"></p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text"
+                               th:text="'Data richiesta: '+${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}"></p>
+                            <p class="card-text" style="font-weight: bold"
+                               th:text="'Data limite per la restituzione: '+${#temporals.format(ticket.dataRestituzione,'dd/MM/yyyy')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                <div th:each="ticket : ${listaTicketRifiutati}">
+                    <div class="card" style="margin-bottom:4%">
+                        <img class="card-img-top" th:src="@{'data:image/png;base64,'+ ${ticket.libro.immagineLibro}}"
+                             alt="Copertina libro">
+                        <div class="card-body">
+                            <span class="badge badge-pill" style="background-color: #b20909">Rifiutato</span>
+                            <h5 class="card-title" th:text="'Libro: '+${ticket.libro.titolo}"></h5>
+                            <p class="card-text" th:text="'Biblioteca: '+${ticket.biblioteca.nomeBiblioteca}"></p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text"
+                               th:text="'Data richiesta: '+${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col border scrollable-column rounded shadow p-3 mb-5">
+                <div th:each="ticket : ${listaTicketChiusi}">
+                    <div class="card" style="margin-bottom:4%">
+                        <img class="card-img-top" th:src="@{'data:image/png;base64,'+ ${ticket.libro.immagineLibro}}"
+                             alt="Copertina libro">
+                        <div class="card-body">
+                            <span class="badge badge-pill" style="background-color: dimgrey">Prestito concluso</span>
+                            <h5 class="card-title" th:text="'Libro: '+${ticket.libro.titolo}"></h5>
+                            <p class="card-text" th:text="'Biblioteca: '+${ticket.biblioteca.nomeBiblioteca}"></p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text"
+                               th:text="'Data richiesta: '+${#temporals.format(ticket.dataRichiesta,'dd/MM/yyyy')}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
