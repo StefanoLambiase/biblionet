@@ -25,8 +25,8 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      * @param nome Il nome della biblioteca
      * @return Biblioteca trovata
      */
-    @Query("SELECT b FROM Biblioteca b " +
-            "WHERE UPPER(b.nomeBiblioteca) LIKE UPPER(concat('%', ?1,'%'))")
+    @Query("SELECT b FROM Biblioteca b "
+            +  "WHERE UPPER(b.nomeBiblioteca) LIKE UPPER(concat('%', ?1,'%'))")
     List<Biblioteca> findByNome(String nome);
 
     /**

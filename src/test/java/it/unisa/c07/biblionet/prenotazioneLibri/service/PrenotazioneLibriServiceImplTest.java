@@ -266,7 +266,8 @@ public class PrenotazioneLibriServiceImplTest {
     public void getTicketsLettore() {
         List<TicketPrestito> list = new ArrayList<>();
         when(ticketPrestitoDAO.findAllByLettoreEmail("a")).thenReturn(list);
-        assertEquals(list, prenotazioneService.getTicketsLettore(new Lettore()));
+        assertEquals(list,
+                prenotazioneService.getTicketsLettore(new Lettore()));
     }
 
 }

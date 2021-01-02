@@ -76,6 +76,7 @@ public class PrenotazioneLibriController {
                     model.addAttribute("listaLibri", prenotazioneService.
                             visualizzaListaLibriPerBiblioteca(stringa));
                     break;
+                default: break;
             }
         }
         return "prenotazione-libri/visualizza-libri-prenotabili";

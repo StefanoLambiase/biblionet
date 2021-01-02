@@ -276,7 +276,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return la lista dei ticket
      */
     @Override
-    public List<TicketPrestito> getTicketsLettore(Lettore lettore) {
+    public List<TicketPrestito> getTicketsLettore(final Lettore lettore) {
         return ticketPrestitoDAO.
                 findAllByLettoreEmail(lettore.getEmail());
     }
