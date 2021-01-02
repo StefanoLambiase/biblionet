@@ -59,7 +59,7 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
     /**
      * Rappresenta la lista di generi di cui un esperto è esperto.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Genere> generi;
 

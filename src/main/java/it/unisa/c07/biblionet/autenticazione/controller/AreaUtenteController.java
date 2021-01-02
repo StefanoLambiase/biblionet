@@ -243,6 +243,37 @@ public class AreaUtenteController {
         return "autenticazione/login";
     }
 
+    /**
+     * Implementa la funzionalitá di visualizzazione area utente
+     * in base al tipo.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione area utente
+     */
+    @RequestMapping(value = "/area-utente", method = RequestMethod.GET)
+    public String areaUtente(final Model model) {
+        UtenteRegistrato utente = (UtenteRegistrato)
+                model.getAttribute("loggedUser");
 
+        if (utente != null) {
+            if (autenticazioneService.isBiblioteca(utente)) {
+                Biblioteca biblioteca = (Biblioteca) utente;
+                model.addAttribute("biblioteca", biblioteca);
+                return "area-utente/visualizza-biblioteca";
+
+            } else if (autenticazioneService.isEsperto(utente)) {
+                Esperto esperto = (Esperto) utente;
+                model.addAttribute("esperto", esperto);
+                return "area-utente/visualizza-esperto";
+
+            } else if (autenticazioneService.isLettore(utente)) {
+                Lettore lettore = (Lettore) utente;
+                model.addAttribute("lettore", lettore);
+                return "area-utente/visualizza-lettore";
+
+            }
+        }
+        return "autenticazione/login";
+    }
 
 }

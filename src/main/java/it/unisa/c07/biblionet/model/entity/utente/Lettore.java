@@ -50,7 +50,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     /**
      * Rappresenta i generi che interessano ad un lettore.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Genere> generi;
 
