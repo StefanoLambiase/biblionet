@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../style/area-utente.css">
+    <link rel="stylesheet" type="text/css" href="../../style/style.css">
+    <meta charset="UTF-8">
+    <title>Area Lettore</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content" style="height: 605px;">
+                <div class="container-fluid">
+                    <div class="row mb-3">
+                        <div class="col-lg-4">
+                            <div class="card mb-3">
+                                <div class="card-body shadow text-center">
+                                    <h3 class="text-dark mb-4">Benvenuto
+                                        <td th:text="${lettore.getNome()}"></td>
+                                    </h3>
+                                    <div class="text-center d-xl-flex justify-content-xl-center align-items-xl-center mb-3">
+                                        <picture><img class="border rounded-circle d-xl-flex justify-content-xl-center"
+                                                      src="../../static/image/area-utente/biblioteca.png">
+                                        </picture>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" href="/modifica-dati" type="button">Modifica Dati Account</a>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" type="button">Visualizza Tickets</a>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" type="button">Questionario di supporto</a>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" type="button">Questionario di supporto</a>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" type="button">Gestione Generi</a>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a class="btn btn-main" type="button">Visualizza Clubs ed Eventi</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <h3 class="text-dark mb-4">Informazioni account</h3>
+                                            <div class="row">
+                                                <div class=" col-md-9 col-lg-9 ">
+                                                    <table class="table table-user-information">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Nome:</td>
+                                                            <td th:text="${lettore.getNome()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cognome:</td>
+                                                            <td th:text="${lettore.getCognome()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Email:</td>
+                                                            <td th:text="${lettore.getEmail()}"></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Provincia:</td>
+                                                            <td th:text="${lettore.getProvincia()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cittá:</td>
+                                                            <td th:text="${lettore.getCitta()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Via</td>
+                                                            <td th:text="${lettore.getVia()}"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Recapito Telefonico</td>
+                                                            <td th:text="${lettore.getRecapitoTelefonico()}"></td>
+                                                        </tr>
+                                                        <tr th:each="genere : ${lettore.generi}">
+                                                            <td>Generi preferiti</td>
+                                                            <td th:text="${genere.nome}"></td>
+                                                            <br>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
