@@ -65,6 +65,7 @@ public class PreferenzeDiLetturaServiceImpl implements
             }
 
         }
+
         return toReturn;
     }
 

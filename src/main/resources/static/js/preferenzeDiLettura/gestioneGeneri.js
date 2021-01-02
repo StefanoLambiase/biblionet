@@ -12,7 +12,7 @@ function aggiungiGenere(){
    tr.appendChild(td = document.createElement("td"))
 
    td.innerHTML = opt.value
-   tr.innerHTML+='<input type="button" value="Rimuovi" name="'+opt.value+'" onclick= rimuoviGenere(this)>'
+   tr.innerHTML+='<td><input type="button" value="Rimuovi" name="'+opt.value+'" onclick= rimuoviGenere(this)></td>'
 
 
 }
@@ -23,5 +23,24 @@ function rimuoviGenere(button){
    let toDelete= document.getElementsByClassName(button.name)
    table.removeChild(toDelete[0])
   sel.innerHTML+='<option value="'+button.name+'">'+button.name+'</option>'
+
+}
+
+function generi(){
+
+   let table = document.getElementById("utente_generi")
+   let col = table.getElementsByTagName("tr")
+   let inner;
+
+   //Se non sono stati inseriti generi, inserisco un placeholder
+   if(col.length===1){
+      inner+='<input type="hidden" name="genere">'
+   }
+
+   for(let i=1;i<col.length;i++){
+      inner+='<input type="hidden" name="genere" value="'+col[i].className+'">'
+   }
+
+   table.innerHTML+=inner
 
 }

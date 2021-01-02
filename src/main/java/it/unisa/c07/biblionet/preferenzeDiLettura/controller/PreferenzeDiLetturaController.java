@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 
+import com.sun.istack.Nullable;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
@@ -8,10 +9,7 @@ import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaSer
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -66,22 +64,25 @@ public class PreferenzeDiLetturaController {
     }
 
     /**
-     * Implementa la funzionalità di inserimento di generi letterari
-     * preferiti di un esperto.
-     * @param esperto l'esperto a cui inserire i generi
-     * @param generi i nomi dei generi da eseguire
-     * @return la view della home
+     * Implementa la funzionalità di inserire o rimuovere generi ad un esperto
+     * oppure ad un lettore.
+     * @param generi i generi che il lettore o l'esperto dovranno possedere
+     * @param model utilizzato per prendere l'utente loggato a cui modificare
+     *              i generi
+     * @return la pagina home
      */
-    @RequestMapping(value = "/inserisci-generi-esperto",
-                                              method = RequestMethod.POST)
-    public String inserimentoConoscenzeLetturaEsperto(final Esperto esperto,
-                              final @RequestParam("genere")String[] generi) {
+    @RequestMapping(value = "/modifica-generi",method = RequestMethod.POST)
+    public String test(@RequestParam("genere") String[]generi, final Model model){
 
-        preferenzeDiLetturaService.addGeneriEsperto(
-                preferenzeDiLetturaService.getGeneriByName(generi),
-                                                           esperto);
+        List<Genere> toAdd= preferenzeDiLetturaService.getGeneriByName(generi);
+        UtenteRegistrato utenteRegistrato= (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if(utenteRegistrato!=null && utenteRegistrato.getTipo().equals("Esperto")) {
+
+            preferenzeDiLetturaService.addGeneriEsperto(toAdd,(Esperto) utenteRegistrato);
+
+        }
         return "index";
-
     }
 
 

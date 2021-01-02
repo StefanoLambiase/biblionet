@@ -12,7 +12,6 @@
 
     <div layout:fragment="contenuto-pagina">
 
-        <form th:action="inserisci-generi-esperto" method="post">
             <div class="column sx">
                 <select id="select_generi">
                     <option th:each="genere: ${generi}" th:value="${genere.nome}" th:text="${genere.nome}"></option>
@@ -21,7 +20,7 @@
             </div>
 
             <div class="column dx">
-
+                <form id="form_generi" th:action="@{/preferenze-di-lettura/modifica-generi}" method="post">
                 <table>
 
                     <tbody id="utente_generi">
@@ -30,19 +29,23 @@
                             <th>Generi utente</th>
                         </tr>
 
-                        <tr th:each="genereUtente : ${generiUtente}">
+                        <tr th:each="genereUtente : ${generiUtente}" th:class="${genereUtente.nome}">
 
-                            <td th:text="${genereUtente.nome}"></td>
-                            <td><input type="button" value="Rimuovi" class="${genereUtente.nome" th:name="${genereUtente.nome}" onclick="rimuoviGenere(this)"> </td>
+                            <td th:text="${genereUtente.nome}" th:name="genere" th:value="${genereUtente.nome}"></td>
+                            <td><input type="button" value="Rimuovi" th:name="${genereUtente.nome}" onclick="rimuoviGenere(this)"> </td>
 
                         </tr>
 
                     </tbody>
                 </table>
+                    <input type="submit" value="Procedi" onclick="generi()">
+                </form>
+
+
 
             </div>
 
-        </form>
+
 
     </div>
 
