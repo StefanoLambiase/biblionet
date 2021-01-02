@@ -17,19 +17,29 @@
                 <select id="select_generi">
                     <option th:each="genere: ${generi}" th:value="${genere.nome}" th:text="${genere.nome}"></option>
                 </select>
-                <input type="button" value="Aggungimi" onclick="aggiungiGenere()">
+                <input type="button" value="Aggiungimi" onclick="aggiungiGenere()">
             </div>
 
             <div class="column dx">
-                <table id="utente_generi">
-                    <tr>
-                        <th>Generi utente</th>
-                    </tr>
-                    <tr th:each="genereUtente : ${generiUtente}">
-                        <td th:text="${genereUtente.nome}"></td>
-                        <td><input type="button" value="Rimuovi" th:name="${genereUtente.nome}" onclick="rimuoviGenere()"> </td>
-                    </tr>
+
+                <table>
+
+                    <tbody id="utente_generi">
+
+                        <tr>
+                            <th>Generi utente</th>
+                        </tr>
+
+                        <tr th:each="genereUtente : ${generiUtente}">
+
+                            <td th:text="${genereUtente.nome}"></td>
+                            <td><input type="button" value="Rimuovi" class="${genereUtente.nome" th:name="${genereUtente.nome}" onclick="rimuoviGenere(this)"> </td>
+
+                        </tr>
+
+                    </tbody>
                 </table>
+
             </div>
 
         </form>

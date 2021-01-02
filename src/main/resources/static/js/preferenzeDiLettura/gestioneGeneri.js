@@ -8,17 +8,20 @@ function aggiungiGenere(){
 
    let table = document.getElementById("utente_generi")
    table.appendChild(tr = document.createElement("tr"))
+   tr.className=opt.value
    tr.appendChild(td = document.createElement("td"))
+
    td.innerHTML = opt.value
-   btn = document.createElement("input")
-   btn.type = "button"
-   btn.value = "Rimuovi"
-   btn.addEventListener("click", aggiungiGenere)
-   tr.appendChild(btn)
-   
+   tr.innerHTML+='<input type="button" value="Rimuovi" name="'+opt.value+'" onclick= rimuoviGenere(this)>'
+
 
 }
 
-function rimuoviGenere(){
+function rimuoviGenere(button){
+   let sel = document.getElementById("select_generi")
+   let table = document.getElementById("utente_generi")
+   let toDelete= document.getElementsByClassName(button.name)
+   table.removeChild(toDelete[0])
+  sel.innerHTML+='<option value="'+button.name+'">'+button.name+'</option>'
 
 }
