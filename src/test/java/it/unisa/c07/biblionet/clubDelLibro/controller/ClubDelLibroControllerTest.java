@@ -431,4 +431,54 @@ public class ClubDelLibroControllerTest {
 
    }
 
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione della creazione di un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+
+    @Test
+    public void visualizzaCreaEventoFirstException() throws Exception {
+        when(clubService.getClubByID(1)).thenReturn(null);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/crea-evento")
+                .param("nome","TestNome")
+                .param("descrizione","TestDescrizione")
+                .param("data", "2024-11-04")
+                .param("ora","16:24")
+                .param("libro","1"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                .andExpect(result->
+                        assertEquals("404 NOT_FOUND \"Club del Libro Inesistente\"", result.getResolvedException().getMessage()));
+
+    }
+
+
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la eliminazione di un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void eliminaEventoFirstException() throws Exception {
+        when(eventiService.eliminaEvento(1)).thenReturn(Optional.empty());
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/club-del-libro/1/eventi/1")
+                .param("nome","TestNome")
+                .param("descrizione", "TestDescrizione")
+                .param("data","2024-07-06")
+                .param("ora","17:24")
+                .param("libro","2"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                .andExpect(result ->
+                        assertEquals("404 NOT_FOUND \"Evento Inesistente\"",result.getResolvedException().getMessage()));
+
+    }
+
+
+
 }
