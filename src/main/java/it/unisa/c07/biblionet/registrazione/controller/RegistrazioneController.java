@@ -145,7 +145,8 @@ public final class RegistrazioneController {
     @RequestMapping(value = "/lettore", method = RequestMethod.POST)
     public String registrazioneLettore(final Lettore lettore,
                                        final @RequestParam("conferma_password")
-                                               String password) {
+                                               String password,
+                                       final Model model) {
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
@@ -159,7 +160,8 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraLettore(lettore);
-        return "autenticazione/login";
+        model.addAttribute("loggedUser", lettore);
+        return "redirect:/preferenze-di-lettura/generi";
     }
 
 }

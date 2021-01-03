@@ -333,7 +333,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("autenticazione/login"));
+                .andExpect(view().name("redirect:/preferenze-di-lettura/generi"));
     }
 
     /**

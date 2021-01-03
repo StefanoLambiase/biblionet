@@ -137,8 +137,8 @@ public class PreferenzeDiLetturaControllerTest {
      * @throws Exception eccezione di mockMvc
      */
     @Test
-    @DisplayName("Modifica di generi di un esperto con utente non null")
-    public void modificaGeneri() throws Exception {
+    @DisplayName("Modifica di generi di un esperto")
+    public void modificaGeneriEsperto() throws Exception {
         Esperto test = new Esperto();
         String[] gen = {"Fantasy"};
 
@@ -148,25 +148,45 @@ public class PreferenzeDiLetturaControllerTest {
         this.mockMvc.perform(post("/preferenze-di-lettura/modifica-generi")
                 .param("genere", gen)
                 .sessionAttr("loggedUser", test))
-                .andExpect(view().name("index"));
+                .andExpect(view().name("autenticazione/login"));
 
     }
 
     /**
-     * Modifica di generi di un esperto con utente null.
+     * Modifica di generi di un lettore con utente non null.
      * @throws Exception eccezione di mockMvc
      */
     @Test
-    @DisplayName("Modifica di generi di un esperto con utente null")
-    public void modificaGeneri1() throws Exception {
+    @DisplayName("Modifica di generi di un lettore")
+    public void modificaGeneriLettore() throws Exception {
+        Esperto test = new Esperto();
         String[] gen = {"Fantasy"};
 
         when(preferenzeDiLetturaService.getGeneriByName(gen))
                 .thenReturn(new ArrayList<>());
 
         this.mockMvc.perform(post("/preferenze-di-lettura/modifica-generi")
+                .param("genere", gen)
+                .sessionAttr("loggedUser", test))
+                .andExpect(view().name("autenticazione/login"));
+
+    }
+
+    /**
+     * Modifica di generi con utente null.
+     * @throws Exception eccezione di mockMvc
+     */
+    @Test
+    @DisplayName("Modifica di generi con utente null")
+    public void modificaGeneri1() throws Exception {
+        String[] gen = {""};
+
+        when(preferenzeDiLetturaService.getGeneriByName(gen))
+                .thenReturn(new ArrayList<>());
+
+        this.mockMvc.perform(post("/preferenze-di-lettura/modifica-generi")
                 .param("genere", gen))
-                .andExpect(view().name("index"));
+                .andExpect(view().name("autenticazione/login"));
 
     }
 

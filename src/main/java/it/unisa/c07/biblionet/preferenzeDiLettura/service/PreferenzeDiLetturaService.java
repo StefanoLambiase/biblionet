@@ -2,6 +2,8 @@ package it.unisa.c07.biblionet.preferenzeDiLettura.service;
 
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,16 @@ public interface PreferenzeDiLetturaService {
      * @param esperto l'esperto a cui inserirli
      */
     void addGeneriEsperto(List<Genere> generi, Esperto esperto);
+
+    /**
+     * Implementa la funzionalità di aggiungere una lista di generi
+     * ad un lettore.
+     * @param generi i generi da inserire
+     * @param lettore il lettore a cui inserirli
+     */
+    void addGeneriLettore(List<Genere> generi, Lettore lettore);
+
+
 
 
 }

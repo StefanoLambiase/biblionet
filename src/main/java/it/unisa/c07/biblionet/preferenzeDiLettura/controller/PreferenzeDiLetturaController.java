@@ -3,6 +3,7 @@ package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaService;
 import lombok.RequiredArgsConstructor;
@@ -92,14 +93,18 @@ public class PreferenzeDiLetturaController {
         UtenteRegistrato utenteRegistrato =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
 
-        if (utenteRegistrato != null
-                && utenteRegistrato.getTipo().equals("Esperto")) {
+        if (utenteRegistrato != null) {
+            if (utenteRegistrato.getTipo().equals("Esperto")) {
 
-            preferenzeDiLetturaService
-                  .addGeneriEsperto(toAdd, (Esperto) utenteRegistrato);
+                preferenzeDiLetturaService
+                        .addGeneriEsperto(toAdd, (Esperto) utenteRegistrato);
 
+            } else if (utenteRegistrato.getTipo().equals("Lettore")) {
+                preferenzeDiLetturaService
+                        .addGeneriLettore(toAdd, (Lettore) utenteRegistrato);
+            }
         }
-        return "index";
+        return "autenticazione/login";
     }
 
 
