@@ -227,7 +227,7 @@ public class AreaUtenteController {
                 ) {
                     lettore.setPassword(nuova);
                 } else {
-                    return "modifica-dati-lettore";
+                    return "area-utente/modifica-dati-lettore";
                 }
 
             } catch (NoSuchAlgorithmException e) {
