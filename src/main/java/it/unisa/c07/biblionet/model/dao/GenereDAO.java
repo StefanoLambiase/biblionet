@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GenereDAO extends JpaRepository<Genere, String> {
+
     /**
      * Query custom made per mappare nome
      * del genere ad un oggetto Genere.

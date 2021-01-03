@@ -4,13 +4,13 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 
 import java.util.List;
@@ -43,14 +43,17 @@ public class Genere {
      */
     @NonNull
     @Column(nullable = false, length = Length.LENGTH_255)
+    @EqualsAndHashCode.Exclude
     private String descrizione;
 
     /**
      * Rappresenta la lista di lettori
      * a cui piace questo genere.
      */
+
     @ManyToMany(mappedBy = "generi")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Lettore> lettori;
 
     /**
@@ -58,6 +61,7 @@ public class Genere {
      */
     @ManyToMany(mappedBy = "generi")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Esperto> esperti;
 
     /**
@@ -65,6 +69,7 @@ public class Genere {
      */
     @ManyToMany(mappedBy = "generi")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Libro> libri;
 
     /**
@@ -73,6 +78,7 @@ public class Genere {
      */
     @ManyToMany(mappedBy = "generi")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<ClubDelLibro> clubs;
 
 }

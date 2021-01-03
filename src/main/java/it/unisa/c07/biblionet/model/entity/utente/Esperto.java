@@ -10,16 +10,14 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Transient;
-
 import java.util.List;
 
 /**
@@ -82,7 +80,7 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
      * Rappresenta il tipo di utente.
      */
     @Transient
-    String tipo = "Esperto";
+    private String tipo = "Esperto";
 
     /**
      *

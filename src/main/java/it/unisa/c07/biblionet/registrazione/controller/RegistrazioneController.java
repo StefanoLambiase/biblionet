@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,18 +32,18 @@ public final class RegistrazioneController {
     private final RegistrazioneService registrazioneService;
 
     /**
-     * Implementa la funzionalitá di visualizzare
+     * Implementa la funzionalità di visualizzare
      * la scelta di registrazione.
      *
      * @return La pagina di visualizzazione
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String visualizzaRegistrazione() {
-        return "registrazione";
+        return "registrazione/registrazione";
     }
 
     /**
-     * Implementa la funzionalitá di registrazione di
+     * Implementa la funzionalità di registrazione di
      * scegliere il tipo di utente da registrare.
      *
      * @param scelta Il tipo di utente da registrare
@@ -62,7 +63,7 @@ public final class RegistrazioneController {
      *                 il corretto inserimento della stessa
      * @param bibliotecaEmail la mail dell'account della biblioteca
      *                        dove l'esperto lavora
-     * @param generi          gli eventuali generi definiti per l'esperto
+     * @param model utilizzato per la sessione
      * @return la view per effettuare il login
      */
     @RequestMapping(value = "/esperto", method = RequestMethod.POST)
@@ -71,8 +72,7 @@ public final class RegistrazioneController {
                                                String password,
                                        final @RequestParam("email_biblioteca")
                                                String bibliotecaEmail,
-                                       final @RequestParam("genere")
-                                               String[] generi) {
+                                       final Model model) {
 
         Biblioteca biblioteca
                 = registrazioneService.getBibliotecaByEmail(bibliotecaEmail);
@@ -83,10 +83,6 @@ public final class RegistrazioneController {
             return "registrazione/registrazione_esperto";
         }
         esperto.setBiblioteca(biblioteca);
-
-        if (generi != null) {
-            esperto.setGeneri(registrazioneService.findGeneriByName(generi));
-        }
 
         try {
             MessageDigest md;
@@ -101,7 +97,8 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraEsperto(esperto);
-        return "autenticazione/login";
+        model.addAttribute("loggedUser", esperto);
+        return "redirect:/preferenze-di-lettura/generi";
 
 
     }
@@ -148,7 +145,8 @@ public final class RegistrazioneController {
     @RequestMapping(value = "/lettore", method = RequestMethod.POST)
     public String registrazioneLettore(final Lettore lettore,
                                        final @RequestParam("conferma_password")
-                                               String password) {
+                                               String password,
+                                       final Model model) {
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
@@ -162,7 +160,8 @@ public final class RegistrazioneController {
         }
 
         registrazioneService.registraLettore(lettore);
-        return "autenticazione/login";
+        model.addAttribute("loggedUser", lettore);
+        return "redirect:/preferenze-di-lettura/generi";
     }
 
 }

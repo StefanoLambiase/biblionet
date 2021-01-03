@@ -50,7 +50,6 @@ public final class RegistrazioneControllerTest {
      * @param esperto          L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
-     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
@@ -58,8 +57,7 @@ public final class RegistrazioneControllerTest {
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoBuonFine(
             final Esperto esperto, final String confermaPassword,
-            final String emailBiblioteca,
-            final String[] generi) throws Exception {
+            final String emailBiblioteca) throws Exception {
 
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
@@ -87,9 +85,8 @@ public final class RegistrazioneControllerTest {
                 .param("citta", esperto.getCitta())
                 .param("via", esperto.getVia())
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca)
-                .param("genere", generi))
-                .andExpect(view().name("autenticazione/login"));
+                .param("email_biblioteca", emailBiblioteca))
+                .andExpect(view().name("redirect:/preferenze-di-lettura/generi"));
     }
 
     /**
@@ -101,7 +98,6 @@ public final class RegistrazioneControllerTest {
      * @param esperto L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
-     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
@@ -110,8 +106,7 @@ public final class RegistrazioneControllerTest {
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoErrorePassword(
             final Esperto esperto, final String confermaPassword,
-            final String emailBiblioteca,
-            final String[] generi) throws Exception {
+            final String emailBiblioteca) throws Exception {
 
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
@@ -139,8 +134,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", esperto.getCitta())
                 .param("via", esperto.getVia())
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca)
-                .param("genere", generi))
+                .param("email_biblioteca", emailBiblioteca))
                 .andExpect(view().name("registrazione/registrazione_esperto"));
     }
 
@@ -153,7 +147,6 @@ public final class RegistrazioneControllerTest {
      * @param esperto          L'esperto da registrare
      * @param confermaPassword la password da confermare
      * @param emailBiblioteca  la mail della biblioteca
-     * @param generi           gli eventuali generi inseriti dall'utente
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
@@ -163,8 +156,7 @@ public final class RegistrazioneControllerTest {
     @MethodSource("provideRegistrazioneEsperto")
     public void registrazioneEspertoEmailBibliotecaErrata(
             final Esperto esperto, final String confermaPassword,
-            final String emailBiblioteca,
-            final String[] generi) throws Exception {
+            final String emailBiblioteca) throws Exception {
 
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
@@ -192,61 +184,8 @@ public final class RegistrazioneControllerTest {
                 .param("citta", esperto.getCitta())
                 .param("via", esperto.getVia())
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca)
-                .param("genere", generi))
+                .param("email_biblioteca", emailBiblioteca))
                 .andExpect(view().name("registrazione/registrazione_esperto"));
-    }
-
-    /**
-     * Metodo che testa la funzionalità gestita dal
-     * controller per la registrazione di un esperto
-     * avvenuta correttamente
-     * simulando la richiesta http.
-     *
-     * @param esperto          L'esperto da registrare
-     * @param confermaPassword la password da confermare
-     * @param emailBiblioteca  la mail della biblioteca
-     * @throws Exception Eccezione per MockMvc
-     */
-    @ParameterizedTest
-    @DisplayName("Registrazione Esperto che va a buon fine anche se i generi "
-               + "passati sono null")
-    @MethodSource("provideRegistrazioneEsperto")
-    public void registrazioneEspertoBuonFineGeneriNull(
-            final Esperto esperto, final String confermaPassword,
-            final String emailBiblioteca) throws Exception {
-
-        Biblioteca biblioteca = new Biblioteca(
-                "bibliotecacarrisi@gmail.com",
-                "BibliotecaPassword",
-                "Napoli",
-                "Torre del Greco",
-                "Via Carrisi 47",
-                "1234567890",
-                "Biblioteca Carrisi"
-        );
-
-        String[] generi = {""};
-
-        when(registrazioneService.registraEsperto(new Esperto())).
-                thenReturn(esperto);
-        when(registrazioneService.getBibliotecaByEmail(emailBiblioteca)).
-                thenReturn(biblioteca);
-
-        this.mockMvc.perform(post("/registrazione/esperto")
-                .param("email", esperto.getEmail())
-                .param("nome", esperto.getNome())
-                .param("cognome", esperto.getCognome())
-                .param("username", esperto.getUsername())
-                .param("password", "EspertoPassword")
-                .param("conferma_password", confermaPassword)
-                .param("provincia", esperto.getProvincia())
-                .param("citta", esperto.getCitta())
-                .param("via", esperto.getVia())
-                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
-                .param("email_biblioteca", emailBiblioteca)
-                .param("genere", generi))
-                .andExpect(view().name("autenticazione/login"));
     }
 
     /**
@@ -395,7 +334,7 @@ public final class RegistrazioneControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("autenticazione/login"));
+                .andExpect(view().name("redirect:/preferenze-di-lettura/generi"));
     }
 
     /**

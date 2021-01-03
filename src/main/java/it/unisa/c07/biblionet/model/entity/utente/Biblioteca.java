@@ -60,7 +60,7 @@ public class Biblioteca extends UtenteRegistrato {
      * Rappresenta il tipo di utente.
      */
     @Transient
-    String tipo = "Biblioteca";
+    private String tipo = "Biblioteca";
 
     /**
      *

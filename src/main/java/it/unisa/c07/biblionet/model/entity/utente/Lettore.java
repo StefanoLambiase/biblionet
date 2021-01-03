@@ -10,18 +10,17 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Transient;
 import java.util.List;
 
 /**
  * Questa classe rappresenta un Lettore.
- * Un Lettore può essere unteressato a più generi,
+ * Un Lettore può essere interessato a più generi,
  * può partecipare a più eventi,
  * e far parte di più club.
  */
