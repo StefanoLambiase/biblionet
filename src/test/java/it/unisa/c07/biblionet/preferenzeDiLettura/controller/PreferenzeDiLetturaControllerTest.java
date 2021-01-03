@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,10 +65,42 @@ public class PreferenzeDiLetturaControllerTest {
     @DisplayName("Inserimento nuovi generi ad un esperto"
                  + "con esperto null e generi non null")
     public void generiLetterari1() throws Exception {
-        Esperto test = null;
 
         this.mockMvc.perform(post("/preferenze-di-lettura/generi"))
                 .andExpect(view().name("index"));
+    }
+
+    /**
+     * Test di Inserimento nuovi generi ad un lettore con lettore
+     * e generi non null.
+     * @throws Exception eccezione di mockMvc
+     */
+    @Test
+    @DisplayName("Inserimento nuovi generi ad un lettore "
+            + "con lettore e generi non null")
+    public void generiLetterariLettore() throws Exception {
+        Lettore test = new Lettore();
+        test.setGeneri(Arrays.asList(new Genere("TEST", "test")));
+
+        this.mockMvc.perform(post("/preferenze-di-lettura/generi")
+                .sessionAttr("loggedUser", test))
+                .andExpect(view().name("preferenze-lettura/modifica-generi"));
+    }
+
+    /**
+     * Test di Inserimento nuovi generi ad un lettore con lettore
+     * e generi non null.
+     * @throws Exception eccezione di mockMvc
+     */
+    @Test
+    @DisplayName("Inserimento nuovi generi ad un lettore "
+            + "con lettore non null e generi null")
+    public void generiLetterariLettore2() throws Exception {
+        Lettore test = new Lettore();
+
+        this.mockMvc.perform(post("/preferenze-di-lettura/generi")
+                .sessionAttr("loggedUser", test))
+                .andExpect(view().name("preferenze-lettura/modifica-generi"));
     }
 
     /**
@@ -159,7 +192,7 @@ public class PreferenzeDiLetturaControllerTest {
     @Test
     @DisplayName("Modifica di generi di un lettore")
     public void modificaGeneriLettore() throws Exception {
-        Esperto test = new Esperto();
+        Lettore test = new Lettore();
         String[] gen = {"Fantasy"};
 
         when(preferenzeDiLetturaService.getGeneriByName(gen))
