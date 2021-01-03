@@ -151,7 +151,7 @@ public class AreaUtenteControllerTest {
                 .param("citta", lettore.getCitta())
                 .param("via", lettore.getVia())
                 .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("area-utente/modifica_dati_lettore"));
+                .andExpect(view().name("area-utente/modifica-dati-lettore"));
     }
 
     /**
@@ -270,7 +270,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("area-utente/modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica-dati-esperto"));
     }
 
     /**
@@ -317,7 +317,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("area-utente/modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica-dati-esperto"));
     }
 
     /**
@@ -361,7 +361,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("area-utente/modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica-dati-esperto"));
     }
 
     /**
@@ -406,7 +406,7 @@ public class AreaUtenteControllerTest {
                 .param("recapito_telefonico", esperto.getRecapitoTelefonico())
                 .param("email_biblioteca", emailBiblioteca)
                 .param("genere", " "))
-                .andExpect(view().name("area-utente/modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica-dati-esperto"));
     }
 
 
@@ -464,7 +464,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", esperto))
-                .andExpect(view().name("area-utente/modifica_dati_esperto"));
+                .andExpect(view().name("area-utente/modifica-dati-esperto"));
 
 
     }
@@ -484,7 +484,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", lettore))
-                .andExpect(view().name("area-utente/modifica_dati_lettore"));
+                .andExpect(view().name("area-utente/modifica-dati-lettore"));
     }
 
     /**
@@ -504,7 +504,7 @@ public class AreaUtenteControllerTest {
 
         this.mockMvc.perform(get("/modifica-dati")
                 .sessionAttr("loggedUser", biblioteca))
-                .andExpect(view().name("area-utente/modifica_dati_biblioteca"));
+                .andExpect(view().name("area-utente/modifica-dati-biblioteca"));
     }
 
     /**
@@ -542,5 +542,63 @@ public class AreaUtenteControllerTest {
         );
     }
 
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Biblioteca.
+     * @param biblioteca la biblioteca in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaBiblioteca")
+    @DisplayName("Visualizza Area Utente Biblioteca")
+    public void visualizzaAreaUtenteBiblioteca(final Biblioteca biblioteca)
+            throws Exception {
 
+        when(autenticazioneService.isBiblioteca(biblioteca))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/area-utente")
+                .sessionAttr("loggedUser", biblioteca))
+                .andExpect(view().name("area-utente/visualizza-biblioteca"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Esperto.
+     * @param esperto l'esperto in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaEsperto")
+    @DisplayName("Visualizza Area Utente Esperto")
+    public void visualizzaAreaUtenteEsperto(final Esperto esperto)
+            throws Exception {
+
+        when(autenticazioneService.isEsperto(esperto))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/area-utente")
+                .sessionAttr("loggedUser", esperto))
+                .andExpect(view().name("area-utente/visualizza-esperto"));
+    }
+
+    /**
+     * Metodo che testa la funzionalità di scegliere
+     * di visualizzare l'area utente Lettore.
+     * @param lettore Il lettore in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaLettore")
+    @DisplayName("Visualizza Area Utente Lettore")
+    public void visualizzaAreaUtenteLettore(final Lettore lettore)
+            throws Exception {
+
+        when(autenticazioneService.isLettore(lettore))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/area-utente")
+                .sessionAttr("loggedUser", lettore))
+                .andExpect(view().name("area-utente/visualizza-lettore"));
+    }
 }

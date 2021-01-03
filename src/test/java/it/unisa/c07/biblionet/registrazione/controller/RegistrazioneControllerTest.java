@@ -276,7 +276,8 @@ public final class RegistrazioneControllerTest {
                 .param("via", biblioteca.getVia())
                 .param("recapito_telefonico",
                         biblioteca.getRecapitoTelefonico()))
-                .andExpect(view().name("registrazione/registrazione_biblioteca"));
+                .andExpect(view()
+                        .name("registrazione/registrazione_biblioteca"));
     }
 
 

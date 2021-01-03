@@ -53,17 +53,17 @@ public class AreaUtenteController {
             if (autenticazioneService.isBiblioteca(utente)) {
                 Biblioteca biblioteca = (Biblioteca) utente;
                 model.addAttribute("biblioteca", biblioteca);
-                return "area-utente/modifica_dati_biblioteca";
+                return "area-utente/modifica-dati-biblioteca";
 
             } else if (autenticazioneService.isEsperto(utente)) {
                 Esperto esperto = (Esperto) utente;
                 model.addAttribute("esperto", esperto);
-                return "area-utente/modifica_dati_esperto";
+                return "area-utente/modifica-dati-esperto";
 
             } else if (autenticazioneService.isLettore(utente)) {
                 Lettore lettore = (Lettore) utente;
                 model.addAttribute("lettore", lettore);
-                return "area-utente/modifica_dati_lettore";
+                return "area-utente/modifica-dati-lettore";
 
             }
         }
@@ -108,7 +108,7 @@ public class AreaUtenteController {
                 ) {
                     biblioteca.setPassword(nuova);
                 } else {
-                    return "area-utente/modifica_dati_biblioteca";
+                    return "modifica-dati-biblioteca";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -159,7 +159,7 @@ public class AreaUtenteController {
             esperto.setBiblioteca(b);
         } else {
             esperto.setBiblioteca(toUpdate.getBiblioteca());
-            return "area-utente/modifica_dati_esperto";
+            return "area-utente/modifica-dati-esperto";
         }
 
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
@@ -175,7 +175,7 @@ public class AreaUtenteController {
                     esperto.setPassword(nuova);
                 } else {
                     System.out.println("password sbagliata");
-                    return "area-utente/modifica_dati_esperto";
+                    return "area-utente/modifica-dati-esperto";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -227,7 +227,7 @@ public class AreaUtenteController {
                 ) {
                     lettore.setPassword(nuova);
                 } else {
-                    return "area-utente/modifica_dati_lettore";
+                    return "area-utente/modifica-dati-lettore";
                 }
 
             } catch (NoSuchAlgorithmException e) {
@@ -243,6 +243,37 @@ public class AreaUtenteController {
         return "autenticazione/login";
     }
 
+    /**
+     * Implementa la funzionalitá di visualizzazione area utente
+     * in base al tipo.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione area utente
+     */
+    @RequestMapping(value = "/area-utente", method = RequestMethod.GET)
+    public String areaUtente(final Model model) {
+        UtenteRegistrato utente = (UtenteRegistrato)
+                model.getAttribute("loggedUser");
 
+        if (utente != null) {
+            if (autenticazioneService.isBiblioteca(utente)) {
+                Biblioteca biblioteca = (Biblioteca) utente;
+                model.addAttribute("biblioteca", biblioteca);
+                return "area-utente/visualizza-biblioteca";
+
+            } else if (autenticazioneService.isEsperto(utente)) {
+                Esperto esperto = (Esperto) utente;
+                model.addAttribute("esperto", esperto);
+                return "area-utente/visualizza-esperto";
+
+            } else if (autenticazioneService.isLettore(utente)) {
+                Lettore lettore = (Lettore) utente;
+                model.addAttribute("lettore", lettore);
+                return "area-utente/visualizza-lettore";
+
+            }
+        }
+        return "autenticazione/login";
+    }
 
 }

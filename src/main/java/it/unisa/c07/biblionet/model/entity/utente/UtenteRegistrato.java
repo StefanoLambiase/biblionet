@@ -5,13 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.Column;
 import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
-import javax.persistence.Inheritance;
-import javax.persistence.Id;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -67,6 +66,7 @@ public class UtenteRegistrato {
     @Column(nullable = false, length = Length.LENGTH_10)
     @NonNull
     private String recapitoTelefonico;
+
 
     /**
      * Rappresenta il tipo di utente.

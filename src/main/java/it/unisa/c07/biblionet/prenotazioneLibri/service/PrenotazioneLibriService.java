@@ -43,6 +43,15 @@ public interface PrenotazioneLibriService {
 
     /**
      * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili di un dato genere.
+     * @param genere Il nome del genere
+     * @return La lista di libri
+     */
+    List<Libro> visualizzaListaLibriPerGenere(String genere);
+
+    /**
+     * Implementa la funzionalità che permette
      * di richiedere un prestito per un libro
      * da una biblioteca.
      * @param lettore Il lettore che lo richiede
@@ -103,5 +112,23 @@ public interface PrenotazioneLibriService {
      * @return Il ticket aggiornato
      */
     TicketPrestito rifiutaRichiesta(TicketPrestito ticket);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di chiudere un ticket di prenotazione di un libro
+     * quando questo viene riconsegnato.
+     * @param ticket il ticket che rappresenta la richiesta da chiudere
+     * @return Il ticket aggiornato a chiuso
+     */
+    TicketPrestito chiudiTicket(TicketPrestito ticket);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista di ticket aperti da un Lettore.
+     * @param lettore il Lettore di cui recuperare i ticket
+     * @return la lista dei ticket
+     */
+    List<TicketPrestito> getTicketsLettore(Lettore lettore);
+
 
 }

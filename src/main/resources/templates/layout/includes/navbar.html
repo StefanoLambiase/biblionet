@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg justify-content-between " id="navbar-principale" layout:fragment="navbar">
-    
+
     <div layout:fragment="navbar-left">
         <div class="navbar-brand">
             <a th:href="@{/}"> BiblioNet </a>
@@ -8,16 +8,23 @@
 
     <div class="mx-auto">
         <div layout:fragment="navbar-center">
-            
+
         </div>
     </div>
-  
+
 
     <div class="d-flex ml-auto">
         <div layout:fragment="navbar-right">
 
-            <div th:if="${session.loggedUser != null && session.loggedUser.email != null}">
-                <button class="btn btn-main" type="submit">Area Utente</button>
+
+            <div class="dropdown" th:if="${session.loggedUser != null && session.loggedUser.email != null}">
+                <button class="btn btn-main dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Area Utente
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" type="submit" th:href="@{/area-utente}">Area Utente</a></li>
+                    <li><a class="dropdown-item" href="/autenticazione/logout">Logout</a></li>
+                </ul>
             </div>
 
             <div th:unless="${session.loggedUser != null && session.loggedUser.email != null}">

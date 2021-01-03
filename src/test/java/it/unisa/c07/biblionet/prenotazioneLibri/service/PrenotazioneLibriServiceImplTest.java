@@ -1,9 +1,11 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
@@ -47,6 +49,13 @@ public class PrenotazioneLibriServiceImplTest {
      */
     @Mock
     private LibroDAO libroDAO;
+
+    /**
+     * Mocking del dao per simulare le
+     * CRUD su genere.
+     */
+    @Mock
+    private GenereDAO genereDAO;
 
     /**
      * Mocking del dao per simulare le
@@ -102,7 +111,8 @@ public class PrenotazioneLibriServiceImplTest {
      */
     @Test
     public void visualizzaListaLibriPerBiblioteca() {
-        when(bibliotecaDAO.findByNome("nome")).thenReturn(new Biblioteca());
+        when(bibliotecaDAO.findByNome("nome")).thenReturn(
+                new ArrayList<Biblioteca>());
         List<Possesso> listPos = new ArrayList<>();
         when(possessoDAO.findByBibliotecaID("a")).thenReturn(listPos);
         List<Libro> libri = new ArrayList<>();
@@ -112,6 +122,19 @@ public class PrenotazioneLibriServiceImplTest {
         }
         assertEquals(libri,
                 prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
+    }
+
+    /**
+     * Implementa il test della funzionalità di
+     * selezione di tutti i libri prenotabili di
+     * una determinato genere.
+     */
+    @Test
+    public void visualizzaListaLibriPerGenere() {
+        when(libroDAO.findAll()).thenReturn(new ArrayList<Libro>());
+        when(genereDAO.findByName("a")).thenReturn(new Genere());
+        assertEquals(new ArrayList<Libro>(),
+                prenotazioneService.visualizzaListaLibriPerGenere("a"));
     }
 
    /**
@@ -202,7 +225,7 @@ public class PrenotazioneLibriServiceImplTest {
         ticket.setLibro(new Libro());
         Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
-        when(possessoDAO.getOne(new PossessoId("a",1)))
+        when(possessoDAO.getOne(new PossessoId("a", 1)))
                                         .thenReturn(pos);
         assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
     }
@@ -216,6 +239,35 @@ public class PrenotazioneLibriServiceImplTest {
         TicketPrestito ticket = new TicketPrestito();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         assertEquals(ticket, prenotazioneService.rifiutaRichiesta(ticket));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di chiudere un ticket quando il libro viene
+     * restituito.
+     */
+    @Test
+    public void chiudiTicket() {
+        TicketPrestito ticket = new TicketPrestito();
+        ticket.setBiblioteca(new Biblioteca());
+        ticket.setLibro(new Libro());
+        Possesso pos = new Possesso();
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        when(possessoDAO.getOne(new PossessoId("a", 1)))
+                .thenReturn(pos);
+        assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere la lista di ticket aperti da un Lettore.
+     */
+    @Test
+    public void getTicketsLettore() {
+        List<TicketPrestito> list = new ArrayList<>();
+        when(ticketPrestitoDAO.findAllByLettoreEmail("a")).thenReturn(list);
+        assertEquals(list,
+                prenotazioneService.getTicketsLettore(new Lettore()));
     }
 
 }

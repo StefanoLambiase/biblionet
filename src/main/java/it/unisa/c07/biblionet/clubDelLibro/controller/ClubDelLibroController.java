@@ -79,13 +79,13 @@ public class ClubDelLibroController {
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(final @RequestParam(value = "nome")
-                  String nome,
-                  final @RequestParam(value = "descrizione")
-                  String descrizione,
-                  final @RequestParam(value = "generi", required = false)
-                  String[] generi,
-                  final @RequestParam(value = "copertina", required = false)
-                  MultipartFile copertina) {
+                                           String nome,
+                                   final @RequestParam(value = "descrizione")
+                                           String descrizione,
+                                   final @RequestParam(value = "generi", required = false)
+                                           String[] generi,
+                                   final @RequestParam(value = "copertina", required = false)
+                                           MultipartFile copertina) {
         //Sarà modificato quando ci sarà la sessione.
         Esperto esperto = new Esperto(
                 "eliaviviani@gmail.com",
@@ -154,18 +154,18 @@ public class ClubDelLibroController {
      * @return La view che visualizza i Club del Libro
      */
     @RequestMapping(value = "/modifica-dati",
-                    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     public String modificaDatiClub(final @RequestParam(value = "idClub")
-                        String idClub,
-                        final @RequestParam(value = "nome")
-                        String nome,
-                        final @RequestParam(value = "descrizione")
-                        String descrizione,
-                        final @RequestParam(value = "generi", required = false)
-                        String[] generi,
-                        final @RequestParam(value = "copertina",
-                                required = false)
-                        MultipartFile copertina) {
+                                           String idClub,
+                                   final @RequestParam(value = "nome")
+                                           String nome,
+                                   final @RequestParam(value = "descrizione")
+                                           String descrizione,
+                                   final @RequestParam(value = "generi", required = false)
+                                           String[] generi,
+                                   final @RequestParam(value = "copertina",
+                                           required = false)
+                                           MultipartFile copertina) {
 
         ClubDelLibro clubPers = this.clubService
                 .getClubByID(Integer.parseInt(idClub));
@@ -211,8 +211,8 @@ public class ClubDelLibroController {
                 "Ciccione"
         );
         this.clubService.partecipaClub(
-                            this.clubService.getClubByID(id),
-                            lettore);
+                this.clubService.getClubByID(id),
+                lettore);
         return "redirect:/club-del-libro/";
     }
 
@@ -229,8 +229,8 @@ public class ClubDelLibroController {
 
         if (club == null) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Club del Libro Inesistente"
+                    HttpStatus.BAD_REQUEST,
+                    "Club del Libro Inesistente"
             );
         }
 
@@ -240,8 +240,8 @@ public class ClubDelLibroController {
 
         if (!ValidazioneEvento.isNomeValido(eventoForm.getNome())) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Lunghezza del nome non valida."
+                    HttpStatus.BAD_REQUEST,
+                    "Lunghezza del nome non valida."
             );
         }
 
@@ -249,8 +249,8 @@ public class ClubDelLibroController {
 
         if (!ValidazioneEvento.isDescrizioneValida(eventoForm.getDescrizione())) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Lunghezza della descrizione non valida."
+                    HttpStatus.BAD_REQUEST,
+                    "Lunghezza della descrizione non valida."
             );
         }
 
@@ -260,8 +260,8 @@ public class ClubDelLibroController {
 
         if (dataOra.isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Lunghezza della descrizione non valida."
+                    HttpStatus.BAD_REQUEST,
+                    "Ora inserita non valida."
             );
         }
 
@@ -271,8 +271,8 @@ public class ClubDelLibroController {
             var libro = this.eventiService.getLibroById(eventoForm.getLibro());
             if (libro.isEmpty()) {
                 throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Il libro inserito non è valido."
+                        HttpStatus.BAD_REQUEST,
+                        "Il libro inserito non è valido."
                 );
             }
             evento.setLibro(libro.get());
@@ -287,7 +287,6 @@ public class ClubDelLibroController {
      * Implementa la funzionalità che permette
      * la creazione da parte di un Esperto
      * di un Evento.
-     * @param clubDelLibro L'id del ClubDelLibro a cui è collegato l'Evento
      * @return La view che visualizza il form di creazione Evento
      */
     @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.GET)
@@ -298,8 +297,8 @@ public class ClubDelLibroController {
 
         if (club == null) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Club del Libro Inesistente"
+                    HttpStatus.NOT_FOUND,
+                    "Club del Libro Inesistente"
             );
         }
 
@@ -309,7 +308,7 @@ public class ClubDelLibroController {
         return "club-del-libro/aggiungi-evento";
     }
 
-    /** 
+    /**
      * Implementa la funzionalità che permette di gestire
      * la visualizzazione dei dati di un Club del Libro.
      * @param id l'ID del Club di cui visualizzare i dati
@@ -317,18 +316,19 @@ public class ClubDelLibroController {
      * @return La view che visualizza i dati
      */
     @RequestMapping(value = "/visualizza-dati-club/{id}",
-                                method = RequestMethod.GET)
+            method = RequestMethod.GET)
     public String visualizzaDatiClub(final @PathVariable int id,
                                      final Model model) {
         model.addAttribute("club", clubService.getClubByID(id));
-        return "club-del-libro/visualizza-iscritti";
+        return "club-del-libro/visualizza-singolo-club";
     }
 
     /**
      * Implementa la funzionalità che permette di eliminare
      * un evento.
-     * @param id
-     * @return La view con l'evento eliminato
+     * @param club L'identificativo del Club dell'evento
+     * @param id L'identificativo dell'evento da eliminare
+     * @return La view della lista degli eventi
      */
     @RequestMapping(value = "/{club}/eventi/{id}", method = RequestMethod.DELETE)
     public String eliminaEvento(final @PathVariable int club,
@@ -337,12 +337,27 @@ public class ClubDelLibroController {
 
         if (eventoEliminato.isEmpty()) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Evento Inesistente"
+                    HttpStatus.NOT_FOUND,
+                    "Evento Inesistente"
             );
         }
 
         return "redirect:/club-del-libro/" + club + "/eventi";
     }
 
+    @RequestMapping(value = "/visualizza-iscritti/{id}",
+            method = RequestMethod.GET)
+    public String visualizzaIscrittiClub(final @PathVariable int id,
+                                         final Model model) {
+        model.addAttribute("club", clubService.getClubByID(id));
+        return "club-del-libro/visualizza-iscritti";
+    }
+
+    @RequestMapping(value = "/{id}/eventi",
+            method = RequestMethod.GET)
+    public String visualizzaListaEventiClub(final @PathVariable int id,
+                                            final Model model) {
+        model.addAttribute("club", clubService.getClubByID(id));
+        return "club-del-libro/visualizza-eventi";
+    }
 }
