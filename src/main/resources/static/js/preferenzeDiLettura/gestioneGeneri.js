@@ -40,13 +40,14 @@ function generi(){
    let inner;
 
    //Se non sono stati inseriti generi, inserisco un placeholder
-   if(col.length===1){
+   if(col.length===0){
       inner+='<input type="hidden" name="genere">'
    }
 
-   for(let i=1;i<col.length;i++){
+   for(let i=0;i<col.length;i++){
       inner+='<input type="hidden" name="genere" value="'+col[i].className+'">'
    }
+
 
    table.innerHTML+=inner
 
