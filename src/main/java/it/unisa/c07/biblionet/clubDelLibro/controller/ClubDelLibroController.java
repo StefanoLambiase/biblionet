@@ -221,7 +221,7 @@ public class ClubDelLibroController {
      * di gestire la chiamata POST
      * per creare un evento un club del libro.
      */
-    // TODO: Gestione efficace degli errori
+    // Gestione efficace degli errori
     @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.POST)
     public String creaEvento(final @PathVariable int id,
                              final @ModelAttribute EventoForm eventoForm) {

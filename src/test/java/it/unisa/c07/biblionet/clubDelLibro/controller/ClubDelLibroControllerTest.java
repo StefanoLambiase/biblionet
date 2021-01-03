@@ -7,17 +7,10 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
-
-import it.unisa.c07.biblionet.model.form.EventoForm;
-import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
-import org.hibernate.cfg.Environment;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,23 +18,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
-import static org.junit.jupiter.api.extension.ParameterResolver.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Implementa il testing di unità per la classe
@@ -341,13 +331,13 @@ public class ClubDelLibroControllerTest {
     /* Non possibile il mocking poiche il metodo è statico */
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
-    public void creaEventoSecondExcpetion(final ClubDelLibro club) throws Exception{
+    public void creaEventoSecondExcpetion(final ClubDelLibro club) throws Exception {
             when(clubService.getClubByID(1)).thenReturn(club);
 
             this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
-                     .param("nome","Discussione sopra i due massimi sistemi")
+                     .param("nome", "Discussione sopra i due massimi sistemi")
                 .param("descrizione", "TestDescrizione")
-                    .param("data","2024-11-11")
+                    .param("data", "2024-11-11")
                        .param("ora", "12:24")
                         .param("libro", "2"))
                         .andExpect(status().isBadRequest())
@@ -367,18 +357,18 @@ public class ClubDelLibroControllerTest {
      */
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
-    public void creaEventoThridException(final ClubDelLibro club) throws Exception{
+    public void creaEventoThridException(final ClubDelLibro club) throws Exception {
                 when(clubService.getClubByID(1)).thenReturn(club);
 
                 this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
-                .param("nome","TestNome")
-                .param("descrizione","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum")
-                .param("data","2024-08-11")
+                .param("nome", "TestNome")
+                .param("descrizione", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum")
+                .param("data", "2024-08-11")
                 .param("ora", "13:24")
-                .param("libro","3"))
+                .param("libro", "3"))
                 .andExpect(status().isBadRequest())
                  .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
-                 .andExpect(result->
+                 .andExpect(result ->
                          assertEquals("400 BAD_REQUEST \"Lunghezza della descrizione non valida.\"", result.getResolvedException().getMessage()));
     }
 
@@ -391,17 +381,17 @@ public class ClubDelLibroControllerTest {
      */
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
-    public void creaEventoFourthException(final ClubDelLibro club) throws Exception{
+    public void creaEventoFourthException(final ClubDelLibro club) throws Exception {
                     when(clubService.getClubByID(1)).thenReturn(club);
                     this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
-                    .param("nome","TestNome")
-                    .param("descrizione","TestDescrizione")
-                    .param("data","1985-11-10")
-                    .param("ora","14:24")
-                    .param("libro","4"))
+                    .param("nome", "TestNome")
+                    .param("descrizione", "TestDescrizione")
+                    .param("data", "1985-11-10")
+                    .param("ora", "14:24")
+                    .param("libro", "4"))
                             .andExpect(status().isBadRequest())
-                            .andExpect(result-> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
-                            .andExpect(result->
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                            .andExpect(result ->
                                     assertEquals("400 BAD_REQUEST \"Ora inserita non valida.\"", result.getResolvedException().getMessage()));
     }
 
@@ -415,19 +405,19 @@ public class ClubDelLibroControllerTest {
      */
    @ParameterizedTest
    @MethodSource("provideClubDelLibro")
-    public void creaEventoFiveException(final ClubDelLibro club) throws Exception{
+    public void creaEventoFiveException(final ClubDelLibro club) throws Exception {
                 when(clubService.getClubByID(1)).thenReturn(club);
                 when(eventiService.getLibroById(5)).thenReturn(Optional.empty());
                 this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/crea-evento")
-                    .param("nome","TestNome")
-                    .param("descrizione","TestDescrizione")
-                    .param("data","2024-09-11")
-                    .param("ora","15:24")
-                    .param("libro","5"))
+                    .param("nome", "TestNome")
+                    .param("descrizione", "TestDescrizione")
+                    .param("data", "2024-09-11")
+                    .param("ora", "15:24")
+                    .param("libro", "5"))
                         .andExpect(status().isBadRequest())
-                        .andExpect(result-> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                        .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
                         .andExpect(result ->
-                                assertEquals("400 BAD_REQUEST \"Il libro inserito non è valido.\"",result.getResolvedException().getMessage()));
+                                assertEquals("400 BAD_REQUEST \"Il libro inserito non è valido.\"", result.getResolvedException().getMessage()));
 
    }
 
@@ -443,14 +433,14 @@ public class ClubDelLibroControllerTest {
     public void visualizzaCreaEventoFirstException() throws Exception {
         when(clubService.getClubByID(1)).thenReturn(null);
         this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/crea-evento")
-                .param("nome","TestNome")
-                .param("descrizione","TestDescrizione")
+                .param("nome", "TestNome")
+                .param("descrizione", "TestDescrizione")
                 .param("data", "2024-11-04")
-                .param("ora","16:24")
-                .param("libro","1"))
+                .param("ora", "16:24")
+                .param("libro", "1"))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
-                .andExpect(result->
+                .andExpect(result ->
                         assertEquals("404 NOT_FOUND \"Club del Libro Inesistente\"", result.getResolvedException().getMessage()));
 
     }
@@ -467,15 +457,15 @@ public class ClubDelLibroControllerTest {
     public void eliminaEventoFirstException() throws Exception {
         when(eventiService.eliminaEvento(1)).thenReturn(Optional.empty());
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/club-del-libro/1/eventi/1")
-                .param("nome","TestNome")
+                .param("nome", "TestNome")
                 .param("descrizione", "TestDescrizione")
-                .param("data","2024-07-06")
-                .param("ora","17:24")
-                .param("libro","2"))
+                .param("data", "2024-07-06")
+                .param("ora", "17:24")
+                .param("libro", "2"))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
                 .andExpect(result ->
-                        assertEquals("404 NOT_FOUND \"Evento Inesistente\"",result.getResolvedException().getMessage()));
+                        assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
     }
 
