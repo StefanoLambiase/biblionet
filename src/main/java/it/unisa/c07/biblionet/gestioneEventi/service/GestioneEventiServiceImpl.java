@@ -38,7 +38,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
      * @param idEvento L'identificativo dell'evento
      * @return L'Evento trovato
      */
-    public Optional<Evento> getEventoById(int idEvento) {
+    public Optional<Evento> getEventoById(final int idEvento) {
         return eventoDAO.findById(idEvento);
     }
 
