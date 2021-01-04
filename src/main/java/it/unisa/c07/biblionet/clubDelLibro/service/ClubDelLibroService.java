@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Implementa l'interfaccia service
@@ -27,6 +28,15 @@ public interface ClubDelLibroService {
      * @return La lista dei club
      */
     List<ClubDelLibro> visualizzaClubsDelLibro();
+
+
+    /**
+     * Implementa la funzionalità che permette
+     * di filtrare tutti i club del libro.
+     * @param filtro Un predicato che descrive come filtrare i Club
+     * @return La lista dei club
+     */
+    List<ClubDelLibro> visualizzaClubsDelLibro(Predicate<ClubDelLibro> filtro);
 
     /**
      * Implementa la funzionalità che permette
@@ -64,5 +74,13 @@ public interface ClubDelLibroService {
      * @return true se è andato a buon fine, false altrimenti
      */
     Boolean partecipaClub(ClubDelLibro club, Lettore lettore);
+
+    /**
+     * Funzione di utilità che permette di leggere la città
+     * in cui si trova un Club del Libro.
+     * @param club
+     * @return
+     */
+    String getCittaFromClubDelLibro(ClubDelLibro club);
 
 }
