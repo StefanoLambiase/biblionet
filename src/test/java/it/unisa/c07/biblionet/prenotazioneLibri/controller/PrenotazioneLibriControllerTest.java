@@ -1,20 +1,27 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -89,6 +96,20 @@ public class PrenotazioneLibriControllerTest {
                 .andExpect(model().attribute("listaLibri", list))
                 .andExpect(view().name(
                 "prenotazione-libri/visualizza-libri-prenotabili"));
+
+        this.mockMvc.perform(get("/prenotazione-libri/ricerca")
+                .param("filtro", "genere")
+                .param("stringa", "a"))
+                .andExpect(model().attribute("listaLibri", list))
+                .andExpect(view().name(
+                        "prenotazione-libri/visualizza-libri-prenotabili"));
+
+        this.mockMvc.perform(get("/prenotazione-libri/ricerca")
+                .param("filtro", "biblioteca")
+                .param("stringa", "a"))
+                .andExpect(model().attribute("listaLibri", list))
+                .andExpect(view().name(
+                        "prenotazione-libri/visualizza-libri-prenotabili"));
     }
 
     /**
@@ -144,18 +165,16 @@ public class PrenotazioneLibriControllerTest {
      * prenotazione ricevute.
      * @throws Exception Eccezione per MockMvc
      */
-    @Test
-    public void visualizzaRichieste() throws Exception {
-        UtenteRegistrato u = (Biblioteca) new Biblioteca();
+    @ParameterizedTest
+    @MethodSource("provideTicket")
+    public void visualizzaRichieste(TicketPrestito t) throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
-
-        if (true) {
-            Biblioteca b = (Biblioteca) u;
-            when(prenotazioneService.getTicketsByBiblioteca(b))
+        list.add(t);
+        when(prenotazioneService.getTicketsByBiblioteca(t.getBiblioteca()))
                     .thenReturn(list);
-        }
+
         this.mockMvc.perform(get("/prenotazione-libri/visualizza-richieste")
-                            .sessionAttr("loggedUser", u))
+                            .sessionAttr("loggedUser", t.getBiblioteca()))
                             .andExpect(model().
                                     attribute("listaTicketDaAccettare", list))
                             .andExpect(model().
@@ -220,8 +239,9 @@ public class PrenotazioneLibriControllerTest {
      * ottenere la lista di ticket di un lettore.
      * @throws Exception Eccezione per MockMvc
      */
-    @Test
-    public void  visualizzaPrenotazioniLettore() throws Exception {
+    @ParameterizedTest
+    @MethodSource("provideTicket")
+    public void  visualizzaPrenotazioniLettore(TicketPrestito t) throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         UtenteRegistrato u = (Lettore) new Lettore();
         if (true) {
@@ -243,5 +263,118 @@ public class PrenotazioneLibriControllerTest {
                         attribute("listaTicketRifiutati", list))
                 .andExpect(view().name(
                         "prenotazione-libri/visualizza-richieste-lettore"));
+    }
+
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     * @return Lo stream di dati.
+     */
+    private static Stream<Arguments> provideTicket() {
+        return Stream.of(
+                Arguments.of(new TicketPrestito(
+                        TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
+                        LocalDateTime.now(),
+                        new Libro(
+                                "BiblioNet",
+                                "Stefano Lambiase",
+                                "1234567890123",
+                                LocalDateTime.now(),
+                                "Biblioteche 2.0",
+                                "Mondadori"
+
+                        ),
+                        new Biblioteca(
+                                "b4@gmail.com",
+                                "aaaaa",
+                                "Napoli",
+                                "Scampia",
+                                "Via Portici 47",
+                                "3341278415",
+                                "Naboli"
+                        ),
+                        new Lettore(
+                                "giuliociccione@gmail.com",
+                                "LettorePassword",
+                                "Salerno",
+                                "Baronissi",
+                                "Via Barone 11",
+                                "3456789012",
+                                "SuperLettore",
+                                "Giulio",
+                                "Ciccione"
+                        )
+                    )
+                ),
+                Arguments.of(new TicketPrestito(
+                                TicketPrestito.Stati.CHIUSO,
+                                LocalDateTime.now(),
+                                new Libro(
+                                        "BiblioNet",
+                                        "Stefano Lambiase",
+                                        "1234567890123",
+                                        LocalDateTime.now(),
+                                        "Biblioteche 2.0",
+                                        "Mondadori"
+
+                                ),
+                                new Biblioteca(
+                                        "b4@gmail.com",
+                                        "aaaaa",
+                                        "Napoli",
+                                        "Scampia",
+                                        "Via Portici 47",
+                                        "3341278415",
+                                        "Naboli"
+                                ),
+                                new Lettore(
+                                        "giuliociccione@gmail.com",
+                                        "LettorePassword",
+                                        "Salerno",
+                                        "Baronissi",
+                                        "Via Barone 11",
+                                        "3456789012",
+                                        "SuperLettore",
+                                        "Giulio",
+                                        "Ciccione"
+                                )
+                        )
+                ),
+                Arguments.of(new TicketPrestito(
+                                TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE,
+                                LocalDateTime.now(),
+                                new Libro(
+                                        "BiblioNet",
+                                        "Stefano Lambiase",
+                                        "1234567890123",
+                                        LocalDateTime.now(),
+                                        "Biblioteche 2.0",
+                                        "Mondadori"
+
+                                ),
+                                new Biblioteca(
+                                        "b4@gmail.com",
+                                        "aaaaa",
+                                        "Napoli",
+                                        "Scampia",
+                                        "Via Portici 47",
+                                        "3341278415",
+                                        "Naboli"
+                                ),
+                                new Lettore(
+                                        "giuliociccione@gmail.com",
+                                        "LettorePassword",
+                                        "Salerno",
+                                        "Baronissi",
+                                        "Via Barone 11",
+                                        "3456789012",
+                                        "SuperLettore",
+                                        "Giulio",
+                                        "Ciccione"
+                                )
+                        )
+                )
+        );
     }
 }
