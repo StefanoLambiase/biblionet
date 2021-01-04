@@ -1,14 +1,56 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org/%22%3E">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
 <body>
-    <p th:text = "${session.loggedUser}"></p>
-    <a href="/autenticazione/logout">Logout</a>
-    <a href="/autenticazione/">Login</a>
-    <a href="/registrazione/modifica-dati">Modifica i dati inseriti</a>
-    <a href="/preferenze-di-lettura/generi">Aggiorna i tuoi generi preferiti</a>
+<div layout:fragment="contenuto-pagina">
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <a href="/club-del-libro/"><img
+                        th:src="@{~/image/registrazione/Lettore.jpeg}"></a>
+
+                <p>Clicca sull'immagine per registrati come lettore.
+                    Potrai prenotare libri, iscriverti a club e
+                    prendere parte ad eventi.</p>
+            </div>
+
+            <div class="col">
+                <a href="/visualizza-biblioteche/"><img
+                        th:src="@{~/image/registrazione/Esperto.jpg}">
+                </a>
+
+                <p>Clicca sull'immagine per registrati come esperto.
+                    Potrai organizzare eventi nella biblioteca dove lavori
+                    e creare club.</p>
+            </div>
+
+            <div class="col">
+                <a href="/visualizza-esperti/"><img
+                        th:src="@{~/image/registrazione/Biblioteca.jpg}">
+                </a>
+
+                <p>Clicca sull'immagine per registrarti come biblioteca.
+                    Potrai far prenotare i tuoi libri, ospitare club del libro e
+                    tanto altro ancora...</p>
+            </div>
+            <div class="col">
+                <a href="/prenotazione-libri/"><img
+                        th:src="@{~/image/registrazione/Biblioteca.jpg}">
+                </a>
+
+                <p>Clicca sull'immagine per registrarti come biblioteca.
+                    Potrai far prenotare i tuoi libri, ospitare club del libro e
+                    tanto altro ancora...</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 </body>
 </html>
