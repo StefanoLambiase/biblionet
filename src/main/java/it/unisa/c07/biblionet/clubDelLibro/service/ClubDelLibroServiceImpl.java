@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Implementa la classe che esplicita i metodi
@@ -57,8 +59,25 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public List<ClubDelLibro> visualizzaClubsDelLibro() {
-        return clubDAO.findAll();
+        return this.visualizzaClubsDelLibro(x -> true);
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di filtrare tutti i club del libro.
+     * @param filtro Un predicato che descrive come filtrare i Club
+     * @return La lista dei club
+     */
+    public List<ClubDelLibro> visualizzaClubsDelLibro(final Predicate<ClubDelLibro> filtro) {
+
+        var clubs = this.clubDAO.findAll();
+
+        return clubs.stream().filter(
+            filtro
+        ).collect(Collectors.toList());
+
+    };
+
 
     /**
      * Implementa la funzionalità che permette
@@ -120,5 +139,15 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
         lettore.setClubs(listaClubs);
         lettoreDAO.save(lettore);
         return true;
+    }
+
+    /**
+     * Funzione di utilità che permette di leggere la città
+     * in cui si trova un Club del Libro.
+     * @param club
+     * @return
+     */
+    public String getCittaFromClubDelLibro(final ClubDelLibro club) {
+        return club.getEsperto().getBiblioteca().getCitta();
     }
 }
