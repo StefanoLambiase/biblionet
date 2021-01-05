@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -281,9 +282,11 @@ public class ClubDelLibroControllerTest {
     public void visualizzaListaClubsFilterGenre(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
+        List<String> generi= new ArrayList<>();
         when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        when(clubService.getGeneri(generi)).thenReturn(club.getGeneri());
         this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
-       .param("generi", String.valueOf(club.getGeneri()))
+       .param("generi", String.valueOf(generi))
         .param("città", "")
         .param("ordine", ""))
                 .andExpect(model().attributeExists("listaClubs"))
@@ -313,6 +316,33 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attributeExists("listaClubs"))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
     }
+
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di tutti i club
+     *  presenti, simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaListaClubsFilterSort(final ClubDelLibro club) throws  Exception {
+        List<ClubDelLibro> list = new ArrayList<>();
+        List<String> città = new ArrayList<>();
+        città.add("Scampia");
+        list.add(club);
+        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+                .param("generi", String.valueOf(club.getGeneri()))
+                .param("città", String.valueOf(città))
+                .param("ordine", "alfabetico"))
+                .andExpect(model().attributeExists("listaClubs"))
+                .andExpect(model().attribute("ordinamento","alfabetico"))
+                .andExpect(view().name("club-del-libro/visualizza-clubs"));
+    }
+
 
 
     /**
