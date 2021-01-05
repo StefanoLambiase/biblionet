@@ -282,7 +282,6 @@ public class ClubDelLibroControllerTest {
     public void visualizzaListaClubsFilterGenre(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
-        System.out.println(list.toString());
         when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
         this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
        .param("generi", String.valueOf(club.getGeneri()))
