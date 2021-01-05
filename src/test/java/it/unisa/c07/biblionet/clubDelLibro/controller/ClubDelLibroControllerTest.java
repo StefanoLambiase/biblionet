@@ -272,7 +272,7 @@ public class ClubDelLibroControllerTest {
     /**
      * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione di tutti i club
-     *  presenti, simulando la richiesta http.
+     *  presenti,filtrati per genere, simulando la richiesta http.
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
@@ -290,6 +290,31 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attributeExists("listaClubs"))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
     }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di tutti i club
+     *  presenti, filtrati per città, simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaListaClubsFilterCity(final ClubDelLibro club) throws  Exception {
+        List<ClubDelLibro> list = new ArrayList<>();
+        List<String> città= new ArrayList<>();
+        città.add("Scampia");
+        list.add(club);
+        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+                .param("generi", "")
+                .param("città", String.valueOf(città))
+                .param("ordine", ""))
+                .andExpect(model().attributeExists("listaClubs"))
+                .andExpect(view().name("club-del-libro/visualizza-clubs"));
+    }
+
 
     /**
      * Simula i dati inviati da un metodo
