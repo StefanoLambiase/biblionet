@@ -252,8 +252,6 @@ public class PrenotazioneLibriController {
             model.addAttribute("listaTicketAccettati", list2);
             model.addAttribute("listaTicketChiusi", list3);
             model.addAttribute("listaTicketRifiutati", list4);
-
-            model.addAttribute("listaTicket", listaTicket);
         }
         return "prenotazione-libri/visualizza-richieste-lettore";
     }
