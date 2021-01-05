@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -59,11 +61,58 @@ public class ClubDelLibroController {
      * di visualizzare i Club del Libro
      * presenti nel Database.
      * @param model L'oggetto model usato per inserire gli attributi
+     * @param generi Un Optional che contiene una lista di generi per cui
+     *               filtrare
+     * @param citta Un Optional che contiene una lista di possibili città
      * @return La pagina di visualizzazione
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String visualizzaListaClubs(final Model model) {
-        model.addAttribute("listaClubs", clubService.visualizzaClubsDelLibro());
+    @RequestMapping(value = "/visualizza-clubs", method = RequestMethod.GET)
+    public String visualizzaListaClubs(@RequestParam(value = "generi")
+                                                final Optional<List<String>>
+                                                generi,
+                                       @RequestParam(value = "citta")
+                                                final Optional<List<String>>
+                                                citta,
+                                       @RequestParam(value = "ordine")
+                                                final Optional<String>
+                                                ordine,
+                                       final Model model) {
+        Predicate<ClubDelLibro> filtroGenere = x -> true;
+
+        // Molto più pulito della concatenazione con gli stream
+        if (generi.isPresent()) {
+                filtroGenere = x -> false;
+
+                var generiDaDB = clubService.getGeneri(generi.get());
+
+                for (Genere genere: generiDaDB) {
+                        filtroGenere = filtroGenere.or(
+                                c -> c.getGeneri().contains(genere)
+                        );
+                }
+        }
+
+        Predicate<ClubDelLibro> filtroCitta = x -> true;
+
+        if (citta.isPresent()) {
+                filtroCitta = x -> false;
+                for (String cittaSingola: citta.get()) {
+                        filtroCitta = filtroCitta.or(
+                                c -> clubService.getCittaFromClubDelLibro(c)
+                                                .equals(cittaSingola)
+                        );
+                }
+        }
+
+        List<ClubDelLibro> listaClubs = clubService.visualizzaClubsDelLibro(
+                filtroCitta.and(filtroGenere)
+        );
+
+        model.addAttribute("listaClubs", listaClubs);
+        if (ordine.isPresent()) {
+                model.addAttribute("ordinamento", ordine.get());
+        }
+
         return "club-del-libro/visualizza-clubs";
     }
 
