@@ -28,7 +28,7 @@
             </div>
 
             <div th:unless="${session.loggedUser != null && session.loggedUser.email != null}">
-                <a class="btn btn-main" type="submit" th:href="@{/registrazione}">Registrati</a>
+                <a class="btn btn-main" type="submit" th:href="@{/registrazione/}">Registrati</a>
                 <a class="btn btn-main" type="submit" th:href="@{/autenticazione}">Accedi</a>
             </div>
 
