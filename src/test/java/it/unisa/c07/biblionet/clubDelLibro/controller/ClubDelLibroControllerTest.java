@@ -4,7 +4,6 @@ import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Evento;
-import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
@@ -303,7 +302,7 @@ public class ClubDelLibroControllerTest {
     @MethodSource("provideClubDelLibro")
     public void visualizzaListaClubsFilterCity(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
-        List<String> città= new ArrayList<>();
+        List<String> città = new ArrayList<>();
         città.add("Scampia");
         list.add(club);
         when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
