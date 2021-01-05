@@ -282,7 +282,7 @@ public class ClubDelLibroControllerTest {
     public void visualizzaListaClubsFilterGenre(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
-        List<String> generi= new ArrayList<>();
+        List<String> generi = new ArrayList<>();
         when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
         when(clubService.getGeneri(generi)).thenReturn(club.getGeneri());
         this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
@@ -339,7 +339,7 @@ public class ClubDelLibroControllerTest {
                 .param("città", String.valueOf(città))
                 .param("ordine", "alfabetico"))
                 .andExpect(model().attributeExists("listaClubs"))
-                .andExpect(model().attribute("ordinamento","alfabetico"))
+                .andExpect(model().attribute("ordinamento", "alfabetico"))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
     }
 
