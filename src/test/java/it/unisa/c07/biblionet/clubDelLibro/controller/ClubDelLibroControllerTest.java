@@ -272,7 +272,7 @@ public class ClubDelLibroControllerTest {
     /**
      * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione di tutti i club
-     *  presenti,filtrati per genere, simulando la richiesta http.
+     *  presenti, simulando la richiesta http.
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
@@ -294,7 +294,7 @@ public class ClubDelLibroControllerTest {
     /**
      * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione di tutti i club
-     *  presenti, filtrati per città, simulando la richiesta http.
+     *  presenti, simulando la richiesta http.
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
