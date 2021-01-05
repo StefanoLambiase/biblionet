@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
 import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Evento;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
@@ -267,6 +268,30 @@ public class ClubDelLibroControllerTest {
                 .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
     }
 
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di tutti i club
+     *  presenti, simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaListaClubsFilterGenre(final ClubDelLibro club) throws  Exception {
+        List<ClubDelLibro> list = new ArrayList<>();
+        list.add(club);
+        System.out.println(list.toString());
+        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+       .param("generi", String.valueOf(club.getGeneri()))
+        .param("città", "")
+        .param("ordine", ""))
+                .andExpect(model().attributeExists("listaClubs"))
+                .andExpect(view().name("club-del-libro/visualizza-clubs"));
+    }
+
     /**
      * Simula i dati inviati da un metodo
      * http attraverso uno stream.
@@ -294,6 +319,7 @@ public class ClubDelLibroControllerTest {
                                         "Vieni che non ti faccio niente"))))
         );
     }
+
 
     /*************************** Tests for Exception ******************************/
 /**

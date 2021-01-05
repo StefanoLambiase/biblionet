@@ -66,7 +66,7 @@ public class ClubDelLibroController {
      * @param citta Un Optional che contiene una lista di possibili città
      * @return La pagina di visualizzazione
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/visualizza-clubs", method = RequestMethod.GET)
     public String visualizzaListaClubs(@RequestParam(value = "generi")
                                                 final Optional<List<String>>
                                                 generi,
