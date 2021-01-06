@@ -87,6 +87,8 @@ public class PrenotazioneLibriControllerTest {
         when(prenotazioneService.
                 visualizzaListaLibriPerBiblioteca("biblioteca"))
                 .thenReturn(list);
+        when(prenotazioneService.
+                visualizzaListaLibriCompleta()).thenReturn(list);
 
         this.mockMvc.perform(get("/prenotazione-libri/ricerca")
                 .param("filtro", "titolo")
@@ -108,6 +110,13 @@ public class PrenotazioneLibriControllerTest {
                 .andExpect(model().attribute("listaLibri", list))
                 .andExpect(view().name(
                         "prenotazione-libri/visualizza-libri-prenotabili"));
+
+        this.mockMvc.perform(get("/prenotazione-libri/ricerca")
+                .param("filtro", "sbagliato")
+                .param("stringa", "a"))
+                .andExpect(view().name(
+                        "prenotazione-libri/visualizza-libri-prenotabili"));
+
     }
 
     /**
@@ -120,12 +129,11 @@ public class PrenotazioneLibriControllerTest {
     public void confermaPrenotazione() throws Exception {
         UtenteRegistrato u = new Lettore();
         TicketPrestito t = new TicketPrestito();
-        if (true) {
-            Lettore l = (Lettore) u;
-            when(prenotazioneService.richiediPrestito(l,
+        Lettore l = (Lettore) u;
+        when(prenotazioneService.richiediPrestito(l,
                     "id",
                     1)).thenReturn(t);
-        }
+
         this.mockMvc.perform(
                 post("/prenotazione-libri/conferma-prenotazione")
                 .param("idBiblioteca", "id")
@@ -133,6 +141,12 @@ public class PrenotazioneLibriControllerTest {
                 .sessionAttr("loggedUser", u))
                 .andExpect(view().name("redirect:/prenotazione-libri"));
 
+        this.mockMvc.perform(
+                post("/prenotazione-libri/conferma-prenotazione")
+                        .param("idBiblioteca", "id")
+                        .param("idLibro", "1")
+                        .sessionAttr("loggedUser", new Biblioteca()))
+                .andExpect(view().name("redirect:/prenotazione-libri"));
     }
 
     /**
@@ -161,25 +175,48 @@ public class PrenotazioneLibriControllerTest {
      * Implementa il test della funzionalità che permette di
      * ad una biblioteca di visualizzare le richieste di
      * prenotazione ricevute.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketInAttesa")
-    public void visualizzaRichieste1(TicketPrestito t) throws Exception {
+    public void visualizzaRichiesteBadUser(final TicketPrestito t)
+                        throws Exception {
+        List<TicketPrestito> list = new ArrayList<>();
+        list.add(t);
+        when(prenotazioneService.getTicketsByBiblioteca(t.getBiblioteca()))
+                .thenReturn(list);
+
+        this.mockMvc.perform(get("/prenotazione-libri/visualizza-richieste")
+                .sessionAttr("loggedUser", new Lettore()))
+                .andExpect(view().name(
+                   "/prenotazione-libri/visualizza-richieste-biblioteca"));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * ad una biblioteca di visualizzare le richieste di
+     * prenotazione ricevute.
+     * @param t Un ticket per la simulazione
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideTicketInAttesa")
+    public void visualizzaRichieste1(final TicketPrestito t) throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
         when(prenotazioneService.getTicketsByBiblioteca(t.getBiblioteca()))
                     .thenReturn(list);
 
         this.mockMvc.perform(get("/prenotazione-libri/visualizza-richieste")
-                            .sessionAttr("loggedUser", t.getBiblioteca()))
-                            .andExpect(model().
-                                    attribute("listaTicketDaAccettare", list))
-                            .andExpect(model().
-                                    attribute("listaTicketAccettati", new ArrayList<>()))
-                            .andExpect(model().
-                                    attribute("listaTicketChiusi", new ArrayList<>()))
-                            .andExpect(view().name(
+                     .sessionAttr("loggedUser", t.getBiblioteca()))
+                     .andExpect(model().
+                          attribute("listaTicketDaAccettare", list))
+                     .andExpect(model().
+                          attribute("listaTicketAccettati", new ArrayList<>()))
+                     .andExpect(model().
+                          attribute("listaTicketChiusi", new ArrayList<>()))
+                     .andExpect(view().name(
                     "/prenotazione-libri/visualizza-richieste-biblioteca"));
 
     }
@@ -188,11 +225,12 @@ public class PrenotazioneLibriControllerTest {
      * Implementa il test della funzionalità che permette di
      * ad una biblioteca di visualizzare le richieste di
      * prenotazione ricevute.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketAccettato")
-    public void visualizzaRichieste2(TicketPrestito t) throws Exception {
+    public void visualizzaRichieste2(final TicketPrestito t) throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
         when(prenotazioneService.getTicketsByBiblioteca(t.getBiblioteca()))
@@ -215,11 +253,12 @@ public class PrenotazioneLibriControllerTest {
      * Implementa il test della funzionalità che permette di
      * ad una biblioteca di visualizzare le richieste di
      * prenotazione ricevute.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketChiuso")
-    public void visualizzaRichieste3(TicketPrestito t) throws Exception {
+    public void visualizzaRichieste3(final TicketPrestito t) throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
         when(prenotazioneService.getTicketsByBiblioteca(t.getBiblioteca()))
@@ -289,11 +328,32 @@ public class PrenotazioneLibriControllerTest {
     /**
      * Implementa il test della funzionalità che permette di
      * ottenere la lista di ticket di un lettore.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketInAttesa")
-    public void  visualizzaPrenotazioniLettore1(TicketPrestito t)
+    public void  visualizzaPrenotazioniLettoreBadUser(final TicketPrestito t)
+            throws Exception {
+        List<TicketPrestito> list = new ArrayList<>();
+        list.add(t);
+        when(prenotazioneService.getTicketsLettore(t.getLettore()))
+                .thenReturn(list);
+        this.mockMvc.perform(get("/prenotazione-libri/visualizza-prenotazioni")
+                .sessionAttr("loggedUser", new Biblioteca()))
+                .andExpect(view().name(
+                        "prenotazione-libri/visualizza-richieste-lettore"));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * ottenere la lista di ticket di un lettore.
+     * @param t Un ticket per la simulazione
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideTicketInAttesa")
+    public void  visualizzaPrenotazioniLettore1(final TicketPrestito t)
                             throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
@@ -316,11 +376,12 @@ public class PrenotazioneLibriControllerTest {
     /**
      * Implementa il test della funzionalità che permette di
      * ottenere la lista di ticket di un lettore.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketAccettato")
-    public void  visualizzaPrenotazioniLettore2(TicketPrestito t)
+    public void  visualizzaPrenotazioniLettore2(final TicketPrestito t)
             throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
@@ -343,11 +404,12 @@ public class PrenotazioneLibriControllerTest {
     /**
      * Implementa il test della funzionalità che permette di
      * ottenere la lista di ticket di un lettore.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketChiuso")
-    public void  visualizzaPrenotazioniLettore3(TicketPrestito t)
+    public void  visualizzaPrenotazioniLettore3(final TicketPrestito t)
             throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
@@ -370,11 +432,12 @@ public class PrenotazioneLibriControllerTest {
     /**
      * Implementa il test della funzionalità che permette di
      * ottenere la lista di ticket di un lettore.
+     * @param t Un ticket per la simulazione
      * @throws Exception Eccezione per MockMvc
      */
     @ParameterizedTest
     @MethodSource("provideTicketRifiutato")
-    public void  visualizzaPrenotazioniLettore4(TicketPrestito t)
+    public void  visualizzaPrenotazioniLettore4(final TicketPrestito t)
             throws Exception {
         List<TicketPrestito> list = new ArrayList<>();
         list.add(t);
@@ -400,7 +463,7 @@ public class PrenotazioneLibriControllerTest {
      * @return Lo stream di dati.
      */
     private static Stream<Arguments> provideTicketInAttesa() {
-        return Stream.of( Arguments.of(new TicketPrestito(
+        return Stream.of(Arguments.of(new TicketPrestito(
                                 TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA,
                                 LocalDateTime.now(),
                                 new Libro(
@@ -443,7 +506,7 @@ public class PrenotazioneLibriControllerTest {
      * @return Lo stream di dati.
      */
     private static Stream<Arguments> provideTicketAccettato() {
-        return Stream.of( Arguments.of(new TicketPrestito(
+        return Stream.of(Arguments.of(new TicketPrestito(
                         TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE,
                         LocalDateTime.now(),
                         new Libro(
@@ -486,7 +549,7 @@ public class PrenotazioneLibriControllerTest {
      * @return Lo stream di dati.
      */
     private static Stream<Arguments> provideTicketChiuso() {
-        return Stream.of( Arguments.of(new TicketPrestito(
+        return Stream.of(Arguments.of(new TicketPrestito(
                         TicketPrestito.Stati.CHIUSO,
                         LocalDateTime.now(),
                         new Libro(
@@ -529,7 +592,7 @@ public class PrenotazioneLibriControllerTest {
      * @return Lo stream di dati.
      */
     private static Stream<Arguments> provideTicketRifiutato() {
-        return Stream.of( Arguments.of(new TicketPrestito(
+        return Stream.of(Arguments.of(new TicketPrestito(
                         TicketPrestito.Stati.RIFIUTATO,
                         LocalDateTime.now(),
                         new Libro(
