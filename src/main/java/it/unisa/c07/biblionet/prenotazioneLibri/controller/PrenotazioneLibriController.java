@@ -22,6 +22,7 @@ import java.util.List;
 /**
  * Implementa il controller per il sottosistema
  * PrenotazioneLibri.
+ *
  * @author Viviana Pentangelo, Gianmario Voria
  */
 @SessionAttributes("loggedUser")
@@ -39,6 +40,7 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * visualizzare tutti i libri prenotabili.
+     *
      * @param model Il model in cui salvare la lista
      * @return La view per visualizzare i libri
      */
@@ -52,33 +54,37 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * visualizzare tutti i libri filtrati.
+     *
      * @param stringa La stringa di ricerca
-     * @param filtro L'informazione su cui filtrare
-     * @param model Il model per salvare la lista
+     * @param filtro  L'informazione su cui filtrare
+     * @param model   Il model per salvare la lista
      * @return La view che visualizza la lista
      */
     @RequestMapping(value = "/ricerca", method = RequestMethod.GET)
     public String visualizzaListaFiltrata(
-                           @RequestParam("stringa") final String stringa,
-                           @RequestParam("filtro") final String filtro,
-                           final Model model) {
-        if (filtro != null) {
-            switch (filtro) {
-                case "titolo":
-                    model.addAttribute("listaLibri", prenotazioneService.
-                            visualizzaListaLibriPerTitolo(stringa));
-                    break;
-                case "genere":
-                    model.addAttribute("listaLibri", prenotazioneService.
-                            visualizzaListaLibriPerGenere(stringa));
-                    break;
-                case "biblioteca":
-                    model.addAttribute("listaLibri", prenotazioneService.
-                            visualizzaListaLibriPerBiblioteca(stringa));
-                    break;
-                default: break;
-            }
+            @RequestParam("stringa") final String stringa,
+            @RequestParam("filtro") final String filtro,
+            final Model model) {
+
+        switch (filtro) {
+            case "titolo":
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerTitolo(stringa));
+                break;
+            case "genere":
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerGenere(stringa));
+                break;
+            case "biblioteca":
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriPerBiblioteca(stringa));
+                break;
+            default:
+                model.addAttribute("listaLibri", prenotazioneService.
+                        visualizzaListaLibriCompleta());
+                break;
         }
+
         return "prenotazione-libri/visualizza-libri-prenotabili";
     }
 
@@ -86,7 +92,8 @@ public class PrenotazioneLibriController {
      * Implementa la funzionalità che permette di
      * visualizzare le biblioteche presso cui è
      * possibile prentoare il libro.
-     * @param id L'ID del libro di cui effettuare la prenotazione
+     *
+     * @param id    L'ID del libro di cui effettuare la prenotazione
      * @param model Il model per salvare il libro
      * @return La view che visualizza la lista delle biblioteche
      */
@@ -96,7 +103,7 @@ public class PrenotazioneLibriController {
 
         Libro libro = prenotazioneService.getLibroByID(id);
         List<Biblioteca> listaBiblioteche =
-                        prenotazioneService.getBibliotecheLibro(libro);
+                prenotazioneService.getBibliotecheLibro(libro);
         model.addAttribute("lista", listaBiblioteche);
         model.addAttribute("libro", libro);
         return "prenotazione-libri/visualizza-prenota-libro";
@@ -105,25 +112,26 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * richiedere il prestito di un libro.
+     *
      * @param idBiblioteca L'ID della biblioteca che possiede il libro
-     * @param idLibro L'ID del libro di cui effettuare la prenotazione
-     * @param model Il model per recuperare l'utente loggato
+     * @param idLibro      L'ID del libro di cui effettuare la prenotazione
+     * @param model        Il model per recuperare l'utente loggato
      * @return La view che visualizza la lista dei libri prenotabili
      */
     @RequestMapping(value = "/conferma-prenotazione",
-                                    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     public String confermaPrenotazione(@RequestParam final String idBiblioteca,
-                                        @RequestParam final String idLibro,
-                                        final Model model) {
+                                       @RequestParam final String idLibro,
+                                       final Model model) {
 
         UtenteRegistrato utente =
-                    (UtenteRegistrato) model.getAttribute("loggedUser");
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         assert utente != null;
         if (utente.getTipo().equals("Lettore")) {
             Lettore l = (Lettore) utente;
             prenotazioneService.richiediPrestito(l,
-                                    idBiblioteca,
-                                    Integer.parseInt(idLibro));
+                    idBiblioteca,
+                    Integer.parseInt(idLibro));
         }
         return "redirect:/prenotazione-libri";
     }
@@ -132,11 +140,12 @@ public class PrenotazioneLibriController {
      * Implementa la funzionalità che permette di
      * ad una biblioteca di visualizzare le richieste di
      * prenotazione ricevute.
+     *
      * @param model Il model per recuperare l'utente loggato
      * @return La view che visualizza la lista delle richieste
      */
     @RequestMapping(value = "/visualizza-richieste",
-                             method = RequestMethod.GET)
+            method = RequestMethod.GET)
     public String visualizzaRichieste(final Model model) {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
@@ -150,7 +159,7 @@ public class PrenotazioneLibriController {
             List<TicketPrestito> list3 = new ArrayList<>();
             for (TicketPrestito t : lista) {
                 if (t.getStato().equals(
-                            TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
+                        TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
                     list1.add(t);
                 } else if (t.getStato().equals(
                         TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
@@ -170,14 +179,15 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * richiedere il prestito di un libro.
-     * @param id l'ID del ticket da accettare
+     *
+     * @param id     l'ID del ticket da accettare
      * @param giorni il tempo di concessione del prestito
      * @return La view che visualizza la lista delle prenotazioni
      */
     @RequestMapping(value = "/ticket/{id}/accetta",
             method = RequestMethod.POST)
     public String accettaPrenotazione(final @PathVariable int id,
-                  final @RequestParam(value = "giorni") int giorni) {
+                        final @RequestParam(value = "giorni") int giorni) {
         TicketPrestito ticket = prenotazioneService.getTicketByID(id);
         prenotazioneService.accettaRichiesta(ticket, giorni);
         return "redirect:/prenotazione-libri/visualizza-richieste";
@@ -186,6 +196,7 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * richiedere il prestito di un libro.
+     *
      * @param id l'ID del ticket da rifiutare
      * @return La view che visualizza la lista delle prenotazioni
      */
@@ -201,6 +212,7 @@ public class PrenotazioneLibriController {
      * Implementa la funzionalità che permette di
      * chiudere una prenotazione di un libro quando
      * questo viene riconsegnato.
+     *
      * @param id l'ID del ticket da chiudere
      * @return La view che visualizza la lista delle prenotazioni
      */
@@ -215,6 +227,7 @@ public class PrenotazioneLibriController {
     /**
      * Implementa la funzionalità che permette di
      * ottenere la lista di ticket di un lettore.
+     *
      * @param model Il model per recuperare l'utente loggato
      * @return La view che visualizza la lista delle prenotazioni del lettore
      */
@@ -228,7 +241,7 @@ public class PrenotazioneLibriController {
             Lettore lettore = (Lettore) utente;
 
             List<TicketPrestito> listaTicket =
-                prenotazioneService.getTicketsLettore(lettore);
+                    prenotazioneService.getTicketsLettore(lettore);
             List<TicketPrestito> list1 = new ArrayList<>();
             List<TicketPrestito> list2 = new ArrayList<>();
             List<TicketPrestito> list3 = new ArrayList<>();
@@ -252,8 +265,6 @@ public class PrenotazioneLibriController {
             model.addAttribute("listaTicketAccettati", list2);
             model.addAttribute("listaTicketChiusi", list3);
             model.addAttribute("listaTicketRifiutati", list4);
-
-            model.addAttribute("listaTicket", listaTicket);
         }
         return "prenotazione-libri/visualizza-richieste-lettore";
     }

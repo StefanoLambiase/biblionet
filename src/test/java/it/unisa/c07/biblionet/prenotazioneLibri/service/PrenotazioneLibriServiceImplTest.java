@@ -110,16 +110,69 @@ public class PrenotazioneLibriServiceImplTest {
      * una determinata biblioteca.
      */
     @Test
-    public void visualizzaListaLibriPerBiblioteca() {
+    public void visualizzaListaLibriPerBibliotecaFor2For2() {
+        Biblioteca b1 = new Biblioteca();
+        b1.setEmail("b1");
+        Biblioteca b2 = new Biblioteca();
+        b2.setEmail("b2");
+        List<Biblioteca> blist = new ArrayList<>();
+        blist.add(b1);
+        blist.add(b2);
         when(bibliotecaDAO.findByNome("nome")).thenReturn(
-                new ArrayList<Biblioteca>());
+                blist);
         List<Possesso> listPos = new ArrayList<>();
-        when(possessoDAO.findByBibliotecaID("a")).thenReturn(listPos);
+        Possesso p1 = new Possesso(
+                new PossessoId("b1", 1), 1);
+        Possesso p2 = new Possesso(
+                new PossessoId("b2", 2), 2);
+        listPos.add(p1);
+        listPos.add(p2);
+        when(possessoDAO.findByBibliotecaID("b1")).thenReturn(listPos);
         List<Libro> libri = new ArrayList<>();
-        Optional<Libro> l = Optional.empty();
-        for (int i = 0; i < 2; i++) {
-            when(libroDAO.findById(1)).thenReturn(l);
-        }
+        Libro libro1 = new Libro();
+        libro1.setIdLibro(1);
+        libri.add(libro1);
+        Optional<Libro> l1 = Optional.of(libro1);
+        Optional<Libro> l2 = Optional.of(libro1);
+        when(libroDAO.findById(1)).thenReturn(l1);
+        when(libroDAO.findById(2)).thenReturn(l2);
+
+        assertEquals(libri,
+                prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
+    }
+
+    /**
+     * Implementa il test della funzionalità di
+     * selezione di tutti i libri prenotabili di
+     * una determinata biblioteca.
+     */
+    @Test
+    public void visualizzaListaLibriPerBibliotecaFor2For0() {
+        Biblioteca b1 = new Biblioteca();
+        b1.setEmail("b1");
+        Biblioteca b2 = new Biblioteca();
+        b2.setEmail("b2");
+        List<Biblioteca> blist = new ArrayList<>();
+        blist.add(b1);
+        blist.add(b2);
+        when(bibliotecaDAO.findByNome("nome")).thenReturn(
+                blist);
+        List<Libro> libri = new ArrayList<>();
+        assertEquals(libri,
+                prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
+    }
+
+    /**
+     * Implementa il test della funzionalità di
+     * selezione di tutti i libri prenotabili di
+     * una determinata biblioteca.
+     */
+    @Test
+    public void visualizzaListaLibriPerBibliotecaFor0() {
+        List<Biblioteca> blist = new ArrayList<>();
+        List<Libro> libri = new ArrayList<>();
+        when(bibliotecaDAO.findByNome("nome")).thenReturn(
+                blist);
         assertEquals(libri,
                 prenotazioneService.visualizzaListaLibriPerBiblioteca("nome"));
     }
@@ -130,8 +183,37 @@ public class PrenotazioneLibriServiceImplTest {
      * una determinato genere.
      */
     @Test
-    public void visualizzaListaLibriPerGenere() {
-        when(libroDAO.findAll()).thenReturn(new ArrayList<Libro>());
+    public void visualizzaListaLibriPerGenereFor2() {
+        List<Libro> libri = new ArrayList<>();
+        Libro l1 = new Libro();
+        l1.setIdLibro(1);
+        Libro l2 = new Libro();
+        l2.setIdLibro(2);
+        Genere g1 = new Genere();
+        g1.setNome("genere");
+        List<Genere> generiEmpty = new ArrayList<>();
+        List<Genere> generi = new ArrayList<>();
+        generi.add(g1);
+        l1.setGeneri(generi);
+        l2.setGeneri(generiEmpty);
+        libri.add(l1);
+        libri.add(l2);
+        when(libroDAO.findAll()).thenReturn(libri);
+        when(genereDAO.findByName("genere")).thenReturn(g1);
+        List<Libro> list = new ArrayList<>();
+        list.add(l1);
+        assertEquals(list,
+                prenotazioneService.visualizzaListaLibriPerGenere("genere"));
+    }
+
+    /**
+     * Implementa il test della funzionalità di
+     * selezione di tutti i libri prenotabili di
+     * una determinato genere.
+     */
+    @Test
+    public void visualizzaListaLibriPerGenereFor0() {
+        when(libroDAO.findAll()).thenReturn(new ArrayList<>());
         when(genereDAO.findByName("a")).thenReturn(new Genere());
         assertEquals(new ArrayList<Libro>(),
                 prenotazioneService.visualizzaListaLibriPerGenere("a"));
@@ -165,17 +247,39 @@ public class PrenotazioneLibriServiceImplTest {
      * che posseggono un dato libro.
      */
     @Test
-    public void getBibliotecheLibro() {
+    public void getBibliotecheLibroFor2() {
+        Libro l = new Libro();
+        List<Possesso> pl = new ArrayList<>();
+        Possesso p1 = new Possesso(new PossessoId("a", 1), 1);
+        Possesso p2 = new Possesso(new PossessoId("b", 1), 1);
+        pl.add(p1);
+        pl.add(p2);
+        l.setPossessi(pl);
+        Biblioteca b1 = new Biblioteca();
+        b1.setEmail("a");
+        Biblioteca b2 = new Biblioteca();
+        b1.setEmail("b");
+        List<Biblioteca> bl = new ArrayList<>();
+        bl.add(b1);
+        bl.add(b2);
+        when(bibliotecaDAO.
+                findByID("a")).thenReturn(b1);
+        when(bibliotecaDAO.
+                findByID("b")).thenReturn(b2);
+        assertEquals(bl, prenotazioneService.getBibliotecheLibro(l));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di ottenere la lista delle biblioteche
+     * che posseggono un dato libro.
+     */
+    @Test
+    public void getBibliotecheLibroFor0() {
         Libro l = new Libro();
         List<Possesso> pl = new ArrayList<>();
         l.setPossessi(pl);
         List<Biblioteca> bl = new ArrayList<>();
-        Biblioteca b = new Biblioteca();
-        for (Possesso ignored : l.getPossessi()) {
-            when(bibliotecaDAO.findByID("a"))
-                    .thenReturn(b);
-            bl.add(b);
-        }
         assertEquals(bl, prenotazioneService.getBibliotecheLibro(l));
     }
 
@@ -221,12 +325,32 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void accettaRichiesta() {
         TicketPrestito ticket = new TicketPrestito();
+        Biblioteca b = new Biblioteca();
+        b.setEmail("a");
+        Libro l = new Libro();
+        l.setIdLibro(1);
+        ticket.setBiblioteca(b);
+        ticket.setLibro(l);
+        Possesso pos = new Possesso(
+                new PossessoId(b.getEmail(), l.getIdLibro()), 1);
+        when(possessoDAO.getOne(new PossessoId(b.getEmail(), l.getIdLibro())))
+                .thenReturn(pos);
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     */
+    @Test
+    public void accettaRichiestaNull() {
+        TicketPrestito ticket = new TicketPrestito();
         ticket.setBiblioteca(new Biblioteca());
         ticket.setLibro(new Libro());
-        Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         when(possessoDAO.getOne(new PossessoId("a", 1)))
-                                        .thenReturn(pos);
+                .thenReturn(null);
         assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
     }
 
@@ -249,12 +373,33 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void chiudiTicket() {
         TicketPrestito ticket = new TicketPrestito();
+        Biblioteca b = new Biblioteca();
+        b.setEmail("a");
+        Libro l = new Libro();
+        l.setIdLibro(1);
+        ticket.setBiblioteca(b);
+        ticket.setLibro(l);
+        Possesso pos = new Possesso(
+                new PossessoId(b.getEmail(), l.getIdLibro()), 1);
+        when(possessoDAO.getOne(new PossessoId(b.getEmail(), l.getIdLibro())))
+                .thenReturn(pos);
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di chiudere un ticket quando il libro viene
+     * restituito.
+     */
+    @Test
+    public void chiudiTicketNull() {
+        TicketPrestito ticket = new TicketPrestito();
         ticket.setBiblioteca(new Biblioteca());
         ticket.setLibro(new Libro());
-        Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         when(possessoDAO.getOne(new PossessoId("a", 1)))
-                .thenReturn(pos);
+                .thenReturn(null);
         assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
     }
 
