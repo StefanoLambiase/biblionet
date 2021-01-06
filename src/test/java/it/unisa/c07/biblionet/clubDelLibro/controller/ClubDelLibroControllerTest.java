@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.remoting.rmi.CodebaseAwareObjectInputStream;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -103,16 +105,20 @@ public class ClubDelLibroControllerTest {
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
-  /*  @ParameterizedTest    classe da correggere poichè il sudetto metodo è stato aggiornato.
+    @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void visualizzaListaClubs(final ClubDelLibro club) throws Exception {
-        List<ClubDelLibro> list = new ArrayList<>();
-        list.add(club);
-        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
-        this.mockMvc.perform(get("/club-del-libro/"))
-                .andExpect(model().attribute("listaClubs", list))
+        List<ClubDelLibro> listClubs = new ArrayList<>();
+        listClubs.add(club);
+        Predicate<ClubDelLibro> filtrogenere= x -> true;
+        Predicate<ClubDelLibro> fitrocitta = x -> true;
+        when(clubService.visualizzaClubsDelLibro(fitrocitta.and(filtrogenere))).thenReturn(listClubs);
+        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+        .param("generi", String.valueOf(filtrogenere))
+        .param("città", String.valueOf(fitrocitta)))
+                .andExpect(model().attributeExists("listaClubs"))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
-    }*/
+    }
 
     /**
      * Implementa il test della funzionalità gestita dal
