@@ -221,12 +221,31 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void accettaRichiesta() {
         TicketPrestito ticket = new TicketPrestito();
+        Biblioteca b = new Biblioteca();
+        b.setEmail("a");
+        Libro l = new Libro();
+        l.setIdLibro(1);
+        ticket.setBiblioteca(b);
+        ticket.setLibro(l);
+        Possesso pos = new Possesso(new PossessoId(b.getEmail(), l.getIdLibro()),1);
+        when(possessoDAO.getOne(new PossessoId(b.getEmail(), l.getIdLibro())))
+                .thenReturn(pos);
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     */
+    @Test
+    public void accettaRichiestaNull() {
+        TicketPrestito ticket = new TicketPrestito();
         ticket.setBiblioteca(new Biblioteca());
         ticket.setLibro(new Libro());
-        Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         when(possessoDAO.getOne(new PossessoId("a", 1)))
-                                        .thenReturn(pos);
+                .thenReturn(null);
         assertEquals(ticket, prenotazioneService.accettaRichiesta(ticket, 1));
     }
 
@@ -249,12 +268,32 @@ public class PrenotazioneLibriServiceImplTest {
     @Test
     public void chiudiTicket() {
         TicketPrestito ticket = new TicketPrestito();
+        Biblioteca b = new Biblioteca();
+        b.setEmail("a");
+        Libro l = new Libro();
+        l.setIdLibro(1);
+        ticket.setBiblioteca(b);
+        ticket.setLibro(l);
+        Possesso pos = new Possesso(new PossessoId(b.getEmail(), l.getIdLibro()),1);
+        when(possessoDAO.getOne(new PossessoId(b.getEmail(), l.getIdLibro())))
+                .thenReturn(pos);
+        when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
+        assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di chiudere un ticket quando il libro viene
+     * restituito.
+     */
+    @Test
+    public void chiudiTicketNull() {
+        TicketPrestito ticket = new TicketPrestito();
         ticket.setBiblioteca(new Biblioteca());
         ticket.setLibro(new Libro());
-        Possesso pos = new Possesso();
         when(ticketPrestitoDAO.save(ticket)).thenReturn(ticket);
         when(possessoDAO.getOne(new PossessoId("a", 1)))
-                .thenReturn(pos);
+                .thenReturn(null);
         assertEquals(ticket, prenotazioneService.chiudiTicket(ticket));
     }
 
