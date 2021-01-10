@@ -41,7 +41,16 @@ function clubToRow(row, club) {
     makeCol(3, club.generi.join(", "));
     makeCol(4, club.nomeEsperto);
     makeCol(5, club.iscritti);
-
+    
+    if(loggedEsperto == club.email) {
+        let cell = row.insertCell(6);
+        let a = document.createElement("a");
+        a.classList.add("btn", "btn-main");
+        a.href = "/club-del-libro/" + club.idClub + "/modifica";
+        a.innerHTML = "Modifica";
+        cell.classList.add("align-middle");
+        cell.appendChild(a);
+    }
 }
 
 function populateTable(table) {

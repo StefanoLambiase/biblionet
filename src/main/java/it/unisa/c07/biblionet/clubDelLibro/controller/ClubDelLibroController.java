@@ -134,6 +134,7 @@ public class ClubDelLibroController {
                                                                 );
                         public final int idClub = club.getIdClub();
                         public final int iscritti = club.getLettori().size();
+                        public final String email = club.getEsperto().getEmail();
                 }
         ).collect(Collectors.toList()));
 
@@ -141,6 +142,15 @@ public class ClubDelLibroController {
         model.addAttribute("citta", this.clubService.getCitta());
 
         return "club-del-libro/visualizza-clubs";
+    }
+
+    public String visualizzaCreaClubDelLibro(final Model model) {
+        var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || utente.getTipo() != "Esperto") {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        return "club-del-libro/creazione-club";
     }
 
     /**
@@ -196,7 +206,7 @@ public class ClubDelLibroController {
      * @param model l'oggetto model usato per inserire gli attributi
      * @return La view che visualizza il form di modifica dati
      */
-    @RequestMapping(value = "/modifica-dati/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/modifica", method = RequestMethod.GET)
     public String visualizzaModificaDatiClub(final @PathVariable int id,
                                              final Model model) {
         model.addAttribute("club", this.clubService.getClubByID(id));
@@ -214,10 +224,9 @@ public class ClubDelLibroController {
      * @param generi Lista dei generi del club
      * @return La view che visualizza i Club del Libro
      */
-    @RequestMapping(value = "/modifica-dati",
+    @RequestMapping(value = "/{id}/modifica",
             method = RequestMethod.POST)
-    public String modificaDatiClub(final @RequestParam(value = "idClub")
-                                           String idClub,
+    public String modificaDatiClub(final @PathVariable int idClub,
                                    final @RequestParam(value = "nome")
                                            String nome,
                                    final @RequestParam(value = "descrizione")
@@ -229,7 +238,7 @@ public class ClubDelLibroController {
                                            MultipartFile copertina) {
 
         ClubDelLibro clubPers = this.clubService
-                .getClubByID(Integer.parseInt(idClub));
+                .getClubByID(idClub);
         if (!copertina.isEmpty()) {
             try {
                 byte[] imageBytes = copertina.getBytes();
