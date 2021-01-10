@@ -1,35 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+    layout:decorate="~{layout/layout}">
+
 <head>
     <meta charset="UTF-8">
     <title>Lista Club del libro</title>
-    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
+    <link rel="stylesheet" th:href="@{/style/lib/bootstrap-sortable.css}" />
+    <script th:inline="javascript">
+        const tutteCitta = [[${citta}]];
+        const tuttiGeneri = [[${generi}]];
+        const ordinamento = [[${ordinamento}]];
+        const isLettore = [[${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}]];
+        const clubs = [[${listaClubs}]];
+    </script>
+    <script th:src="@{/js/lib/bootstrap-sortable.js}"></script>
+    <script th:src="@{/js/clubDelLibro/visualizza-clubs.js}" defer></script>
 </head>
+
 <body>
-<div layout:fragment="contenuto-pagina" class="container">
-    <table class="table" style="border-color: #b20909">
-        <tr>
-            <th scope="col">Nome club</th>
-            <th scope="col">Descrizione</th>
-            <th scope="col">Generi</th>
-            <th scope="col">Copertina</th>
-            <th scope="col">Esperto</th>
-        </tr>
-        <tr th:each="club : ${listaClubs}">
-            <td th:text="${club.nome}"></td>
-            <td th:text="${club.descrizione}"></td>
-            <td><p th:each="genere : ${club.generi}" th:text="${genere.nome}"></p></td>
-            <td><img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}"/></td>
-            <td th:text="${club.esperto.nome}"></td>
-            <td><a th:href="@{'/club-del-libro/modifica-dati/' + ${club.idClub}}">Modifica (Esperto) </a></td>
-            <td><a th:href="@{'/club-del-libro/iscrizione-club/' + ${club.idClub}}">Iscrivimi (Lettore) </a></td>
-            <td>
-                <button class="btn btn-main "><a th:href="@{'/club-del-libro/visualizza-dati-club/' + ${club.idClub}}">Visualizza </a>
-                </button>
-            </td>
-        </tr>
-    </table>
-</div>
+    <div layout:fragment="contenuto-pagina" class="container">
+        <div class="row">
+            <div class="col-2">
+                <form th:action="@{/club-del-libro}" method="GET">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Generi</h3>
+                            <select multiple id="generi" name="generi">
+                                <option th:each="genere: ${generi}" th:value="${genere}" th:text="${genere}">Prova</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <h3>Città</h3>
+                            <select multiple id="citta" name="citta">
+                                <option th:each="cittaCdL: ${citta}" th:value="${cittaCdL}" th:text="${cittaCdL}">Prova</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-main" type="submit">Filtra</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-10">
+                <table class="table sortable">
+                    <thead>
+                        <th scope="col">Copertina</th>
+                        <th scope="col">Nome club</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Generi</th>
+                        <th scope="col">Esperto</th>
+                        <th scope="col">Iscritti</th>
+                    </thead>
+                    <tbody id="tabellaClubs">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,6 +30,7 @@ import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.model.form.EventoForm;
 import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/club-del-libro")
+@SessionAttributes("loggedUser")
 public class ClubDelLibroController {
 
     /**
@@ -75,9 +78,6 @@ public class ClubDelLibroController {
                                        @RequestParam(value = "citta")
                                                 final Optional<List<String>>
                                                 citta,
-                                       @RequestParam(value = "ordine")
-                                                final Optional<String>
-                                                ordine,
                                        final Model model) {
 
         // Molto più pulito della concatenazione con gli stream
@@ -154,7 +154,8 @@ public class ClubDelLibroController {
      * @return La view che visualizza i Club
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String creaClubDelLibro(final @RequestParam(value = "nome")
+    public String creaClubDelLibro(final Model model,
+                                   final @RequestParam(value = "nome")
                                            String nome,
                                    final @RequestParam(value = "descrizione")
                                            String descrizione,
@@ -162,27 +163,11 @@ public class ClubDelLibroController {
                                            String[] generi,
                                    final @RequestParam(value = "copertina", required = false)
                                            MultipartFile copertina) {
-        //Sarà modificato quando ci sarà la sessione.
-        Esperto esperto = new Esperto(
-                "eliaviviani@gmail.com",
-                "EspertoPassword",
-                "Napoli",
-                "Torre del Greco",
-                "Via Roma 2",
-                "2345678901",
-                "Espertissimo",
-                "Elia",
-                "Viviani",
-                new Biblioteca(
-                        "bibliotecacarrisi@gmail.com",
-                        "BibliotecaPassword",
-                        "Napoli",
-                        "Torre del Greco",
-                        "Via Carrisi 47",
-                        "1234567890",
-                        "Biblioteca Carrisi"
-                )
-        );
+        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || utente.getTipo() != "Esperto") {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        var esperto = (Esperto) utente;
         ClubDelLibro club = new ClubDelLibro();
         club.setNome(nome);
         club.setDescrizione(descrizione);
@@ -273,22 +258,18 @@ public class ClubDelLibroController {
      * @param id l'ID del Club a cui iscriversi
      * @return La view che visualizza la lista dei club
      */
-    @RequestMapping(value = "/iscrizione-club/{id}", method = RequestMethod.GET)
-    public String partecipaClub(final @PathVariable int id) {
-        Lettore lettore = new Lettore(
-                "giuliociccione@gmail.com",
-                "LettorePassword",
-                "Salerno",
-                "Baronissi",
-                "Via Barone 11",
-                "3456789012",
-                "SuperLettore",
-                "Giulio",
-                "Ciccione"
-        );
+    @RequestMapping(value = "/{id}/iscrizione", method = RequestMethod.POST)
+    public String partecipaClub(final @PathVariable int id,
+                                final Model model) {
+
+        UtenteRegistrato lettore = (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (lettore == null || lettore.getTipo() != "Lettore") {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         this.clubService.partecipaClub(
                 this.clubService.getClubByID(id),
-                lettore);
+                (Lettore) lettore);
         return "redirect:/club-del-libro/";
     }
 
@@ -391,7 +372,7 @@ public class ClubDelLibroController {
      * @param model il model per il passaggio dei dati
      * @return La view che visualizza i dati
      */
-    @RequestMapping(value = "/visualizza-dati-club/{id}",
+    @RequestMapping(value = "/{id}",
             method = RequestMethod.GET)
     public String visualizzaDatiClub(final @PathVariable int id,
                                      final Model model) {
@@ -421,7 +402,7 @@ public class ClubDelLibroController {
         return "redirect:/club-del-libro/" + club + "/eventi";
     }
 
-    @RequestMapping(value = "/visualizza-iscritti/{id}",
+    @RequestMapping(value = "/{id}/iscritti",
             method = RequestMethod.GET)
     public String visualizzaIscrittiClub(final @PathVariable int id,
                                          final Model model) {

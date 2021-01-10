@@ -20,7 +20,7 @@
                     th:text = "${club.nome}">
                 </h1>
                 <p class="lead"
-                   th:text = "${' Esperto: ' + club.esperto.nome}">
+                   th:text = "${' Di ' + club.esperto.nome}">
                 </p>
             </div>
         </div>
@@ -35,8 +35,6 @@
                     <h3 class="card-title">Informazioni</h3>
                     <p class="card-text" th:text = "${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
                     <p class="card-text" th:text = "${'Email di contatto: ' + club.esperto.email}"></p>
-
-                    <h6>Descrizione del club</h6>
                     <p class="card-text" th:text = "${club.descrizione}"></p>
                 </div>
             </div>
@@ -48,10 +46,6 @@
                 <div class="card-body">
                     <h3 class="card-title">Generi trattati</h3>
                     <table class="table">
-                        <tr>
-                            <th scope="col">Nome Genere</th>
-                            <th scope="col">Descrizione</th>
-                        </tr>
                         <tr th:each="genere : ${club.generi}">
                             <td th:text="${genere.nome}"></td>
                             <td th:text="${genere.descrizione}"></td>
@@ -67,21 +61,32 @@
         <div class="card w-100">
             <div class="card-body">
                 <h3 class="card-title"> Iscritti al Club </h3>
+                <div style="text-align: center;">
+                    <form action="POST" th:action="@{/club-del-libro/{idClub}/iscrizione(idClub=${club.idClub})}">
+                        <button class="btn btn-main" type="submit">Iscriviti</button>
+                    </form>    
+                </div>
                 <table class="table">
-                    <tr>
-                        <th scope="col">Nome lettore</th>
-                        <th scope="col">Cognome lettore</th>
-                        <th scope="col">Email lettore</th>
-                    </tr>
+                    <thead>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Cognome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Contatta</th>
+                    </thead>
                     <tr th:each="lettore : ${club.lettori}">
-                        <td th:text="${lettore.nome}"> </td>
-                        <td th:text="${lettore.cognome}"> </td>
-                        <td th:text="${lettore.email}"> </td>
+                        <td class="align-middle" th:text="${lettore.nome}"> </td>
+                        <td class="align-middle" th:text="${lettore.cognome}"> </td>
+                        <td class="align-middle" th:text="${lettore.email}"> </td>
+                        <td class="align-middle">
+                            <a class="btn btn-main" th:href="'mailto://' + ${lettore.email}">
+                                Contatta
+                            </a>
+                        </td>
                     </tr>
                 </table>
 
                 <button class="btn btn-main ">
-                    <a th:href="@{'/club-del-libro/visualizza-iscritti/' + ${club.idClub}}">Visualizza iscritti </a>
+                    <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/iscritti'}">Visualizza iscritti </a>
                 </button>
             </div>
         </div>
@@ -93,13 +98,13 @@
             <div class="card-body">
                 <h3 class="card-title"> Eventi del club </h3>
                 <table class="table">
-                    <tr>
-                        <th scope="col">Nome Evento</th>
+                    <thead>
+                        <th scope="col">Nome</th>
                         <th scope="col">Descrizione</th>
                         <th scope="col">Data</th>
                         <th scope="col">Ora</th>
                         <th scope="col">Libro trattato</th>
-                    </tr>
+                    </thead>
                     <tr th:each="evento : ${club.eventi}">
                         <td th:text="${evento.nomeEvento}"> </td>
                         <td th:text="${evento.descrizione}"> </td>
