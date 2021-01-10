@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
@@ -279,6 +280,29 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     public List<TicketPrestito> getTicketsLettore(final Lettore lettore) {
         return ticketPrestitoDAO.
                 findAllByLettoreEmail(lettore.getEmail());
+    }
+
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere una lista di id e titoli di libri
+     * sulla base di un titolo dato
+     *
+     * ! Controllare prima di consegnare
+     *
+     * @param titolo il titolo che deve mathcare
+     * @return la lista di informazioni
+     */
+    public List<ILibroIdAndName> findByTitoloContains(String titolo) {
+        List<ILibroIdAndName> infoLibroList =
+                libroDAO.findByTitoloContains(titolo);
+
+        if (infoLibroList == null) {
+            infoLibroList = new ArrayList<>();
+        } else if (infoLibroList.size() > 10) {
+            infoLibroList = infoLibroList.subList(0, 9);
+        }
+        return infoLibroList;
     }
 
 }

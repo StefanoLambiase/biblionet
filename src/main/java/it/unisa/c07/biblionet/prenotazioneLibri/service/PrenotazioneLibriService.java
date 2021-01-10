@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -130,5 +131,16 @@ public interface PrenotazioneLibriService {
      */
     List<TicketPrestito> getTicketsLettore(Lettore lettore);
 
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere una lista di id e titoli di libri
+     * sulla base di un titolo dato
+     *
+     * ! Controllare prima di consegnare
+     *
+     * @param titolo il titolo che deve mathcare
+     * @return la lista di informazioni
+     */
+    List<ILibroIdAndName> findByTitoloContains(String titolo);
 
 }
