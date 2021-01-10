@@ -276,7 +276,7 @@ public class PrenotazioneLibriController {
      * @param titolo il titolo che deve mathcare
      * @return la lista di informazioni
      */
-    @RequestMapping(value = "/find-libri-by-titolo-containing")
+    @RequestMapping(value = "/find-libri-by-titolo-contains")
     public @ResponseBody List<ILibroIdAndName> findLibriByTitoloContaining(
             @RequestParam("stringa") String titolo
     ) {
