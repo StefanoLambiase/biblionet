@@ -12,6 +12,7 @@
         const ordinamento = [[${ordinamento}]];
         const isLettore = [[${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}]];
         const clubs = [[${listaClubs}]];
+        var loggedEsperto = [[${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' ? session.loggedUser.email : null}]];
     </script>
     <script th:src="@{/js/lib/bootstrap-sortable.js}"></script>
     <script th:src="@{/js/clubDelLibro/visualizza-clubs.js}" defer></script>
@@ -42,15 +43,23 @@
             <div class="col-10">
                 <table class="table sortable">
                     <thead>
-                        <th scope="col">Copertina</th>
-                        <th scope="col">Nome club</th>
-                        <th scope="col">Descrizione</th>
-                        <th scope="col">Generi</th>
-                        <th scope="col">Esperto</th>
-                        <th scope="col">Iscritti</th>
+                        <th scope="col" class="align-content-center">Copertina</th>
+                        <th scope="col" class="align-content-center">Nome</th>
+                        <th scope="col" class="align-content-center">Descrizione</th>
+                        <th scope="col" class="align-content-center">Generi</th>
+                        <th scope="col" class="align-content-center">Esperto</th>
+                        <th scope="col" class="align-content-center">Iscritti</th>
+                        <th scope="col" class="align-content-center" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto'}">Azioni</th>
                     </thead>
                     <tbody id="tabellaClubs">
                     </tbody>
+                    <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto'}">
+                        <th th:colspan="7" style="text-align: center;">
+                            <a style="width: 100%; height: 100%;" class="btn btn-main" th:href="@{/club-del-libro/crea}">
+                                Crea club del Libro
+                            </a>
+                        </th>
+                    </tfoot>
                 </table>
             </div>
         </div>
