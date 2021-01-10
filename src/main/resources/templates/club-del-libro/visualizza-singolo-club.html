@@ -61,11 +61,13 @@
         <div class="card w-100">
             <div class="card-body">
                 <h3 class="card-title"> Iscritti al Club </h3>
+                <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
                 <div style="text-align: center;">
-                    <form action="POST" th:action="@{/club-del-libro/{idClub}/iscrizione(idClub=${club.idClub})}">
+                    <form method="POST" th:action="@{/club-del-libro/{idClub}/{azione}(idClub=${club.idClub}, azione=${club.lettori.contains(session.loggedUser)?'abbandono':'iscrizione'})}">
                         <button class="btn btn-main" type="submit">Iscriviti</button>
                     </form>    
                 </div>
+            </div>
                 <table class="table">
                     <thead>
                         <th scope="col">Nome</th>
