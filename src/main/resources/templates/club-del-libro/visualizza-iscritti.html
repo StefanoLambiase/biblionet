@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizza iscritti al club</title>
-    <script type="text/javascript" th:src="@{/js/clubDelLibro/creazioneClubDelLibroScripts.js}"></script>
 </head>
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
@@ -14,11 +13,17 @@
             <th scope="col">Nome lettore</th>
             <th scope="col">Cognome lettore</th>
             <th scope="col">Email lettore</th>
+            <th scope="col">Contatta</th>
         </tr>
         <tr th:each="lettore : ${club.lettori}">
-            <td th:text="${lettore.nome}"> </td>
-            <td th:text="${lettore.cognome}"> </td>
-            <td th:text="${lettore.email}"> </td>
+            <td class="align-middle" th:text="${lettore.nome}"> </td>
+            <td class="align-middle" th:text="${lettore.cognome}"> </td>
+            <td class="align-middle" th:text="${lettore.email}"> </td>
+            <td class="align-middle">
+                <a class="btn btn-main" th:href="'mailto://' + ${lettore.email}">
+                    Contatta
+                </a>
+            </td>
         </tr>
     </table>
 </div>
