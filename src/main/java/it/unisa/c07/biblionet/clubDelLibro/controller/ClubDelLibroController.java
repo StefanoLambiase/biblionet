@@ -7,6 +7,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -66,7 +68,7 @@ public class ClubDelLibroController {
      * @param citta Un Optional che contiene una lista di possibili città
      * @return La pagina di visualizzazione
      */
-    @RequestMapping(value = "/visualizza-clubs", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String visualizzaListaClubs(@RequestParam(value = "generi")
                                                 final Optional<List<String>>
                                                 generi,
@@ -77,9 +79,10 @@ public class ClubDelLibroController {
                                                 final Optional<String>
                                                 ordine,
                                        final Model model) {
-        Predicate<ClubDelLibro> filtroGenere = x -> true;
 
         // Molto più pulito della concatenazione con gli stream
+        Predicate<ClubDelLibro> filtroGenere = x -> true;
+
         if (generi.isPresent()) {
                 filtroGenere = x -> false;
 
@@ -108,10 +111,34 @@ public class ClubDelLibroController {
                 filtroCitta.and(filtroGenere)
         );
 
-        model.addAttribute("listaClubs", listaClubs);
-        if (ordine.isPresent()) {
-                model.addAttribute("ordinamento", ordine.get());
-        }
+
+        // Necessito di un oggetto anonimo per evitare problemi con JS
+        model.addAttribute("listaClubs", listaClubs.stream().map(
+                club -> new Object() {
+                        public final String nome = club.getNome();
+                        public final String descrizione = 
+                                                club.getDescrizione();
+                        public final String nomeEsperto = club.getEsperto()
+                                                              .getNome()
+                                                          + " "
+                                                          + club.getEsperto()
+                                                                .getCognome();
+                        public final String copertina = 
+                                                club.getImmagineCopertina();
+                        public final Set<String> generi = club.getGeneri()
+                                                                .stream()
+                                                                .map(Genere::getNome)
+                                                                .collect(
+                                                                    Collectors
+                                                                    .toSet()
+                                                                );
+                        public final int idClub = club.getIdClub();
+                        public final int iscritti = club.getLettori().size();
+                }
+        ).collect(Collectors.toList()));
+
+        model.addAttribute("generi", this.clubService.getTuttiGeneri());
+        model.addAttribute("citta", this.clubService.getCitta());
 
         return "club-del-libro/visualizza-clubs";
     }
