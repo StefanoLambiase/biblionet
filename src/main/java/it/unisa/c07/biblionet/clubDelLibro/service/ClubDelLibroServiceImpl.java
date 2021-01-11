@@ -7,11 +7,13 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -150,4 +152,23 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
     public String getCittaFromClubDelLibro(final ClubDelLibro club) {
         return club.getEsperto().getBiblioteca().getCitta();
     }
+
+    /**
+     * Restituisce tutti i generi nel sistema
+     * @return Tutti i generi nel sistema
+     */
+    public Set<String> getTuttiGeneri() {
+        return this.genereDAO.findAll().stream().map(Genere::getNome).collect(Collectors.toSet());
+    }
+
+    /**
+     * Restituisce tutte le citta nel sistema
+     * @return Tutte le citta nel sistema
+     */
+    public Set<String> getCitta() {
+        return this.clubDAO.findAll().stream()
+                                     .map(this::getCittaFromClubDelLibro)
+                                     .collect(Collectors.toSet());
+    }
+
 }
