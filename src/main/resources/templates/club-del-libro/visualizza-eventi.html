@@ -8,7 +8,8 @@
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
 
-    <h3> Eventi del club </h3>
+    <h3 th:if="${club != null}"> Eventi del club </h3>
+    <h3 th:unless="${club != null}">I miei eventi</h3>
     <table class="table">
         <tr>
             <th scope="col">Nome Evento</th>
@@ -16,24 +17,28 @@
             <th scope="col">Data</th>
             <th scope="col">Ora</th>
             <th scope="col">Libro trattato</th>
-            <th scope="col">Actions</th>
+            <th scope="col" th:if="${session.loggedUser != null && (session.loggedUser.tipo == 'Lettore' || session.loggedUser.tipo == 'Esperto')}">Azioni</th>
         </tr>
-        <tr th:each="evento : ${club.eventi}">
-            <td th:text="${evento.nomeEvento}"> </td>
-            <td th:text="${evento.descrizione}"> </td>
-            <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
-            <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
-            <td th:text="${evento.libro} ? ${evento.libro} : 'NA'"> </td>
-            <td>
-                <button type="button" class="btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">
-                    Details
-                </button>
-                <button type="button" class="btn btn-success" style="margin-top: 5px; margin-bottom: 5px">
-                    Join
-                </button>
-                <button type="button" class="btn btn-danger" style="margin-top: 5px; margin-bottom: 5px">
-                    Delete
-                </button>
+        <tr th:each="evento : ${eventi}">
+            <td class="align-middle" th:text="${evento.nomeEvento}"> </td>
+            <td class="align-middle" th:text="${evento.descrizione}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
+            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.nome} : 'N/A'"> </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
+                <a class="btn btn-main" th:href="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/modifica'}">
+                    Modifica
+                </a>
+            </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && session.loggedUser.eventi.contains(evento)}">
+                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/abbandona(id=${evento.club.idClub}, evid=${evento.idEvento})'">
+                    <btn type="submit" class="btn btn-main">Abbandona</btn>
+                </form>
+            </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && !session.loggedUser.eventi.contains(evento)}">
+                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/iscrizione(id=${evento.club.idClub}, evid=${evento.idEvento})}">
+                    <btn type="submit" class="btn btn-main">Iscriviti</btn>
+                </form>
             </td>
         </tr>
     </table>

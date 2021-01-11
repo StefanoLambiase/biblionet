@@ -1,0 +1,31 @@
+<form layout:fragment="form-evento" th:action = "${action}" th:object = "${evento}" method = "post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>Nome</label>
+                <input class="form-control" type="text" th:field="*{nome}" />
+                <label> Descrizione</label>
+                <textarea class="form-control" name="descrizione" th:field="*{descrizione}" />        
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="form-group">
+                <label>Data</label>
+                <input class="form-control" type="date" th:field="*{data}" />
+                <br />
+                <label for="ora">Ora</label>
+                <input class="form-control" type="time" th:field="*{ora}" />
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="form-group">
+                <label>Libro Associato</label>
+                <input class="form-control" type="number" th:field="*{libro}" accept="image/png, image/jpeg" >
+                <button class="btn btn-main form-control" type="submit">Invia Dati</button>
+            </div>
+        </div>
+    </div>
+</form>

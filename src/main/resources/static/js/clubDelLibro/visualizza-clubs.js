@@ -26,14 +26,16 @@ function clubToRow(row, club) {
     
     let copertinaElem = document.createElement("img");
     copertinaElem.src = srcCopertina;
-    copertinaElem.setAttribute("height", 120);
+    copertinaElem.style.maxWidth = "3em";
+    copertinaElem.style.maxHeight = "3em";
 
     let copertinaLink = document.createElement("a");
     copertinaLink.href = "/club-del-libro/" + club.idClub;
     copertinaLink.appendChild(copertinaElem);
 
     let copertina = row.insertCell(0);
-    copertina.classList.add("align-middle");
+    copertina.classList.add("align-middle", "text-center");
+
     copertina.appendChild(copertinaLink);
 
     makeCol(1, club.nome);

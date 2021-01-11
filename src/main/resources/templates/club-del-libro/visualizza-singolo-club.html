@@ -7,11 +7,6 @@
 </head>
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
-    <!-- Immagine del club usata come header -->
-    <header>
-        <img th:src="@{'data:image/png;base64,'+ ${club.immagineCopertina}}" class="img-fluid" alt="Responsive image" />
-    </header>
-
     <!-- Header per visualizzare il nome e le core info del club -->
     <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -32,10 +27,17 @@
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Informazioni</h3>
-                    <p class="card-text" th:text = "${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
-                    <p class="card-text" th:text = "${'Email di contatto: ' + club.esperto.email}"></p>
-                    <p class="card-text" th:text = "${club.descrizione}"></p>
+                    <div class="row">
+                        <h3 class="card-title text-center">Informazioni</h3>
+                        <div class="col-8">
+                            <p class="card-text" th:text = "${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
+                            <p class="card-text" th:text = "${'Email di contatto: ' + club.esperto.email}"></p>
+                            <p class="card-text" th:text = "${club.descrizione}"></p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <img th:src="'data:image/png;base64,' + ${club.immagineCopertina}" style="height: 6em"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

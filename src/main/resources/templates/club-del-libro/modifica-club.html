@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Modifica dati Club</title>
+    <title>Modifica Club</title>
 </head>
 <body>
-    <form action = "/club-del-libro/modifica-dati" method = "post" enctype="multipart/form-data">
-        <p><input type="hidden" th:value="${club.idClub}" name="idClub"/></p>
-        <p><input type="text" th:value="${club.nome}" name="nome" /></p>
-        <p><input type="text" th:value="${club.descrizione}" name="descrizione" /></p>
-        <p th:each="genere : ${club.generi}">
-            <input type="text" th:value="${genere.nome}" name="generi" />
-        </p>
-        <p><input type="file" name="copertina" accept="image/png, image/jpeg"/></p>
-        <p> <input type="submit"></p>
-    </form>
+    <div layout:fragment="contenuto-pagina">
+        <h1 th:text="'Modifica del club del libro ' + ${club.nome}"></h1>
+        <div layout:insert="~{/club-del-libro/_club-form::form-club(action=@{/club-del-libro/{id}/modifica(id=${id})})}"></div>
+    </div>
 </body>
 </html>

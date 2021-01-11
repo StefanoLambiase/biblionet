@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Modifica un Evento</title>
+    <script src="@{/js/lib/typeahead.bundle.min.js"></script>
 </head>
 <body>
 
+    <div layout:fragment="contenuto-pagina">
+
+        <div 
+            layout:insert=
+                "~{/club-del-libro/_evento-form::form-evento(
+                        action=@{/club-del-libro/{idClub}/eventi/{idEvento}/modifica(idClub=${club.idClub},idEvento=${id})}
+                    )}"
+        />
+
+    </div>
 </body>
 </html>

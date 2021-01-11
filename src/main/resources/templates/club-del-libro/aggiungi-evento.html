@@ -3,30 +3,13 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <script src="@{/js/lib/typeahead.bundle.min.js"></script>
     <title>Crea Evento</title>
 </head>
 <body>
 
     <div layout:fragment="contenuto-pagina">
-
-        <form th:action = "@{/club-del-libro/{id}/crea-evento(id=${club.idClub})}" th:object = "${evento}" method = "post" enctype="multipart/form-data">
-            <label for="nome">Nome</label>
-            <input type="text" th:field="*{nome}" />
-            <br />
-            <label for="data">Data</label>
-            <input type="date" th:field="*{data}" />
-            <br />
-            <label for="ora">Data</label>
-            <input type="time" th:field="*{ora}" />
-            <br />
-            <label for="descrizione">Descrizione</label>
-            <textarea name="descrizione" th:field="*{descrizione}"></textarea>
-            <p> <input type="submit"></p>
-            <br />
-            <label for="libro">ID Libro</label>
-            <input type="number" th:field="*{libro}" />
-        </form>
-
+        <div layout:insert="~{/club-del-libro/_evento-form::form-evento(action=@{/club-del-libro/{id}/crea-evento(id=${club.idClub})})}"></div>
     </div>
 </body>
 </html>

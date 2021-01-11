@@ -31,13 +31,13 @@ public interface GestioneEventiService {
 
     /**
      * Implementa la funzionalità che permette
-     * ad un Esperto di modificare un Evento
-     * precentemente creato da lui stesso.
-     * @param evento L'Evento modificato da
-     *               memorizzare
-     * @return L'Evento modificato
+     * di modificare un evento.
+     * @param evento La nuova versione dell'evento
+     * @return Optional.empty() se l'evento da modificare
+     *         non esiste, altrimenti un optional contenente
+     *         l'evento modificato.
      */
-    Evento modificaEvento(Evento evento);
+    Optional<Evento> modificaEvento(Evento evento);
 
     /**
      * Metodo di utilità per recuperare
