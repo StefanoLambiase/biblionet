@@ -114,7 +114,7 @@
                         <td th:text="${evento.descrizione}"> </td>
                         <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
                         <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
-                        <td th:text="${evento.libro} ? ${evento.libro} : 'NA'"> </td>
+                        <td th:text="${evento.libro} ? ${evento.libro.titolo} : 'NA'"> </td>
                     </tr>
                 </table>
 

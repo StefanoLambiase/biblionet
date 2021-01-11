@@ -6,11 +6,10 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
@@ -29,7 +27,6 @@ import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Genere;
-import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
@@ -80,7 +77,6 @@ public class ClubDelLibroController {
                                       final int idClub,
                                       final Optional<Integer> idEvento,
                                       final Consumer<Evento> operazione) {
-
 
         var club = this.clubService.getClubByID(idClub);
 
@@ -200,14 +196,14 @@ public class ClubDelLibroController {
         model.addAttribute("listaClubs", listaClubs.stream().map(
                 club -> new Object() {
                         public final String nome = club.getNome();
-                        public final String descrizione = 
+                        public final String descrizione =
                                                 club.getDescrizione();
                         public final String nomeEsperto = club.getEsperto()
                                                               .getNome()
                                                           + " "
                                                           + club.getEsperto()
                                                                 .getCognome();
-                        public final String immagineCopertina = 
+                        public final String immagineCopertina =
                                                 club.getImmagineCopertina();
                         public final Set<String> generi = club.getGeneri()
                                                                 .stream()
@@ -230,7 +226,7 @@ public class ClubDelLibroController {
 
     @RequestMapping(value = "crea", method = RequestMethod.GET)
     public String visualizzaCreaClubDelLibro(final Model model,
-                                             final @ModelAttribute 
+                                             final @ModelAttribute
                                                 ClubForm club) {
         var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || utente.getTipo() != "Esperto") {
@@ -387,12 +383,17 @@ public class ClubDelLibroController {
                                            final @ModelAttribute EventoForm evento,
                                            final Model model) {
         var eventoBaseOpt = this.eventiService.getEventoById(idEvento);
+        var esperto = (UtenteRegistrato) model.getAttribute("loggedUser");
 
         if (eventoBaseOpt.isEmpty()) {
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "Evento Inesistente"
             );
+        }
+
+        if (esperto != null && !eventoBaseOpt.get().getClub().getEsperto().getEmail().equals(esperto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         var eventoBase = eventoBaseOpt.get();
@@ -426,8 +427,7 @@ public class ClubDelLibroController {
      * di gestire la chiamata POST
      * per creare un evento un club del libro.
      */
-    // TODO: Gestione efficace degli errori
-    @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/eventi/crea", method = RequestMethod.POST)
     public String creaEvento(final @PathVariable int id,
                              final @ModelAttribute EventoForm eventoForm) {
         return this.modificaCreaEvento(
@@ -450,7 +450,7 @@ public class ClubDelLibroController {
             Optional.of(idEvento),
             evento -> {
                 var statusModifica = this.eventiService.modificaEvento(evento);
-                if (statusModifica != null) {
+                if (statusModifica.isEmpty()) {
                     throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "L'evento con id " + idEvento
@@ -468,7 +468,7 @@ public class ClubDelLibroController {
      * di un Evento.
      * @return La view che visualizza il form di creazione Evento
      */
-    @RequestMapping(value = "/{id}/crea-evento", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/eventi/crea", method = RequestMethod.GET)
     public String visualizzaCreaEvento(final @PathVariable int id,
                                        final @ModelAttribute EventoForm evento,
                                        final Model model) {
@@ -539,8 +539,10 @@ public class ClubDelLibroController {
         if (clubService.getClubByID(id) == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
         model.addAttribute("club", clubService.getClubByID(id));
         model.addAttribute("eventi", clubService.getClubByID(id).getEventi());
+
         return "club-del-libro/visualizza-eventi";
     }
 }

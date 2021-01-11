@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica un Evento</title>
-    <script src="@{/js/lib/typeahead.bundle.min.js"></script>
+    <script th:src="@{/js/lib/typeahead.bundle.min.js}"></script>
+    <script th:src="@{/js/clubDelLibro/evento-form.js}" defer></script>
 </head>
 <body>
 
     <div layout:fragment="contenuto-pagina">
-
+        <h1 th:text="'Modifica dell\'evento ' + ${evento.nome}"></h1>
         <div 
             layout:insert=
                 "~{/club-del-libro/_evento-form::form-evento(

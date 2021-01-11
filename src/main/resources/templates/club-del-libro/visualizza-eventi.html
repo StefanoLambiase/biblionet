@@ -24,7 +24,7 @@
             <td class="align-middle" th:text="${evento.descrizione}"> </td>
             <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
             <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
-            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.nome} : 'N/A'"> </td>
+            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.titolo} : 'N/A'"> </td>
             <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
                 <a class="btn btn-main" th:href="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/modifica'}">
                     Modifica
@@ -41,6 +41,13 @@
                 </form>
             </td>
         </tr>
+        <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && club.esperto.email == session.loggedUser.email}">
+            <th th:colspan="7" style="text-align: center;">
+                <a style="width: 100%; height: 100%;" class="btn btn-main" th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi/crea'}">
+                    Crea club del Libro
+                </a>
+            </th>
+        </tfoot>
     </table>
 
 </div>

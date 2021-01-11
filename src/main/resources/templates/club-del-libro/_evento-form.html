@@ -1,4 +1,4 @@
-<form layout:fragment="form-evento" th:action = "${action}" th:object = "${evento}" method = "post" enctype="multipart/form-data">
+<form layout:fragment="form-evento" id="form-evento" th:action = "${action}" th:object = "${evento}" method = "post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-6">
             <div class="form-group">
@@ -20,10 +20,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-6 text-center">
             <div class="form-group">
                 <label>Libro Associato</label>
-                <input class="form-control" type="number" th:field="*{libro}" accept="image/png, image/jpeg" >
+                <input class="typeahead" style="width: 100%;" type="text" id="_libro" autocomplete="off">
+                <input type="number" th:field="*{libro}" hidden></input>
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="form-group">
                 <button class="btn btn-main form-control" type="submit">Invia Dati</button>
             </div>
         </div>

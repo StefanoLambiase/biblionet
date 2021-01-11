@@ -3,13 +3,14 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <script src="@{/js/lib/typeahead.bundle.min.js"></script>
+    <script th:src="@{/js/lib/typeahead.bundle.min.js}"></script>
+    <script th:src="@{/js/clubDelLibro/evento-form.js}" defer></script>
     <title>Crea Evento</title>
 </head>
 <body>
-
+    <h1 th:text="'Creazione di un evento in ' + ${club.nome}"></h1>
     <div layout:fragment="contenuto-pagina">
-        <div layout:insert="~{/club-del-libro/_evento-form::form-evento(action=@{/club-del-libro/{id}/crea-evento(id=${club.idClub})})}"></div>
+        <div layout:insert="~{/club-del-libro/_evento-form::form-evento(action=@{/club-del-libro/{id}/eventi/crea(id=${club.idClub})})}"></div>
     </div>
 </body>
 </html>
