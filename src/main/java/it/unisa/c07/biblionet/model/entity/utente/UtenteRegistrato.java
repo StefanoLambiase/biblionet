@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.model.entity.utente;
 
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
@@ -21,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 @SuperBuilder
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UtenteRegistrato {
 
@@ -134,4 +136,6 @@ public class UtenteRegistrato {
     public void setHashedPassword(final byte[] hashPassword) {
         this.password = hashPassword;
     }
+
+
 }

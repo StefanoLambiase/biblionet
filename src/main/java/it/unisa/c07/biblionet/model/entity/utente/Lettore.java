@@ -5,10 +5,7 @@ import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.utils.Length;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
@@ -27,11 +24,12 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Lettore extends UtenteRegistrato implements HaGenere {
 
     /**
-     * Rappresente un lettore sulla piattaforma.
+     * Rappresenta un lettore sulla piattaforma.
      */
     @NonNull
     @Column(nullable = false, length = Length.LENGTH_30)

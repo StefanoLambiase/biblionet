@@ -37,17 +37,20 @@ public class ComunicazioneEspertoServiceImpl implements ComunicazioneEspertoServ
 
         }
 
+        for(Genere g: generi){
+            System.out.println(g);
+        }
+
         for(Esperto esperto: allEsperti){
+            for(Genere genere : esperto.getGeneri()){
 
-            List<Genere> generiEsperto = esperto.getGeneri();
-
-            for(Genere genere : generiEsperto){
-
-                if(generiEsperto.contains(genere)&&!toReturn.contains(esperto))
+                if(generi.contains(genere) && !toReturn.contains(esperto)) {
                     toReturn.add(esperto);
+                }
             }
 
         }
+
         return toReturn;
     }
 }
