@@ -11,6 +11,5 @@ import java.util.List;
  */
 public interface ComunicazioneEspertoService {
 
-    //POSSO COPIARE IL GET GENERI???
     List<Esperto> getEspertiByGeneri(List<Genere> generi);
 }

@@ -22,17 +22,31 @@ public class ComunicazioneEspertoServiceImpl implements ComunicazioneEspertoServ
      * Si occupa delle funzioni CRUD per l'esperto.
      */
     private final EspertoDAO espertoDAO;
+
+
     @Override
     public List<Esperto> getEspertiByGeneri(List<Genere> generi) {
-        List<UtenteRegistrato> allEsperti = espertoDAO.findAll();
+
+        List<Esperto> allEsperti = new ArrayList<>();
         List<Esperto> toReturn = new ArrayList<>();
-        for(UtenteRegistrato u: allEsperti){
-            Esperto e = (Esperto) u;
-            List<Genere> generiEsperto = e.getGeneri();
-            for(Genere g : generiEsperto){
-                if(generiEsperto.contains(g)&&!toReturn.contains(e))
-                    toReturn.add(e);
+
+        for(UtenteRegistrato utente : espertoDAO.findAll()){
+
+            if(utente.getTipo().equals("Esperto"))
+                allEsperti.add((Esperto)utente);
+
+        }
+
+        for(Esperto esperto: allEsperti){
+
+            List<Genere> generiEsperto = esperto.getGeneri();
+
+            for(Genere genere : generiEsperto){
+
+                if(generiEsperto.contains(genere)&&!toReturn.contains(esperto))
+                    toReturn.add(esperto);
             }
+
         }
         return toReturn;
     }

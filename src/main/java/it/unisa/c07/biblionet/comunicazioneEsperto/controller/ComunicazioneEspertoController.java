@@ -24,12 +24,11 @@ public class ComunicazioneEspertoController {
      */
     private final ComunicazioneEspertoService comunicazioneEspertoService;
 
-    @RequestMapping(value = "/visualizza-esperti-genere", method = RequestMethod.POST)
+    @RequestMapping(value = "/visualizza-esperti-genere", method = RequestMethod.GET)
     public String visualizzaEspertiGeneri(final Model model) {
 
         Lettore lettore = (Lettore) model.getAttribute("loggedUser");
-        List<Genere> listaGeneri = comunicazioneEspertoService.getGeneriByName(generi);
-        List<Esperto> listaEsperti = comunicazioneEspertoService.getEspertiByGeneri(listaGeneri);
+        List<Esperto> listaEsperti = comunicazioneEspertoService.getEspertiByGeneri(lettore.getGeneri());
         model.addAttribute("esperti", listaEsperti);
         return "comunicazione-esperto/lista-esperti";
     }

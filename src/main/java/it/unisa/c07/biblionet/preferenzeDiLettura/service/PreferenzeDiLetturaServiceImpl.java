@@ -94,4 +94,6 @@ public class PreferenzeDiLetturaServiceImpl implements
         lettore.setGeneri(generi);
         lettoreDAO.save(lettore);
     }
+
+
 }
