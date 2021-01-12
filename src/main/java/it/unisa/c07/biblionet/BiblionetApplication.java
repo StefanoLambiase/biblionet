@@ -41,9 +41,12 @@ public class BiblionetApplication {
         ConfigurableApplicationContext configurableApplicationContext =
                 SpringApplication.run(BiblionetApplication.class, args);
 
-        //! Chiamata per testare la API di ricerca di google
+/*
+        Chiamata per testare la API di ricerca di google
+
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         bookApiAdapter.getLibroDaBookApi("978-88-238-2264-1");
+*/
 
 //----------------------------Definizione oggetti DAO per ogni entity---------------------------------------------------
 

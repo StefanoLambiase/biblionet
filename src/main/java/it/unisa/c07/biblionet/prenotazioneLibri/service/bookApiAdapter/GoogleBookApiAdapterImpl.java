@@ -12,7 +12,8 @@ import java.net.URL;
  * Implementa l'intefaccia del design pattern Adapter per
  * l'interfacciamento con la Google API Books
  * Esegue la chiamata alla API e riceve un JSON che viene
- * trasformato in un oggetto Libro di BiblioNet
+ * trasformato in un oggetto Libro di BiblioNet.
+ * Documentazione di google sulla API: https://developers.google.com/books/docs/overview.
  */
 public class GoogleBookApiAdapterImpl implements BookApiAdapter {
 
@@ -23,12 +24,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
      * Implementa la funzionalità che converte la risposta
      * ottenuta dall'interrogazione della google API
      * per i libri, tramite ISBN, in un oggetto della
-     * classe Libro, definita in BiblioNet
-     *
-     * * Documentazione di google sulla API: https://developers.google.com/books/docs/overview
-     * ! Attualmente la chiamata viene fatta dalla classe BiblionetApplication a riga 44 con isbn fisso
-     * ! Non funziona la parte di conversione
-     * TODO: implementare la parte di conversione
+     * classe Libro, definita in BiblioNet.
      *
      * @param isbn Il codice ISBN a 13 cifre del libro che si vuole cercare
      * @return L'oggetto Libro contenente le informazioni sul libro cercato
@@ -74,7 +70,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
         return null;
     }
 
-    //TODO: Implementare completamente
+    //DA IMPLEMENTARE
     private Libro creaLibroDaResponse(final StringBuilder stringBuilder) {
         return new Libro();
     }
