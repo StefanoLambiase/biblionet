@@ -1,0 +1,52 @@
+.flip_container {
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+}
+.flip_container:hover .flip {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+.flip {
+    -webkit-transition: 0.75s;
+    transition: 0.75s;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    position: relative;
+    height: 100%;
+}
+.flip_front,
+.flip_back {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.flip_front {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+}
+.flip_back {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    padding: 10px;
+    background-color: #073763;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flipped-card-text {
+    color: white;
+    font-size: 18px;
+}
+
+.red-btn {
+    margin-top: 3%;
+    background-color: #b20909;
+    width: 85%;
+    color: white;
+}
