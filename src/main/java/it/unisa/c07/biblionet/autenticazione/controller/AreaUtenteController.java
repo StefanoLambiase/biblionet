@@ -282,7 +282,7 @@ public class AreaUtenteController {
      * @param model Utilizzato per gestire la sessione.
      * @return La view di visualizzazione dei clubs a cui é iscritto
      */
-    @RequestMapping(value = "/visualizza-clubs-personali-lettore",
+    @RequestMapping(value = "area-utente/visualizza-clubs-personali-lettore",
             method = RequestMethod.GET)
     public String visualizzaClubsLettore(final Model model) {
         Lettore utente = (Lettore) model.getAttribute("loggedUser");
@@ -300,7 +300,7 @@ public class AreaUtenteController {
      * @param model Utilizzato per gestire la sessione.
      * @return La view di visualizzazione dei clubs che gestisce
      */
-    @RequestMapping(value = "/visualizza-clubs-personali-esperto",
+    @RequestMapping(value = "area-utente/visualizza-clubs-personali-esperto",
             method = RequestMethod.GET)
     public String visualizzaClubsEsperto(final Model model) {
         Esperto utente = (Esperto) model.getAttribute("loggedUser");
