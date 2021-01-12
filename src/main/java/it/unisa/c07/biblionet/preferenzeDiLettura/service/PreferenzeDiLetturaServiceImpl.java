@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -93,6 +94,4 @@ public class PreferenzeDiLetturaServiceImpl implements
         lettore.setGeneri(generi);
         lettoreDAO.save(lettore);
     }
-
-
 }

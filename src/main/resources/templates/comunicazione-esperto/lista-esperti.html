@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Esperti in base alle tue preferenze</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="text-center">
+<table>
+    <tr th:each="esperto : ${esperti}">
+        <td th:text="${esperto.getNome()}"></td>
+        <td th:text="${esperto.getGeneri()}"></td>
+    </tr>
+</table>
+</div>
+</body>
+</html>
