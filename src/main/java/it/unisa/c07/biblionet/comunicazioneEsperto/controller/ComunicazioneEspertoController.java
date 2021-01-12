@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.comunicazioneEsperto.controller;
 
 import it.unisa.c07.biblionet.comunicazioneEsperto.service.ComunicazioneEspertoService;
-import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
+/**
+ * @author Alessio Casolaro
+ * @author Della Porta Antonio
+ */
 @Controller
 @RequiredArgsConstructor
 @SessionAttributes("loggedUser")
@@ -24,11 +27,19 @@ public class ComunicazioneEspertoController {
      */
     private final ComunicazioneEspertoService comunicazioneEspertoService;
 
-    @RequestMapping(value = "/visualizza-esperti-genere", method = RequestMethod.GET)
-    public String visualizzaEspertiGeneri(final Model model) {
+    /**
+     * Implementa la funzionalità di mostrare gli esperti in base
+     * ai generi preferiti del lettore.
+     * @param model utilizzato per gestire la sessione
+     * @return la view contenente la lista
+     */
+    @RequestMapping(value = "/visualizza-esperti-genere",
+                    method = RequestMethod.GET)
+    public final String visualizzaEspertiGeneri(final Model model) {
 
         Lettore lettore = (Lettore) model.getAttribute("loggedUser");
-        List<Esperto> listaEsperti = comunicazioneEspertoService.getEspertiByGeneri(lettore.getGeneri());
+        List<Esperto> listaEsperti = comunicazioneEspertoService.
+                                       getEspertiByGeneri(lettore.getGeneri());
         model.addAttribute("esperti", listaEsperti);
         return "comunicazione-esperto/lista-esperti";
     }

@@ -11,5 +11,11 @@ import java.util.List;
  */
 public interface ComunicazioneEspertoService {
 
+    /**
+     * Implementa la funzionalità di cercare degli esperti che hanno
+     * come generi preferiti quelli passati.
+     * @param generi i generi da cercare
+     * @return la lista di esperti
+     */
     List<Esperto> getEspertiByGeneri(List<Genere> generi);
 }
