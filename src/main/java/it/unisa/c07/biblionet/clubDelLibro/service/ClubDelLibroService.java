@@ -97,8 +97,20 @@ public interface ClubDelLibroService {
      */
     Set<String> getCitta();
 
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro a cui un lettore partecipa
+     * @param lettore il lettore preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
     List<ClubDelLibro> findAllByLettori(Lettore lettore);
 
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro di cui un esperto è proprietario
+     * @param esperto l' esperto preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
     List<ClubDelLibro> findAllByEsperto(Esperto esperto);
 
 }
