@@ -635,7 +635,15 @@ public class BiblionetApplication {
                 clubDelLibro
         );
 
+        Evento evento2 = new Evento(
+                "Evento fantasy 2",
+                "Evento fantasy 2",
+                LocalDateTime.now(),
+                clubDelLibro
+        );
+
         eventoDAO.save(evento);
+        eventoDAO.save(evento2);
 
 //-------------------------------POPOLAMENTO MANY TO MANY E ONE TO MANY-------------------------------------------------
 

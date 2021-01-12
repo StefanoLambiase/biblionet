@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -9,11 +10,7 @@ import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -267,6 +264,23 @@ public class PrenotazioneLibriController {
             model.addAttribute("listaTicketRifiutati", list4);
         }
         return "prenotazione-libri/visualizza-richieste-lettore";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere una lista di id e titoli di libri
+     * sulla base di un titolo dato
+     *
+     * ! Controllare prima di consegnare
+     *
+     * @param titolo il titolo che deve mathcare
+     * @return la lista di informazioni
+     */
+    @RequestMapping(value = "/find-libri-by-titolo-contains")
+    public @ResponseBody List<ILibroIdAndName> findLibriByTitoloContains(
+            @RequestParam("q") String titolo
+    ) {
+        return prenotazioneService.findByTitoloContains(titolo);
     }
 
 }

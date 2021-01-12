@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -82,5 +83,17 @@ public interface ClubDelLibroService {
      * @return
      */
     String getCittaFromClubDelLibro(ClubDelLibro club);
+
+    /**
+     * Restituisce tutti i generi nel sistema
+     * @return Tutti i generi nel sistema
+     */
+    Set<String> getTuttiGeneri();
+
+    /**
+     * Restituisce tutte le citta nel sistema
+     * @return Tutte le citta nel sistema
+     */
+    Set<String> getCitta();
 
 }

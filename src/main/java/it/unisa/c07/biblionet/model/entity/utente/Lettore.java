@@ -16,6 +16,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.List;
 
 /**
@@ -69,6 +73,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * Rappresenta gli eveti a cui prende parte.
      */
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
     private List<Evento> eventi;
 
