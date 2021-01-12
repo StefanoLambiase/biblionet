@@ -36,8 +36,8 @@ public interface LibroDAO extends JpaRepository<Libro, Integer> {
      * @return La lista dei libri che contengono
      *          la stringa
      */
-    @Query("SELECT l.idLibro AS idLibro, l.titolo AS titolo " +
-            "FROM Libro l " +
-            "WHERE UPPER(l.titolo) LIKE UPPER(concat('%', ?1,'%'))")
+    @Query("SELECT l.idLibro AS idLibro, l.titolo AS titolo "
+            + "FROM Libro l "
+            + "WHERE UPPER(l.titolo) LIKE UPPER(concat('%', ?1,'%'))")
     List<ILibroIdAndName> findByTitoloContains(String titolo);
 }

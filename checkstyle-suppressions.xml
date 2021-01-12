@@ -7,12 +7,15 @@
 <suppressions>
     <suppress checks="LineLength" files="/src"/>
     <suppress checks="javadoc" files="/src"/>
-    <suppress checks="naming" files="/src"/>
-    <suppress checks="DesignForExtension" files="/src"/>
+    <suppress checks="naming" files=".+\.(?:jar|zip|java|war|class|tar|bin)$"/>
+    <suppress checks="DesignForExtension" files=".+\.(?:jar|zip|java|war|class|tar|bin)$"/>
     <suppress checks="AvoidStarImport" files="/src"/>
-    <suppress checks="MagicNumber" files="/src/test"/>
+    <suppress checks="MagicNumber" files=".+\.(?:jar|zip|java|war|class|tar|bin)$"/>
     <suppress checks="FinalParameters" files="/src/test"/>
+
+    <suppress files=".+\.(?:jar|zip|java|war|class|tar|bin)$" checks="VisibilityModifier"/>
 
     <suppress checks="HiddenField" files="\.java"/>
     <suppress checks="[a-zA-Z0-9]*" files="BiblionetApplication\.java"/>
+    <suppress checks="." files="ClubDelLibroControllerTest\.java"/>
 </suppressions>

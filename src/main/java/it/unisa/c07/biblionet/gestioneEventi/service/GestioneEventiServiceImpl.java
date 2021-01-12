@@ -34,7 +34,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
 
     /**
      * Implementa la funzionalità che permette
-     * di trovare un evento dato il suo identificativo
+     * di trovare un evento dato il suo identificativo.
      * @param idEvento L'identificativo dell'evento
      * @return L'Evento trovato
      */

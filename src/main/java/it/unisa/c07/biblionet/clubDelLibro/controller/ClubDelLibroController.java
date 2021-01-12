@@ -70,6 +70,8 @@ public class ClubDelLibroController {
      * @param idClub L'id del club del libro in cui inserire l'evento.
      * @param idEvento L'id dell'evento, che può essere vuoto per ottenere
      *                 l'autoassegnazione.
+     * @param operazione L'operazione, tra creazione e modifica, che si vuole
+     *                   effettuare.
      * @return La view inserita.
      */
     private String modificaCreaEvento(final EventoForm eventoForm,
@@ -104,7 +106,8 @@ public class ClubDelLibroController {
 
         evento.setNomeEvento(eventoForm.getNome());
 
-        if (!ValidazioneEvento.isDescrizioneValida(eventoForm.getDescrizione())) {
+        if (!ValidazioneEvento.
+                isDescrizioneValida(eventoForm.getDescrizione())) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Lunghezza della descrizione non valida."
@@ -113,7 +116,8 @@ public class ClubDelLibroController {
 
         evento.setDescrizione(eventoForm.getDescrizione());
 
-        var dataOra = LocalDateTime.of(eventoForm.getData(), eventoForm.getOra());
+        var dataOra =
+                LocalDateTime.of(eventoForm.getData(), eventoForm.getOra());
 
         if (dataOra.isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(
@@ -125,7 +129,8 @@ public class ClubDelLibroController {
         evento.setDataOra(dataOra);
 
         if (eventoForm.getLibro() != null) {
-            var libro = this.eventiService.getLibroById(eventoForm.getLibro());
+            var libro =
+                    this.eventiService.getLibroById(eventoForm.getLibro());
             if (libro.isEmpty()) {
                 throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -166,7 +171,8 @@ public class ClubDelLibroController {
         if (generi.isPresent()) {
                 filtroGenere = x -> false;
 
-                var generiDaDB = clubService.getGeneri(generi.get());
+                var generiDaDB =
+                        clubService.getGeneri(generi.get());
 
                 for (Genere genere: generiDaDB) {
                         filtroGenere = filtroGenere.or(
@@ -205,16 +211,15 @@ public class ClubDelLibroController {
                                                                 .getCognome();
                         public final String immagineCopertina =
                                                 club.getImmagineCopertina();
-                        public final Set<String> generi = club.getGeneri()
-                                                                .stream()
-                                                                .map(Genere::getNome)
-                                                                .collect(
-                                                                    Collectors
-                                                                    .toSet()
-                                                                );
+                        public final Set<String> generi =
+                                club.getGeneri()
+                                        .stream()
+                                        .map(Genere::getNome)
+                                        .collect(Collectors.toSet());
                         public final int idClub = club.getIdClub();
                         public final int iscritti = club.getLettori().size();
-                        public final String email = club.getEsperto().getEmail();
+                        public final String email =
+                                club.getEsperto().getEmail();
                 }
         ).collect(Collectors.toList()));
 
@@ -224,6 +229,13 @@ public class ClubDelLibroController {
         return "club-del-libro/visualizza-clubs";
     }
 
+    /**
+     * Implementa la funzionalità di visualizzare la pagina di creazione di
+     * un club del libro.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @param club Il form in cui inserire i dati del club
+     * @return La pagina del Club
+     */
     @RequestMapping(value = "crea", method = RequestMethod.GET)
     public String visualizzaCreaClubDelLibro(final Model model,
                                              final @ModelAttribute
@@ -239,19 +251,16 @@ public class ClubDelLibroController {
     }
 
     /**
-     * Implementa la funzionalità che permette
-     * di gestire la chiamata POST
-     * per creare un club del libro.
-     * @param nome Il nome del club
-     * @param descrizione La descrizione del club
-     * @param copertina L'immagine di copertina del Club
-     * @param generi Lista dei generi del club
-     * @return La view che visualizza i Club
+     * Implementa la funzionalità di creazione di un club del libro.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @param club Il club che si vuole creare
+     * @return la pagina del Club
      */
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(final Model model,
                                    final @ModelAttribute ClubForm club) {
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || utente.getTipo() != "Esperto") {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -263,7 +272,8 @@ public class ClubDelLibroController {
         if (club.getCopertina() != null && !club.getCopertina().isEmpty()) {
                 try {
                         byte[] imageBytes = club.getCopertina().getBytes();
-                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        String base64Image =
+                                Base64.getEncoder().encodeToString(imageBytes);
                         cdl.setImmagineCopertina(base64Image);
                         } catch (IOException e) {
                         e.printStackTrace();
@@ -288,25 +298,29 @@ public class ClubDelLibroController {
      * di re-indirizzare alla pagina di modifica
      * dei dati di un Club del Libro.
      * @param id l'ID del Club da modificare
+     * @param club Il club che si vuole creare
      * @param model l'oggetto model usato per inserire gli attributi
      * @return La view che visualizza il form di modifica dati
      */
     @RequestMapping(value = "/{id}/modifica", method = RequestMethod.GET)
     public String visualizzaModificaDatiClub(final @PathVariable int id,
-                                             final @ModelAttribute ClubForm club,
+                                             final @ModelAttribute
+                                                     ClubForm club,
                                              final Model model) {
         var esperto = (UtenteRegistrato) model.getAttribute("loggedUser");
         var cdl = this.clubService.getClubByID(id);
         if (cdl == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        if (esperto == null || !cdl.getEsperto().getEmail().equals(esperto.getEmail())) {
+        if (esperto == null
+                || !cdl.getEsperto().getEmail().equals(esperto.getEmail())) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         club.setNome(cdl.getNome());
         club.setDescrizione(cdl.getDescrizione());
-        club.setGeneri(cdl.getGeneri().stream().map(Genere::getNome).collect(Collectors.toList()));
+        club.setGeneri(cdl.getGeneri().stream().map(Genere::getNome).
+                collect(Collectors.toList()));
 
         model.addAttribute("club", club);
         model.addAttribute("id", id);
@@ -315,20 +329,14 @@ public class ClubDelLibroController {
     }
 
     /**
-     * Implementa la funzionalità che permette
-     * di gestire la chiamata POST
-     * per modificare i dati di un club del libro.
-     * @param idClub L'id del club
-     * @param nome Il nome del club
-     * @param descrizione La descrizione del club
-     * @param copertina L'immagine di copertina del Club
-     * @param generi Lista dei generi del club
-     * @return La view che visualizza i Club del Libro
+     * Implementa la funzionalità per la modifica dei dati di un Club.
+     * @param id Lo Id del Club
+     * @param club Il form dove inserire i nuovi dati
+     * @return La schermata del club
      */
     @RequestMapping(value = "/{id}/modifica",
             method = RequestMethod.POST)
     public String modificaDatiClub(final @PathVariable int id,
-                                   final Model model,
                                    final @ModelAttribute ClubForm club) {
 
         ClubDelLibro clubPers = this.clubService.getClubByID(id);
@@ -357,13 +365,15 @@ public class ClubDelLibroController {
      * l'iscrizione di un lettore ad un
      * Club del Libro.
      * @param id l'ID del Club a cui iscriversi
+     * @param model Il model da passare alla view
      * @return La view che visualizza la lista dei club
      */
     @RequestMapping(value = "/{id}/iscrizione", method = RequestMethod.POST)
     public String partecipaClub(final @PathVariable int id,
                                 final Model model) {
 
-        UtenteRegistrato lettore = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato lettore =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         if (lettore == null || lettore.getTipo() != "Lettore") {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -380,9 +390,11 @@ public class ClubDelLibroController {
     )
     public String visualizzaModificaEvento(final @PathVariable int idClub,
                                            final @PathVariable int idEvento,
-                                           final @ModelAttribute EventoForm evento,
+                                           final @ModelAttribute
+                                                       EventoForm evento,
                                            final Model model) {
-        var eventoBaseOpt = this.eventiService.getEventoById(idEvento);
+        var eventoBaseOpt =
+                this.eventiService.getEventoById(idEvento);
         var esperto = (UtenteRegistrato) model.getAttribute("loggedUser");
 
         if (eventoBaseOpt.isEmpty()) {
@@ -392,7 +404,8 @@ public class ClubDelLibroController {
             );
         }
 
-        if (esperto != null && !eventoBaseOpt.get().getClub().getEsperto().getEmail().equals(esperto.getEmail())) {
+        if (esperto != null && !eventoBaseOpt.get().getClub().getEsperto()
+                .getEmail().equals(esperto.getEmail())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -439,7 +452,8 @@ public class ClubDelLibroController {
         );
     }
 
-    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/modifica", method = RequestMethod.POST)
+    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/modifica",
+            method = RequestMethod.POST)
     public String modificaEvento(final @PathVariable int idClub,
                                  final @PathVariable int idEvento,
                                  final @ModelAttribute EventoForm eventoForm) {
@@ -449,7 +463,8 @@ public class ClubDelLibroController {
             idClub,
             Optional.of(idEvento),
             evento -> {
-                var statusModifica = this.eventiService.modificaEvento(evento);
+                var statusModifica =
+                        this.eventiService.modificaEvento(evento);
                 if (statusModifica.isEmpty()) {
                     throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
@@ -509,10 +524,12 @@ public class ClubDelLibroController {
      * @param id L'identificativo dell'evento da eliminare
      * @return La view della lista degli eventi
      */
-    @RequestMapping(value = "/{club}/eventi/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{club}/eventi/{id}",
+            method = RequestMethod.DELETE)
     public String eliminaEvento(final @PathVariable int club,
                                 final @PathVariable int id) {
-        var eventoEliminato = this.eventiService.eliminaEvento(id);
+        var eventoEliminato =
+                this.eventiService.eliminaEvento(id);
 
         if (eventoEliminato.isEmpty()) {
             throw new ResponseStatusException(
@@ -541,7 +558,8 @@ public class ClubDelLibroController {
         }
 
         model.addAttribute("club", clubService.getClubByID(id));
-        model.addAttribute("eventi", clubService.getClubByID(id).getEventi());
+        model.addAttribute("eventi",
+                clubService.getClubByID(id).getEventi());
 
         return "club-del-libro/visualizza-eventi";
     }

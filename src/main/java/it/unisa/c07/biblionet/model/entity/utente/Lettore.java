@@ -19,7 +19,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.jmx.export.annotation.ManagedNotification;
 
 import java.util.List;
 
