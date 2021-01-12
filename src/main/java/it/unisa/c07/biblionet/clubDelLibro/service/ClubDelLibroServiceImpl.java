@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
 
@@ -169,6 +170,16 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
         return this.clubDAO.findAll().stream()
                                      .map(this::getCittaFromClubDelLibro)
                                      .collect(Collectors.toSet());
+    }
+
+    /****************** */
+
+    public List<ClubDelLibro> findAllByLettori(Lettore lettore) {
+        return clubDAO.findAllByLettori(lettore);
+    }
+
+    public List<ClubDelLibro> findAllByEsperto(Esperto esperto) {
+        return clubDAO.findAllByEsperto(esperto);
     }
 
 }

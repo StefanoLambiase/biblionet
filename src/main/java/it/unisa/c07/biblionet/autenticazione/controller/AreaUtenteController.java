@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Alessio Casolaro, Antonio Della Porta
@@ -264,16 +266,17 @@ public class AreaUtenteController {
             } else if (autenticazioneService.isEsperto(utente)) {
                 Esperto esperto = (Esperto) utente;
                 model.addAttribute("esperto", esperto);
+                model.addAttribute("clubs", autenticazioneService.findAllByEsperto(esperto));
                 return "area-utente/visualizza-esperto";
 
             } else if (autenticazioneService.isLettore(utente)) {
                 Lettore lettore = (Lettore) utente;
                 model.addAttribute("lettore", lettore);
+                model.addAttribute("clubs", autenticazioneService.findAllByLettori(lettore));
                 return "area-utente/visualizza-lettore";
 
             }
         }
         return "autenticazione/login";
     }
-
 }

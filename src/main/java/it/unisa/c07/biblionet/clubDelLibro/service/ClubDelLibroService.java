@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 import java.util.List;
@@ -95,5 +96,9 @@ public interface ClubDelLibroService {
      * @return Tutte le citta nel sistema
      */
     Set<String> getCitta();
+
+    List<ClubDelLibro> findAllByLettori(Lettore lettore);
+
+    List<ClubDelLibro> findAllByEsperto(Esperto esperto);
 
 }

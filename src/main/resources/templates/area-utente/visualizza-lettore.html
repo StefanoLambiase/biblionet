@@ -92,6 +92,12 @@
                                                             <td th:text="${genere.nome}"></td>
                                                             <br>
                                                         </tr>
+                                                        <!-- Clubs visualization -->
+                                                        <tr th:each="club : ${clubs}">
+                                                            <th>Clubs:</th>
+                                                            <td th:text="${club.nome}"></td>
+                                                            <br>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -1,10 +1,15 @@
 package it.unisa.c07.biblionet.autenticazione.service;
 
 
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 /**
  * @author Ciro Maiorino , Giulio Triggiani
@@ -85,4 +90,9 @@ public interface AutenticazioneService {
       * @return La biblioteca se c'è, altrimenti null
       */
      Biblioteca findBibliotecaByEmail(String email);
+
+
+     List<ClubDelLibro> findAllByLettori(Lettore lettore);
+
+     List<ClubDelLibro> findAllByEsperto(Esperto esperto);
 }
