@@ -1,10 +1,13 @@
 package it.unisa.c07.biblionet.autenticazione.service;
 
 
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+
+import java.util.List;
 
 /**
  * @author Ciro Maiorino , Giulio Triggiani
@@ -85,4 +88,20 @@ public interface AutenticazioneService {
       * @return La biblioteca se c'è, altrimenti null
       */
      Biblioteca findBibliotecaByEmail(String email);
+
+     /**
+      * Implementa la funzionalità di prendere una lista di club
+      * del libro a cui un lettore partecipa.
+      * @param lettore il lettore preso in esame
+      * @return la lista dei club del libro a cui partecipa
+      */
+     List<ClubDelLibro> findAllByLettori(Lettore lettore);
+
+     /**
+      * Implementa la funzionalità di prendere una lista di club
+      * del libro di cui un esperto è proprietario.
+      * @param esperto l' esperto preso in esame
+      * @return la lista dei club del libro a cui partecipa
+      */
+     List<ClubDelLibro> findAllByEsperto(Esperto esperto);
 }

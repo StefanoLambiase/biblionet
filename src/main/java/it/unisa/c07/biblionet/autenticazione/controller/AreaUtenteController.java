@@ -276,4 +276,39 @@ public class AreaUtenteController {
         return "autenticazione/login";
     }
 
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * a cui il lettore é iscritto.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs a cui é iscritto
+     */
+    @RequestMapping(value = "area-utente/visualizza-clubs-personali-lettore",
+            method = RequestMethod.GET)
+    public String visualizzaClubsLettore(final Model model) {
+        Lettore utente = (Lettore) model.getAttribute("loggedUser");
+        if (utente != null && autenticazioneService.isLettore(utente)) {
+            model.addAttribute("clubs",
+                    autenticazioneService.findAllByLettori(utente));
+            return "area-utente/visualizza-clubs-personali";
+        }
+        return "autenticazione/login";
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * che l'esperto gestisce.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs che gestisce
+     */
+    @RequestMapping(value = "area-utente/visualizza-clubs-personali-esperto",
+            method = RequestMethod.GET)
+    public String visualizzaClubsEsperto(final Model model) {
+        Esperto utente = (Esperto) model.getAttribute("loggedUser");
+        if (utente != null && autenticazioneService.isEsperto(utente)) {
+            model.addAttribute("clubs",
+                    autenticazioneService.findAllByEsperto(utente));
+            return "area-utente/visualizza-clubs-personali";
+        }
+        return "autenticazione/login";
+    }
 }

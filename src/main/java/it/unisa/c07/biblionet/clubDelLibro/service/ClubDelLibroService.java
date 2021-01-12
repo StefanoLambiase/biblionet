@@ -2,6 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.service;
 
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 import java.util.List;
@@ -95,5 +96,21 @@ public interface ClubDelLibroService {
      * @return Tutte le citta nel sistema
      */
     Set<String> getCitta();
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro a cui un lettore partecipa
+     * @param lettore il lettore preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    List<ClubDelLibro> findAllByLettori(Lettore lettore);
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro di cui un esperto è proprietario
+     * @param esperto l' esperto preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    List<ClubDelLibro> findAllByEsperto(Esperto esperto);
 
 }
