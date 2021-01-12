@@ -5,43 +5,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-
-        /* Do an horizontal flip when you move the mouse over the flip box container */
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        /* Position the front and back side */
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden; /* Safari */
-            backface-visibility: hidden;
-        }
-
-        /* Style the front side (fallback if image is missing) */
-        .flip-card-front {
-            background-color: #073763;
-            color: black;
-        }
-
-        /* Style the back side */
-        .flip-card-back {
-            background-color: #073763;
-            color: white;
-            transform: rotateY(180deg);
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{~/style/home.css}"/>
 </head>
 <body>
 <div layout:fragment="pagina">
@@ -85,240 +49,258 @@
 
     </nav>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row" style="margin-top: 6%">
 
-            <div class="col flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <a href="/club-del-libro/"><img
-                                th:src="@{~/image/home/club-del-libro.jpg}" style="width: 100%; height: 100%;"></a>
-                    </div>
-                    <div class="flip-card-back">
-                        <p>Clicca sull'immagine per visualizzare i club del libro
-                            ed unirti a milioni di lettori che condividono
-                            i tuoi stessi interessi.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <a href="/visualizza-biblioteche/"><img
-                                th:src="@{~/image/home/biblioteca.jpg}" style="width: 100%; height: 100%;">
+            <div class="col flip_container">
+                <div class="flip">
+                    <div class="flip_front">
+                        <a>
+                            <img th:src="@{~/image/home/club-del-libro.jpg}" style="width: 100%; height: 100%;">
                         </a>
                     </div>
-                    <div class="flip-card-back">
-                        <p>Clicca sull'immagine per visualizzare le biblioteche
-                            che più ti possono interessare.</p>
+                    <div class="flip_back w-100 flipped-card-text">
+                        <p>
+                                Premi sul bottone in basso per
+                                visualizzare i club del libro
+                                ed unirti a milioni di lettori che condividono
+                                i tuoi stessi interessi.
+                        </p>
+                        <a href="/club-del-libro/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Club del Libro</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <a href="/visualizza-esperti/"><img
-                                th:src="@{~/image/home/esperto.jpg}" style="width: 100%; height: 100%;"></a>
+            <div class="col flip_container">
+                <div class="flip">
+                    <div class="flip_front">
+                        <a>
+                            <img th:src="@{~/image/home/biblioteca.jpg}" style="width: 100%; height: 100%;">
+                        </a>
                     </div>
-                    <div class="flip-card-back">
-                        <p>Clicca sull'immagine per visualizzare gli esperti
+                    <div class="flip_back w-100 flipped-card-text">
+                        <p>
+                            Prenu sul bottone in basso
+                            per visualizzare le biblioteche
+                            che più ti possono interessare.
+                        </p>
+                        <a href="/visualizza-biblioteche/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Biblioteche</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col flip_container">
+                <div class="flip">
+                    <div class="flip_front">
+                        <a>
+                            <img th:src="@{~/image/home/esperto.jpg}" style="width: 100%; height: 100%;">
+                        </a>
+                    </div>
+                    <div class="flip_back w-100 flipped-card-text">
+                        <p>
+                            Premi sul bottone in basso
+                            per visualizzare gli esperti
                             ed interagire con loro per farti consigliare i
-                            libri più adatti a te.</p>
+                            libri più adatti a te.
+                        </p>
+                        <a href="/visualizza-esperti/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Esperti</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <a href="/prenotazione-libri/"><img
-                                th:src="@{~/image/home/prenotazione-libri.jpg}" style="width: 100%; height: 100%;"></a>
+            <div class="col flip_container">
+                <div class="flip">
+                    <div class="flip_front">
+                        <a>
+                            <img th:src="@{~/image/home/prenotazione-libri.jpg}" style="width: 100%; height: 100%;">
+                        </a>
                     </div>
-                    <div class="flip-card-back">
-                        <p>Clicca sull'immagine per prenotare i libri che desideri
-                            senza doverti muovere di casa
-                            (tranne che per andarli a prendere).</p>
+                    <div class="flip_back w-100 flipped-card-text">
+                        <p>
+                            Premi sul bottone in basso
+                            per sfogliare il catalogo e
+                            prenotare i libri che desideri
+                            direttamente da casa tua.
+                        </p>
+                        <a href="/prenotazione-libri/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Prenotazione libri</a>
                     </div>
                 </div>
             </div>
+
+            <div class="row" id="about">
+                <!-- Section: Team -->
+                <section class="team-section text-center my-5">
+
+                    <!-- Section heading -->
+                    <h2 class="h1-responsive font-weight-bold my-5">Incontra il nostro team</h2>
+                    <!-- Section description -->
+                    <p class="grey-text w-responsive mx-auto mb-5"> Biblionet nasce con l'obiettivo di facilitare
+                        l’avvicinamento di nuove persone al mondo della lettura.
+                        Attraverso la nostra piattaforma online, viene fornito al lettore la possibilità di
+                        cercare le biblioteche più vicine ad esso
+                        e di visionare in modo semplice e veloce la lista dei libri disponibili in esse.</p>
+
+                    <!-- Grid row -->
+                    <div class="row">
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Lambiase.jpg}" class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Stefano Lambiase</h5>
+                            <p class="text-uppercase blue-text"><strong>Project Manager</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/StefanoLambiase" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Voria.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Gianmario Voria</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/yabokk" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 mb-md-0 mb-5 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Pentangelo.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Viviana Pentangelo</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/vipenti" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/DellaPorta.png}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Antonio Della Porta</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/atdepo" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Maiorino.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Ciro Maiorino</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/Tekhorror" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Triggiani.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Giulio Triggiani</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/rayleighRe1" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Casolaro.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Alessio Casolaro</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/BearGrillz99" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Topo.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Luca Topo</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+                            <a href="https://github.com/Zekromaster" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-lg-3 col-md-6 p-1">
+                            <div class="avatar mx-auto">
+                                <img th:src="@{~/image/home/icone/Pagliara.jpg}"
+                                     class="rounded-circle z-depth-1"
+                                     alt="Sample avatar">
+                            </div>
+                            <h5 class="font-weight-bold mt-4 mb-3">Nicola Pagliara</h5>
+                            <p class="text-uppercase blue-text"><strong>Developer</strong></p>
+                            <!-- Github -->
+
+                            <a href="https://github.com/Nicola-Pagliara" class="p-2 fa-lg ins-ic">
+                                <i class="fa fa-github fa-lg"> </i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+
+                </section>
+                <!-- Section: Team -->
+            </div>
         </div>
-
-        <div class="row" id="about">
-            <!-- Section: Team -->
-            <section class="team-section text-center my-5">
-
-                <!-- Section heading -->
-                <h2 class="h1-responsive font-weight-bold my-5">Incontra il nostro team</h2>
-                <!-- Section description -->
-                <p class="grey-text w-responsive mx-auto mb-5"> Biblionet nasce con l'obiettivo di facilitare
-                    l’avvicinamento di nuove persone al mondo della lettura.
-                    Attraverso la nostra piattaforma online, viene fornito al lettore la possibilità di
-                    cercare le biblioteche più vicine ad esso
-                    e di visionare in modo semplice e veloce la lista dei libri disponibili in esse.</p>
-
-                <!-- Grid row -->
-                <div class="row">
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Lambiase.jpg}" class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Stefano Lambiase</h5>
-                        <p class="text-uppercase blue-text"><strong>Project Manager</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/StefanoLambiase" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Voria.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Gianmario Voria</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/yabokk" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 mb-md-0 mb-5 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Pentangelo.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Viviana Pentangelo</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/vipenti" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/DellaPorta.png}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Antonio Della Porta</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/atdepo" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Maiorino.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Ciro Maiorino</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/Tekhorror" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Triggiani.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Giulio Triggiani</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/rayleighRe1" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Casolaro.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Alessio Casolaro</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/BearGrillz99" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Topo.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Luca Topo</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-                        <a href="https://github.com/Zekromaster" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-3 col-md-6 p-1">
-                        <div class="avatar mx-auto">
-                            <img th:src="@{~/image/home/icone/Pagliara.jpg}"
-                                 class="rounded-circle z-depth-1"
-                                 alt="Sample avatar">
-                        </div>
-                        <h5 class="font-weight-bold mt-4 mb-3">Nicola Pagliara</h5>
-                        <p class="text-uppercase blue-text"><strong>Developer</strong></p>
-                        <!-- Github -->
-
-                        <a href="https://github.com/Nicola-Pagliara" class="p-2 fa-lg ins-ic">
-                            <i class="fa fa-github fa-lg"> </i>
-                        </a>
-                    </div>
-                    <!-- Grid column -->
-                </div>
-                <!-- Grid row -->
-
-            </section>
-            <!-- Section: Team -->
-        </div>
+        <footer class="bg-light text-center text-lg-start">
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+                © 2020 Copyright:Biblionet.com
+            </div>
+            <!-- Copyright -->
+        </footer>
     </div>
-    <footer class="bg-light text-center text-lg-start">
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-            © 2020 Copyright:Biblionet.com
-        </div>
-        <!-- Copyright -->
-    </footer>
-</div>
 </body>
 </html>
