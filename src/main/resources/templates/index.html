@@ -1,54 +1,148 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/common}">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        /* Do an horizontal flip when you move the mouse over the flip box container */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Position the front and back side */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+        }
+
+        /* Style the front side (fallback if image is missing) */
+        .flip-card-front {
+            background-color: #073763;
+            color: black;
+        }
+
+        /* Style the back side */
+        .flip-card-back {
+            background-color: #073763;
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
 <body>
+<div layout:fragment="pagina">
+    <nav class="navbar navbar-expand-lg justify-content-between " id="navbar-principale">
 
-<div layout:fragment="contenuto-pagina">
-    <div class="container">
-        <div class="row">
+        <div>
+            <div class="navbar-brand">
+                <a th:href="@{/}"> <img class="w-30" th:src="@{~/image/logo/Solo_libro.png}" style="width: 30%;"> </a>
+            </div>
+        </div>
 
-            <div class="col">
-                <a href="/club-del-libro/"><img
-                        th:src="@{~/image/home/club-del-libro.jpg}"></a>
+        <div class="mx-auto">
+            <div>
+                <img th:src="@{~/image/logo/Solo_testo.png}" style="width: 30%;">
+            </div>
+        </div>
 
-                <p>Clicca sull'immagine per visualizzare i club del libro
-                    ed unirti a milioni di lettori che condividono
-                    i tuoi stessi interessi.</p>
+
+        <div class="d-flex ml-auto">
+            <div>
+
+
+                <div class="dropdown" th:if="${session.loggedUser != null && session.loggedUser.email != null}">
+                    <button class="btn btn-main dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Area Utente
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" type="submit" th:href="@{/area-utente}">Area Utente</a></li>
+                        <li><a class="dropdown-item" href="/autenticazione/logout">Logout</a></li>
+                    </ul>
+                </div>
+
+                <div th:unless="${session.loggedUser != null && session.loggedUser.email != null}">
+                    <a class="btn btn-main" type="submit" th:href="@{/registrazione/}">Registrati</a>
+                    <a class="btn btn-main" type="submit" th:href="@{/autenticazione}">Accedi</a>
+                </div>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 6%">
+
+            <div class="col flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <a href="/club-del-libro/"><img
+                                th:src="@{~/image/home/club-del-libro.jpg}" style="width: 100%; height: 100%;"></a>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Clicca sull'immagine per visualizzare i club del libro
+                            ed unirti a milioni di lettori che condividono
+                            i tuoi stessi interessi.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="col">
-                <a href="/visualizza-biblioteche/"><img
-                        th:src="@{~/image/home/biblioteca.jpg}">
-                </a>
-
-                <p>Clicca sull'immagine per visualizzare le biblioteche
-                    che più ti possono interessare.</p>
+            <div class="col flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <a href="/visualizza-biblioteche/"><img
+                                th:src="@{~/image/home/biblioteca.jpg}" style="width: 100%; height: 100%;">
+                        </a>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Clicca sull'immagine per visualizzare le biblioteche
+                            che più ti possono interessare.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="col">
-                <a href="/visualizza-esperti/"><img
-                        th:src="@{~/image/home/esperto.jpg}">
-                </a>
-
-                <p>Clicca sull'immagine per visualizzare gli esperti
-                    ed interagire con loro per farti consigliare i
-                    libri più adatti a te.</p>
-            </div>
-            <div class="col">
-                <a href="/prenotazione-libri/"><img
-                        th:src="@{~/image/home/prenotazione-libri.jpg}">
-                </a>
-
-                <p>Clicca sull'immagine per prenotare i libri che desideri
-                    senza doverti muovere di casa
-                    (tranne che per andarli a prendere).</p>
+            <div class="col flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <a href="/visualizza-esperti/"><img
+                                th:src="@{~/image/home/esperto.jpg}" style="width: 100%; height: 100%;"></a>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Clicca sull'immagine per visualizzare gli esperti
+                            ed interagire con loro per farti consigliare i
+                            libri più adatti a te.</p>
+                    </div>
+                </div>
             </div>
 
+            <div class="col flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <a href="/prenotazione-libri/"><img
+                                th:src="@{~/image/home/prenotazione-libri.jpg}" style="width: 100%; height: 100%;"></a>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Clicca sull'immagine per prenotare i libri che desideri
+                            senza doverti muovere di casa
+                            (tranne che per andarli a prendere).</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row" id="about">
@@ -218,7 +312,6 @@
             <!-- Section: Team -->
         </div>
     </div>
-
     <footer class="bg-light text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
