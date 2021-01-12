@@ -6,8 +6,6 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -93,7 +91,7 @@ public interface AutenticazioneService {
 
      /**
       * Implementa la funzionalità di prendere una lista di club
-      * del libro a cui un lettore partecipa
+      * del libro a cui un lettore partecipa.
       * @param lettore il lettore preso in esame
       * @return la lista dei club del libro a cui partecipa
       */
@@ -101,7 +99,7 @@ public interface AutenticazioneService {
 
      /**
       * Implementa la funzionalità di prendere una lista di club
-      * del libro di cui un esperto è proprietario
+      * del libro di cui un esperto è proprietario.
       * @param esperto l' esperto preso in esame
       * @return la lista dei club del libro a cui partecipa
       */

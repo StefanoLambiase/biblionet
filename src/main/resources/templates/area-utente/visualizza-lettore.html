@@ -41,7 +41,7 @@
                                         <a class="btn btn-main" type="button">Gestione Generi</a>
                                     </div>
                                     <div class="mb-3">
-                                        <a class="btn btn-main" type="button">Visualizza Clubs ed Eventi</a>
+                                        <a class="btn btn-main" href="/visualizza-clubs-personali-lettore" type="button">Visualizza Clubs</a>
                                     </div>
                                 </div>
                             </div>
@@ -92,12 +92,7 @@
                                                             <td th:text="${genere.nome}"></td>
                                                             <br>
                                                         </tr>
-                                                        <!-- Clubs visualization -->
-                                                        <tr th:each="club : ${clubs}">
-                                                            <th>Clubs:</th>
-                                                            <td th:text="${club.nome}"></td>
-                                                            <br>
-                                                        </tr>
+
                                                         </tbody>
                                                     </table>
                                                 </div>

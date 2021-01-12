@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
-import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Alessio Casolaro, Antonio Della Porta
@@ -266,16 +264,50 @@ public class AreaUtenteController {
             } else if (autenticazioneService.isEsperto(utente)) {
                 Esperto esperto = (Esperto) utente;
                 model.addAttribute("esperto", esperto);
-                model.addAttribute("clubs", autenticazioneService.findAllByEsperto(esperto));
                 return "area-utente/visualizza-esperto";
 
             } else if (autenticazioneService.isLettore(utente)) {
                 Lettore lettore = (Lettore) utente;
                 model.addAttribute("lettore", lettore);
-                model.addAttribute("clubs", autenticazioneService.findAllByLettori(lettore));
                 return "area-utente/visualizza-lettore";
 
             }
+        }
+        return "autenticazione/login";
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * a cui il lettore é iscritto.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs a cui é iscritto
+     */
+    @RequestMapping(value = "/visualizza-clubs-personali-lettore",
+            method = RequestMethod.GET)
+    public String visualizzaClubsLettore(final Model model) {
+        Lettore utente = (Lettore) model.getAttribute("loggedUser");
+        if (utente != null && autenticazioneService.isLettore(utente)) {
+            model.addAttribute("clubs",
+                    autenticazioneService.findAllByLettori(utente));
+            return "area-utente/visualizza-clubs-personali";
+        }
+        return "autenticazione/login";
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * che l'esperto gestisce.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs che gestisce
+     */
+    @RequestMapping(value = "/visualizza-clubs-personali-esperto",
+            method = RequestMethod.GET)
+    public String visualizzaClubsEsperto(final Model model) {
+        Esperto utente = (Esperto) model.getAttribute("loggedUser");
+        if (utente != null && autenticazioneService.isEsperto(utente)) {
+            model.addAttribute("clubs",
+                    autenticazioneService.findAllByEsperto(utente));
+            return "area-utente/visualizza-clubs-personali";
         }
         return "autenticazione/login";
     }

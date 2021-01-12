@@ -41,7 +41,9 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
      */
     private final EspertoDAO espertoDAO;
 
-
+    /**
+     * I.
+     */
     private final ClubDelLibroService clubDelLibroService;
 
     /**
@@ -176,7 +178,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
 
     /**
      * Implementa la funzionalità di prendere una lista di club
-     * del libro a cui un lettore partecipa
+     * del libro a cui un lettore partecipa.
      * @param lettore il lettore preso in esame
      * @return la lista dei club del libro a cui partecipa
      */
@@ -187,7 +189,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
 
     /**
      * Implementa la funzionalità di prendere una lista di club
-     * del libro di cui un esperto è proprietario
+     * del libro di cui un esperto è proprietario.
      * @param esperto l' esperto preso in esame
      * @return la lista dei club del libro a cui partecipa
      */
