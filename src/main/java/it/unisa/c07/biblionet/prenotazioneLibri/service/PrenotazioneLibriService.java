@@ -143,4 +143,16 @@ public interface PrenotazioneLibriService {
      */
     List<ILibroIdAndName> findByTitoloContains(String titolo);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     * @param isbn il Lettore di cui recuperare i ticket
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro creato
+     */
+    Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie);
+
+
 }

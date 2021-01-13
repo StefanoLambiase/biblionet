@@ -13,6 +13,8 @@ import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -303,6 +305,35 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
             infoLibroList = infoLibroList.subList(0, 9);
         }
         return infoLibroList;
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     * @param isbn il Lettore di cui recuperare i ticket
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro creato
+     */
+    public Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie) {
+        //Recuper l'oggetto Libro da Api per isbn
+        BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
+        Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
+
+        //Salvo il libro nel db
+        Libro libro = libroDAO.save(l);
+
+        //Creo il possesso relativo al libro e alla biblioteca
+        //che lo inserisce e lo memorizzo
+        PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());
+        Possesso possesso = new Possesso(pid, numCopie);
+        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+        List<Possesso> plist = b.getPossessi();
+        plist.add(possesso);
+        b.setPossessi(plist);
+
+        return libro;
     }
 
 }
