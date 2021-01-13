@@ -25,6 +25,7 @@ import java.util.List;
  */
 @Entity
 @Data
+@EqualsAndHashCode
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Genere {
@@ -81,4 +82,14 @@ public class Genere {
     @EqualsAndHashCode.Exclude
     private List<ClubDelLibro> clubs;
 
+/*
+    public boolean equals (Object o){
+        if(o instanceof Genere) {
+            Genere e=(Genere)o;
+            return e.getNome().equals(this.nome);
+        }
+        else
+            return false;
+    }
+*/
 }

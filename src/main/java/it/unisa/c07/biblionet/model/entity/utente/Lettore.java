@@ -6,6 +6,7 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
@@ -16,6 +17,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.List;
 
 /**
@@ -27,11 +32,12 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Lettore extends UtenteRegistrato implements HaGenere {
 
     /**
-     * Rappresente un lettore sulla piattaforma.
+     * Rappresenta un lettore sulla piattaforma.
      */
     @NonNull
     @Column(nullable = false, length = Length.LENGTH_30)
@@ -69,6 +75,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * Rappresenta gli eveti a cui prende parte.
      */
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
     private List<Evento> eventi;
 

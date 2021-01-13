@@ -2,21 +2,18 @@
 
     <div layout:fragment="navbar-left">
         <div class="navbar-brand">
-            <a th:href="@{/}"> BiblioNet </a>
+            <a th:href="@{/}"> <img class="w-30" th:src="@{~/image/logo/Solo_libro.png}" style="width: 30%;"> </a>
         </div>
     </div>
 
     <div class="mx-auto">
         <div layout:fragment="navbar-center">
-
         </div>
     </div>
 
 
     <div class="d-flex ml-auto">
         <div layout:fragment="navbar-right">
-
-
             <div class="dropdown" th:if="${session.loggedUser != null && session.loggedUser.email != null}">
                 <button class="btn btn-main dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     Area Utente
@@ -28,7 +25,7 @@
             </div>
 
             <div th:unless="${session.loggedUser != null && session.loggedUser.email != null}">
-                <a class="btn btn-main" type="submit" th:href="@{/registrazione}">Registrati</a>
+                <a class="btn btn-main" type="submit" th:href="@{/registrazione/}">Registrati</a>
                 <a class="btn btn-main" type="submit" th:href="@{/autenticazione}">Accedi</a>
             </div>
 

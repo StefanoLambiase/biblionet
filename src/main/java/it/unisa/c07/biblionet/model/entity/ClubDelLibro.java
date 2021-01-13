@@ -96,7 +96,7 @@ public class ClubDelLibro {
     /**
      * Rappresenta gli eventi di un club.
      */
-    @OneToMany
+    @OneToMany(mappedBy = "club")
     @ToString.Exclude
     private List<Evento> eventi;
 

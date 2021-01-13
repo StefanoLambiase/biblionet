@@ -1,5 +1,7 @@
 package it.unisa.c07.biblionet;
 
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
@@ -38,6 +40,13 @@ public class BiblionetApplication {
     public static void main(String[] args) throws NoSuchAlgorithmException {
         ConfigurableApplicationContext configurableApplicationContext =
                 SpringApplication.run(BiblionetApplication.class, args);
+
+/*
+        Chiamata per testare la API di ricerca di google
+
+        BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
+        bookApiAdapter.getLibroDaBookApi("978-88-238-2264-1");
+*/
 
 //----------------------------Definizione oggetti DAO per ogni entity---------------------------------------------------
 
@@ -629,7 +638,15 @@ public class BiblionetApplication {
                 clubDelLibro
         );
 
+        Evento evento2 = new Evento(
+                "Evento fantasy 2",
+                "Evento fantasy 2",
+                LocalDateTime.now(),
+                clubDelLibro
+        );
+
         eventoDAO.save(evento);
+        eventoDAO.save(evento2);
 
 //-------------------------------POPOLAMENTO MANY TO MANY E ONE TO MANY-------------------------------------------------
 

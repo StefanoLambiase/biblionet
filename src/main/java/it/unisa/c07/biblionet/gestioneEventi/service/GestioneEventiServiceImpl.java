@@ -34,7 +34,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
 
     /**
      * Implementa la funzionalità che permette
-     * di trovare un evento dato il suo identificativo
+     * di trovare un evento dato il suo identificativo.
      * @param idEvento L'identificativo dell'evento
      * @return L'Evento trovato
      */
@@ -54,16 +54,21 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
     }
 
     /**
-     * Implementa la funzionalità che permette ad un Esperto
-     * di modificare un evento precedentemente creato.
-     * @param evento L'Evento modificato da
-     *               memorizzare
-     * @return L'Evento modificato
+     * Implementa la funzionalità che permette
+     * di modificare un evento.
+     * @param evento La nuova versione dell'evento
+     * @return Optional.empty() se l'evento da modificare
+     *         non esiste, altrimenti un optional contenente
+     *         l'evento modificato.
      */
     @Override
-    public Evento modificaEvento(final Evento evento) {
-        return eventoDAO.save(evento);
-    }
+    public Optional<Evento> modificaEvento(final Evento evento) {
+        if (!this.eventoDAO.existsById(evento.getIdEvento())) {
+            return Optional.empty();
+        }
+        var eventoSalvato = eventoDAO.save(evento);
+        return Optional.of(eventoSalvato);
+    };
 
    /**
      * Metodo di utilità per recuperare

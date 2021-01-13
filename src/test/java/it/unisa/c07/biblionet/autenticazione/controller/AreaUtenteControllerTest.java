@@ -694,4 +694,45 @@ public class AreaUtenteControllerTest {
                 .sessionAttr("loggedUser", lettore))
                 .andExpect(view().name("area-utente/visualizza-lettore"));
     }
+
+    /**
+     * Metodo che testa la funzionalità di
+     * di visualizzare i clubs dell' utente Lettore.
+     * @param lettore Il lettore in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaLettore")
+    @DisplayName("Visualizza Clubs Lettore")
+    public void visualizzaClubsLettore(final Lettore lettore)
+            throws Exception {
+
+        when(autenticazioneService.isLettore(lettore))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/area-utente/visualizza-clubs-personali-lettore")
+                .sessionAttr("loggedUser", lettore))
+                .andExpect(view()
+                        .name("area-utente/visualizza-clubs-personali"));
+    }
+    /**
+     * Metodo che testa la funzionalità di
+     * di visualizzare i clubs dell' utente Esperto.
+     * @param esperto L'esperto in sessione
+     * @throws Exception eccezione di mockMvc
+     */
+    @ParameterizedTest
+    @MethodSource("provideModificaEsperto")
+    @DisplayName("Visualizza Clubs Esperto")
+    public void visualizzaClubsLettore(final Esperto esperto)
+            throws Exception {
+
+        when(autenticazioneService.isEsperto(esperto))
+                .thenReturn(true);
+
+        this.mockMvc.perform(get("/area-utente/visualizza-clubs-personali-esperto")
+                .sessionAttr("loggedUser", esperto))
+                .andExpect(view()
+                        .name("area-utente/visualizza-clubs-personali"));
+    }
 }

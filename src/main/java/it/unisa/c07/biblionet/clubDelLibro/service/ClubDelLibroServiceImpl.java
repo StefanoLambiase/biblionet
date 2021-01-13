@@ -5,13 +5,18 @@ import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Implementa la classe che esplicita i metodi
@@ -57,8 +62,25 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      */
     @Override
     public List<ClubDelLibro> visualizzaClubsDelLibro() {
-        return clubDAO.findAll();
+        return this.visualizzaClubsDelLibro(x -> true);
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di filtrare tutti i club del libro.
+     * @param filtro Un predicato che descrive come filtrare i Club
+     * @return La lista dei club
+     */
+    public List<ClubDelLibro> visualizzaClubsDelLibro(final Predicate<ClubDelLibro> filtro) {
+
+        var clubs = this.clubDAO.findAll();
+
+        return clubs.stream().filter(
+            filtro
+        ).collect(Collectors.toList());
+
+    };
+
 
     /**
      * Implementa la funzionalità che permette
@@ -121,4 +143,54 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
         lettoreDAO.save(lettore);
         return true;
     }
+
+    /**
+     * Funzione di utilità che permette di leggere la città
+     * in cui si trova un Club del Libro.
+     * @param club
+     * @return
+     */
+    public String getCittaFromClubDelLibro(final ClubDelLibro club) {
+        return club.getEsperto().getBiblioteca().getCitta();
+    }
+
+    /**
+     * Restituisce tutti i generi nel sistema
+     * @return Tutti i generi nel sistema
+     */
+    public Set<String> getTuttiGeneri() {
+        return this.genereDAO.findAll().stream().map(Genere::getNome).collect(Collectors.toSet());
+    }
+
+    /**
+     * Restituisce tutte le citta nel sistema
+     * @return Tutte le citta nel sistema
+     */
+    public Set<String> getCitta() {
+        return this.clubDAO.findAll().stream()
+                                     .map(this::getCittaFromClubDelLibro)
+                                     .collect(Collectors.toSet());
+    }
+
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro a cui un lettore partecipa
+     * @param lettore il lettore preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    public List<ClubDelLibro> findAllByLettori(Lettore lettore) {
+        return clubDAO.findAllByLettori(lettore);
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro di cui un esperto è proprietario
+     * @param esperto l' esperto preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    public List<ClubDelLibro> findAllByEsperto(Esperto esperto) {
+        return clubDAO.findAllByEsperto(esperto);
+    }
+
 }
