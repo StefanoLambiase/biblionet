@@ -241,7 +241,7 @@ public class ClubDelLibroController {
                                              final @ModelAttribute
                                                 ClubForm club) {
         var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (utente == null || utente.getTipo() != "Esperto") {
+        if (utente == null || !utente.getTipo().equals("Esperto")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         model.addAttribute("generi", this.clubService.getTuttiGeneri());
@@ -261,7 +261,7 @@ public class ClubDelLibroController {
                                    final @ModelAttribute ClubForm club) {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (utente == null || utente.getTipo() != "Esperto") {
+        if (utente == null || !utente.getTipo().equals("Esperto")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         var esperto = (Esperto) utente;
@@ -374,7 +374,7 @@ public class ClubDelLibroController {
 
         UtenteRegistrato lettore =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (lettore == null || lettore.getTipo() != "Lettore") {
+        if (lettore == null || !lettore.getTipo().equals("Lettore")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -561,6 +561,27 @@ public class ClubDelLibroController {
         model.addAttribute("eventi",
                 clubService.getClubByID(id).getEventi());
 
+        return "club-del-libro/visualizza-eventi";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di iscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro.
+     * @param idEvento l'evento a cui partecipare
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = "/{id}/partecipa",
+            method = RequestMethod.POST)
+    public String partecipaEvento(final @PathVariable int idEvento,
+                                  final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        eventiService.partecipaEvento((Lettore)utente, idEvento);
         return "club-del-libro/visualizza-eventi";
     }
 }
