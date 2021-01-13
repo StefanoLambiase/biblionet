@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.entity.Possesso;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
@@ -24,6 +25,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Biblioteca extends UtenteRegistrato {
 

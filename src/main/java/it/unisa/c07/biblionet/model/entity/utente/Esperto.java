@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
@@ -30,6 +31,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Esperto extends UtenteRegistrato implements HaGenere {
 
@@ -107,5 +109,14 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
         this.cognome = cognome;
         this.biblioteca = biblioteca;
     }
-
+/*
+    public boolean equals (Object o){
+        if(o instanceof Esperto) {
+            Esperto e = (Esperto)o;
+            return e.getEmail().equals(this.getEmail());
+        }
+        else
+            return false;
+    }
+*/
 }

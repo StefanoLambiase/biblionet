@@ -106,9 +106,4 @@ public class PreferenzeDiLetturaController {
         }
         return "autenticazione/login";
     }
-
-
-
-
-
 }

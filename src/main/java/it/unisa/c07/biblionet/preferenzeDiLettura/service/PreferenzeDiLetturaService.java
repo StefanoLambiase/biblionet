@@ -43,8 +43,4 @@ public interface PreferenzeDiLetturaService {
      * @param lettore il lettore a cui inserirli
      */
     void addGeneriLettore(List<Genere> generi, Lettore lettore);
-
-
-
-
 }
