@@ -587,7 +587,6 @@ public class ClubDelLibroController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         eventiService.partecipaEvento((Lettore)utente, idEvento);
-        System.out.println("cane");
-        return "redirect:/club-del-libro/"+idClub+"/eventi";
+        return "redirect:/club-del-libro/" + idClub + "/eventi";
     }
 }

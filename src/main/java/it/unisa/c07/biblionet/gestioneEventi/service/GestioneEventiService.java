@@ -63,7 +63,7 @@ public interface GestioneEventiService {
      * ad un Lettore di partecipare ad un evento.
      * @param lettore Il lettore da iscrivere all'evento
      * @param idEvento L'id dell'evento a cui partecipare
-     * @return L'evento a cui si ha partecipato
+     * @return Il lettore aggiornato ed iscritto all'evento
      */
-    Optional<Evento> partecipaEvento(Lettore lettore, int idEvento);
+    Lettore partecipaEvento(Lettore lettore, int idEvento);
 }
