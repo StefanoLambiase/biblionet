@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 /**
  * Implementa l'interfaccia service
@@ -56,4 +57,13 @@ public interface GestioneEventiService {
      *         esiste.
      */
     Optional<Evento> eliminaEvento(int id);
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di partecipare ad un evento.
+     * @param lettore Il lettore da iscrivere all'evento
+     * @param idEvento L'id dell'evento a cui partecipare
+     * @return L'evento a cui si ha partecipato
+     */
+    Optional<Evento> partecipaEvento(Lettore lettore, int idEvento);
 }

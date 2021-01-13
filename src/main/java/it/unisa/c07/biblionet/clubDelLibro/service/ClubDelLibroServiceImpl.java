@@ -159,7 +159,8 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      * @return Tutti i generi nel sistema
      */
     public Set<String> getTuttiGeneri() {
-        return this.genereDAO.findAll().stream().map(Genere::getNome).collect(Collectors.toSet());
+        return this.genereDAO.findAll().stream().map(Genere::getNome)
+                                            .collect(Collectors.toSet());
     }
 
     /**

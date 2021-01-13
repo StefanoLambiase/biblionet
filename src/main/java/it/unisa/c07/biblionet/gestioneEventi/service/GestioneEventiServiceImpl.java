@@ -1,7 +1,10 @@
 package it.unisa.c07.biblionet.gestioneEventi.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.springframework.stereotype.Service;
 
 import it.unisa.c07.biblionet.model.dao.EventoDAO;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
  *
  * @author Nicola Pagliara
  * @author Luca Topo
+ * @author Viviana Pentangelo
  */
 @Service
 @RequiredArgsConstructor
@@ -68,7 +72,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         }
         var eventoSalvato = eventoDAO.save(evento);
         return Optional.of(eventoSalvato);
-    };
+    }
 
    /**
      * Metodo di utilità per recuperare
@@ -97,6 +101,26 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         }
         this.eventoDAO.deleteById(id);
         return evento;
-    };
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di partecipare ad un evento.
+     * @param lettore Il lettore da iscrivere all'evento
+     * @param idEvento L'id dell'evento a cui partecipare
+     * @return L'evento a cui si ha partecipato
+     */
+    @Override
+    public Optional<Evento> partecipaEvento(Lettore lettore, int idEvento) {
+        Optional<Evento> evento = this.getEventoById(idEvento);
+        if (evento.isEmpty()) {
+            return Optional.empty();
+        }
+        List<Lettore> listaLettori = evento.get().getLettori();
+        if(listaLettori == null)
+            listaLettori = new ArrayList<>();
+        listaLettori.add(lettore);
+        return evento;
+    }
 
 }
