@@ -92,6 +92,6 @@ public class BibliotecaController {
         Biblioteca b = (Biblioteca) utente;
         List<String> glist = Arrays.asList(generi.clone());
         Libro l = prenotazioneService.inserimentoPerIsbn(isbn,b.getEmail(),numCopie,glist);
-        return "/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
     }
 }

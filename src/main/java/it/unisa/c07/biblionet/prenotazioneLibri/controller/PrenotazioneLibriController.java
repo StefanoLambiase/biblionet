@@ -95,7 +95,7 @@ public class PrenotazioneLibriController {
      * @return La view che visualizza la lista delle biblioteche
      */
     @RequestMapping(value = "/{id}/visualizza-libro",
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public String prenotaLibro(@PathVariable final int id, final Model model) {
 
         Libro libro = prenotazioneService.getLibroByID(id);

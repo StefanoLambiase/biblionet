@@ -320,6 +320,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return il libro creato
      */
     public Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi) {
+
         //Recuper l'oggetto Libro da Api per isbn
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
@@ -328,15 +329,32 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         }
 
         //Salvo il libro nel db
+        List<Genere> g = new ArrayList<>();
         if (!generi.isEmpty()) {
-            l.setGeneri(clubService.getGeneri(generi));
+            for (String s : generi) {
+                g.add(genereDAO.findByName(s));
+            }
         }
-        Libro libro = libroDAO.save(l);
+        l.setGeneri(g);
+
+        //Controllo che il libro non sia già salvato
+        boolean exists = false;
+        Libro libro = null;
+        for (Libro tl : libroDAO.findAll()) {
+            if(tl.getIsbn().equals(l.getIsbn())) {
+                exists = true;
+                libro = tl;
+            }
+        }
+        if (!exists) {
+            libro = libroDAO.save(l);
+        }
 
         //Creo il possesso relativo al libro e alla biblioteca
         //che lo inserisce e lo memorizzo
         PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());
         Possesso possesso = new Possesso(pid, numCopie);
+        possessoDAO.save(possesso);
         Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
         List<Possesso> plist = b.getPossessi();
         plist.add(possesso);

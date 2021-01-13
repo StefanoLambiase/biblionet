@@ -86,6 +86,22 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             JSONObject bookInfo = (JSONObject) items.get(0);
             JSONObject volumeInfo = (JSONObject) bookInfo.get("volumeInfo");
 
+            //Creazione descrizione da categorie
+            String descrizione = "";
+            JSONArray categories = (JSONArray) volumeInfo.get("categories");
+            if(categories.isEmpty()) {
+                descrizione = "NA";
+            }
+            int i = 0;
+            for (Object c : categories) {
+                if(i == 0) {
+                    descrizione += "Questo libro parla di " + c.toString();
+                    i++;
+                } else {
+                    descrizione += ", "+c.toString();
+                }
+            }
+
             //Parsing dei campi del JSON in stringhe
             String titolo = (String) volumeInfo.get("title");
             String casaEditrice = (String) volumeInfo.get("publisher");
@@ -98,6 +114,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
 
             //Creazione dell'oggetto Libro
             libro.setTitolo(titolo);
+            libro.setDescrizione(descrizione);
             libro.setCasaEditrice(casaEditrice);
             libro.setAutore(autore);
             libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
