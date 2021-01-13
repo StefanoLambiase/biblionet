@@ -1,12 +1,17 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter;
 
 import it.unisa.c07.biblionet.model.entity.Libro;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Implementa l'intefaccia del design pattern Adapter per
@@ -62,7 +67,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
                 System.out.println("\n --- LIBRO TROVATO --- \n");
                 System.out.println(stringBuilder.toString());
 
-                return creaLibroDaResponse(stringBuilder);
+                return creaLibroDaResponse(stringBuilder, isbn);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,8 +76,44 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
     }
 
     //DA IMPLEMENTARE
-    private Libro creaLibroDaResponse(final StringBuilder stringBuilder) {
-        return new Libro();
+    private Libro creaLibroDaResponse(final StringBuilder stringBuilder, String isbn) {
+        JSONParser parser = new JSONParser();
+        Libro libro = new Libro();
+        try {
+            //Parsing in Object dello StringBuilder che rappresenta il JSON
+            Object obj = parser.parse(stringBuilder.toString());
+            //Parsing dell'object in JSONObject
+            JSONObject jsonData = (JSONObject) obj;
+            //Recupero dei dati del libro dal JSON
+            JSONArray items = (JSONArray) jsonData.get("items");
+            JSONObject bookInfo = (JSONObject) items.get(0);
+            JSONObject volumeInfo = (JSONObject) bookInfo.get("volumeInfo");
+
+            //Parsing dei campi del JSON in stringhe
+            String titolo = (String) volumeInfo.get("title");
+            String casaEditrice = (String) volumeInfo.get("publisher");
+            String annoPubblicazione = (String) volumeInfo.get("publishedDate");
+            JSONArray autori = (JSONArray) volumeInfo.get("authors");
+            JSONObject images = (JSONObject) volumeInfo.get("imageLinks");
+            String copertina = (String) images.get("smallThumbnail");
+            String autore = autori.get(0).toString();
+            LocalDateTime annoPubblicazioneDateTime = LocalDateTime.of(Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
+
+            //Creazione dell'oggetto Libro
+            libro.setTitolo(titolo);
+            libro.setCasaEditrice(casaEditrice);
+            libro.setAutore(autore);
+            libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
+            libro.setIsbn(isbn);
+            libro.setImmagineLibro(copertina);
+
+            System.out.println(libro.toString());
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return libro;
     }
 
 }

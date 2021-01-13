@@ -115,6 +115,12 @@
                         <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
                         <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
                         <td th:text="${evento.libro} ? ${evento.libro.titolo} : 'NA'"> </td>
+                        <td th:if="${session.loggedUser.tipo.equals("Lettore")}">
+                            <a class="btn" th:href="/clu...../evento.idEvento/...."></a>
+                        </td>
+                        <td th:unless="${session.loggedUser.tipo.equals("Lettore")}">
+                            <a class="btn" th:href="/clu...../evento.idEvento/...."></a>
+                        </td>
                     </tr>
                 </table>
 
