@@ -66,4 +66,13 @@ public interface GestioneEventiService {
      * @return Il lettore aggiornato ed iscritto all'evento
      */
     Lettore partecipaEvento(Lettore lettore, int idEvento);
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di abbandonare un evento.
+     * @param lettore Il lettore da disiscrivere dall'evento
+     * @param idEvento L'id dell'evento da abbandonare
+     * @return Il lettore aggiornato ed disiscritto dall'evento
+     */
+    Lettore abbandonaEvento(Lettore lettore, int idEvento);
 }

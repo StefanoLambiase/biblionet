@@ -31,9 +31,7 @@
                 </a>
             </td>
             <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && session.loggedUser.eventi.contains(evento)}">
-                <form method="POST" th:action="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/abbandona'}">
-                    <btn type="submit" class="btn btn-main">Abbandona</btn>
-                </form>
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/abbandono '}" class="btn btn-main">Abbandona</a>
             </td>
             <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && !session.loggedUser.eventi.contains(evento)}">
                 <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/iscrizione'}" class="btn btn-main">Iscriviti</a>

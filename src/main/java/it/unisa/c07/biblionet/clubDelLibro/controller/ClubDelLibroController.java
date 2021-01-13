@@ -589,4 +589,27 @@ public class ClubDelLibroController {
         eventiService.partecipaEvento((Lettore)utente, idEvento);
         return "redirect:/club-del-libro/" + idClub + "/eventi";
     }
+
+    /**
+     * Implementa la funzionalità che permette di disiscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro a cui ci si era precedentemente iscritti.
+     * @param idEvento l'evento a cui disiscriversi
+     * @param idClub il club dell'evento
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/abbandono",
+            method = RequestMethod.GET)
+    public String abbandonaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
+                                  final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        eventiService.abbandonaEvento((Lettore)utente, idEvento);
+        return "redirect:/club-del-libro/" + idClub + "/eventi";
+    }
 }

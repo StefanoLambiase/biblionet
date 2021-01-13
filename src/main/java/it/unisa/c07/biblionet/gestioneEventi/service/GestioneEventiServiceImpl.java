@@ -130,4 +130,22 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         return lettore;
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di abbandonare un evento.
+     * @param lettore Il lettore da disiscrivere dall'evento
+     * @param idEvento L'id dell'evento da abbandonare
+     * @return Il lettore aggiornato ed disiscritto dall'evento
+     */
+    @Override
+    public Lettore abbandonaEvento(Lettore lettore, int idEvento) {
+        Evento evento = this.getEventoById(idEvento).get();
+        List<Evento> listaEventi = lettore.getEventi();
+
+        listaEventi.remove(evento);
+
+        lettoreDAO.save(lettore);
+        return lettore;
+    }
+
 }

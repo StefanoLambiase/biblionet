@@ -6,7 +6,6 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.utils.Length;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
@@ -32,7 +31,6 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Lettore extends UtenteRegistrato implements HaGenere {
 
@@ -115,6 +113,18 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(this.getClass())) {
+            Lettore lettore = (Lettore) obj;
+            return (this.getEmail().equals(lettore.getEmail()) &&
+                    this.getUsername().equals(lettore.getUsername()) &&
+                    this.getCognome().equals(lettore.getCognome()) &&
+                    this.getNome().equals(lettore.getNome()));
+        }
+        return false;
     }
 
 

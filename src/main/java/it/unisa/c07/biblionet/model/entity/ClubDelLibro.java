@@ -100,4 +100,5 @@ public class ClubDelLibro {
     @ToString.Exclude
     private List<Evento> eventi;
 
+
 }
