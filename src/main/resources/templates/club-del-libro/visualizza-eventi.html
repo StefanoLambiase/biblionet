@@ -31,14 +31,12 @@
                 </a>
             </td>
             <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && session.loggedUser.eventi.contains(evento)}">
-                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/abbandona(id=${evento.club.idClub}, evid=${evento.idEvento})'">
+                <form method="POST" th:action="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/abbandona'}">
                     <btn type="submit" class="btn btn-main">Abbandona</btn>
                 </form>
             </td>
             <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && !session.loggedUser.eventi.contains(evento)}">
-                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/iscrizione(id=${evento.club.idClub}, evid=${evento.idEvento})}">
-                    <btn type="submit" class="btn btn-main">Iscriviti</btn>
-                </form>
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/iscrizione'}" class="btn btn-main">Iscriviti</a>
             </td>
         </tr>
         <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && club.esperto.email == session.loggedUser.email}">

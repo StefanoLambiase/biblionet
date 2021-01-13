@@ -377,9 +377,12 @@ public class ClubDelLibroController {
         if (lettore == null || !lettore.getTipo().equals("Lettore")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+        ClubDelLibro clubDelLibro = this.clubService.getClubByID(id);
+        if(clubDelLibro.getLettori().contains(lettore))
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
 
         this.clubService.partecipaClub(
-                this.clubService.getClubByID(id),
+                clubDelLibro,
                 (Lettore) lettore);
         return "redirect:/club-del-libro/";
     }
@@ -569,12 +572,14 @@ public class ClubDelLibroController {
      * ad uno degli eventi presenti nella lista relativa ad
      * un Club del Libro.
      * @param idEvento l'evento a cui partecipare
+     * @param idClub il club dell'evento
      * @param model l'oggetto Model da cui ottenere il lettore autenticato
      * @return la view che visualizza la lista degli eventi
      */
-    @RequestMapping(value = "/{id}/partecipa",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/iscrizione",
+            method = RequestMethod.GET)
     public String partecipaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
                                   final Model model) {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
@@ -582,6 +587,7 @@ public class ClubDelLibroController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         eventiService.partecipaEvento((Lettore)utente, idEvento);
-        return "club-del-libro/visualizza-eventi";
+        System.out.println("cane");
+        return "redirect:/club-del-libro/"+idClub+"/eventi";
     }
 }

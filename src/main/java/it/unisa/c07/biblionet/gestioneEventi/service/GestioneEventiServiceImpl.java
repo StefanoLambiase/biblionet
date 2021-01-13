@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +27,19 @@ import lombok.RequiredArgsConstructor;
 public class GestioneEventiServiceImpl implements GestioneEventiService {
 
     /**
-     * Si occupa delle operazioni CRUD per un lettore.
+     * Si occupa delle operazioni CRUD per un evento.
      */
     private final EventoDAO eventoDAO;
 
     /**
-     * Si occupa delle operazioni CRUD per un lettore.
+     * Si occupa delle operazioni CRUD per un libro.
      */
     private final LibroDAO libroDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per un lettore.
+     */
+    private final LettoreDAO lettoreDAO;
 
 
     /**
@@ -116,10 +122,13 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         if (evento.isEmpty()) {
             return Optional.empty();
         }
-        List<Lettore> listaLettori = evento.get().getLettori();
-        if(listaLettori == null)
-            listaLettori = new ArrayList<>();
-        listaLettori.add(lettore);
+        List<Evento> listaEventi = lettore.getEventi();
+        if(listaEventi == null)
+            listaEventi = new ArrayList<>();
+        listaEventi.add(evento.get());
+        lettore.setEventi(listaEventi);
+        lettoreDAO.save(lettore);
+        
         return evento;
     }
 

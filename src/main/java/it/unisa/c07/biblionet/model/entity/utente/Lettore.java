@@ -68,6 +68,7 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
      * Rappresenta i clubs a cui il lettore appartiene.
      */
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
     private List<ClubDelLibro> clubs;
 
