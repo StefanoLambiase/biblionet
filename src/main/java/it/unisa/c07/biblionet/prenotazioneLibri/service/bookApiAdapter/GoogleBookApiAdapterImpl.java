@@ -63,9 +63,6 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
                 }
                 bf.close();
                 con.disconnect();
-                // Stampa in console del libro trovato
-                System.out.println("\n --- LIBRO TROVATO --- \n");
-                System.out.println(stringBuilder.toString());
 
                 return creaLibroDaResponse(stringBuilder, isbn);
             }
@@ -106,9 +103,6 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
             libro.setIsbn(isbn);
             libro.setImmagineLibro(copertina);
-
-            System.out.println(libro.toString());
-
         }
         catch (Exception e) {
             e.printStackTrace();

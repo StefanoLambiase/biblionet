@@ -1,5 +1,7 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
+import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroServiceImpl;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +36,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
-
+    
     /**
      *Si occupa delle operazioni CRUD per libro.
      */
@@ -316,12 +319,18 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @param numCopie il numero di copie possedute
      * @return il libro creato
      */
-    public Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie) {
+    public Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi) {
         //Recuper l'oggetto Libro da Api per isbn
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
+        if (l == null) {
+            return l;
+        }
 
         //Salvo il libro nel db
+        if (!generi.isEmpty()) {
+            l.setGeneri(clubService.getGeneri(generi));
+        }
         Libro libro = libroDAO.save(l);
 
         //Creo il possesso relativo al libro e alla biblioteca
@@ -332,6 +341,9 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         List<Possesso> plist = b.getPossessi();
         plist.add(possesso);
         b.setPossessi(plist);
+
+        //Update della biblioteca con il nuovo possesso
+        bibliotecaDAO.save(b);
 
         return libro;
     }

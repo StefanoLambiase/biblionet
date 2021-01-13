@@ -150,9 +150,10 @@ public interface PrenotazioneLibriService {
      * @param isbn il Lettore di cui recuperare i ticket
      * @param idBiblioteca l'id della biblioteca che lo possiede
      * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
      * @return il libro creato
      */
-    Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie);
+    Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi);
 
 
 }
