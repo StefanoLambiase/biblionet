@@ -108,7 +108,7 @@ public class AreaUtenteController {
                 ) {
                     biblioteca.setPassword(nuova);
                 } else {
-                    return "modifica-dati-biblioteca";
+                    return "area-utente/modifica-dati-biblioteca";
                 }
 
             } catch (NoSuchAlgorithmException e) {
