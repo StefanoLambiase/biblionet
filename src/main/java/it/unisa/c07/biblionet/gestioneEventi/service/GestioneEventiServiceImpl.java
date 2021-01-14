@@ -149,13 +149,13 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         List<Evento> listaEventi = lettore.getEventi();
 
         //Per chiunque leggesse, non fate domande e non toccate. Grazie
-        int pos = 0;
+        int pos = -1;
         for (int i = 0; i < listaEventi.size(); i++) {
             if (listaEventi.get(i).getIdEvento() == evento.getIdEvento()) {
                 pos = i;
             }
         }
-        if(pos!= 0) {
+        if (pos > -1) {
             listaEventi.remove(pos);
         }
 

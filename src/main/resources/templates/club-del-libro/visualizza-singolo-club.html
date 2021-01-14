@@ -125,9 +125,11 @@
                     </tr>
                 </table>
 
-                <button class="btn btn-main ">
-                    <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
-                </button>
+                <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && club.lettori.contains(session.loggedUser)}">
+                    <button class="btn btn-main ">
+                        <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
