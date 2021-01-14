@@ -4,47 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <title>Inserimento nuovo libro</title>
+    <link rel="stylesheet" th:href="@{~/style/biblioteca.css}" />
 </head>
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
-    <div>
-        <form method="post" action="/biblioteca/inserimento-isbn">
-            <input type="text" name="isbn">
-            <input type="text" name="generi">
-            <input type="number" name="numCopie" value="1" min="1">
-            <input type="submit" value="Conferma">
-        </form>
+
+    <div id="accordion" style="margin-top:5%">
+        <div class="card">
+            <div class="card-header switch-header" id="headingOne">
+                <div style="text-align: center">
+                    <button class="btn switch-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Inserisci per ISBN
+                    </button>
+                </div>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body form-container">
+                    <div>
+                        <form method="post" action="/biblioteca/inserimento-isbn">
+                            <input type="text" name="isbn">
+                            <select multiple name="generi">
+                                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
+                            </select>
+                            <input type="number" name="numCopie" value="1" min="1">
+                            <input type="submit" value="Conferma">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header switch-header" id="headingTwo">
+                <div style="text-align: center">
+                    <button class="btn switch-title collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Inserisci dall'archivio
+                    </button>
+                </div>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body form-container">
+                    <div>
+                        <form method="post" action="/biblioteca/inserimento-archivio">
+                            <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width: 60%">
+                                <th th:each="libro : ${listaLibri}">
+                                    <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
+                                </th>
+                            </select>
+                            <input type="number" name="numCopie" value="1" min="1">
+                            <input type="submit" value="Conferma">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header switch-header" id="headingThree">
+                <div style="text-align: center">
+                    <button class="btn switch-title collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Inserisci manualmente
+                    </button>
+                </div>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body form-container">
+                    <div>
+                        <form th:object="${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
+                            <input type="text" name="titolo" placeholder="Titolo" required>
+                            <input type="text" name="isbn" placeholder="ISBN">
+                            <input type="text" name="autore" placeholder="Autore" required>
+                            <input type="text" name="descrizione" placeholder="Descrizione">
+                            <input type="text" name="casaEditrice" placeholder="Casa Editrice" required>
+                            <input type="text" name="annoPubblicazione" placeholder="Anno di pubblicazione" required>
+                            <input type="file" name="immagineLibro" accept="image/png, image/jpeg" >
+                            <select multiple name="generi">
+                                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
+                            </select>
+                            <input type="number" name="numCopie" value="1" min="1">
+                            <input type="submit" value="Conferma">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <br><br>
-    <div>
-        <form method="post" action="/biblioteca/inserimento-archivio">
-            <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width: 60%">
-                <th th:each="libro : ${listaLibri}">
-                    <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
-                </th>
-            </select>
-            <input type="number" name="numCopie" value="1" min="1">
-            <input type="submit" value="Conferma">
-        </form>
-    </div>
-    <br><br>
-    <div>
-        <form th:object="${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
-            <input type="text" name="titolo" placeholder="Titolo" required>
-            <input type="text" name="isbn" placeholder="ISBN">
-            <input type="text" name="autore" placeholder="Autore" required>
-            <input type="text" name="descrizione" placeholder="Descrizione">
-            <input type="text" name="casaEditrice" placeholder="Casa Editrice" required>
-            <input type="text" name="annoPubblicazione" placeholder="Anno di pubblicazione" required>
-            <input type="file" name="immagineLibro" accept="image/png, image/jpeg" >
-            <select multiple name="generi">
-                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
-            </select>
-            <input type="number" name="numCopie" value="1" min="1">
-            <input type="submit" value="Conferma">
-        </form>
-    </div>
 </div>
 </body>
 </html>

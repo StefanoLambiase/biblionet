@@ -5,12 +5,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 /**
  * Implementa l'intefaccia del design pattern Adapter per
@@ -131,6 +130,21 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
                         Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
             }
 
+            String base64Image = "";
+            try {
+                URL url = new URL(copertina);
+                BufferedInputStream bis = new BufferedInputStream(url.openConnection().getInputStream());
+                byte imageData[] = new byte[8192];
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                int read = 0;
+                while ((read = bis.read(imageData)) != -1) {
+                    output.write(imageData, 0, read);
+                }
+                byte[] bytes = output.toByteArray();
+                base64Image = Base64.getEncoder().encodeToString(bytes);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
             //Creazione dell'oggetto Libro
             libro.setTitolo(titolo);
             libro.setDescrizione(descrizione);
@@ -142,7 +156,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             libro.setAutore(autore);
             libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
             libro.setIsbn(isbn);
-            libro.setImmagineLibro(copertina);
+            libro.setImmagineLibro(base64Image);
         } catch (Exception e) {
             e.printStackTrace();
         }
