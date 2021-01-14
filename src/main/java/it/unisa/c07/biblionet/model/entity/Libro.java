@@ -64,7 +64,7 @@ public class Libro {
     private LocalDateTime annoDiPubblicazione;
 
     /**
-     * Rappresenta la descrione di un libro.
+     * Rappresenta la descrizione di un libro.
      */
     @Column(nullable = false, length = Length.LENGTH_144)
     @NonNull

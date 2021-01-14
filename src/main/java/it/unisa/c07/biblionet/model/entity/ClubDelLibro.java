@@ -56,7 +56,7 @@ public class ClubDelLibro {
      * Rappresenta la descrizione di un club.
      */
     @NonNull
-    @Column(nullable = false, length = Length.LENGTH_30)
+    @Column(nullable = false, length = Length.LENGTH_255)
     private String descrizione;
 
     /**

@@ -82,6 +82,13 @@ public class AreaUtenteControllerTest {
                 .andExpect(view().name("autenticazione/login"));
     }
 
+
+
+
+
+
+
+
     /**
      * Metodo che testa la funzionalità gestita dal
      * controller per la modifica di un lettore
@@ -507,6 +514,8 @@ public class AreaUtenteControllerTest {
                 .andExpect(view().name("area-utente/modifica-dati-biblioteca"));
     }
 
+
+
     /**
      * Metodo che testa la funzionalità di scegliere
      * di modificare un utente che non è presente in sessione.
@@ -519,6 +528,87 @@ public class AreaUtenteControllerTest {
         this.mockMvc.perform(get("/modifica-dati"))
                 .andExpect(view().name("autenticazione/login"));
     }
+
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca Corretto")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBiblioteca(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("password", "BibliotecaPassword")
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", vecchiaPassword)
+                .param("nuova_password", nuovaPassword)
+                .param("conferma_password", confermaPassword)
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("autenticazione/login"));
+    }
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca Vecchia Password non corretta")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBiblioteca2(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("password", "BibliotecaPassword")
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", "PASSWORD_ERRATA")
+                .param("nuova_password", nuovaPassword)
+                .param("conferma_password", confermaPassword)
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("area-utente/modifica-dati-biblioteca"));
+    }
+
+    @ParameterizedTest
+    @DisplayName("Modifica Dati Biblioteca Conferma Password non corretta")
+    @MethodSource("provideModificaBiblioteca")
+    public void modificaBiblioteca3(
+            final Biblioteca biblioteca,
+            final String vecchiaPassword,
+            final String nuovaPassword,
+            final String confermaPassword) throws Exception {
+
+        when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
+                thenReturn(biblioteca);
+
+        this.mockMvc.perform(post("/conferma-modifica-biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("password", "BibliotecaPassword")
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("vecchia_password", vecchiaPassword)
+                .param("nuova_password", nuovaPassword)
+                .param("conferma_password", "PASSWORD ERRATA")
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico", biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("area-utente/modifica-dati-biblioteca"));
+    }
+
+
 
     /**
      * Simula i dati inviati da un metodo
@@ -537,7 +627,10 @@ public class AreaUtenteControllerTest {
                           "Via Carrisi 47",
                           "1234567890",
                           "Biblioteca Carrisi"
-                  )
+                  ),
+                  "BibliotecaPassword",
+                  "BibliotecaPassword",
+                  "BibliotecaPassword"
           )
         );
     }
