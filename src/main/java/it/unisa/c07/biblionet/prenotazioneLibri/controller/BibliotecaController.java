@@ -121,4 +121,23 @@ public class BibliotecaController {
         Libro l = prenotazioneService.inserimentoDalDatabase(idLibro, b.getEmail(), numCopie);
         return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
     }
+
+    /**
+     * Implementa la funzionalità che permette inserire
+     * un libro manualmente tramite form.
+     * @param model Il model per recuperare l'utente
+     * @param libro Il libro da salvare
+     * @param numCopie il numero di copie possedute
+     * @return La view per visualizzare il libro
+     */
+    @RequestMapping(value = "/inserimento-manuale", method = RequestMethod.POST)
+    public String inserisciManualmente(final Model model,
+                                       final Libro libro,
+                                       final int numCopie) {
+
+
+
+        Libro l = new Libro();
+        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+    }
 }

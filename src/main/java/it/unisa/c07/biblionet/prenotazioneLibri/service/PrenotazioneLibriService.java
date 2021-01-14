@@ -167,4 +167,12 @@ public interface PrenotazioneLibriService {
      */
     Libro inserimentoDalDatabase(int idLibro, String idBiblioteca, int numCopie);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro attraverso un form.
+     * @param libro il Libro da memorizzare
+     * @return il libro inserito
+     */
+    Libro inserimentoManuale(Libro libro);
+
 }

@@ -407,8 +407,17 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         return l;
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro attraverso un form.
+     * @param libro il Libro da memorizzare
+     * @return il libro inserito
+     */
+    public Libro inserimentoManuale(final Libro libro) {
+        Libro l;
 
-    
+        return libro;
+    }
 
 }
 

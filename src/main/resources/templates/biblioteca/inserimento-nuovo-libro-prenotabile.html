@@ -24,8 +24,18 @@
                     <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
                 </th>
             </select>
-            <input type="number" name="numCopie" value="2">
+            <input type="number" name="numCopie" value="1" min="1">
             <input type="submit" value="Conferma">
+        </form>
+    </div>
+    <br><br>
+    <div>
+        <form th:object = "${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
+            <input type="text" th:field="*{titolo}" placeholder="Titolo" required>
+            <input type="text" th:field="*{isbn}" placeholder="ISBN">
+            <input type="text" th:field="*{autore}" placeholder="Autore" required>
+            <input type="text" th:field="*{descrizione}" placeholder="Descrizione" required>
+            <input type="text" th:field="*{casaEditrice}" placeholder="Casa Editrice" required>
         </form>
     </div>
 </div>
