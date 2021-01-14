@@ -74,7 +74,7 @@ public final class RegistrazioneController {
                                                String bibliotecaEmail,
                                        final Model model) {
 
-        if(registrazioneService.isEmailRegistrata(esperto.getEmail())){
+        if (registrazioneService.isEmailRegistrata(esperto.getEmail())) {
             return "registrazione/registrazione_esperto";
         }
 
@@ -119,7 +119,7 @@ public final class RegistrazioneController {
                                  final @RequestParam("conferma_password")
                                                   String password) {
 
-        if(registrazioneService.isEmailRegistrata(biblioteca.getEmail())){
+        if (registrazioneService.isEmailRegistrata(biblioteca.getEmail())) {
             return "registrazione/registrazione_biblioteca";
         }
 
@@ -149,6 +149,7 @@ public final class RegistrazioneController {
      * @param lettore  Il lettore da registrare
      * @param password il campo conferma password del form per controllare
      *                 il corretto inserimento della stessa.
+     * @param model    utilizzato per gestire la sessione
      * @return La view per effettuare il login
      */
     @RequestMapping(value = "/lettore", method = RequestMethod.POST)
@@ -157,7 +158,7 @@ public final class RegistrazioneController {
                                                String password,
                                        final Model model) {
 
-        if(registrazioneService.isEmailRegistrata(lettore.getEmail())){
+        if (registrazioneService.isEmailRegistrata(lettore.getEmail())) {
             return "registrazione/registrazione_lettore";
         }
 

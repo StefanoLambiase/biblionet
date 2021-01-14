@@ -183,7 +183,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
      * @return la lista dei club del libro a cui partecipa
      */
     @Override
-    public List<ClubDelLibro> findAllByLettori(Lettore lettore) {
+    public List<ClubDelLibro> findAllByLettori(final Lettore lettore) {
         return clubDelLibroService.findAllByLettori(lettore);
     }
 
@@ -194,7 +194,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
      * @return la lista dei club del libro a cui partecipa
      */
     @Override
-    public List<ClubDelLibro> findAllByEsperto(Esperto esperto) {
+    public List<ClubDelLibro> findAllByEsperto(final Esperto esperto) {
         return clubDelLibroService.findAllByEsperto(esperto);
     }
 

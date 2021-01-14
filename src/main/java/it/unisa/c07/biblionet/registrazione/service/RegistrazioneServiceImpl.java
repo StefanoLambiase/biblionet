@@ -81,20 +81,20 @@ public class RegistrazioneServiceImpl implements RegistrazioneService {
 
     /**
      * Implementa la funzionalità di controllare se una mail è
-     * presente già associata ad un altro utente nel database
+     * presente già associata ad un altro utente nel database.
      * @param email la mail da controllare
      * @return true se la mail è già associata, false altrimenti
      */
     @Override
-    public boolean isEmailRegistrata(String email) {
+    public boolean isEmailRegistrata(final String email) {
 
        /*
         * Utilizzo il LettoreDAO, ma potrei usare qualsiasi altro DAO
         * degli utenti, poiché data la generalizzazione, la findAll
         * restituisce tutti gli utenti del sistema
         */
-        for (UtenteRegistrato u: lettoreDAO.findAll()){
-            if(u.getEmail().equals(email)){
+        for (UtenteRegistrato u: lettoreDAO.findAll()) {
+            if (u.getEmail().equals(email)) {
                 return true;
             }
         }
