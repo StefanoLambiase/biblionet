@@ -98,6 +98,10 @@ public class RegistrazioneServiceImplTest {
     @Test
     public void registraLettore() {
         Lettore lettore = new Lettore();
+        lettore.setEmail("a");
+        lettore.setUsername("a");
+        lettore.setNome("a");
+        lettore.setCognome("a");
         when(lettoreDAO.save(lettore)).thenReturn(lettore);
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }

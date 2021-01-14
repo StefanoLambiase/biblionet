@@ -417,11 +417,11 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraLettore(new Lettore()))
                 .thenReturn(lettore);
-        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+        when(registrazioneService.isEmailRegistrata("lettoreEmail"))
                 .thenReturn(false);
 
         this.mockMvc.perform(post("/registrazione/lettore")
-                .param("email", lettore.getEmail())
+                .param("email", "lettoreEmail")
                 .param("username", lettore.getUsername())
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())
@@ -491,11 +491,11 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraLettore(new Lettore()))
                 .thenReturn(lettore);
-        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+        when(registrazioneService.isEmailRegistrata("a"))
                 .thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/lettore")
-                .param("email", lettore.getEmail())
+                .param("email", "a")
                 .param("username", lettore.getUsername())
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())

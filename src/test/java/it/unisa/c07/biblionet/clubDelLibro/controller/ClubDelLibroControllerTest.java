@@ -186,6 +186,7 @@ public class ClubDelLibroControllerTest {
         // Creo l'attributo per la sessione
         UtenteRegistrato utente = new Lettore();
         utente.setTipo("Lettore");
+        club.setLettori(new ArrayList<>());
         // Mocking
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
