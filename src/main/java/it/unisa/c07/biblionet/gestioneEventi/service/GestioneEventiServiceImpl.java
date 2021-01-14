@@ -155,6 +155,9 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
                 pos = i;
             }
         }
+        if(pos!= 0) {
+            listaEventi.remove(pos);
+        }
 
         lettore.setEventi(listaEventi);
         Lettore l = lettoreDAO.save(lettore);

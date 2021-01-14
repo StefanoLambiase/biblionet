@@ -572,4 +572,27 @@ public class ClubDelLibroControllerTest {
 
     }
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la partecipazione ad un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+    */
+     @Test
+    public void partecipaEvento() throws Exception{
+         //da fare
+     }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'abbandono di un un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void abbandonaEvento() throws Exception{
+        //da fare
+    }
+
+
 }
