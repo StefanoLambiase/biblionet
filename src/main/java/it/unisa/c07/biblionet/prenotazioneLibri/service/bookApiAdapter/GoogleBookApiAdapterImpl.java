@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -18,12 +17,19 @@ import java.time.LocalDateTime;
  * l'interfacciamento con la Google API Books
  * Esegue la chiamata alla API e riceve un JSON che viene
  * trasformato in un oggetto Libro di BiblioNet.
- * Documentazione di google sulla API: https://developers.google.com/books/docs/overview.
+ * Documentazione di google sulla API:
+ * https://developers.google.com/books/docs/overview.
  */
 public class GoogleBookApiAdapterImpl implements BookApiAdapter {
 
+    /**
+     * L'URL dell'api.
+     */
     String googleApiUrl = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-    int ERROR_STATUS_CODE = 299;
+    /**
+     * Lo status code per controllare la richiesta.
+     */
+    int errorCode = 299;
 
     /**
      * Implementa la funzionalità che converte la risposta
@@ -49,7 +55,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             // Check the response status code
             int status = con.getResponseCode();
             Reader sr = null;
-            if (status > ERROR_STATUS_CODE) {
+            if (status > errorCode) {
                 sr = new InputStreamReader(con.getErrorStream());
                 //? Dovrebbe ritornare il messaggio di errore nel service?
                 return null;
@@ -72,8 +78,15 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
         return null;
     }
 
-
-    private Libro creaLibroDaResponse(final StringBuilder stringBuilder, String isbn) {
+    /**
+     * Il metodo che si occupa di tradurre la risposta
+     * JSON in oggetto Libro.
+     * @param stringBuilder la stringa JSON
+     * @param isbn l'isbn con cui si effettua la richiesta
+     * @return il libro creato
+     */
+    private Libro creaLibroDaResponse(final StringBuilder stringBuilder,
+                                      final String isbn) {
         JSONParser parser = new JSONParser();
         Libro libro = new Libro();
         try {
@@ -89,16 +102,16 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             //Creazione descrizione da categorie
             String descrizione = "";
             JSONArray categories = (JSONArray) volumeInfo.get("categories");
-            if(categories.isEmpty()) {
+            if (categories.isEmpty()) {
                 descrizione = "NA";
             }
             int i = 0;
             for (Object c : categories) {
-                if(i == 0) {
+                if (i == 0) {
                     descrizione += "Questo libro parla di " + c.toString();
                     i++;
                 } else {
-                    descrizione += ", "+c.toString();
+                    descrizione += ", " + c.toString();
                 }
             }
 
@@ -111,16 +124,17 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             String copertina = (String) images.get("smallThumbnail");
             String autore = autori.get(0).toString();
             LocalDateTime annoPubblicazioneDateTime;
-            if(annoPubblicazione == null) {
-                annoPubblicazioneDateTime = LocalDateTime.of(1,1,1,1,1);
+            if (annoPubblicazione == null) {
+                annoPubblicazioneDateTime = LocalDateTime.of(1, 1, 1, 1, 1);
             } else {
-                annoPubblicazioneDateTime = LocalDateTime.of(Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
+                annoPubblicazioneDateTime = LocalDateTime.of(
+                        Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
             }
 
             //Creazione dell'oggetto Libro
             libro.setTitolo(titolo);
             libro.setDescrizione(descrizione);
-            if(casaEditrice == null) {
+            if (casaEditrice == null) {
                 libro.setCasaEditrice("NA");
             } else {
                 libro.setCasaEditrice(casaEditrice);
@@ -129,8 +143,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
             libro.setIsbn(isbn);
             libro.setImmagineLibro(copertina);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return libro;

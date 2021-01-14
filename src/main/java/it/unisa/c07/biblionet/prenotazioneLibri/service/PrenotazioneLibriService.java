@@ -154,7 +154,8 @@ public interface PrenotazioneLibriService {
      * @param generi la lista dei generi del libro
      * @return il libro creato
      */
-    Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi);
+    Libro inserimentoPerIsbn(String isbn, String idBiblioteca,
+                             int numCopie, List<String> generi);
 
     /**
      * Implementa la funzionalità che permette
@@ -166,7 +167,8 @@ public interface PrenotazioneLibriService {
      * @param numCopie il numero di copie possedute
      * @return il libro inserito
      */
-    Libro inserimentoDalDatabase(int idLibro, String idBiblioteca, int numCopie);
+    Libro inserimentoDalDatabase(int idLibro,
+                                 String idBiblioteca, int numCopie);
 
     /**
      * Implementa la funzionalità che permette
@@ -177,7 +179,8 @@ public interface PrenotazioneLibriService {
      * @param generi la lista dei generi del libro
      * @return il libro inserito
      */
-    Libro inserimentoManuale(Libro libro, String idBiblioteca, int numCopie, List<String> generi);
+    Libro inserimentoManuale(Libro libro, String idBiblioteca,
+                             int numCopie, List<String> generi);
 
     /**
      * Implementa la funzionalità che permette di

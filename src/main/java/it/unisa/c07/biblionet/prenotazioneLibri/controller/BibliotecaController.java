@@ -98,7 +98,7 @@ public class BibliotecaController {
                                    @RequestParam final String[] generi,
                                    @RequestParam final int numCopie) {
 
-        if(isbn == null) {
+        if (isbn == null) {
             return "redirect:/biblioteca/inserisci-nuovo-libro";
         }
         UtenteRegistrato utente =
@@ -110,8 +110,11 @@ public class BibliotecaController {
         List<String> glist = Arrays.asList(generi.clone());
         Libro l = prenotazioneService.inserimentoPerIsbn(
                 isbn, b.getEmail(), numCopie, glist);
-        return "redirect:/prenotazione-libri/"+l.getIdLibro()+
-                                "/visualizza-libro";
+        if (l == null) {
+            return "redirect:/biblioteca/inserisci-nuovo-libro";
+        }
+        return "redirect:/prenotazione-libri/" + l.getIdLibro()
+                + "/visualizza-libro";
     }
 
     /**
@@ -137,8 +140,8 @@ public class BibliotecaController {
         Biblioteca b = (Biblioteca) utente;
         Libro l = prenotazioneService.inserimentoDalDatabase(
                 idLibro, b.getEmail(), numCopie);
-        return "redirect:/prenotazione-libri/"+l.getIdLibro()+
-                                    "/visualizza-libro";
+        return "redirect:/prenotazione-libri/" + l.getIdLibro()
+                + "/visualizza-libro";
     }
 
     /**
@@ -147,6 +150,7 @@ public class BibliotecaController {
      * @param model Il model per recuperare l'utente
      * @param libro Il libro da salvare
      * @param numCopie il numero di copie possedute
+     * @param annoPubblicazione l'anno di pubblicazione
      * @return La view per visualizzare il libro
      */
     @RequestMapping(value = "/inserimento-manuale",
@@ -164,10 +168,10 @@ public class BibliotecaController {
         Biblioteca b = (Biblioteca) utente;
         Libro l = new Libro();
         l.setTitolo(libro.getTitolo());
-        if(libro.getIsbn() != null) {
+        if (libro.getIsbn() != null) {
             l.setIsbn(libro.getIsbn());
         }
-        if(libro.getDescrizione() != null) {
+        if (libro.getDescrizione() != null) {
             l.setDescrizione(libro.getDescrizione());
         }
         l.setCasaEditrice(libro.getCasaEditrice());
@@ -182,12 +186,12 @@ public class BibliotecaController {
                 e.printStackTrace();
             }
         }
-        LocalDateTime anno = LocalDateTime.of
-                (Integer.parseInt(annoPubblicazione),1,1,1,1);
+        LocalDateTime anno = LocalDateTime.of(
+                Integer.parseInt(annoPubblicazione), 1, 1, 1, 1);
         l.setAnnoDiPubblicazione(anno);
         Libro newLibro = prenotazioneService.inserimentoManuale(
                 l, b.getEmail(), numCopie, libro.getGeneri());
-        return "redirect:/prenotazione-libri/"+newLibro.getIdLibro()
-                +"/visualizza-libro";
+        return "redirect:/prenotazione-libri/" + newLibro.getIdLibro()
+                + "/visualizza-libro";
     }
 }

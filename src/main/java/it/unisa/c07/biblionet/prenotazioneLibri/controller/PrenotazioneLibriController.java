@@ -10,8 +10,12 @@ import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +282,7 @@ public class PrenotazioneLibriController {
      */
     @RequestMapping(value = "/find-libri-by-titolo-contains")
     public @ResponseBody List<ILibroIdAndName> findLibriByTitoloContains(
-            @RequestParam("q") String titolo
+            @RequestParam("q") final String titolo
     ) {
         return prenotazioneService.findByTitoloContains(titolo);
     }
