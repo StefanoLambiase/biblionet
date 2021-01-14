@@ -34,6 +34,13 @@ public interface RegistrazioneService {
      */
     UtenteRegistrato registraLettore(Lettore lettore);
 
+    /**
+     * Implementa la funzionalità di controllare se una mail è
+     * presente già associata ad un altro utente nel database.
+     * @param email la mail da controllare
+     * @return true se la mail è già associata, false altrimenti
+     */
+    boolean isEmailRegistrata(String email);
 
     /**
      * Implementa la funzionalità di trovare dei generi.
@@ -50,5 +57,7 @@ public interface RegistrazioneService {
      * @return la biblioteca se presente, null altrimenti
      */
     Biblioteca getBibliotecaByEmail(String email);
+
+
 
 }

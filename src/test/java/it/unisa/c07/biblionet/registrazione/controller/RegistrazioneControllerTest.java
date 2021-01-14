@@ -73,6 +73,8 @@ public final class RegistrazioneControllerTest {
                 thenReturn(esperto);
         when(registrazioneService.getBibliotecaByEmail(emailBiblioteca)).
                 thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -122,6 +124,8 @@ public final class RegistrazioneControllerTest {
                 thenReturn(esperto);
         when(registrazioneService.getBibliotecaByEmail(emailBiblioteca)).
                 thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -172,6 +176,60 @@ public final class RegistrazioneControllerTest {
                 thenReturn(esperto);
         when(registrazioneService.getBibliotecaByEmail(emailBiblioteca)).
                 thenReturn(null);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(true);
+
+        this.mockMvc.perform(post("/registrazione/esperto")
+                .param("email", esperto.getEmail())
+                .param("nome", esperto.getNome())
+                .param("cognome", esperto.getCognome())
+                .param("username", esperto.getUsername())
+                .param("password", "EspertoPassword")
+                .param("conferma_password", confermaPassword)
+                .param("provincia", esperto.getProvincia())
+                .param("citta", esperto.getCitta())
+                .param("via", esperto.getVia())
+                .param("recapito_telefonico", esperto.getRecapitoTelefonico())
+                .param("email_biblioteca", emailBiblioteca))
+                .andExpect(view().name("registrazione/registrazione_esperto"));
+    }
+
+
+    /**
+     * Metodo che testa la funzionalità gestita dal
+     * controller per la registrazione di un esperto
+     * la cui mail è già presente
+     * simulando la richiesta http.
+     *
+     * @param esperto          L'esperto da registrare
+     * @param confermaPassword la password da confermare
+     * @param emailBiblioteca  la mail della biblioteca
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @DisplayName("Registrazione Esperto che non va a buon fine" +
+                 "perchè la mail inserita è già presente")
+    @MethodSource("provideRegistrazioneEsperto")
+    public void registrazioneEspertoEmailPresente(
+            final Esperto esperto, final String confermaPassword,
+            final String emailBiblioteca) throws Exception {
+
+        Biblioteca biblioteca = new Biblioteca(
+                "bibliotecacarrisi@gmail.com",
+                "BibliotecaPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Carrisi 47",
+                "1234567890",
+                "Biblioteca Carrisi"
+        );
+
+        when(registrazioneService.registraEsperto(new Esperto()))
+                .thenReturn(esperto);
+        when(registrazioneService.getBibliotecaByEmail(emailBiblioteca))
+                .thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(esperto.getEmail()))
+                .thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -232,6 +290,8 @@ public final class RegistrazioneControllerTest {
             throws Exception {
         when(registrazioneService.registraBiblioteca(new Biblioteca()))
                 .thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(false);
 
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
@@ -265,6 +325,8 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraBiblioteca(new Biblioteca()))
                 .thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(false);
 
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
@@ -278,6 +340,39 @@ public final class RegistrazioneControllerTest {
                         biblioteca.getRecapitoTelefonico()))
                 .andExpect(view()
                         .name("registrazione/registrazione_biblioteca"));
+    }
+
+    /**
+     * Test che registra correttamente una biblioteca.
+     *
+     * @param biblioteca       la biblioteca da registrare
+     * @param confermaPassword la password da confermare
+     * @throws Exception Eccezione di MockMvc
+     */
+    @ParameterizedTest
+    @DisplayName("Registrazione Biblioteca che va a buon fine")
+    @MethodSource("provideRegistrazioneBiblioteca")
+    public void registrazioneBibliotecaEmailPresente(
+                                                final Biblioteca biblioteca,
+                                                final String confermaPassword)
+                                                throws Exception {
+
+        when(registrazioneService.registraBiblioteca(new Biblioteca()))
+                .thenReturn(biblioteca);
+        when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
+                .thenReturn(true);
+
+        this.mockMvc.perform(post("/registrazione/biblioteca")
+                .param("email", biblioteca.getEmail())
+                .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
+                .param("password", "BibliotecaPassword")
+                .param("conferma_password", confermaPassword)
+                .param("provincia", biblioteca.getProvincia())
+                .param("citta", biblioteca.getCitta())
+                .param("via", biblioteca.getVia())
+                .param("recapito_telefonico",
+                        biblioteca.getRecapitoTelefonico()))
+                .andExpect(view().name("registrazione/registrazione_biblioteca"));
     }
 
 
@@ -304,7 +399,7 @@ public final class RegistrazioneControllerTest {
 
 
     /**
-     * controller per la registrazione di un lettore
+     * Test per la registrazione di un lettore
      * avvenuta correttamente
      * simulando la richiesta http.
      *
@@ -322,6 +417,8 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraLettore(new Lettore()))
                 .thenReturn(lettore);
+        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+                .thenReturn(false);
 
         this.mockMvc.perform(post("/registrazione/lettore")
                 .param("email", lettore.getEmail())
@@ -358,6 +455,8 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraLettore(new Lettore()))
                 .thenReturn(lettore);
+        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+                .thenReturn(false);
 
         this.mockMvc.perform(post("/registrazione/lettore")
                 .param("email", lettore.getEmail())
@@ -365,6 +464,42 @@ public final class RegistrazioneControllerTest {
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())
                 .param("password", "PASSWORD_SBAGLIATA")//Password errata
+                .param("conferma_password", confermaPassword)
+                .param("provincia", lettore.getProvincia())
+                .param("citta", lettore.getCitta())
+                .param("via", lettore.getVia())
+                .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
+                .andExpect(view().name("registrazione/registrazione_lettore"));
+    }
+
+    /**
+     * Test per la registrazione di un lettore
+     * avvenuta correttamente
+     * simulando la richiesta http.
+     *
+     * @param lettore          Il lettore da registrare
+     * @param confermaPassword il campo conferma password del
+     *                         form per controllare
+     * @throws Exception Eccezione per MockMvc
+     */
+    @ParameterizedTest
+    @DisplayName("Registrazione Lettore che va a buon fine")
+    @MethodSource("provideRegistrazioneLettore")
+    public void registrazioneLettoreEmailPresente(final Lettore lettore,
+                                             final String confermaPassword)
+            throws Exception {
+
+        when(registrazioneService.registraLettore(new Lettore()))
+                .thenReturn(lettore);
+        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+                .thenReturn(true);
+
+        this.mockMvc.perform(post("/registrazione/lettore")
+                .param("email", lettore.getEmail())
+                .param("username", lettore.getUsername())
+                .param("nome", lettore.getNome())
+                .param("cognome", lettore.getCognome())
+                .param("password", "LettorePassword")
                 .param("conferma_password", confermaPassword)
                 .param("provincia", lettore.getProvincia())
                 .param("citta", lettore.getCitta())
