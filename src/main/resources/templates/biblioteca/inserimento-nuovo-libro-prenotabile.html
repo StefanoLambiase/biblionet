@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="contenuto-pagina" class="container">
 
-    <div id="accordion" style="margin-top:5%">
+    <div id="accordion" style="margin-top:5%; margin-bottom: 5%;">
         <div class="card">
             <div class="card-header switch-header" id="headingOne">
                 <div style="text-align: center">
@@ -23,12 +23,26 @@
                 <div class="card-body form-container">
                     <div>
                         <form method="post" action="/biblioteca/inserimento-isbn">
-                            <input type="text" name="isbn">
-                            <select multiple name="generi">
-                                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
-                            </select>
-                            <input type="number" name="numCopie" value="1" min="1">
-                            <input type="submit" value="Conferma">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="isbn" placeholder="ISBN" required>
+                                </div>
+                                <div class="form-group col">
+                                    <select class="form-control" multiple name="generi" size="3">
+                                        <option disabled>Seleziona uno o più generi</option>
+                                        <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <input id="num2" class="form-control" type="number" name="numCopie" value="1" min="1">
+                                    <label for="num2">Seleziona il numero di copie possedute</label>
+                                </div>
+                            </div>
+                            <div class="form-row" style="display: flex; align-items: center; align-content: center; text-align: center">
+                                <div class="form-group col">
+                                    <input class="btn-main" style="width: 20%; align-self: center" type="submit" value="Conferma">
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -46,13 +60,24 @@
                 <div class="card-body form-container">
                     <div>
                         <form method="post" action="/biblioteca/inserimento-archivio">
-                            <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width: 60%">
-                                <th th:each="libro : ${listaLibri}">
-                                    <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
-                                </th>
-                            </select>
-                            <input type="number" name="numCopie" value="1" min="1">
-                            <input type="submit" value="Conferma">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                        <th th:each="libro : ${listaLibri}">
+                                            <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
+                                        </th>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <input id="num1" class="form-control" type="number" name="numCopie" value="1" min="1">
+                                    <label for="num1">Seleziona il numero di copie possedute</label>
+                                </div>
+                            </div>
+                            <div class="form-row" style="display: flex; align-items: center; align-content: center; text-align: center">
+                                <div class="form-group col">
+                                    <input class="btn-main" style="width: 20%; align-self: center" type="submit" value="Conferma">
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -70,18 +95,51 @@
                 <div class="card-body form-container">
                     <div>
                         <form th:object="${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
-                            <input type="text" name="titolo" placeholder="Titolo" required>
-                            <input type="text" name="isbn" placeholder="ISBN">
-                            <input type="text" name="autore" placeholder="Autore" required>
-                            <input type="text" name="descrizione" placeholder="Descrizione">
-                            <input type="text" name="casaEditrice" placeholder="Casa Editrice" required>
-                            <input type="text" name="annoPubblicazione" placeholder="Anno di pubblicazione" required>
-                            <input type="file" name="immagineLibro" accept="image/png, image/jpeg" >
-                            <select multiple name="generi">
-                                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
-                            </select>
-                            <input type="number" name="numCopie" value="1" min="1">
-                            <input type="submit" value="Conferma">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="titolo" placeholder="Titolo" required>
+                                </div>
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="isbn" placeholder="ISBN">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="autore" placeholder="Autore" required>
+                                </div>
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="descrizione" placeholder="Descrizione">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="casaEditrice" placeholder="Casa Editrice" required>
+                                </div>
+                                <div class="form-group col">
+                                    <input class="form-control" type="text" name="annoPubblicazione" placeholder="Anno di pubblicazione" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input id="file" type="file" class="form-control" name="immagineLibro" accept="image/png, image/jpeg" value="Copertina">
+                                    <label for="file">Seleziona immagine di copertina</label>
+                                </div>
+                                <div class="form-group col">
+                                    <select class="form-control" multiple name="generi" size="3">
+                                        <option disabled>Seleziona uno o più generi</option>
+                                        <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <input id="num" class="form-control" type="number" name="numCopie" value="1" min="1">
+                                    <label for="num">Seleziona il numero di copie possedute</label>
+                                </div>
+                            </div>
+                            <div class="form-row" style="display: flex; align-items: center; align-content: center; text-align: center">
+                                <div class="form-group col">
+                                    <input class="btn-main" style="width: 20%; align-self: center" type="submit" value="Conferma">
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
