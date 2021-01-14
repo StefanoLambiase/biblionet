@@ -155,5 +155,16 @@ public interface PrenotazioneLibriService {
      */
     Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi);
 
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro già memorizzato negli
+     * archivi della piattaforma alla lista dei propri
+     * libri prenotabili.
+     * @param idLibro il Libro da inserire
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro inserito
+     */
+    Libro inserimentoDalDatabase(int idLibro, String idBiblioteca, int numCopie);
 
 }

@@ -64,6 +64,10 @@ public class BibliotecaController {
         if (utente == null || utente.getTipo() != "Biblioteca") {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+
+        List<Libro> lista = prenotazioneService.visualizzaListaLibriCompleta();
+        model.addAttribute("listaLibri", lista);
+
         return "/biblioteca/inserimento-nuovo-libro-prenotabile";
     }
 
@@ -91,7 +95,30 @@ public class BibliotecaController {
         }
         Biblioteca b = (Biblioteca) utente;
         List<String> glist = Arrays.asList(generi.clone());
-        Libro l = prenotazioneService.inserimentoPerIsbn(isbn,b.getEmail(),numCopie,glist);
+        Libro l = prenotazioneService.inserimentoPerIsbn(isbn, b.getEmail(), numCopie, glist);
+        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+    }
+
+    /**
+     * Implementa la funzionalità che permette inserire
+     * un libro alla lista dei possessi preso
+     * dal db.
+     * @param idLibro l'ID del libro
+     * @param numCopie il numero di copie possedute
+     * @param model Il model per recuperare l'utente
+     * @return La view per visualizzare il libro
+     */
+    @RequestMapping(value = "/inserimento-archivio", method = RequestMethod.POST)
+    public String inserisciDaDatabase(final Model model,
+                                   @RequestParam final int idLibro,
+                                   @RequestParam final int numCopie) {
+
+        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || utente.getTipo() != "Biblioteca") {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Biblioteca b = (Biblioteca) utente;
+        Libro l = prenotazioneService.inserimentoDalDatabase(idLibro, b.getEmail(), numCopie);
         return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
     }
 }

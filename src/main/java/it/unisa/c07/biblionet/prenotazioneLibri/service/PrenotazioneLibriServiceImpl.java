@@ -319,9 +319,12 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @param numCopie il numero di copie possedute
      * @return il libro creato
      */
-    public Libro inserimentoPerIsbn(String isbn, String idBiblioteca, int numCopie, List<String> generi) {
+    public Libro inserimentoPerIsbn(final String isbn,
+                                    final String idBiblioteca,
+                                    final int numCopie,
+                                    final List<String> generi) {
 
-        //Recuper l'oggetto Libro da Api per isbn
+        //Recupero l'oggetto Libro da Api per isbn
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
         if (l == null) {
@@ -365,6 +368,47 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
 
         return libro;
     }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro già memorizzato negli
+     * archivi della piattaforma alla lista dei propri
+     * libri prenotabili.
+     * @param idLibro il Libro da inserire
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro inserito
+     */
+    public Libro inserimentoDalDatabase(final int idLibro,
+                                        final String idBiblioteca,
+                                        final int numCopie) {
+        Libro l = libroDAO.getOne(idLibro);
+        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+        for(Possesso p : b.getPossessi()) {
+            if (p.getPossessoID().getLibroID() == idLibro) {
+                p.setNumeroCopie(p.getNumeroCopie() + numCopie);
+                possessoDAO.save(p);
+                bibliotecaDAO.save(b);
+                return l;
+            }
+        }
+
+        //Creo e salvo il nuovo possesso
+        PossessoId pid = new PossessoId(idBiblioteca, idLibro);
+        Possesso p = new Possesso(pid, numCopie);
+        possessoDAO.save(p);
+        List<Possesso> plist = b.getPossessi();
+        plist.add(p);
+        b.setPossessi(plist);
+
+        return l;
+    }
+
+
+    
 
 }
 

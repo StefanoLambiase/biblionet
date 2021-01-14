@@ -72,7 +72,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
         return null;
     }
 
-    //DA IMPLEMENTARE
+
     private Libro creaLibroDaResponse(final StringBuilder stringBuilder, String isbn) {
         JSONParser parser = new JSONParser();
         Libro libro = new Libro();
@@ -110,12 +110,21 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             JSONObject images = (JSONObject) volumeInfo.get("imageLinks");
             String copertina = (String) images.get("smallThumbnail");
             String autore = autori.get(0).toString();
-            LocalDateTime annoPubblicazioneDateTime = LocalDateTime.of(Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
+            LocalDateTime annoPubblicazioneDateTime;
+            if(annoPubblicazione == null) {
+                annoPubblicazioneDateTime = LocalDateTime.of(1,1,1,1,1);
+            } else {
+                annoPubblicazioneDateTime = LocalDateTime.of(Integer.parseInt(annoPubblicazione), 1, 1, 0, 0);
+            }
 
             //Creazione dell'oggetto Libro
             libro.setTitolo(titolo);
             libro.setDescrizione(descrizione);
-            libro.setCasaEditrice(casaEditrice);
+            if(casaEditrice == null) {
+                libro.setCasaEditrice("NA");
+            } else {
+                libro.setCasaEditrice(casaEditrice);
+            }
             libro.setAutore(autore);
             libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);
             libro.setIsbn(isbn);

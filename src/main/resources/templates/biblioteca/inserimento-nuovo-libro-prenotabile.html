@@ -1,19 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Inserimento nuovo libro</title>
 </head>
 <body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <div>
+        <form method="post" action="/biblioteca/inserimento-isbn">
+            <input type="text" name="isbn">
+            <input type="text" name="generi">
+            <input type="number" name="numCopie" value="2">
+            <input type="submit" value="Conferma">
+        </form>
+    </div>
 
-<div>
-    <form method="post" action="/biblioteca/inserimento-isbn">
-        <input type="text" name="isbn">
-        <input type="text" name="generi">
-        <input type="number" name="numCopie" value="2">
-        <input type="submit" value="Conferma">
-    </form>
+    <br><br>
+    <div>
+        <form method="post" action="/biblioteca/inserimento-archivio">
+            <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="width: 60%">
+                <th th:each="libro : ${listaLibri}">
+                    <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
+                </th>
+            </select>
+            <input type="number" name="numCopie" value="2">
+            <input type="submit" value="Conferma">
+        </form>
+    </div>
 </div>
-
 </body>
 </html>
