@@ -1,8 +1,10 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import it.unisa.c07.biblionet.model.form.LibroForm;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -57,16 +62,22 @@ public class BibliotecaController {
      * @param model Il model per recuperare l'utente
      * @return La view
      */
-    @RequestMapping(value = "/inserisci-nuovo-libro", method = RequestMethod.GET)
+    @RequestMapping(value = "/inserisci-nuovo-libro",
+                            method = RequestMethod.GET)
     public String visualizzaInserimentoLibro(final Model model) {
 
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || utente.getTipo() != "Biblioteca") {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        List<Libro> lista = prenotazioneService.visualizzaListaLibriCompleta();
-        model.addAttribute("listaLibri", lista);
+        List<Libro> listaLibri =
+                prenotazioneService.visualizzaListaLibriCompleta();
+        model.addAttribute("listaLibri", listaLibri);
+
+        List<Genere> listaGeneri = prenotazioneService.getAllGeneri();
+        model.addAttribute("listaGeneri", listaGeneri);
 
         return "/biblioteca/inserimento-nuovo-libro-prenotabile";
     }
@@ -80,7 +91,8 @@ public class BibliotecaController {
      * @param model Il model per recuperare l'utente
      * @return La view per visualizzare il libro
      */
-    @RequestMapping(value = "/inserimento-isbn", method = RequestMethod.POST)
+    @RequestMapping(value = "/inserimento-isbn",
+                        method = RequestMethod.POST)
     public String inserisciPerIsbn(final Model model,
                                    @RequestParam final String isbn,
                                    @RequestParam final String[] generi,
@@ -89,14 +101,17 @@ public class BibliotecaController {
         if(isbn == null) {
             return "redirect:/biblioteca/inserisci-nuovo-libro";
         }
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || utente.getTipo() != "Biblioteca") {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         Biblioteca b = (Biblioteca) utente;
         List<String> glist = Arrays.asList(generi.clone());
-        Libro l = prenotazioneService.inserimentoPerIsbn(isbn, b.getEmail(), numCopie, glist);
-        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+        Libro l = prenotazioneService.inserimentoPerIsbn(
+                isbn, b.getEmail(), numCopie, glist);
+        return "redirect:/prenotazione-libri/"+l.getIdLibro()+
+                                "/visualizza-libro";
     }
 
     /**
@@ -108,18 +123,22 @@ public class BibliotecaController {
      * @param model Il model per recuperare l'utente
      * @return La view per visualizzare il libro
      */
-    @RequestMapping(value = "/inserimento-archivio", method = RequestMethod.POST)
+    @RequestMapping(value = "/inserimento-archivio",
+                        method = RequestMethod.POST)
     public String inserisciDaDatabase(final Model model,
                                    @RequestParam final int idLibro,
                                    @RequestParam final int numCopie) {
 
-        UtenteRegistrato utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || utente.getTipo() != "Biblioteca") {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         Biblioteca b = (Biblioteca) utente;
-        Libro l = prenotazioneService.inserimentoDalDatabase(idLibro, b.getEmail(), numCopie);
-        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+        Libro l = prenotazioneService.inserimentoDalDatabase(
+                idLibro, b.getEmail(), numCopie);
+        return "redirect:/prenotazione-libri/"+l.getIdLibro()+
+                                    "/visualizza-libro";
     }
 
     /**
@@ -130,14 +149,45 @@ public class BibliotecaController {
      * @param numCopie il numero di copie possedute
      * @return La view per visualizzare il libro
      */
-    @RequestMapping(value = "/inserimento-manuale", method = RequestMethod.POST)
+    @RequestMapping(value = "/inserimento-manuale",
+                        method = RequestMethod.POST)
     public String inserisciManualmente(final Model model,
-                                       final Libro libro,
-                                       final int numCopie) {
+                                       final LibroForm libro,
+                                       final int numCopie,
+                                       final String annoPubblicazione) {
 
-
-
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || utente.getTipo() != "Biblioteca") {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Biblioteca b = (Biblioteca) utente;
         Libro l = new Libro();
-        return "redirect:/prenotazione-libri/"+l.getIdLibro()+"/visualizza-libro";
+        l.setTitolo(libro.getTitolo());
+        if(libro.getIsbn() != null) {
+            l.setIsbn(libro.getIsbn());
+        }
+        if(libro.getDescrizione() != null) {
+            l.setDescrizione(libro.getDescrizione());
+        }
+        l.setCasaEditrice(libro.getCasaEditrice());
+        l.setAutore(libro.getAutore());
+        if (libro.getImmagineLibro() != null) {
+            try {
+                byte[] imageBytes = libro.getImmagineLibro().getBytes();
+                String base64Image =
+                        Base64.getEncoder().encodeToString(imageBytes);
+                l.setImmagineLibro(base64Image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LocalDateTime anno = LocalDateTime.of
+                (Integer.parseInt(annoPubblicazione),1,1,1,1);
+        l.setAnnoDiPubblicazione(anno);
+        Libro newLibro = prenotazioneService.inserimentoManuale(
+                l, b.getEmail(), numCopie, libro.getGeneri());
+        return "redirect:/prenotazione-libri/"+newLibro.getIdLibro()
+                +"/visualizza-libro";
     }
 }

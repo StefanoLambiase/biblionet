@@ -331,7 +331,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
             return l;
         }
 
-        //Salvo il libro nel db
+        //Casting dei generi
         List<Genere> g = new ArrayList<>();
         if (!generi.isEmpty()) {
             for (String s : generi) {
@@ -352,13 +352,22 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         if (!exists) {
             libro = libroDAO.save(l);
         }
-
+        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+        for(Possesso p : b.getPossessi()) {
+            if (p.getPossessoID().getLibroID() == libro.getIdLibro()) {
+                p.setNumeroCopie(p.getNumeroCopie() + numCopie);
+                possessoDAO.save(p);
+                bibliotecaDAO.save(b);
+                return l;
+            }
+        }
         //Creo il possesso relativo al libro e alla biblioteca
         //che lo inserisce e lo memorizzo
         PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());
         Possesso possesso = new Possesso(pid, numCopie);
         possessoDAO.save(possesso);
-        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
         List<Possesso> plist = b.getPossessi();
         plist.add(possesso);
         b.setPossessi(plist);
@@ -411,13 +420,66 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * Implementa la funzionalità che permette
      * di inserire un libro attraverso un form.
      * @param libro il Libro da memorizzare
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
      * @return il libro inserito
      */
-    public Libro inserimentoManuale(final Libro libro) {
-        Libro l;
+    public Libro inserimentoManuale(final Libro libro,
+                                    final String idBiblioteca,
+                                    final int numCopie,
+                                    final List<String> generi) {
 
-        return libro;
+        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+        //Controllo che il libro non sia già salvato
+        boolean exists = false;
+        Libro l = new Libro();
+        List<Genere> g = new ArrayList<>();
+        if (!generi.isEmpty()) {
+            for (String s : generi) {
+                g.add(genereDAO.findByName(s));
+            }
+        }
+        libro.setGeneri(g);
+        for (Libro tl : libroDAO.findAll()) {
+            if(tl.getTitolo().equals(libro.getTitolo())) {
+                exists = true;
+                l = tl;
+            }
+        }
+        if (!exists) {
+            l = libroDAO.save(libro);
+        }
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+        for(Possesso p : b.getPossessi()) {
+            if (p.getPossessoID().getLibroID() == l.getIdLibro()) {
+                p.setNumeroCopie(p.getNumeroCopie() + numCopie);
+                possessoDAO.save(p);
+                bibliotecaDAO.save(b);
+                return l;
+            }
+        }
+
+        //Creo e salvo il nuovo possesso
+        PossessoId pid = new PossessoId(idBiblioteca, l.getIdLibro());
+        Possesso p = new Possesso(pid, numCopie);
+        possessoDAO.save(p);
+        List<Possesso> plist = b.getPossessi();
+        plist.add(p);
+        b.setPossessi(plist);
+
+        return l;
     }
 
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista dei generi.
+     * @return la lista dei generi.
+     */
+    public List<Genere> getAllGeneri() {
+        return genereDAO.findAll();
+    }
 }
 

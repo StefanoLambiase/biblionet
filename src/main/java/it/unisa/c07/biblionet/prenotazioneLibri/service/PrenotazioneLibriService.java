@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
 import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -171,8 +172,18 @@ public interface PrenotazioneLibriService {
      * Implementa la funzionalità che permette
      * di inserire un libro attraverso un form.
      * @param libro il Libro da memorizzare
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
      * @return il libro inserito
      */
-    Libro inserimentoManuale(Libro libro);
+    Libro inserimentoManuale(Libro libro, String idBiblioteca, int numCopie, List<String> generi);
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista dei generi.
+     * @return la lista dei generi.
+     */
+    List<Genere> getAllGeneri();
 
 }

@@ -11,7 +11,7 @@
         <form method="post" action="/biblioteca/inserimento-isbn">
             <input type="text" name="isbn">
             <input type="text" name="generi">
-            <input type="number" name="numCopie" value="2">
+            <input type="number" name="numCopie" value="1" min="1">
             <input type="submit" value="Conferma">
         </form>
     </div>
@@ -30,12 +30,19 @@
     </div>
     <br><br>
     <div>
-        <form th:object = "${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
-            <input type="text" th:field="*{titolo}" placeholder="Titolo" required>
-            <input type="text" th:field="*{isbn}" placeholder="ISBN">
-            <input type="text" th:field="*{autore}" placeholder="Autore" required>
-            <input type="text" th:field="*{descrizione}" placeholder="Descrizione" required>
-            <input type="text" th:field="*{casaEditrice}" placeholder="Casa Editrice" required>
+        <form th:object="${libro}" method = "post" enctype="multipart/form-data" action="/biblioteca/inserimento-manuale">
+            <input type="text" name="titolo" placeholder="Titolo" required>
+            <input type="text" name="isbn" placeholder="ISBN">
+            <input type="text" name="autore" placeholder="Autore" required>
+            <input type="text" name="descrizione" placeholder="Descrizione">
+            <input type="text" name="casaEditrice" placeholder="Casa Editrice" required>
+            <input type="text" name="annoPubblicazione" placeholder="Anno di pubblicazione" required>
+            <input type="file" name="immagineLibro" accept="image/png, image/jpeg" >
+            <select multiple name="generi">
+                <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
+            </select>
+            <input type="number" name="numCopie" value="1" min="1">
+            <input type="submit" value="Conferma">
         </form>
     </div>
 </div>
