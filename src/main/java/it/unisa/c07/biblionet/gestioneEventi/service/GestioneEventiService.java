@@ -61,18 +61,18 @@ public interface GestioneEventiService {
     /**
      * Implementa la funzionalità che permette
      * ad un Lettore di partecipare ad un evento.
-     * @param lettore Il lettore da iscrivere all'evento
+     * @param idLettore Il lettore da iscrivere all'evento
      * @param idEvento L'id dell'evento a cui partecipare
      * @return Il lettore aggiornato ed iscritto all'evento
      */
-    Lettore partecipaEvento(Lettore lettore, int idEvento);
+    Lettore partecipaEvento(String idLettore, int idEvento);
 
     /**
      * Implementa la funzionalità che permette
      * ad un Lettore di abbandonare un evento.
-     * @param lettore Il lettore da disiscrivere dall'evento
+     * @param idLettore Il lettore da disiscrivere dall'evento
      * @param idEvento L'id dell'evento da abbandonare
      * @return Il lettore aggiornato ed disiscritto dall'evento
      */
-    Lettore abbandonaEvento(Lettore lettore, int idEvento);
+    Lettore abbandonaEvento(String idLettore, int idEvento);
 }

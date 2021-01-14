@@ -112,40 +112,52 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
     /**
      * Implementa la funzionalità che permette
      * ad un Lettore di partecipare ad un evento.
-     * @param lettore Il lettore da iscrivere all'evento
+     * @param idLettore Il lettore da iscrivere all'evento
      * @param idEvento L'id dell'evento a cui partecipare
      * @return Il lettore aggiornato ed iscritto all'evento
      */
     @Override
-    public Lettore partecipaEvento(Lettore lettore, int idEvento) {
-        Optional<Evento> evento = this.getEventoById(idEvento);
-
+    public Lettore partecipaEvento(String idLettore, int idEvento) {
+        Evento evento = eventoDAO.getOne(idEvento);
+        Lettore lettore = lettoreDAO.findByID(idLettore);
         List<Evento> listaEventi = lettore.getEventi();
         if(listaEventi == null)
             listaEventi = new ArrayList<>();
-        listaEventi.add(evento.get());
+
+        for(Evento e : listaEventi)
+            if(e.getIdEvento() == evento.getIdEvento())
+                return lettore;
+
+        listaEventi.add(evento);
         lettore.setEventi(listaEventi);
-        lettoreDAO.save(lettore);
-        
-        return lettore;
+        Lettore l = lettoreDAO.save(lettore);
+        return l;
     }
 
     /**
      * Implementa la funzionalità che permette
      * ad un Lettore di abbandonare un evento.
-     * @param lettore Il lettore da disiscrivere dall'evento
+     * @param idLettore Il lettore da disiscrivere dall'evento
      * @param idEvento L'id dell'evento da abbandonare
      * @return Il lettore aggiornato ed disiscritto dall'evento
      */
     @Override
-    public Lettore abbandonaEvento(Lettore lettore, int idEvento) {
-        Evento evento = this.getEventoById(idEvento).get();
+    public Lettore abbandonaEvento(String idLettore, int idEvento) {
+        Evento evento = eventoDAO.getOne(idEvento);
+        Lettore lettore = lettoreDAO.findByID(idLettore);
         List<Evento> listaEventi = lettore.getEventi();
 
-        listaEventi.remove(evento);
+        //Per chiunque leggesse, non fate domande e non toccate. Grazie
+        int pos = 0;
+        for (int i = 0; i < listaEventi.size(); i++) {
+            if(listaEventi.get(i).getIdEvento() == evento.getIdEvento()) {
+                pos = i;
+            }
+        }
 
-        lettoreDAO.save(lettore);
-        return lettore;
+        lettore.setEventi(listaEventi);
+        Lettore l = lettoreDAO.save(lettore);
+        return l;
     }
 
 }

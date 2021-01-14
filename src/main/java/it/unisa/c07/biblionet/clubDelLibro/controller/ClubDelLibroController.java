@@ -2,11 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -559,10 +555,25 @@ public class ClubDelLibroController {
         if (clubService.getClubByID(id) == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Lettore l = (Lettore) utente;
+        List<Evento> tutti = clubService.getClubByID(id).getEventi();
+        List<Evento> mieiEventi = l.getEventi();
+        /*System.out.println("tutti prima"+ tutti);
+        System.out.println("miei"+ mieiEventi);*/
+        for(Evento e : mieiEventi) {
+            if(tutti.contains(e)) {
+                tutti.remove(e);
+            }
+        }
+//        System.out.println("tutti dopo" +tutti);
         model.addAttribute("club", clubService.getClubByID(id));
-        model.addAttribute("eventi",
-                clubService.getClubByID(id).getEventi());
+        model.addAttribute("eventi", tutti);
+        model.addAttribute("mieiEventi", mieiEventi);
 
         return "club-del-libro/visualizza-eventi";
     }
@@ -586,7 +597,7 @@ public class ClubDelLibroController {
         if (utente == null || !utente.getTipo().equals("Lettore")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        eventiService.partecipaEvento((Lettore)utente, idEvento);
+        model.addAttribute("loggedUser", eventiService.partecipaEvento(utente.getEmail(), idEvento));
         return "redirect:/club-del-libro/" + idClub + "/eventi";
     }
 
@@ -609,7 +620,7 @@ public class ClubDelLibroController {
         if (utente == null || !utente.getTipo().equals("Lettore")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        eventiService.abbandonaEvento((Lettore)utente, idEvento);
+        model.addAttribute("loggedUser", eventiService.abbandonaEvento(utente.getEmail(), idEvento));
         return "redirect:/club-del-libro/" + idClub + "/eventi";
     }
 }
