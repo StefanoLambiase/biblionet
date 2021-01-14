@@ -117,17 +117,18 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
      * @return Il lettore aggiornato ed iscritto all'evento
      */
     @Override
-    public Lettore partecipaEvento(String idLettore, int idEvento) {
+    public Lettore partecipaEvento(final String idLettore, final int idEvento) {
         Evento evento = eventoDAO.getOne(idEvento);
         Lettore lettore = lettoreDAO.findByID(idLettore);
         List<Evento> listaEventi = lettore.getEventi();
-        if(listaEventi == null)
+        if (listaEventi == null) {
             listaEventi = new ArrayList<>();
-
-        for(Evento e : listaEventi)
-            if(e.getIdEvento() == evento.getIdEvento())
+        }
+        for (Evento e : listaEventi) {
+            if (e.getIdEvento() == evento.getIdEvento()) {
                 return lettore;
-
+            }
+        }
         listaEventi.add(evento);
         lettore.setEventi(listaEventi);
         Lettore l = lettoreDAO.save(lettore);
@@ -142,7 +143,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
      * @return Il lettore aggiornato ed disiscritto dall'evento
      */
     @Override
-    public Lettore abbandonaEvento(String idLettore, int idEvento) {
+    public Lettore abbandonaEvento(final String idLettore, final int idEvento) {
         Evento evento = eventoDAO.getOne(idEvento);
         Lettore lettore = lettoreDAO.findByID(idLettore);
         List<Evento> listaEventi = lettore.getEventi();
@@ -150,7 +151,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         //Per chiunque leggesse, non fate domande e non toccate. Grazie
         int pos = 0;
         for (int i = 0; i < listaEventi.size(); i++) {
-            if(listaEventi.get(i).getIdEvento() == evento.getIdEvento()) {
+            if (listaEventi.get(i).getIdEvento() == evento.getIdEvento()) {
                 pos = i;
             }
         }

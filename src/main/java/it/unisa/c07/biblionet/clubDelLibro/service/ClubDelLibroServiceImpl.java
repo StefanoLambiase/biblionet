@@ -71,7 +71,8 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      * @param filtro Un predicato che descrive come filtrare i Club
      * @return La lista dei club
      */
-    public List<ClubDelLibro> visualizzaClubsDelLibro(final Predicate<ClubDelLibro> filtro) {
+    public List<ClubDelLibro> visualizzaClubsDelLibro(
+                        final Predicate<ClubDelLibro> filtro) {
 
         var clubs = this.clubDAO.findAll();
 
@@ -147,15 +148,15 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
     /**
      * Funzione di utilità che permette di leggere la città
      * in cui si trova un Club del Libro.
-     * @param club
-     * @return
+     * @param club il club da cui prendere la città
+     * @return la città del club
      */
     public String getCittaFromClubDelLibro(final ClubDelLibro club) {
         return club.getEsperto().getBiblioteca().getCitta();
     }
 
     /**
-     * Restituisce tutti i generi nel sistema
+     * Restituisce tutti i generi nel sistema.
      * @return Tutti i generi nel sistema
      */
     public Set<String> getTuttiGeneri() {
@@ -164,7 +165,7 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
     }
 
     /**
-     * Restituisce tutte le citta nel sistema
+     * Restituisce tutte le citta nel sistema.
      * @return Tutte le citta nel sistema
      */
     public Set<String> getCitta() {
@@ -176,21 +177,23 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
 
     /**
      * Implementa la funzionalità di prendere una lista di club
-     * del libro a cui un lettore partecipa
+     * del libro a cui un lettore partecipa.
      * @param lettore il lettore preso in esame
      * @return la lista dei club del libro a cui partecipa
      */
-    public List<ClubDelLibro> findAllByLettori(Lettore lettore) {
+    public List<ClubDelLibro> findAllByLettori(final Lettore lettore) {
+
         return clubDAO.findAllByLettori(lettore);
     }
 
     /**
      * Implementa la funzionalità di prendere una lista di club
-     * del libro di cui un esperto è proprietario
+     * del libro di cui un esperto è proprietario.
      * @param esperto l' esperto preso in esame
      * @return la lista dei club del libro a cui partecipa
      */
-    public List<ClubDelLibro> findAllByEsperto(Esperto esperto) {
+    public List<ClubDelLibro> findAllByEsperto(final Esperto esperto) {
+
         return clubDAO.findAllByEsperto(esperto);
     }
 
