@@ -604,14 +604,11 @@ public class ClubDelLibroController {
         Lettore l = (Lettore) utente;
         List<Evento> tutti = clubService.getClubByID(id).getEventi();
         List<Evento> mieiEventi = l.getEventi();
-        /*System.out.println("tutti prima"+ tutti);
-        System.out.println("miei"+ mieiEventi);*/
         for (Evento e : mieiEventi) {
             if (tutti.contains(e)) {
                 tutti.remove(e);
             }
         }
-//        System.out.println("tutti dopo" +tutti);
         model.addAttribute("club", clubService.getClubByID(id));
         model.addAttribute("eventi", tutti);
         model.addAttribute("mieiEventi", mieiEventi);
