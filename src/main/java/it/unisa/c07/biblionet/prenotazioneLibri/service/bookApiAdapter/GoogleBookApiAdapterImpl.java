@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.entity.Libro;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -19,6 +20,7 @@ import java.util.Base64;
  * Documentazione di google sulla API:
  * https://developers.google.com/books/docs/overview.
  */
+@Service
 public class GoogleBookApiAdapterImpl implements BookApiAdapter {
 
     /**

@@ -4,12 +4,14 @@ import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.*;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,22 +24,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
  * Implementa il testing di unità per la classe
  * PrenotazioneLibriServiceImpl.
  *
- * @author Viviana Pentangelo, Gianmario Voria
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Antonio Della Porta
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -54,7 +58,7 @@ public class PrenotazioneLibriServiceImplTest {
      * Inject dell'api di google.
      */
     @Mock
-    private GoogleBookApiAdapterImpl googleApi;
+    private BookApiAdapter bookApiAdapter;
 
     /**
      * Mocking del dao per simulare le
@@ -436,11 +440,248 @@ public class PrenotazioneLibriServiceImplTest {
      */
     @Test
     public void inserimentoPerIsbnApiNull() {
-        when(googleApi.getLibroDaBookApi("1234")).thenReturn(null);
+        when(bookApiAdapter.getLibroDaBookApi("1234")).thenReturn(null);
         assertEquals(null,
                 prenotazioneService.inserimentoPerIsbn("a", "a", 1, null));
     }
 
+    /**
+     * Implementa il test della funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoPerIsbnGeneriVuotoLibroTrovatoPosseduto(final Libro libro) {
+
+        when(bookApiAdapter.getLibroDaBookApi(libro.getIsbn())).thenReturn(libro);
+        libro.setGeneri(new ArrayList<>());
+
+        List<Libro> libroList = new ArrayList<>();
+        libroList.add(libro);
+        when(libroDAO.findAll()).thenReturn(libroList);
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.setEmail("test@test.com");
+
+        PossessoId pid = new PossessoId(biblioteca.getEmail(), libro.getIdLibro());
+        Possesso possesso = new Possesso(pid, 1);
+
+        List<Possesso> possessoList = new ArrayList<>();
+        possessoList.add(possesso);
+        biblioteca.setPossessi(possessoList);
+
+        when(bibliotecaDAO.findByID(biblioteca.getEmail())).thenReturn(biblioteca);
+
+        assertEquals(libro,
+                prenotazioneService.inserimentoPerIsbn(
+                        libro.getIsbn(), biblioteca.getEmail(), 1, new ArrayList<>()));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoPerIsbnGeneriInseriti(final Libro libro) {
+
+        Genere genere = new Genere("test","test");
+
+        when(bookApiAdapter.getLibroDaBookApi(libro.getIsbn())).thenReturn(libro);
+        when(genereDAO.findByName(genere.getNome())).thenReturn(genere);
+        when(libroDAO.findAll()).thenReturn(new ArrayList<>());
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.setEmail("test@test.com");
+        biblioteca.setPossessi(new ArrayList<>());
+        when(bibliotecaDAO.findByID(biblioteca.getEmail())).thenReturn(biblioteca);
+
+        assertEquals(libro,
+                prenotazioneService.inserimentoPerIsbn(
+                        libro.getIsbn(), biblioteca.getEmail(), 1, Arrays.asList("test")));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabase(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+        PossessoId pid= new PossessoId("test",1);
+        Possesso p= new Possesso();
+        p.setPossessoID(pid);
+        p.setNumeroCopie(1);
+        biblioteca.setPossessi(Arrays.asList(p));
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabaseLibriDiversi(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+        PossessoId pid= new PossessoId("test",2);
+        Possesso p= new Possesso();
+        p.setPossessoID(pid);
+        p.setNumeroCopie(1);
+        ArrayList<Possesso> possessi= new ArrayList<>();
+        possessi.add(p);
+        biblioteca.setPossessi(possessi);
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabaseNoPossessi(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+        biblioteca.setPossessi(new ArrayList<>());
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManuale(Libro libro){
+
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+        biblioteca.setPossessi(new ArrayList<>());
+
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        libri.add(libro);
+
+
+
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManualeGiaEsistente(Libro libro){
+
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        Libro tmp = new Libro();
+        tmp.setTitolo("TEST");
+        tmp.setIdLibro(1);
+        libri.add(tmp);
+
+        PossessoId pid = new PossessoId("test", 1);
+        Possesso possesso = new Possesso(pid, 1);
+        ArrayList<Possesso> possessi = new ArrayList<>();
+        possessi.add(possesso);
+        biblioteca.setPossessi(possessi);
+
+
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManualePossessoNonEsistente(Libro libro){
+
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        Libro tmp = new Libro();
+        tmp.setTitolo("TEST");
+        tmp.setIdLibro(1);
+        libri.add(tmp);
+
+        PossessoId pid = new PossessoId("test", 2);
+        Possesso possesso = new Possesso(pid, 1);
+        ArrayList<Possesso> possessi = new ArrayList<>();
+        possessi.add(possesso);
+        biblioteca.setPossessi(possessi);
+
+
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
+
+    /**
+     * Utilizzato per fornire il libro ai test
+     * @return il libro
+     */
     private static Stream<Arguments> provideLibro() {
         return Stream.of(
                 Arguments.of(
@@ -454,6 +695,17 @@ public class PrenotazioneLibriServiceImplTest {
                         )
                 )
         );
+    }
+
+    /**
+     * Non so davvero cosa faccia
+     */
+    @Test
+    public void findByTitoloContainsNull(){
+
+        when(prenotazioneService.findByTitoloContains("test")).thenReturn(null);
+        assertEquals(new ArrayList<>(),prenotazioneService.findByTitoloContains("test"));
+
     }
 
 }
