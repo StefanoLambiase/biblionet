@@ -105,7 +105,7 @@ public class Libro {
     private List<Evento> eventi;
 
     /**
-     * Rappresenta la relazione di possesso con una blioteca.
+     * Rappresenta la relazione di possesso con una biblioteca.
      */
     @OneToMany(mappedBy = "possessoID.libroID")
     @ToString.Exclude

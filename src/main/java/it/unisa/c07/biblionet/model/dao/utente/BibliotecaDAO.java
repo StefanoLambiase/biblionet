@@ -30,6 +30,16 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
     List<Biblioteca> findByNome(String nome);
 
     /**
+     * Query custom che recupera dal DB una lista
+     * di biblioteche che contengono la città passata.
+     * @param citta Il nome della citta
+     * @return Biblioteche trovata
+     */
+    @Query("SELECT b FROM Biblioteca b "
+            +  "WHERE UPPER(b.citta) LIKE UPPER(concat('%', ?1,'%'))")
+    List<Biblioteca> findByCitta(String citta);
+
+    /**
      * Query custom che recupera dal DB una biblioteca dato il
      * suo id.
      * @param email L'ID della biblioteca
@@ -37,4 +47,12 @@ public interface BibliotecaDAO extends UtenteRegistratoDAO {
      */
     @Query("SELECT b FROM Biblioteca b WHERE b.email=?1")
     Biblioteca findByID(String email);
+
+    /**
+     * Query custom che recupera dal DB la liste di tutte
+     * le biblioteche.
+     * @return La lista di tutte le biblioteche
+     */
+    @Query("SELECT b FROM Biblioteca b")
+    List<Biblioteca> findAllBiblioteche();
 }

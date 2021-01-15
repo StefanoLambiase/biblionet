@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
@@ -51,7 +51,7 @@
                 <th th:text="${libro.titolo}" scope="row"></th>
                 <td><p th:each="genere : ${libro.generi}" th:text="${genere.nome}"></p></td>
                 <td>
-                    <form method="post" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/visualizza-libro'}">
+                    <form method="get" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/visualizza-libro'}">
                         <div>
                             <button type="submit" style="border:none;width: 80%;background-color:white">
                                 <i class="fa fa-search" style="color:#b20909"></i>

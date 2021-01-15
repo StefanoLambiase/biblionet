@@ -22,6 +22,11 @@
     border-radius: 0 !important;
 }
 
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 a:hover {
     cursor: pointer;
 }
