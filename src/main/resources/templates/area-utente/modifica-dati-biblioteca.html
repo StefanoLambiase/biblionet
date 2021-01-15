@@ -13,9 +13,9 @@
             <div id="content">
                 <div class="container-fluid" style="width: 1920px;">
                     <h3 class="text-dark mb-4">Modifica Dati</h3>
-                    <div class="col-lg-8">
+                    <div class="col-lg-11">
                         <div class="row">
-                            <div class="col-lg-12 text-left">
+                            <div class="col-lg-12 text-left m-3">
                                 <form method="post" th:action="@{/conferma-modifica-biblioteca}">
                                     <div class="card shadow mb-3">
                                         <div class="card-header py-3">
@@ -70,7 +70,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group"><label ><strong>Recapito Telefonico</strong><br></label><input class="form-control" type="tel" placeholder="333123456789" name="recapitoTelefonico" th:value="${biblioteca.getRecapitoTelefonico()}"></div>
-                                            <div class="form-group"><input class="btn btn-main" type="submit" value="Conferma modifica"></div>
+                                            <div class="form-group"><input class="btn btn-main m-3" type="submit" value="Conferma modifica"></div>
 
                                         </div>
                                     </div>
@@ -78,7 +78,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-5"></div>
                 </div>
             </div>
         </div>

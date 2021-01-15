@@ -27,6 +27,15 @@
     box-shadow: none;
 }
 
+.btn:hover{
+    background-color: #900202;
+}
+
+.btn:visited,.btn:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
 a:hover {
     cursor: pointer;
 }
