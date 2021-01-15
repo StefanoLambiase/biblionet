@@ -4,6 +4,7 @@ import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.entity.*;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
@@ -31,13 +32,16 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
  * Implementa il testing di unità per la classe
  * PrenotazioneLibriServiceImpl.
  *
- * @author Viviana Pentangelo, Gianmario Voria
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Antonio Della Porta
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -501,6 +505,11 @@ public class PrenotazioneLibriServiceImplTest {
                         libro.getIsbn(), biblioteca.getEmail(), 1, Arrays.asList("test")));
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoDatabase(Libro libro){
@@ -520,6 +529,11 @@ public class PrenotazioneLibriServiceImplTest {
 
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoDatabaseLibriDiversi(Libro libro){
@@ -541,6 +555,11 @@ public class PrenotazioneLibriServiceImplTest {
 
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro prendendolo dal database
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoDatabaseNoPossessi(Libro libro){
@@ -555,6 +574,11 @@ public class PrenotazioneLibriServiceImplTest {
 
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoManuale(Libro libro){
@@ -578,6 +602,11 @@ public class PrenotazioneLibriServiceImplTest {
         assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoManualeGiaEsistente(Libro libro){
@@ -611,6 +640,11 @@ public class PrenotazioneLibriServiceImplTest {
         assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
     }
 
+    /**
+     * Implementa il test della funzionalità che permette di
+     * creare un nuovo libro manualmente
+     * @param libro il libro preso
+     */
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoManualePossessoNonEsistente(Libro libro){
@@ -644,6 +678,10 @@ public class PrenotazioneLibriServiceImplTest {
         assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
     }
 
+    /**
+     * Utilizzato per fornire il libro ai test
+     * @return il libro
+     */
     private static Stream<Arguments> provideLibro() {
         return Stream.of(
                 Arguments.of(
@@ -657,6 +695,17 @@ public class PrenotazioneLibriServiceImplTest {
                         )
                 )
         );
+    }
+
+    /**
+     * Non so davvero cosa faccia
+     */
+    @Test
+    public void findByTitoloContainsNull(){
+
+        when(prenotazioneService.findByTitoloContains("test")).thenReturn(null);
+        assertEquals(new ArrayList<>(),prenotazioneService.findByTitoloContains("test"));
+
     }
 
 }
