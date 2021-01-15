@@ -28,7 +28,7 @@
                                     <input class="form-control" type="text" name="isbn" placeholder="ISBN" required>
                                 </div>
                                 <div class="form-group col">
-                                    <select class="form-control" multiple name="generi" size="3">
+                                    <select class="form-control" multiple name="generi" size="3" required>
                                         <option disabled>Seleziona uno o più generi</option>
                                         <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
                                     </select>
@@ -62,7 +62,7 @@
                         <form method="post" action="/biblioteca/inserimento-archivio">
                             <div class="row">
                                 <div class="form-group col">
-                                    <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                    <select name="idLibro" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
                                         <th th:each="libro : ${listaLibri}">
                                             <option th:text="${libro.titolo +', '+libro.autore}" th:value="${libro.idLibro}"></option>
                                         </th>
@@ -125,7 +125,7 @@
                                     <label for="file">Seleziona immagine di copertina</label>
                                 </div>
                                 <div class="form-group col">
-                                    <select class="form-control" multiple name="generi" size="3">
+                                    <select class="form-control" multiple name="generi" size="3" required>
                                         <option disabled>Seleziona uno o più generi</option>
                                         <option th:each="g : ${listaGeneri}" th:value="${g.nome}" th:text="${g.nome}"></option>
                                     </select>
