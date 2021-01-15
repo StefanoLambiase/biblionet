@@ -697,6 +697,34 @@ public class ClubDelLibroControllerTest {
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
+
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaModificaEventoSecondException(final ClubDelLibro club) throws Exception{
+        Evento evento= new Evento();
+        evento.setIdEvento(1);    // creare metodo provideEvento errore nel creazione evento
+        evento.setClub(club);
+        UtenteRegistrato esperto = new Esperto();
+        esperto.setEmail("mamix56@gmail.it");
+        club.setIdClub(1);
+        System.out.println(club.getIdClub());
+        when(eventiService.getEventoById(1)).thenReturn(Optional.of(evento));
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                .param("idClub","1")
+                .param("idEvento","1")
+                .sessionAttr("loggedUser", esperto))
+                .andExpect(status().isUnauthorized())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per visualizzazione di modifica di un
+     *  evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
         @ParameterizedTest
         @MethodSource("provideClubDelLibro")
     public void visualizzaModificaEventoThirdException(final ClubDelLibro club) throws Exception{
