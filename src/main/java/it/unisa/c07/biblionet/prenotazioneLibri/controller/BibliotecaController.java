@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
+
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -10,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -44,16 +47,18 @@ public class BibliotecaController {
     /**
      * Implementa la funzionalità che permette di
      * visualizzare tutte le biblioteche iscritte.
-     *
      * @param model Il model in cui salvare la lista
      * @return La view per visualizzare le biblioteche
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/visualizza-biblioteche",
+            method = RequestMethod.GET)
     public String visualizzaListaBiblioteche(final Model model) {
+
+        model.addAttribute("listaBiblioteche",
+                prenotazioneService.getAllBiblioteche());
 
         return "/biblioteca/visualizza-lista-biblioteche";
     }
-
 
     /**
      * Implementa la funzionalità che permette di
@@ -193,5 +198,53 @@ public class BibliotecaController {
                 l, b.getEmail(), numCopie, libro.getGeneri());
         return "redirect:/prenotazione-libri/" + newLibro.getIdLibro()
                 + "/visualizza-libro";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare le biblioteche filtrate.
+     *
+     * @param stringa La stringa di ricerca
+     * @param filtro  L'informazione su cui filtrare
+     * @param model   Il model per salvare la lista
+     * @return La view che visualizza la lista
+     */
+    @RequestMapping(value = "/ricerca", method = RequestMethod.GET)
+    public String visualizzaListaFiltrata(
+            @RequestParam("stringa") final String stringa,
+            @RequestParam("filtro") final String filtro,
+            final Model model) {
+
+        switch (filtro) {
+            case "nome":
+                model.addAttribute("listaBiblioteche", prenotazioneService.
+                        getBibliotecheByNome(stringa));
+                break;
+            case "citta":
+                model.addAttribute("listaBiblioteche", prenotazioneService.
+                        getBibliotecheByCitta(stringa));
+                break;
+            default:
+                model.addAttribute("listaBiblioteche",
+                        prenotazioneService.getAllBiblioteche());
+                break;
+        }
+        return "biblioteca/visualizza-lista-biblioteche";
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione
+     * del profilo di una singola biblioteca.
+     * @param email della biblioteca
+     * @param model Per salvare la biblioteca
+     * @return La view di visualizzazione singola biblioteca
+     */
+    @RequestMapping(value = "/{email}",
+            method = RequestMethod.GET)
+    public String visualizzaDatiBiblioteca(final @PathVariable String email,
+                                           final Model model) {
+        model.addAttribute("biblioteca",
+                prenotazioneService.getBibliotecaById(email));
+        return "biblioteca/visualizza-singola-biblioteca";
     }
 }
