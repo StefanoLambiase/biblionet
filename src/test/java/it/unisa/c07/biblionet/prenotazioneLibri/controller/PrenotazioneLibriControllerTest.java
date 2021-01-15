@@ -163,7 +163,7 @@ public class PrenotazioneLibriControllerTest {
         when(prenotazioneService.getLibroByID(1)).thenReturn(l);
         when(prenotazioneService.getBibliotecheLibro(l)).thenReturn(bl);
 
-        this.mockMvc.perform(post("/prenotazione-libri/1/visualizza-libro"))
+        this.mockMvc.perform(get("/prenotazione-libri/1/visualizza-libro"))
                             .andExpect(model().attribute("lista", bl))
                             .andExpect(model().attribute("libro", l))
                             .andExpect(view().name(

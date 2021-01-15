@@ -407,11 +407,13 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
                                         final int numCopie) {
         Libro l = libroDAO.getOne(idLibro);
         Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
-
+        System.out.println(l + "\n" + b);
         //Se per errore avesse inserito un libro che possiede già,
         //aggiorno semplicemente il numero di copie che ha.
         for (Possesso p : b.getPossessi()) {
+            System.out.println("cane1");
             if (p.getPossessoID().getLibroID() == idLibro) {
+                System.out.println("cane2");
                 p.setNumeroCopie(p.getNumeroCopie() + numCopie);
                 possessoDAO.save(p);
                 bibliotecaDAO.save(b);
@@ -453,25 +455,32 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         boolean exists = false;
         Libro l = new Libro();
         List<Genere> g = new ArrayList<>();
-        if (!generi.isEmpty()) {
-            for (String s : generi) {
-                g.add(genereDAO.findByName(s));
-            }
+
+        for (String s : generi) {
+            System.out.println("cane1");
+            g.add(genereDAO.findByName(s));
         }
+
         libro.setGeneri(g);
         for (Libro tl : libroDAO.findAll()) {
+            System.out.println("cane2");
             if (tl.getTitolo().equals(libro.getTitolo())) {
+                System.out.println(tl.getTitolo()+" "+libro.getTitolo());
+                System.out.println("cane3");
                 exists = true;
                 l = tl;
             }
         }
         if (!exists) {
+            System.out.println("cane4");
             l = libroDAO.save(libro);
         }
         //Se per errore avesse inserito un libro che possiede già,
         //aggiorno semplicemente il numero di copie che ha.
         for (Possesso p : b.getPossessi()) {
+            System.out.println("cane5");
             if (p.getPossessoID().getLibroID() == l.getIdLibro()) {
+                System.out.println("cane6");
                 p.setNumeroCopie(p.getNumeroCopie() + numCopie);
                 possessoDAO.save(p);
                 bibliotecaDAO.save(b);

@@ -27,10 +27,7 @@ import java.awt.print.Book;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -504,11 +501,148 @@ public class PrenotazioneLibriServiceImplTest {
                         libro.getIsbn(), biblioteca.getEmail(), 1, Arrays.asList("test")));
     }
 
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabase(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+        PossessoId pid= new PossessoId("test",1);
+        Possesso p= new Possesso();
+        p.setPossessoID(pid);
+        p.setNumeroCopie(1);
+        biblioteca.setPossessi(Arrays.asList(p));
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabaseLibriDiversi(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+        PossessoId pid= new PossessoId("test",2);
+        Possesso p= new Possesso();
+        p.setPossessoID(pid);
+        p.setNumeroCopie(1);
+        ArrayList<Possesso> possessi= new ArrayList<>();
+        possessi.add(p);
+        biblioteca.setPossessi(possessi);
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoDatabaseNoPossessi(Libro libro){
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+        biblioteca.setPossessi(new ArrayList<>());
+
+        when(libroDAO.getOne(1)).thenReturn(libro);
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        assertEquals(libro, prenotazioneService.inserimentoDalDatabase(1,"test",1));
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManuale(Libro libro){
+
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+        biblioteca.setPossessi(new ArrayList<>());
+
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        libri.add(libro);
 
 
 
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManualeGiaEsistente(Libro libro){
+
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
 
 
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        Libro tmp = new Libro();
+        tmp.setTitolo("TEST");
+        tmp.setIdLibro(1);
+        libri.add(tmp);
+
+        PossessoId pid = new PossessoId("test", 1);
+        Possesso possesso = new Possesso(pid, 1);
+        ArrayList<Possesso> possessi = new ArrayList<>();
+        possessi.add(possesso);
+        biblioteca.setPossessi(possessi);
+
+
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoManualePossessoNonEsistente(Libro libro){
+
+        libro.setIdLibro(1);
+        Biblioteca biblioteca= new Biblioteca();
+        biblioteca.setEmail("test");
+
+
+        List<String> generi=new ArrayList<String>();
+        generi.add("test");
+
+        ArrayList<Libro> libri = new ArrayList<>();
+        Libro tmp = new Libro();
+        tmp.setTitolo("TEST");
+        tmp.setIdLibro(1);
+        libri.add(tmp);
+
+        PossessoId pid = new PossessoId("test", 2);
+        Possesso possesso = new Possesso(pid, 1);
+        ArrayList<Possesso> possessi = new ArrayList<>();
+        possessi.add(possesso);
+        biblioteca.setPossessi(possessi);
+
+
+        when(bibliotecaDAO.findByID("test")).thenReturn(biblioteca);
+        when(genereDAO.findByName("test")).thenReturn(new Genere());
+        when(libroDAO.findAll()).thenReturn(libri);
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        assertEquals(libro,prenotazioneService.inserimentoManuale(libro,"test",1,generi));
+    }
 
     private static Stream<Arguments> provideLibro() {
         return Stream.of(
