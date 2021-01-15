@@ -26,6 +26,14 @@ public interface PrenotazioneLibriService {
 
     /**
      * Implementa la funzionalità che permette
+     * di visualizzare il profilo di una singola biblioteca.
+     * @param email della biblioteca
+     * @return la biblioteca
+     */
+    Biblioteca getBibliotecaById(String email);
+
+    /**
+     * Implementa la funzionalità che permette
      * di visualizzare una lista di libri prenotabili
      * filtrata per titolo.
      * @param titolo Stringa che deve essere contenuta
@@ -199,6 +207,7 @@ public interface PrenotazioneLibriService {
     /**
      * Implementa la funzionalità che permette di
      * recuperare la lista delle biblioteche dato un nome.
+     * @param nome il nome della biblioteca
      * @return la lista delle biblioteche.
      */
     List<Biblioteca> getBibliotecheByNome(String nome);
@@ -206,6 +215,7 @@ public interface PrenotazioneLibriService {
     /**
      * Implementa la funzionalità che permette di
      * recuperare la lista delle biblioteche data una citta.
+     * @param citta della biblioteca
      * @return la lista delle biblioteche.
      */
     List<Biblioteca> getBibliotecheByCitta(String citta);

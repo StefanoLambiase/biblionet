@@ -1,6 +1,6 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.controller;
 
-import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
+
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -11,9 +11,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -45,7 +50,8 @@ public class BibliotecaController {
      * @param model Il model in cui salvare la lista
      * @return La view per visualizzare le biblioteche
      */
-    @RequestMapping(value = "/visualizza-biblioteche", method = RequestMethod.GET)
+    @RequestMapping(value = "/visualizza-biblioteche",
+            method = RequestMethod.GET)
     public String visualizzaListaBiblioteche(final Model model) {
 
         model.addAttribute("listaBiblioteche",
@@ -53,7 +59,6 @@ public class BibliotecaController {
 
         return "/biblioteca/visualizza-lista-biblioteche";
     }
-
 
     /**
      * Implementa la funzionalità che permette di
@@ -225,5 +230,21 @@ public class BibliotecaController {
                 break;
         }
         return "biblioteca/visualizza-lista-biblioteche";
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione
+     * del profilo di una singola biblioteca.
+     * @param email della biblioteca
+     * @param model Per salvare la biblioteca
+     * @return La view di visualizzazione singola biblioteca
+     */
+    @RequestMapping(value = "/{email}",
+            method = RequestMethod.GET)
+    public String visualizzaDatiBiblioteca(final @PathVariable String email,
+                                           final Model model) {
+        model.addAttribute("biblioteca",
+                prenotazioneService.getBibliotecaById(email));
+        return "biblioteca/visualizza-singola-biblioteca";
     }
 }

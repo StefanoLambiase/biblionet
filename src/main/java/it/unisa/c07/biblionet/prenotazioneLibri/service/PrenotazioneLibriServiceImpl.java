@@ -33,7 +33,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
-    
     /**
      *Si occupa delle operazioni CRUD per libro.
      */
@@ -82,6 +81,18 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     @Override
     public List<Libro> visualizzaListaLibriPerTitolo(final String titolo) {
         return libroDAO.findByTitoloLike(titolo);
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare il profilo di una singola biblioteca.
+     * @param email della biblioteca
+     * @return la biblioteca
+     */
+    @Override
+    public Biblioteca getBibliotecaById(final String email) {
+        Biblioteca biblioteca = bibliotecaDAO.findByID(email);
+        return biblioteca;
     }
 
     /**
@@ -510,7 +521,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return la lista delle biblioteche.
      */
     @Override
-    public List<Biblioteca> getBibliotecheByNome(String nome) {
+    public List<Biblioteca> getBibliotecheByNome(final String nome) {
         List<Biblioteca> byNome = bibliotecaDAO.findByNome(nome);
         return byNome;
     }
@@ -521,7 +532,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      * @return la lista delle biblioteche.
      */
     @Override
-    public List<Biblioteca> getBibliotecheByCitta(String citta) {
+    public List<Biblioteca> getBibliotecheByCitta(final String citta) {
         List<Biblioteca> byCitta = bibliotecaDAO.findByCitta(citta);
         return byCitta;
     }
