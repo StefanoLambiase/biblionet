@@ -8,5 +8,12 @@ import it.unisa.c07.biblionet.model.entity.Libro;
  * libro, tramite ISBN, attraverso l'uso di API esterne.
  */
 public interface BookApiAdapter {
+    /**
+     * Implementa la funzionalità che permette
+     * di recuperare un Libro dal web tramite
+     * chiamata http ad un api di google con l'isbn.
+     * @param isbn l'isbn del libro
+     * @return il libro
+     */
     Libro getLibroDaBookApi(String isbn);
 }

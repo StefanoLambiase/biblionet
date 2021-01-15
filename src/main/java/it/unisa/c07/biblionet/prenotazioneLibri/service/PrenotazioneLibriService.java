@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service;
 
 import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
+import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -142,5 +143,50 @@ public interface PrenotazioneLibriService {
      * @return la lista di informazioni
      */
     List<ILibroIdAndName> findByTitoloContains(String titolo);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     * @param isbn il Lettore di cui recuperare i ticket
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
+     * @return il libro creato
+     */
+    Libro inserimentoPerIsbn(String isbn, String idBiblioteca,
+                             int numCopie, List<String> generi);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro già memorizzato negli
+     * archivi della piattaforma alla lista dei propri
+     * libri prenotabili.
+     * @param idLibro il Libro da inserire
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro inserito
+     */
+    Libro inserimentoDalDatabase(int idLibro,
+                                 String idBiblioteca, int numCopie);
+
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro attraverso un form.
+     * @param libro il Libro da memorizzare
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
+     * @return il libro inserito
+     */
+    Libro inserimentoManuale(Libro libro, String idBiblioteca,
+                             int numCopie, List<String> generi);
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista dei generi.
+     * @return la lista dei generi.
+     */
+    List<Genere> getAllGeneri();
 
 }
