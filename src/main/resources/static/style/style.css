@@ -21,7 +21,9 @@
     color: #ffffff;
     border-radius: 0 !important;
 }
-
+.btn{
+    color: #ffffff;
+}
 .btn:focus {
     outline: none;
     box-shadow: none;
@@ -31,7 +33,7 @@
     background-color: #900202;
 }
 
-.btn:visited,.btn:hover {
+.btn:visited,.btn:hover,.btn:link {
     color: #ffffff;
     text-decoration: none;
 }
