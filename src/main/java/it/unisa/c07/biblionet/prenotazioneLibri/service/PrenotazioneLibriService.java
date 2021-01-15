@@ -189,4 +189,25 @@ public interface PrenotazioneLibriService {
      */
     List<Genere> getAllGeneri();
 
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche.
+     * @return la lista delle biblioteche.
+     */
+    List<Biblioteca> getAllBiblioteche();
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche dato un nome.
+     * @return la lista delle biblioteche.
+     */
+    List<Biblioteca> getBibliotecheByNome(String nome);
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche data una citta.
+     * @return la lista delle biblioteche.
+     */
+    List<Biblioteca> getBibliotecheByCitta(String citta);
+
 }

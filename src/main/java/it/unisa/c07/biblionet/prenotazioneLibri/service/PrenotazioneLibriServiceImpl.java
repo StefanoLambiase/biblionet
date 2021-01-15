@@ -493,5 +493,37 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
     public List<Genere> getAllGeneri() {
         return genereDAO.findAll();
     }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List<Biblioteca> getAllBiblioteche() {
+        return bibliotecaDAO.findAllBiblioteche();
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche dato un nome.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List<Biblioteca> getBibliotecheByNome(String nome) {
+        List<Biblioteca> byNome = bibliotecaDAO.findByNome(nome);
+        return byNome;
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche data una citta.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List<Biblioteca> getBibliotecheByCitta(String citta) {
+        List<Biblioteca> byCitta = bibliotecaDAO.findByCitta(citta);
+        return byCitta;
+    }
 }
 
