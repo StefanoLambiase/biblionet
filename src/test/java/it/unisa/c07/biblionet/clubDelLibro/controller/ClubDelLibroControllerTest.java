@@ -23,6 +23,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.ui.Model;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -602,6 +603,13 @@ public class ClubDelLibroControllerTest {
                         assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
     }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di una modifica ad
+     *  un evento simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
         @Test
     public void visualizzaModificaEventoFirstException() throws Exception {
                 // Creo esperto
@@ -620,6 +628,35 @@ public class ClubDelLibroControllerTest {
 
         }
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per visualizzazione di modifica di un
+     *  evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+        @ParameterizedTest
+        @MethodSource("provideClubDelLibro")
+    public void visualizzaModificaEventoThirdException(final ClubDelLibro club) throws Exception{
+                     // Creo Evento da asssociare al club
+                    Evento evento = new Evento();
+                    evento.setClub(club);
+
+                    // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.of(evento));
+                    //Assert del test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                                    .param("idClub","1")
+                                        .param("idEvento","1")
+                                        .param("loggedUser", "null"))
+                            .andExpect(status().isBadRequest())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                    .andExpect(result ->
+                            assertEquals("400 BAD_REQUEST \"L'evento con id 1non è associato al club con id 1.\"",result.getResolvedException().getMessage()));
+
+
+
+        }
 
 
 }
