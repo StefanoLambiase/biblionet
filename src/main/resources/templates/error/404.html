@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common}">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+</head>
+<body>
+<div layout:fragment="pagina">
+    <div class="justify-content-center">
+        <a th:href="@{/}"> <img  th:src="@{~/image/error/404.png}" style="width: 90%;"> </a>
+    </div>
+</div>
+</body>
+</html>
