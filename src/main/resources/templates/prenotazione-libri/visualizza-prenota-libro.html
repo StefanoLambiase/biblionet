@@ -14,7 +14,7 @@
                 <!-- Colonna che contiene la card per la visualizzazione del libro -->
                 <div class="col">
                     <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width : 80%;">
-                        <img class="card-img-top border" th:src="@{'data:image/png;base64,'+ ${libro.immagineLibro}}" alt="Nessuna copertina trovata" width="70%">
+                        <img class="card-img-top border" th:src="@{'data:image/png;base64,'+ ${libro.immagineLibro}}" alt="Nessuna copertina trovata" style="max-height:400px">
                         <div class="card-body" style="font-size: 18px;">
                             <h3 class="card-title text-center rounded shadow p-3 mb-5" th:text="${libro.titolo}" style="background-color:#073763; color:white; padding: 2%;"></h3>
                             <div class="row card-content">

@@ -80,11 +80,11 @@
                     </div>
                     <div class="flip_back w-100 flipped-card-text">
                         <p>
-                            Prenu sul bottone in basso
+                            Premi sul bottone in basso
                             per visualizzare le biblioteche
                             che più ti possono interessare.
                         </p>
-                        <a href="/visualizza-biblioteche/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Biblioteche</a>
+                        <a href="/biblioteca/visualizza-biblioteche/" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Biblioteche</a>
                     </div>
                 </div>
             </div>
@@ -140,13 +140,11 @@
                         cercare le biblioteche più vicine ad esso
                         e di visionare in modo semplice e veloce la lista dei libri disponibili in esse.</p>
 
-                    <!-- Grid row -->
-                    <div class="row">
-
+                    <div class="row justify-content-center">
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Lambiase.jpg}" class="rounded-circle z-depth-1"
+                                <img th:src="@{~/image/home/icone/Lambiase.png}" class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
                             <h5 class="font-weight-bold mt-4 mb-3">Stefano Lambiase</h5>
@@ -159,10 +157,17 @@
                         </div>
                         <!-- Grid column -->
 
+                    </div>
+
+                    <!-- Grid row -->
+                    <div class="row">
+
+
+
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Voria.jpg}"
+                                <img th:src="@{~/image/home/icone/Voria.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -178,7 +183,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 mb-md-0 mb-5 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Pentangelo.jpg}"
+                                <img th:src="@{~/image/home/icone/Pentangelo.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -210,7 +215,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Maiorino.jpg}"
+                                <img th:src="@{~/image/home/icone/Maiorino.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -226,7 +231,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Triggiani.jpg}"
+                                <img th:src="@{~/image/home/icone/Triggiani.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -242,7 +247,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Casolaro.jpg}"
+                                <img th:src="@{~/image/home/icone/Casolaro.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -258,7 +263,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Topo.jpg}"
+                                <img th:src="@{~/image/home/icone/Topo.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -274,7 +279,7 @@
                         <!-- Grid column -->
                         <div class="col-lg-3 col-md-6 p-1">
                             <div class="avatar mx-auto">
-                                <img th:src="@{~/image/home/icone/Pagliara.jpg}"
+                                <img th:src="@{~/image/home/icone/Pagliara.png}"
                                      class="rounded-circle z-depth-1"
                                      alt="Sample avatar">
                             </div>
@@ -294,13 +299,14 @@
                 <!-- Section: Team -->
             </div>
         </div>
-        <footer class="bg-light text-center text-lg-start">
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-                © 2020 Copyright:Biblionet.com
-            </div>
-            <!-- Copyright -->
-        </footer>
     </div>
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2020 Copyright:Biblionet.com
+        </div>
+        <!-- Copyright -->
+    </footer>
+</div>
 </body>
 </html>

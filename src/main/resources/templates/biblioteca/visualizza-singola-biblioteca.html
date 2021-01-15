@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dettaglio Biblioteca</title>
 </head>
 <body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <!-- Header per visualizzare il nome e le core info del club -->
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="font-weight-light"
+                    th:text="${biblioteca.nomeBiblioteca}">
+                </h1>
+            </div>
+        </div>
+    </div>
 
+    <!-- Corpo principale che contiene tutte le cards della view -->
+    <div class="row">
+        <!-- Card per la visualizzazione della descrizione -->
+        <div class="col p-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <h3 class="card-title text-center">Informazioni</h3>
+                        <div class="col-8">
+                            <p class="card-text"
+                               th:text="${'Nome biblioteca: ' + biblioteca.nomeBiblioteca}">
+                            </p>
+                            <p class="card-text"
+                               th:text="${'Via: ' + biblioteca.via}">
+                            </p>
+                            <p class="card-text"
+                               th:text="${'Provincia: ' + biblioteca.provincia}">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="about">
+            <!-- Section: Team -->
+            <section class="team-section text-center my-5">
+                <!-- Section heading -->
+                <h2 class="h1-responsive font-weight-bold">Esperti</h2>
+                <!-- Grid row -->
+                <div class="row justify-content-center">
+                    <!-- Grid column -->
+                    <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1" th:each="biblioteche: ${biblioteca.esperti}">
+                        <div class="avatar mx-auto">
+                            <img th:src="@{~/image/area-utente/user.png}" class="rounded-circle z-depth-1" style="width: 55%;">
+                        </div>
+                        <h5 class="font-weight-bold mt-4 mb-3" th:text="${biblioteche.nome}"></h5>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
