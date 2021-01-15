@@ -441,42 +441,6 @@ public class PrenotazioneLibriServiceImplTest {
                 prenotazioneService.inserimentoPerIsbn("a", "a", 1, null));
     }
 
-    /**
-     * Implementa il test della funzionalità che permette
-     * di creare un nuovo libro e inserirlo nella lista
-     * a partire da un isbn usando una API di google.
-     */
-    @ParameterizedTest
-    @MethodSource("provideLibro")
-    public void inserimentoPerIsbnGeneriVuotoLibroTrovatoPosseduto(final Libro libro) {
-
-        System.out.println(libro);
-        when(googleApi.getLibroDaBookApi("9597845613497")).thenReturn(libro);
-        libro.setGeneri(new ArrayList<>());
-        List<Libro> list = new ArrayList<>();
-        list.add(libro);
-        when(libroDAO.findAll()).thenReturn(list);
-        when(libroDAO.save(libro)).thenReturn(libro);
-        Biblioteca b = new Biblioteca();
-        b.setEmail("a");
-        PossessoId pid = new PossessoId("a", libro.getIdLibro());
-        Possesso p = new Possesso(pid, 1);
-        List<Possesso> plist = new ArrayList<>();
-        plist.add(p);
-        b.setPossessi(plist);
-        when(bibliotecaDAO.findByID("a")).thenReturn(b);
-
-        assertEquals(libro,
-                prenotazioneService.inserimentoPerIsbn(
-                        "9597845613497", "a", 1, null));
-    }
-
-
-
-
-
-
-
     private static Stream<Arguments> provideLibro() {
         return Stream.of(
                 Arguments.of(
