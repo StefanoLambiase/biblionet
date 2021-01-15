@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -451,27 +452,56 @@ public class PrenotazioneLibriServiceImplTest {
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoPerIsbnGeneriVuotoLibroTrovatoPosseduto(final Libro libro) {
-        String isbn = "9597845613497";
 
-        System.out.println(libro);
-        when(bookApiAdapter.getLibroDaBookApi(isbn)).thenReturn(libro);
+        when(bookApiAdapter.getLibroDaBookApi(libro.getIsbn())).thenReturn(libro);
         libro.setGeneri(new ArrayList<>());
-        List<Libro> list = new ArrayList<>();
-        list.add(libro);
-        when(libroDAO.findAll()).thenReturn(list);
+
+        List<Libro> libroList = new ArrayList<>();
+        libroList.add(libro);
+        when(libroDAO.findAll()).thenReturn(libroList);
         when(libroDAO.save(libro)).thenReturn(libro);
-        Biblioteca b = new Biblioteca();
-        b.setEmail("a");
-        PossessoId pid = new PossessoId("a", libro.getIdLibro());
-        Possesso p = new Possesso(pid, 1);
-        List<Possesso> plist = new ArrayList<>();
-        plist.add(p);
-        b.setPossessi(plist);
-        when(bibliotecaDAO.findByID("a")).thenReturn(b);
+
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.setEmail("test@test.com");
+
+        PossessoId pid = new PossessoId(biblioteca.getEmail(), libro.getIdLibro());
+        Possesso possesso = new Possesso(pid, 1);
+
+        List<Possesso> possessoList = new ArrayList<>();
+        possessoList.add(possesso);
+        biblioteca.setPossessi(possessoList);
+
+        when(bibliotecaDAO.findByID(biblioteca.getEmail())).thenReturn(biblioteca);
 
         assertEquals(libro,
                 prenotazioneService.inserimentoPerIsbn(
-                        isbn, "a", 1, new ArrayList<>()));
+                        libro.getIsbn(), biblioteca.getEmail(), 1, new ArrayList<>()));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoPerIsbnGeneriInseriti(final Libro libro) {
+
+        Genere genere = new Genere("test","test");
+
+        when(bookApiAdapter.getLibroDaBookApi(libro.getIsbn())).thenReturn(libro);
+        when(genereDAO.findByName(genere.getNome())).thenReturn(genere);
+        when(libroDAO.findAll()).thenReturn(new ArrayList<>());
+        when(libroDAO.save(libro)).thenReturn(libro);
+
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.setEmail("test@test.com");
+        biblioteca.setPossessi(new ArrayList<>());
+        when(bibliotecaDAO.findByID(biblioteca.getEmail())).thenReturn(biblioteca);
+
+        assertEquals(libro,
+                prenotazioneService.inserimentoPerIsbn(
+                        libro.getIsbn(), biblioteca.getEmail(), 1, Arrays.asList("test")));
     }
 
 

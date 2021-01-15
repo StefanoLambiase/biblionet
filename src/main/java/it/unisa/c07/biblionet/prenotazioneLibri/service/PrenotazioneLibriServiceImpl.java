@@ -337,12 +337,12 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
 
         //Casting dei generi
         List<Genere> g = new ArrayList<>();
-        if (!generi.isEmpty()) {
+
+        for (String s : generi) {
             System.out.println("cane2");
-            for (String s : generi) {
-                g.add(genereDAO.findByName(s));
-            }
+            g.add(genereDAO.findByName(s));
         }
+
         l.setGeneri(g);
 
         //Controllo che il libro non sia già salvato
@@ -351,16 +351,18 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         for (Libro tl : libroDAO.findAll()) {
             System.out.println("cane3");
             if (tl.getIsbn().equals(l.getIsbn())) {
-                System.out.println("cane4");
+                System.out.println("cane4");//
                 exists = true;
                 libro = tl;
             }
         }
+
         if (!exists) {
             libro = libroDAO.save(l);
             System.out.println("cane5");
         }
         Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+
         //Se per errore avesse inserito un libro che possiede già,
         //aggiorno semplicemente il numero di copie che ha.
         for (Possesso p : b.getPossessi()) {
@@ -374,6 +376,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
             }
         }
         System.out.println("cane8");
+
         //Creo il possesso relativo al libro e alla biblioteca
         //che lo inserisce e lo memorizzo
         PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());
@@ -445,6 +448,7 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
                                     final List<String> generi) {
 
         Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
+
         //Controllo che il libro non sia già salvato
         boolean exists = false;
         Libro l = new Libro();
