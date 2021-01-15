@@ -326,12 +326,14 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
         if (l == null) {
+            System.out.println("cane1");
             return l;
         }
 
         //Casting dei generi
         List<Genere> g = new ArrayList<>();
         if (!generi.isEmpty()) {
+            System.out.println("cane2");
             for (String s : generi) {
                 g.add(genereDAO.findByName(s));
             }
@@ -342,25 +344,31 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         boolean exists = false;
         Libro libro = null;
         for (Libro tl : libroDAO.findAll()) {
+            System.out.println("cane3");
             if (tl.getIsbn().equals(l.getIsbn())) {
+                System.out.println("cane4");
                 exists = true;
                 libro = tl;
             }
         }
         if (!exists) {
             libro = libroDAO.save(l);
+            System.out.println("cane5");
         }
         Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);
         //Se per errore avesse inserito un libro che possiede già,
         //aggiorno semplicemente il numero di copie che ha.
         for (Possesso p : b.getPossessi()) {
+            System.out.println("cane6");
             if (p.getPossessoID().getLibroID() == libro.getIdLibro()) {
                 p.setNumeroCopie(p.getNumeroCopie() + numCopie);
                 possessoDAO.save(p);
                 bibliotecaDAO.save(b);
+                System.out.println("cane7");
                 return libro;
             }
         }
+        System.out.println("cane8");
         //Creo il possesso relativo al libro e alla biblioteca
         //che lo inserisce e lo memorizzo
         PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());
@@ -410,6 +418,9 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         List<Possesso> plist = b.getPossessi();
         plist.add(p);
         b.setPossessi(plist);
+
+        //Update della biblioteca con il nuovo possesso
+        bibliotecaDAO.save(b);
 
         return l;
     }
@@ -466,6 +477,9 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         List<Possesso> plist = b.getPossessi();
         plist.add(p);
         b.setPossessi(plist);
+
+        //Update della biblioteca con il nuovo possesso
+        bibliotecaDAO.save(b);
 
         return l;
     }

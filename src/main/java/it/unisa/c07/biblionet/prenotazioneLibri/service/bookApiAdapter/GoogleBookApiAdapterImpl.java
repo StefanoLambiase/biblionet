@@ -95,6 +95,9 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             JSONObject jsonData = (JSONObject) obj;
             //Recupero dei dati del libro dal JSON
             JSONArray items = (JSONArray) jsonData.get("items");
+            if(items == null) {
+                return null;
+            }
             JSONObject bookInfo = (JSONObject) items.get(0);
             JSONObject volumeInfo = (JSONObject) bookInfo.get("volumeInfo");
 

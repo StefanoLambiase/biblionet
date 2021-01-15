@@ -5,14 +5,16 @@ import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.PossessoDAO;
 import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
-import it.unisa.c07.biblionet.model.entity.Genere;
-import it.unisa.c07.biblionet.model.entity.Libro;
-import it.unisa.c07.biblionet.model.entity.Possesso;
-import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.*;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,16 +22,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
  * Implementa il testing di unità per la classe
  * PrenotazioneLibriServiceImpl.
+ *
  * @author Viviana Pentangelo, Gianmario Voria
  */
 @SpringBootTest
@@ -42,6 +49,12 @@ public class PrenotazioneLibriServiceImplTest {
      */
     @InjectMocks
     private PrenotazioneLibriServiceImpl prenotazioneService;
+
+    /**
+     * Inject dell'api di google.
+     */
+    @Mock
+    private GoogleBookApiAdapterImpl googleApi;
 
     /**
      * Mocking del dao per simulare le
@@ -219,7 +232,7 @@ public class PrenotazioneLibriServiceImplTest {
                 prenotazioneService.visualizzaListaLibriPerGenere("a"));
     }
 
-   /**
+    /**
      * Implementa il test della funzionalità che
      * permette di richiedere un prestito per un libro
      * da una biblioteca.
@@ -413,6 +426,70 @@ public class PrenotazioneLibriServiceImplTest {
         when(ticketPrestitoDAO.findAllByLettoreEmail("a")).thenReturn(list);
         assertEquals(list,
                 prenotazioneService.getTicketsLettore(new Lettore()));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google
+     * quando l'isbn inserito non viene trovato.
+     */
+    @Test
+    public void inserimentoPerIsbnApiNull() {
+        when(googleApi.getLibroDaBookApi("1234")).thenReturn(null);
+        assertEquals(null,
+                prenotazioneService.inserimentoPerIsbn("a", "a", 1, null));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     */
+    @ParameterizedTest
+    @MethodSource("provideLibro")
+    public void inserimentoPerIsbnGeneriVuotoLibroTrovatoPosseduto(final Libro libro) {
+
+        System.out.println(libro);
+        when(googleApi.getLibroDaBookApi("9597845613497")).thenReturn(libro);
+        libro.setGeneri(new ArrayList<>());
+        List<Libro> list = new ArrayList<>();
+        list.add(libro);
+        when(libroDAO.findAll()).thenReturn(list);
+        when(libroDAO.save(libro)).thenReturn(libro);
+        Biblioteca b = new Biblioteca();
+        b.setEmail("a");
+        PossessoId pid = new PossessoId("a", libro.getIdLibro());
+        Possesso p = new Possesso(pid, 1);
+        List<Possesso> plist = new ArrayList<>();
+        plist.add(p);
+        b.setPossessi(plist);
+        when(bibliotecaDAO.findByID("a")).thenReturn(b);
+
+        assertEquals(libro,
+                prenotazioneService.inserimentoPerIsbn(
+                        "9597845613497", "a", 1, null));
+    }
+
+
+
+
+
+
+
+    private static Stream<Arguments> provideLibro() {
+        return Stream.of(
+                Arguments.of(
+                        new Libro(
+                                "Amore Amaro",
+                                "Fru",
+                                "9597845613497",
+                                LocalDateTime.of(LocalDate.of(2010, 10, 15), LocalTime.now()),
+                                "Biblioteche 2.0",
+                                "Mondadori"
+                        )
+                )
+        );
     }
 
 }
