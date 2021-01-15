@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -71,6 +72,36 @@ public class ClubDelLibroControllerTest {
      */
     @Autowired
     private MockMvc mockMvc;
+
+
+
+
+    /**************************Tests for visualizzaModificaEvento*************************/
+
+        /* Da riguardare
+        @Test
+        public void visualizzaModificaEventoTest() throws Exception {
+            // Creo Evento e Club del libro
+            Evento evento=new Evento();
+            ClubDelLibro clubDelLibro= new ClubDelLibro();
+            clubDelLibro.setIdClub(1);
+                evento.setClub(clubDelLibro);
+                evento.setIdEvento(1);
+                // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.of((evento)));
+                    // Assert del test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                    .param("idClub", "1")
+                    .param("idEvento","1")
+                    .param("loggedUser","null"))
+                            .andExpect(model().attribute("loggedUser", "null"))
+                        .andExpect(model().attribute("evento", evento))
+                        .andExpect(model().attribute("club",evento.getClub()))
+                        .andExpect(model().attribute("id",1));
+
+        } */
+
+    
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -571,6 +602,7 @@ public class ClubDelLibroControllerTest {
                         assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
     }
+
 
 
 
