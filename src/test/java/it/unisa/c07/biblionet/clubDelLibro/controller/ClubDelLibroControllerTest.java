@@ -11,6 +11,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.model.form.ClubForm;
 import it.unisa.c07.biblionet.model.form.EventoForm;
+import org.h2.command.dml.MergeUsing;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -218,7 +219,6 @@ public class ClubDelLibroControllerTest {
         // Creo l'attributo per la sessione
         UtenteRegistrato utente = new Lettore();
         utente.setTipo("Lettore");
-        club.setLettori(new ArrayList<>());
         // Mocking
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
@@ -401,67 +401,6 @@ public class ClubDelLibroControllerTest {
      */
 
 
-    /**
-     * Implementa il test della funzionalità gestita dal
-     * controller per la partecipazione ad un evento
-     * simulando la richiesta http.
-     * @throws Exception Eccezione per MovkMvc
-     */
-    @Test
-    public void partecipaEventoIfTrue() throws Exception {
-        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/club-del-libro/1/eventi/15/iscrizione")
-                .sessionAttr("loggedUser", new Biblioteca()));
-    }
-
-    /**
-     * Implementa il test della funzionalità gestita dal
-     * controller per la partecipazione ad un evento
-     * simulando la richiesta http.
-     * @throws Exception Eccezione per MovkMvc
-     */
-    @Test
-    public void partecipaEventoIfFalse() throws Exception {
-        UtenteRegistrato u = new Lettore();
-        Lettore lettore = (Lettore) u;
-        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/club-del-libro/1/eventi/15/iscrizione")
-                .sessionAttr("loggedUser", u))
-                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
-    }
-
-    /**
-     * Implementa il test della funzionalità gestita dal
-     * controller per l'abbandono di un un evento
-     * simulando la richiesta http.
-     * @throws Exception Eccezione per MovkMvc
-     */
-    @Test
-    public void abbandonaEventoIfTrue() throws Exception {
-        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/club-del-libro/1/eventi/15/abbandono")
-                .sessionAttr("loggedUser", new Biblioteca()));
-    }
-
-    /**
-     * Implementa il test della funzionalità gestita dal
-     * controller per l'abbandono di un un evento
-     * simulando la richiesta http.
-     * @throws Exception Eccezione per MovkMvc
-     */
-    @Test
-    public void abbandonaEventoIfFalse() throws Exception {
-        UtenteRegistrato u = new Lettore();
-        Lettore lettore = (Lettore) u;
-        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/club-del-libro/1/eventi/15/abbandono")
-                .sessionAttr("loggedUser", u))
-                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
-    }
 
     /**
      * Simula i dati inviati da un metodo
@@ -689,6 +628,26 @@ public class ClubDelLibroControllerTest {
                                     assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
         }
+    @ParameterizedTest
+    @MethodSource("provideClubDelLibro")
+    public void visualizzaModificaEventoSecondException(final ClubDelLibro club) throws Exception{
+                    Evento evento= new Evento();
+                    evento.setIdEvento(1);    // creare metodo provideEvento errore nel creazione evento
+                    evento.setClub(club);
+                    UtenteRegistrato esperto = new Esperto();
+                    esperto.setEmail("mamix56@gmail.it");
+                    club.setIdClub(1);
+                    System.out.println(club.getIdClub());
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.of(evento));
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                    .param("idClub","1")
+                    .param("idEvento","1")
+                    .sessionAttr("loggedUser", esperto))
+                            .andExpect(status().isUnauthorized())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+
+    }
+
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -703,7 +662,6 @@ public class ClubDelLibroControllerTest {
                      // Creo Evento da asssociare al club
                     Evento evento = new Evento();
                     evento.setClub(club);
-
                     // Mocking
                     when(eventiService.getEventoById(1)).thenReturn(Optional.of(evento));
                     //Assert del test
