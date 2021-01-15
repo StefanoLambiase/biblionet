@@ -602,7 +602,23 @@ public class ClubDelLibroControllerTest {
                         assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
     }
+        @Test
+    public void visualizzaModificaEventoFirstException() throws Exception {
+                // Creo esperto
+                    Esperto esperto= new Esperto();
+                    // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.empty());
+                    // Assert Test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                    .param("idClub","1")
+                    .param("idEvento", "1")
+                     .param("loggedUser", String.valueOf(esperto)))
+                            .andExpect(status().isNotFound())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof  ResponseStatusException))
+                            .andExpect(result ->
+                                    assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
 
+        }
 
 
 
