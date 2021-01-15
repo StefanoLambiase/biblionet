@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter;
 
 import it.unisa.c07.biblionet.model.entity.Libro;
+import org.springframework.stereotype.Service;
 
 /**
  * Rappresenta l'interfaccia dello Adapter usata

@@ -16,6 +16,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,10 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
      */
     private final TicketPrestitoDAO ticketPrestitoDAO;
 
+    /**
+     * Si occupa delle operazioni per l'inject
+     */
+    private final BookApiAdapter bookApiAdapter;
 
     /**
      * Implementa la funzionalità che permette
@@ -323,8 +328,8 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
                                     final List<String> generi) {
 
         //Recupero l'oggetto Libro da Api per isbn
-        BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         Libro l = bookApiAdapter.getLibroDaBookApi(isbn);
+        System.out.println(l);
         if (l == null) {
             System.out.println("cane1");
             return l;

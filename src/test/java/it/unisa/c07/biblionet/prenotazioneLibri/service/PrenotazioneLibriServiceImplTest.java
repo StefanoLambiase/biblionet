@@ -10,6 +10,7 @@ import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
 import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.GoogleBookApiAdapterImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -54,7 +56,7 @@ public class PrenotazioneLibriServiceImplTest {
      * Inject dell'api di google.
      */
     @Mock
-    private GoogleBookApiAdapterImpl googleApi;
+    private BookApiAdapter bookApiAdapter;
 
     /**
      * Mocking del dao per simulare le
@@ -436,7 +438,7 @@ public class PrenotazioneLibriServiceImplTest {
      */
     @Test
     public void inserimentoPerIsbnApiNull() {
-        when(googleApi.getLibroDaBookApi("1234")).thenReturn(null);
+        when(bookApiAdapter.getLibroDaBookApi("1234")).thenReturn(null);
         assertEquals(null,
                 prenotazioneService.inserimentoPerIsbn("a", "a", 1, null));
     }
@@ -449,9 +451,10 @@ public class PrenotazioneLibriServiceImplTest {
     @ParameterizedTest
     @MethodSource("provideLibro")
     public void inserimentoPerIsbnGeneriVuotoLibroTrovatoPosseduto(final Libro libro) {
+        String isbn = "9597845613497";
 
         System.out.println(libro);
-        when(googleApi.getLibroDaBookApi("9597845613497")).thenReturn(libro);
+        when(bookApiAdapter.getLibroDaBookApi(isbn)).thenReturn(libro);
         libro.setGeneri(new ArrayList<>());
         List<Libro> list = new ArrayList<>();
         list.add(libro);
@@ -468,7 +471,7 @@ public class PrenotazioneLibriServiceImplTest {
 
         assertEquals(libro,
                 prenotazioneService.inserimentoPerIsbn(
-                        "9597845613497", "a", 1, null));
+                        isbn, "a", 1, new ArrayList<>()));
     }
 
 
