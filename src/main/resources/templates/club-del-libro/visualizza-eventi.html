@@ -30,15 +30,23 @@
                     Modifica
                 </a>
             </td>
-            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && session.loggedUser.eventi.contains(evento)}">
-                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/abbandona(id=${evento.club.idClub}, evid=${evento.idEvento})'">
-                    <btn type="submit" class="btn btn-main">Abbandona</btn>
-                </form>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/iscrizione'}" class="btn btn-main">Iscriviti</a>
             </td>
-            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && !session.loggedUser.eventi.contains(evento)}">
-                <form method="POST" th:action="@{/club-del-libro/{id}/eventi/{evid}/iscrizione(id=${evento.club.idClub}, evid=${evento.idEvento})}">
-                    <btn type="submit" class="btn btn-main">Iscriviti</btn>
-                </form>
+        </tr>
+        <tr th:each="evento : ${mieiEventi}">
+            <td class="align-middle" th:text="${evento.nomeEvento}"> </td>
+            <td class="align-middle" th:text="${evento.descrizione}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
+            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.titolo} : 'N/A'"> </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
+                <a class="btn btn-main" th:href="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/modifica'}">
+                    Modifica
+                </a>
+            </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/abbandono '}" class="btn btn-main">Abbandona</a>
             </td>
         </tr>
         <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && club.esperto.email == session.loggedUser.email}">

@@ -218,6 +218,7 @@ public class ClubDelLibroControllerTest {
         // Creo l'attributo per la sessione
         UtenteRegistrato utente = new Lettore();
         utente.setTipo("Lettore");
+        club.setLettori(new ArrayList<>());
         // Mocking
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
@@ -400,6 +401,67 @@ public class ClubDelLibroControllerTest {
      */
 
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la partecipazione ad un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void partecipaEventoIfTrue() throws Exception {
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/iscrizione")
+                .sessionAttr("loggedUser", new Biblioteca()));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la partecipazione ad un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void partecipaEventoIfFalse() throws Exception {
+        UtenteRegistrato u = new Lettore();
+        Lettore lettore = (Lettore) u;
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/iscrizione")
+                .sessionAttr("loggedUser", u))
+                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'abbandono di un un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void abbandonaEventoIfTrue() throws Exception {
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/abbandono")
+                .sessionAttr("loggedUser", new Biblioteca()));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'abbandono di un un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void abbandonaEventoIfFalse() throws Exception {
+        UtenteRegistrato u = new Lettore();
+        Lettore lettore = (Lettore) u;
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/abbandono")
+                .sessionAttr("loggedUser", u))
+                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+    }
 
     /**
      * Simula i dati inviati da un metodo

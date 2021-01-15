@@ -396,44 +396,7 @@ public final class RegistrazioneControllerTest {
                 "BibliotecaPassword"//Password Conferma
         ));
     }
-
-
-    /**
-     * Test per la registrazione di un lettore
-     * avvenuta correttamente
-     * simulando la richiesta http.
-     *
-     * @param lettore          Il lettore da registrare
-     * @param confermaPassword il campo conferma password del
-     *                         form per controllare
-     * @throws Exception Eccezione per MockMvc
-     */
-    @ParameterizedTest
-    @DisplayName("Registrazione Lettore che va a buon fine")
-    @MethodSource("provideRegistrazioneLettore")
-    public void registrazioneLettoreBuonFine(final Lettore lettore,
-                                             final String confermaPassword)
-            throws Exception {
-
-        when(registrazioneService.registraLettore(new Lettore()))
-                .thenReturn(lettore);
-        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
-                .thenReturn(false);
-
-        this.mockMvc.perform(post("/registrazione/lettore")
-                .param("email", lettore.getEmail())
-                .param("username", lettore.getUsername())
-                .param("nome", lettore.getNome())
-                .param("cognome", lettore.getCognome())
-                .param("password", "LettorePassword")
-                .param("conferma_password", confermaPassword)
-                .param("provincia", lettore.getProvincia())
-                .param("citta", lettore.getCitta())
-                .param("via", lettore.getVia())
-                .param("recapito_telefonico", lettore.getRecapitoTelefonico()))
-                .andExpect(view().name("redirect:/preferenze-di-lettura/generi"));
-    }
-
+    
     /**
      * Metodo che testa la funzionalità gestita dal
      * controller per la registrazione di un lettore
@@ -491,11 +454,11 @@ public final class RegistrazioneControllerTest {
 
         when(registrazioneService.registraLettore(new Lettore()))
                 .thenReturn(lettore);
-        when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
+        when(registrazioneService.isEmailRegistrata("a"))
                 .thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/lettore")
-                .param("email", lettore.getEmail())
+                .param("email", "a")
                 .param("username", lettore.getUsername())
                 .param("nome", lettore.getNome())
                 .param("cognome", lettore.getCognome())

@@ -2,11 +2,11 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -241,7 +241,7 @@ public class ClubDelLibroController {
                                              final @ModelAttribute
                                                 ClubForm club) {
         var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (utente == null || utente.getTipo() != "Esperto") {
+        if (utente == null || !utente.getTipo().equals("Esperto")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         model.addAttribute("generi", this.clubService.getTuttiGeneri());
@@ -261,7 +261,7 @@ public class ClubDelLibroController {
                                    final @ModelAttribute ClubForm club) {
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (utente == null || utente.getTipo() != "Esperto") {
+        if (utente == null || !utente.getTipo().equals("Esperto")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         var esperto = (Esperto) utente;
@@ -374,16 +374,29 @@ public class ClubDelLibroController {
 
         UtenteRegistrato lettore =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
-        if (lettore == null || lettore.getTipo() != "Lettore") {
+        if (lettore == null || !lettore.getTipo().equals("Lettore")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-
+        ClubDelLibro clubDelLibro = this.clubService.getClubByID(id);
+        if (clubDelLibro.getLettori().contains(lettore)) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
+        }
         this.clubService.partecipaClub(
-                this.clubService.getClubByID(id),
+                clubDelLibro,
                 (Lettore) lettore);
         return "redirect:/club-del-libro/";
     }
 
+    /**
+     * Implementa la funzionalità che permette
+     * la visualizzazione della modifica dei dati di
+     * un evento di un Club del Libro.
+     * @param idClub l'ID del Club
+     * @param idEvento l'ID dell'evento
+     * @param evento il form dell'evento
+     * @param model Il model da passare alla view
+     * @return La view che visualizza la lista dei club
+     */
     @RequestMapping(
         value = "/{idClub}/eventi/{idEvento}/modifica",
         method = RequestMethod.GET
@@ -439,6 +452,9 @@ public class ClubDelLibroController {
      * Implementa la funzionalità che permette
      * di gestire la chiamata POST
      * per creare un evento un club del libro.
+     * @param id l'id dell'evento
+     * @param eventoForm il form dell'evento
+     * @return la view della lista degli eventi
      */
     @RequestMapping(value = "/{id}/eventi/crea", method = RequestMethod.POST)
     public String creaEvento(final @PathVariable int id,
@@ -452,6 +468,13 @@ public class ClubDelLibroController {
         );
     }
 
+    /**
+     * Implementa la funzionalità che permette la modifica di un evento.
+     * @param idClub l'ID del club
+     * @param idEvento l'ID dell'evento
+     * @param eventoForm il form dell'evento
+     * @return la view che visualizza la lista degli eventi
+     */
     @RequestMapping(value = "/{idClub}/eventi/{idEvento}/modifica",
             method = RequestMethod.POST)
     public String modificaEvento(final @PathVariable int idClub,
@@ -481,6 +504,9 @@ public class ClubDelLibroController {
      * Implementa la funzionalità che permette
      * la creazione da parte di un Esperto
      * di un Evento.
+     * @param id l'ID dell'evento
+     * @param evento il form dell'evento
+     * @param model il model da passare alla view
      * @return La view che visualizza il form di creazione Evento
      */
     @RequestMapping(value = "/{id}/eventi/crea", method = RequestMethod.GET)
@@ -541,6 +567,13 @@ public class ClubDelLibroController {
         return "redirect:/club-del-libro/" + club + "/eventi";
     }
 
+    /**
+     * Implementa la funzionalità che permette di visualizzare
+     * la lista degli iscritti a un club.
+     * @param id L'identificativo del club
+     * @param model il model la passare alla view
+     * @return La view della lista degli iscritti
+     */
     @RequestMapping(value = "/{id}/iscritti",
             method = RequestMethod.GET)
     public String visualizzaIscrittiClub(final @PathVariable int id,
@@ -549,6 +582,13 @@ public class ClubDelLibroController {
         return "club-del-libro/visualizza-iscritti";
     }
 
+    /**
+     * Implementa la funzionalità che permette di visualizzare
+     * la lista degli eventi di un club.
+     * @param id l'ID del club
+     * @param model il mdoel da passare alla view
+     * @return la view che visualizza gli eventi
+     */
     @RequestMapping(value = "/{id}/eventi",
             method = RequestMethod.GET)
     public String visualizzaListaEventiClub(final @PathVariable int id,
@@ -556,11 +596,71 @@ public class ClubDelLibroController {
         if (clubService.getClubByID(id) == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Lettore l = (Lettore) utente;
+        List<Evento> tutti = clubService.getClubByID(id).getEventi();
+        List<Evento> mieiEventi = l.getEventi();
+        for (Evento e : mieiEventi) {
+            if (tutti.contains(e)) {
+                tutti.remove(e);
+            }
+        }
         model.addAttribute("club", clubService.getClubByID(id));
-        model.addAttribute("eventi",
-                clubService.getClubByID(id).getEventi());
+        model.addAttribute("eventi", tutti);
+        model.addAttribute("mieiEventi", mieiEventi);
 
         return "club-del-libro/visualizza-eventi";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di iscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro.
+     * @param idEvento l'evento a cui partecipare
+     * @param idClub il club dell'evento
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/iscrizione",
+            method = RequestMethod.GET)
+    public String partecipaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
+                                  final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        model.addAttribute("loggedUser",
+                eventiService.partecipaEvento(utente.getEmail(), idEvento));
+        return "redirect:/club-del-libro/" + idClub + "/eventi";
+    }
+
+    /**
+     * Implementa la funzionalità che permette di disiscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro a cui ci si era precedentemente iscritti.
+     * @param idEvento l'evento a cui disiscriversi
+     * @param idClub il club dell'evento
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = "/{idClub}/eventi/{idEvento}/abbandono",
+            method = RequestMethod.GET)
+    public String abbandonaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
+                                  final Model model) {
+        UtenteRegistrato utente =
+                (UtenteRegistrato) model.getAttribute("loggedUser");
+        if (utente == null || !utente.getTipo().equals("Lettore")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        model.addAttribute("loggedUser",
+                eventiService.abbandonaEvento(utente.getEmail(), idEvento));
+        return "redirect:/club-del-libro/" + idClub + "/eventi";
     }
 }
