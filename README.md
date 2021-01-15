@@ -40,3 +40,11 @@ in development...
 * [HTML5](https://www.w3schools.com/html/default.asp) - The programming language used for the front-end development.
 * [Bootstrap](https://getboostrap.com/) - Front-end framework.
 * [Thymeleaf](https://www.thymeleaf.org/) - Java template to render static pages into dynamic.
+
+# Contributors
+
+
+<a href="https://github.com/stefanolambiase/biblionet/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=stefanolambiase/biblionet" />
+</a>
+
