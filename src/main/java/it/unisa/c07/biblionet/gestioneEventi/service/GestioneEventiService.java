@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unisa.c07.biblionet.model.entity.Evento;
 import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 
 /**
  * Implementa l'interfaccia service
@@ -15,7 +16,7 @@ public interface GestioneEventiService {
 
     /**
      * Implementa la funzionalità che permette
-     * di trovare un evento dato il suo identificativo
+     * di trovare un evento dato il suo identificativo.
      * @param idEvento L'identificativo dell'evento
      * @return L'Evento trovato
      */
@@ -56,4 +57,22 @@ public interface GestioneEventiService {
      *         esiste.
      */
     Optional<Evento> eliminaEvento(int id);
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di partecipare ad un evento.
+     * @param idLettore Il lettore da iscrivere all'evento
+     * @param idEvento L'id dell'evento a cui partecipare
+     * @return Il lettore aggiornato ed iscritto all'evento
+     */
+    Lettore partecipaEvento(String idLettore, int idEvento);
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di abbandonare un evento.
+     * @param idLettore Il lettore da disiscrivere dall'evento
+     * @param idEvento L'id dell'evento da abbandonare
+     * @return Il lettore aggiornato ed disiscritto dall'evento
+     */
+    Lettore abbandonaEvento(String idLettore, int idEvento);
 }

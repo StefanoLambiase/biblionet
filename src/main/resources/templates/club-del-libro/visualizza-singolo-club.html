@@ -12,10 +12,10 @@
         <div class="row h-100 align-items-center">
             <div class="col-12 text-center">
                 <h1 class="font-weight-light"
-                    th:text = "${club.nome}">
+                    th:text="${club.nome}">
                 </h1>
                 <p class="lead"
-                   th:text = "${' Di ' + club.esperto.nome}">
+                   th:text="${' Di ' + club.esperto.nome}">
                 </p>
             </div>
         </div>
@@ -30,9 +30,10 @@
                     <div class="row">
                         <h3 class="card-title text-center">Informazioni</h3>
                         <div class="col-8">
-                            <p class="card-text" th:text = "${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
-                            <p class="card-text" th:text = "${'Email di contatto: ' + club.esperto.email}"></p>
-                            <p class="card-text" th:text = "${club.descrizione}"></p>
+                            <p class="card-text"
+                               th:text="${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
+                            <p class="card-text" th:text="${'Email di contatto: ' + club.esperto.email}"></p>
+                            <p class="card-text" th:text="${club.descrizione}"></p>
                         </div>
                         <div class="col-4 text-center">
                             <img th:src="'data:image/png;base64,' + ${club.immagineCopertina}" style="height: 6em"/>
@@ -64,23 +65,29 @@
             <div class="card-body">
                 <h3 class="card-title"> Iscritti al Club </h3>
                 <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
-                <div style="text-align: center;">
-                    <form method="POST" th:action="@{/club-del-libro/{idClub}/{azione}(idClub=${club.idClub}, azione=${club.lettori.contains(session.loggedUser)?'abbandono':'iscrizione'})}">
-                        <button class="btn btn-main" type="submit">Iscriviti</button>
-                    </form>    
+                    <div style="text-align: center;">
+                        <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && not club.lettori.contains(session.loggedUser)}">
+                            <form method="POST"
+                                  th:action="@{/club-del-libro/{idClub}/iscrizione(idClub=${club.idClub})}">
+                                <button class="btn btn-main" type="submit">Iscriviti</button>
+                            </form>
+                        </div>
+                        <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && club.lettori.contains(session.loggedUser)}">
+                                <button class="btn btn-main" type="submit">Abbandona</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
                 <table class="table">
                     <thead>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Cognome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Contatta</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contatta</th>
                     </thead>
                     <tr th:each="lettore : ${club.lettori}">
-                        <td class="align-middle" th:text="${lettore.nome}"> </td>
-                        <td class="align-middle" th:text="${lettore.cognome}"> </td>
-                        <td class="align-middle" th:text="${lettore.email}"> </td>
+                        <td class="align-middle" th:text="${lettore.nome}"></td>
+                        <td class="align-middle" th:text="${lettore.cognome}"></td>
+                        <td class="align-middle" th:text="${lettore.email}"></td>
                         <td class="align-middle">
                             <a class="btn btn-main" th:href="'mailto://' + ${lettore.email}">
                                 Contatta
@@ -103,24 +110,26 @@
                 <h3 class="card-title"> Eventi del club </h3>
                 <table class="table">
                     <thead>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Descrizione</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Ora</th>
-                        <th scope="col">Libro trattato</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrizione</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Ora</th>
+                    <th scope="col">Libro trattato</th>
                     </thead>
                     <tr th:each="evento : ${club.eventi}">
-                        <td th:text="${evento.nomeEvento}"> </td>
-                        <td th:text="${evento.descrizione}"> </td>
-                        <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
-                        <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
-                        <td th:text="${evento.libro} ? ${evento.libro.titolo} : 'NA'"> </td>
+                        <td th:text="${evento.nomeEvento}"></td>
+                        <td th:text="${evento.descrizione}"></td>
+                        <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"></td>
+                        <td th:text="${evento.libro} ? ${evento.libro.titolo} : 'NA'"></td>
                     </tr>
                 </table>
 
-                <button class="btn btn-main ">
-                    <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
-                </button>
+                <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && club.lettori.contains(session.loggedUser)}">
+                    <button class="btn btn-main ">
+                        <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

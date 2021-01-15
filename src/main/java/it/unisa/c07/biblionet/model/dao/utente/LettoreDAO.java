@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.model.dao.utente;
 
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +17,13 @@ public interface LettoreDAO extends UtenteRegistratoDAO {
      */
     Lettore findByEmailAndPassword(String email, byte[] password);
 
+    /**
+     * Query custom che recupera dal DB un lettore dato il
+     * suo id.
+     * @param email L'ID del lettore
+     * @return Lettore trovato
+     */
+    @Query("SELECT l FROM Lettore l WHERE l.email=?1")
+    Lettore findByID(String email);
 
 }

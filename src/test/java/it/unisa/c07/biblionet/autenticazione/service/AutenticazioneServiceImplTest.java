@@ -8,6 +8,9 @@ import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -61,8 +66,9 @@ public class AutenticazioneServiceImplTest {
      * @throws NoSuchAlgorithmException L'eccezione che può essere lanciata
      * dal metodo getInstance().
      */
-    @Test
-    public void loginLettore() throws NoSuchAlgorithmException {
+    @ParameterizedTest
+    @MethodSource("provideLettore")
+    public void loginLettore(final Lettore lettore) throws NoSuchAlgorithmException {
         MessageDigest md;
         md = MessageDigest.getInstance("SHA-256");
 
@@ -70,8 +76,6 @@ public class AutenticazioneServiceImplTest {
         String password = "mipiaccionoglialberi";
 
         byte[] arr = md.digest(password.getBytes());
-
-        Lettore lettore = new Lettore();
 
         when(lettoreDAO.findByEmailAndPassword(email,
                                             arr)).thenReturn(lettore);
@@ -198,9 +202,9 @@ public class AutenticazioneServiceImplTest {
      * la funzione di aggiornamento un
      * lettore nel service.
      */
-    @Test
-    public void aggiornaLettore() {
-        Lettore utente = new Lettore();
+    @ParameterizedTest
+    @MethodSource("provideLettore")
+    public void aggiornaLettore(final Lettore utente) {
         when(lettoreDAO.save(utente))
                 .thenReturn(utente);
         assertEquals(utente, autenticazioneService.aggiornaLettore(utente));
@@ -225,12 +229,30 @@ public class AutenticazioneServiceImplTest {
      * la funzione di ricerca di un
      * Lettore nel service.
      */
-    @Test
-    public void findLettoreByEmail() {
-        Lettore dummy = new Lettore();
+    @ParameterizedTest
+    @MethodSource("provideLettore")
+    public void findLettoreByEmail(final Lettore dummy) {
         String email = "";
         when(lettoreDAO.findById(email))
                 .thenReturn(Optional.of(dummy));
         assertEquals(dummy, autenticazioneService.findLettoreByEmail(email));
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     * @return Lo stream di dati.
+     */
+    private static Stream<Arguments> provideLettore() {
+        return Stream.of(Arguments.of(new Lettore("giuliociccione@gmail.com",
+                "LettorePassword",
+                "Salerno",
+                "Baronissi",
+                "Via Barone 11",
+                "3456789012",
+                "SuperLettore",
+                "Giulio",
+                "Ciccione"
+        )));
     }
 }

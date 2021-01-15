@@ -19,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.ui.Model;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -71,6 +73,36 @@ public class ClubDelLibroControllerTest {
      */
     @Autowired
     private MockMvc mockMvc;
+
+
+
+
+    /**************************Tests for visualizzaModificaEvento*************************/
+
+        /* Da riguardare
+        @Test
+        public void visualizzaModificaEventoTest() throws Exception {
+            // Creo Evento e Club del libro
+            Evento evento=new Evento();
+            ClubDelLibro clubDelLibro= new ClubDelLibro();
+            clubDelLibro.setIdClub(1);
+                evento.setClub(clubDelLibro);
+                evento.setIdEvento(1);
+                // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.of((evento)));
+                    // Assert del test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                    .param("idClub", "1")
+                    .param("idEvento","1")
+                    .param("loggedUser","null"))
+                            .andExpect(model().attribute("loggedUser", "null"))
+                        .andExpect(model().attribute("evento", evento))
+                        .andExpect(model().attribute("club",evento.getClub()))
+                        .andExpect(model().attribute("id",1));
+
+        } */
+
+    
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -186,6 +218,7 @@ public class ClubDelLibroControllerTest {
         // Creo l'attributo per la sessione
         UtenteRegistrato utente = new Lettore();
         utente.setTipo("Lettore");
+        club.setLettori(new ArrayList<>());
         // Mocking
         when(clubService.getClubByID(1)).thenReturn(club);
         this.mockMvc
@@ -368,6 +401,67 @@ public class ClubDelLibroControllerTest {
      */
 
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la partecipazione ad un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void partecipaEventoIfTrue() throws Exception {
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/iscrizione")
+                .sessionAttr("loggedUser", new Biblioteca()));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la partecipazione ad un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void partecipaEventoIfFalse() throws Exception {
+        UtenteRegistrato u = new Lettore();
+        Lettore lettore = (Lettore) u;
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/iscrizione")
+                .sessionAttr("loggedUser", u))
+                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'abbandono di un un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void abbandonaEventoIfTrue() throws Exception {
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(new Lettore());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/abbandono")
+                .sessionAttr("loggedUser", new Biblioteca()));
+    }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per l'abbandono di un un evento
+     * simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+    @Test
+    public void abbandonaEventoIfFalse() throws Exception {
+        UtenteRegistrato u = new Lettore();
+        Lettore lettore = (Lettore) u;
+        when(eventiService.partecipaEvento("a", 1)).thenReturn(lettore);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/club-del-libro/1/eventi/15/abbandono")
+                .sessionAttr("loggedUser", u))
+                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+    }
 
     /**
      * Simula i dati inviati da un metodo
@@ -572,6 +666,59 @@ public class ClubDelLibroControllerTest {
 
     }
 
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di una modifica ad
+     *  un evento simulando la richiesta http.
+     * @throws Exception Eccezione per MovkMvc
+     */
+        @Test
+    public void visualizzaModificaEventoFirstException() throws Exception {
+                // Creo esperto
+                    Esperto esperto= new Esperto();
+                    // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.empty());
+                    // Assert Test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                    .param("idClub","1")
+                    .param("idEvento", "1")
+                     .param("loggedUser", String.valueOf(esperto)))
+                            .andExpect(status().isNotFound())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof  ResponseStatusException))
+                            .andExpect(result ->
+                                    assertEquals("404 NOT_FOUND \"Evento Inesistente\"", result.getResolvedException().getMessage()));
+
+        }
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per visualizzazione di modifica di un
+     *  evento simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+        @ParameterizedTest
+        @MethodSource("provideClubDelLibro")
+    public void visualizzaModificaEventoThirdException(final ClubDelLibro club) throws Exception{
+                     // Creo Evento da asssociare al club
+                    Evento evento = new Evento();
+                    evento.setClub(club);
+
+                    // Mocking
+                    when(eventiService.getEventoById(1)).thenReturn(Optional.of(evento));
+                    //Assert del test
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1/modifica")
+                                    .param("idClub","1")
+                                        .param("idEvento","1")
+                                        .param("loggedUser", "null"))
+                            .andExpect(status().isBadRequest())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException))
+                    .andExpect(result ->
+                            assertEquals("400 BAD_REQUEST \"L'evento con id 1non è associato al club con id 1.\"",result.getResolvedException().getMessage()));
+
+
+
+        }
 
 
 }

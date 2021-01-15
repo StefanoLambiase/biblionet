@@ -9,6 +9,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,7 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -96,6 +98,10 @@ public class RegistrazioneServiceImplTest {
     @Test
     public void registraLettore() {
         Lettore lettore = new Lettore();
+        lettore.setEmail("a");
+        lettore.setUsername("a");
+        lettore.setNome("a");
+        lettore.setCognome("a");
         when(lettoreDAO.save(lettore)).thenReturn(lettore);
         assertEquals(lettore, registrazioneService.registraLettore(lettore));
     }
@@ -172,6 +178,58 @@ public class RegistrazioneServiceImplTest {
         when(genereDAO.findByName("test")).thenReturn(new Genere());
         assertEquals(list, registrazioneService.findGeneriByName(generi));
     }
+
+    /**
+     * Metodo che testa la funzione di ricerca
+     * di una mail se già esistente con una lista
+     * vuota di utenti in input
+     */
+    @Test
+    public void isEmailRegistrata(){
+
+        ArrayList<UtenteRegistrato> utenti = new ArrayList<>();
+        when(lettoreDAO.findAll()).thenReturn(utenti);
+        assertFalse(registrazioneService.isEmailRegistrata("test@test"));
+
+    }
+
+    /**
+     * Metodo che testa la funzione di ricerca
+     * di una mail se già esistente con una lista
+     * con un solo utente in input.
+     * Ritorna true perchè la mail usata esiste nella lista.
+     */
+    @Test
+    public void isEmailRegistrata2(){
+
+        Lettore lettore = new Lettore();
+        lettore.setEmail("test@test");
+        ArrayList<UtenteRegistrato> utenti = new ArrayList<>();
+        utenti.add(lettore);
+        when(lettoreDAO.findAll()).thenReturn(utenti);
+        assertTrue(registrazioneService.isEmailRegistrata("test@test"));
+
+    }
+
+    /**
+     * Metodo che testa la funzione di ricerca
+     * di una mail se già esistente con una lista
+     * con un solo utente in input.
+     * Ritorna true perchè la mail usata esiste nella lista.
+     */
+    @Test
+    public void isEmailRegistrata3(){
+
+        Lettore lettore = new Lettore();
+        lettore.setEmail("test");
+        ArrayList<UtenteRegistrato> utenti = new ArrayList<>();
+        utenti.add(lettore);
+        when(lettoreDAO.findAll()).thenReturn(utenti);
+        assertFalse(registrazioneService.isEmailRegistrata("test@test"));
+
+    }
+
+
 
 
 

@@ -83,4 +83,13 @@ public class Evento {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Libro libro;
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(this.getClass())) {
+            Evento evento = (Evento) obj;
+            return this.idEvento == evento.getIdEvento();
+        }
+        return false;
+    }
+
 }
