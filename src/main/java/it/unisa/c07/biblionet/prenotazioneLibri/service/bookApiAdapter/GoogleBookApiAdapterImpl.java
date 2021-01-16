@@ -6,7 +6,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -97,7 +101,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             JSONObject jsonData = (JSONObject) obj;
             //Recupero dei dati del libro dal JSON
             JSONArray items = (JSONArray) jsonData.get("items");
-            if(items == null) {
+            if (items == null) {
                 return null;
             }
             JSONObject bookInfo = (JSONObject) items.get(0);
@@ -129,16 +133,19 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             String autore = autori.get(0).toString();
             LocalDateTime annoPubblicazioneDateTime;
             if (annoPubblicazione == null) {
-                annoPubblicazioneDateTime = LocalDateTime.of(1, 1, 1, 1, 1);
+                annoPubblicazioneDateTime =
+                        LocalDateTime.of(1, 1, 1, 1, 1);
             } else {
                 annoPubblicazioneDateTime = LocalDateTime.of(
-                        Integer.parseInt(annoPubblicazione.substring(0,3)), 1, 1, 0, 0);
-            }
+                        Integer.parseInt(annoPubblicazione
+                                .substring(0, 3)), 1, 1, 0, 0); }
 
             String base64Image = "";
             try {
                 URL url = new URL(copertina);
-                BufferedInputStream bis = new BufferedInputStream(url.openConnection().getInputStream());
+                BufferedInputStream bis =
+                        new BufferedInputStream(url.openConnection()
+                                .getInputStream());
                 byte imageData[] = new byte[8192];
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 int read = 0;
