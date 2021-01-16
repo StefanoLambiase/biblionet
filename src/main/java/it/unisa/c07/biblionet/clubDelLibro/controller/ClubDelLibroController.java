@@ -457,7 +457,7 @@ public class ClubDelLibroController {
                              final @ModelAttribute EventoForm eventoForm) {
         return this.modificaCreaEvento(
             eventoForm,
-            "redirect:/club-del-libro/" + id + "/eventi",
+            "redirect:/club-del-libro/" + id,
             id,
             Optional.empty(),
             this.eventiService::creaEvento
