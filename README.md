@@ -24,9 +24,15 @@ in development...
 
 In this section we introduce technical informations and installing guides!
 
-## Prerequisites
+## Clone and test the project locally
 
-in development...
+Follow these steps:
+
+1. Clone this repo.;
+2. Go into biblionet directory (Eventually open with IntelliJ).;
+3. Run `./mwnw (or .\mvnw.cmd if you're on windows) clean package` and wait for maven to build;
+4. Run `java -jar target/BiblioNet-0.0.1-SNAPSHOT.jar`;
+5. Open your browser on `localhost:8080`.
 
 ## Installing
 
@@ -42,7 +48,6 @@ in development...
 * [Thymeleaf](https://www.thymeleaf.org/) - Java template to render static pages into dynamic.
 
 # Contributors
-
 
 <a href="https://github.com/stefanolambiase/biblionet/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=stefanolambiase/biblionet" />
