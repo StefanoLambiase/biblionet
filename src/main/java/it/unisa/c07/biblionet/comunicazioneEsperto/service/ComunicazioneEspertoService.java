@@ -1,7 +1,6 @@
 package it.unisa.c07.biblionet.comunicazioneEsperto.service;
 
 import it.unisa.c07.biblionet.model.entity.Genere;
-import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 
 import java.util.List;

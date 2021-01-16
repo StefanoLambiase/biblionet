@@ -1,6 +1,5 @@
 package it.unisa.c07.biblionet.model.dao.utente;
 
-import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -35,8 +34,8 @@ public interface EspertoDAO extends UtenteRegistratoDAO {
      * @return Esperti trovati
      */
     @Query("SELECT e FROM Esperto e "
-            +  "WHERE UPPER(CONCAT(e.nome, ' ', e.cognome)) " +
-            "LIKE UPPER(concat('%', ?1,'%'))")
+            +  "WHERE UPPER(CONCAT(e.nome, ' ', e.cognome)) "
+            + "LIKE UPPER(concat('%', ?1,'%'))")
     List<Esperto> findByNomeLike(String nome);
 
 }

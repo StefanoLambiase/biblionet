@@ -4,7 +4,6 @@ package it.unisa.c07.biblionet.comunicazioneEsperto.service;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
-import it.unisa.c07.biblionet.model.entity.Libro;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +70,7 @@ public class ComunicazioneEspertoServiceImpl
      * * @return la lista di esperti
      */
     @Override
-    public List<Esperto> getEsperiByName(String name) {
+    public List<Esperto> getEsperiByName(final String name) {
         return espertoDAO.findByNomeLike(name);
     }
 

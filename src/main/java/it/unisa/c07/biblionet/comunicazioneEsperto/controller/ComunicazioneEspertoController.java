@@ -63,6 +63,8 @@ public class ComunicazioneEspertoController {
      * Implementa la funzionalità di visualizzare tutti gli Esperti
      * presenti sulla piattaforma.
      * @param model il model per la richiesta
+     * @param stringa il contenuto del filtro
+     * @param filtro il nome del filtro
      * @return la view che visualizza tutti gli Esperti
      */
     @RequestMapping(value = "/ricerca", method = RequestMethod.GET)
