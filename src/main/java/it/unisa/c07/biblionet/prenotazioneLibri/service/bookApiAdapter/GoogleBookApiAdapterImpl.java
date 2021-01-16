@@ -138,7 +138,8 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
             } else {
                 annoPubblicazioneDateTime = LocalDateTime.of(
                         Integer.parseInt(annoPubblicazione
-                                .substring(0, 3)), 1, 1, 0, 0); }
+                                .substring(0, 3)), 1, 1, 0, 0);
+            }
 
             String base64Image = "";
             try {
@@ -146,7 +147,7 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
                 BufferedInputStream bis =
                         new BufferedInputStream(url.openConnection()
                                 .getInputStream());
-                byte imageData[] = new byte[8192];
+                byte[] imageData = new byte[8192];
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 int read = 0;
                 while ((read = bis.read(imageData)) != -1) {
