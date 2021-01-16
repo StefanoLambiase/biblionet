@@ -67,31 +67,7 @@
                             ed interagire con loro per farti consigliare i
                             libri più adatti a te.
                         </p>
-                        <div th:with="cond1 = ${session.loggedUser!=null}" style="width:100%; align-items: center;">
-                            <div th:if="${cond1}" style="width:90%">
-                                <div th:with="cond2 = ${session.loggedUser.tipo.equals('Lettore')}" style="width:100%">
-                                    <div th:if="${cond2}" style="width:100%">
-                                        <a href="/comunicazione-esperto/visualizza-esperti-genere"
-                                           class="btn btn-lg active red-btn" role="button" aria-pressed="true"
-                                           style="margin-left:5%;">
-                                            Esperti
-                                        </a>
-                                    </div>
-                                    <div th:unless="${cond2}" style="width:100%">
-                                        <a href="/autenticazione" class="btn btn-lg active red-btn" role="button"
-                                           aria-pressed="true" style="margin-left:5%;">
-                                            Effettua l'accesso
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div th:unless="${cond1}" style="width:90%">
-                                <a href="/autenticazione" class="btn btn-lg active red-btn" role="button"
-                                   aria-pressed="true" style="margin-left:5%;">
-                                    Effettua l'accesso
-                                </a>
-                            </div>
-                        </div>
+                        <a href="/comunicazione-esperto/lista-esperti" class="btn btn-lg active red-btn" role="button" aria-pressed="true">Esperti</a>
                     </div>
                 </div>
             </div>

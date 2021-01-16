@@ -2131,6 +2131,7 @@ public class BiblionetApplication {
         esperto6.setGeneri(Arrays.asList(storico, scientifico, saggio));
         esperto7.setGeneri(Arrays.asList(narrativa, romanzo, azione));
         esperto8.setGeneri(Arrays.asList(azione, avventura, fantascienza));
+        esperto9.setGeneri(Arrays.asList(storico, scientifico, tecnologia));
         esperto10.setGeneri(Arrays.asList(space,scientifico));
         esperto11.setGeneri(Arrays.asList(giallo, thriller, narrativa));
         esperto12.setGeneri(Arrays.asList(romantico, romanzo, ragazzi));

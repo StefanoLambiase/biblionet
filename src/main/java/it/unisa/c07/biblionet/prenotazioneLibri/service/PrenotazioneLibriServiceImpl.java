@@ -316,7 +316,6 @@ public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
         if (infoLibroList == null) {
             infoLibroList = new ArrayList<>();
         } else if (infoLibroList.size() > 10) {
-            System.out.println("mammmmmmttt");
             infoLibroList = infoLibroList.subList(0, 9);
         }
         return infoLibroList;

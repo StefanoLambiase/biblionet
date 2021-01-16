@@ -11,6 +11,9 @@ import it.unisa.c07.biblionet.model.entity.Evento;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Classe di intercettore.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EventChangeInterceptor extends EmptyInterceptor {
 

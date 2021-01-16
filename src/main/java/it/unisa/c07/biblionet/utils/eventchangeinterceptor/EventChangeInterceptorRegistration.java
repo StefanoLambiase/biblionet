@@ -5,6 +5,9 @@ import java.util.Map;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
 
+/**
+ * Inserire Javadoc.
+ */
 @Component
 public class EventChangeInterceptorRegistration
     implements HibernatePropertiesCustomizer {

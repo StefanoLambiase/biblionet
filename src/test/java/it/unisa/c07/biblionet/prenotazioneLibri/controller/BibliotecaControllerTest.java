@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -372,6 +374,73 @@ public class BibliotecaControllerTest {
                 .param("numCopie", "1"))
                 .andExpect(view().name(
                         "redirect:/prenotazione-libri/0/visualizza-libro"));
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * visualizzare le biblioteche filtrate.     *
+     * @throws Exception Eccezione per MockMvc
+     */
+    @Test
+    public void visualizzaListaFiltrata() throws Exception {
+        List<Biblioteca> list = new ArrayList<>();
+
+        when(prenotazioneService.getBibliotecheByNome("a")).thenReturn(list);
+        when(prenotazioneService.getBibliotecheByCitta("a")).thenReturn(list);
+        when(prenotazioneService.getAllBiblioteche()).thenReturn(list);
+
+        this.mockMvc.perform(get("/biblioteca/ricerca")
+                .param("filtro", "nome")
+                .param("stringa", "a"))
+                .andExpect(model().attribute("listaBiblioteche", list))
+                .andExpect(view()
+                        .name("biblioteca/visualizza-lista-biblioteche"));
+        this.mockMvc.perform(get("/biblioteca/ricerca")
+                .param("filtro", "citta")
+                .param("stringa", "a"))
+                .andExpect(model().attribute("listaBiblioteche", list))
+                .andExpect(view()
+                        .name("biblioteca/visualizza-lista-biblioteche"));
+        this.mockMvc.perform(get("/biblioteca/ricerca")
+                .param("filtro", "default")
+                .param("stringa", "a"))
+                .andExpect(model().attribute("listaBiblioteche", list))
+                .andExpect(view()
+                        .name("biblioteca/visualizza-lista-biblioteche"));
+
+    }
+
+    /**
+     * Implementa il test della funzionalitá di visualizzazione
+     * della lista di tutte le biblioteche.
+     * @throws Exception Eccezione per MockMvc
+     */
+    @Test
+    public void visualizzaListaBiblioteche() throws Exception {
+        List<Biblioteca> list = new ArrayList<>();
+
+        when(prenotazioneService.getAllBiblioteche()).thenReturn(list);
+        this.mockMvc.perform(get("/biblioteca/visualizza-biblioteche"))
+                .andExpect(model().attribute("listaBiblioteche", list))
+                .andExpect(view()
+                        .name("/biblioteca/visualizza-lista-biblioteche"));
+    }
+
+    /**
+     * Implementa il test dla funzionalitá di visualizzazione
+     * del profilo di una singola biblioteca.
+     * @throws Exception Eccezione per MockMvc
+     */
+    @Test
+    public void visualizzaDatiBiblioteca() throws Exception {
+        Biblioteca biblioteca = (Biblioteca) new Biblioteca();
+        biblioteca.setEmail("a");
+        when(prenotazioneService
+                .getBibliotecaById("a")).thenReturn(biblioteca);
+        this.mockMvc.perform(get("/biblioteca/a"))
+                .andExpect(model().attribute("biblioteca", biblioteca))
+                .andExpect(view()
+                        .name("biblioteca/visualizza-singola-biblioteca"));
     }
 
 }

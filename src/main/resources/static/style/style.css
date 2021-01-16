@@ -80,3 +80,8 @@ a:active, a:hover {
 .member-circle {
     margin-top: 4%;
 }
+
+.error-placeholder{
+    border-color:red!important;
+
+}
