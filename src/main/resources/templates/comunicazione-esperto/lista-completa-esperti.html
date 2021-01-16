@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Esperti</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <form method="get" action="/comunicazione-esperto/ricerca">
+        <h2>Ricerca</h2>
+        <div class="input-group mb-3" style="width:40%;">
+            <input class="form-control" type="text" name="stringa">
+            <div class="input-group-append">
+                <input class="btn btn-outline-secondary" style="background-color: #b20909; color:white" type="submit"
+                       value="Cerca">
+            </div>
+        </div>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="filtro" id="nome" value="nome" checked>
+                <label class="form-check-label" for="nome">Cerca per nome</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="filtro" id="genere" value="genere">
+                <label class="form-check-label" for="genere">Cerca per genere</label>
+            </div>
+        </div>
+    </form>
+    <table class="table" style="border-color:#b20909; margin-top:2%">
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Generi</th>
+            <th scope="col">Contatta</th>
+        </tr>
+        <tr th:each="esperto : ${listaEsperti}">
+            <th th:text="${esperto.nome + ' ' + esperto.cognome}" scope="row"></th>
+            <th th:text="${esperto.getEmail()}" scope="row"></th>
+            <td><p th:each="genere : ${esperto.generi}" th:text="${genere.nome}"></p></td>
+            <td>
+                <a class="btn btn-main" th:href="'mailto://' + ${esperto.email}">
+                    Contatta
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
