@@ -12,6 +12,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.model.form.ClubForm;
 import it.unisa.c07.biblionet.model.form.EventoForm;
+import org.hibernate.query.criteria.internal.path.SetAttributeJoin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -158,18 +159,19 @@ public class ClubDelLibroControllerTest {
 
 
 
-    /**************** Tests for visualizzaCreaEvento************++***/
+    /**************** Tests for visualizzaCreaClubDelLibro************++***/
             @Test
-            public void visualizzaCreaEventoTest() throws Exception{
-                                ClubDelLibro club= new ClubDelLibro();
-                                EventoForm evento = new EventoForm();
-                                club.setIdClub(1);
-                                 when(clubService.getClubByID(1)).thenReturn(club);
-                                 this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/crea")
-                                 .param("id","1"))
-                                         .andExpect(model().attribute("club",club))
-                                         .andExpect(model().attribute("evento",evento))
-                                         .andExpect(view().name("club-del-libro/aggiungi-evento"));
+            public void visualizzaCreaClubDelLibroTest() throws Exception{
+                                UtenteRegistrato esperto= new Esperto();
+                                ClubForm clubForm = new ClubForm();
+                                Set<String> generes= new HashSet<String>();
+                                 when(clubService.getTuttiGeneri()).thenReturn(generes);
+                                 this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/crea")
+                                 .param("id","1")
+                                 .sessionAttr("loggedUser", esperto))
+                                         .andExpect(model().attribute("club",clubForm))
+                                         .andExpect(model().attribute("generi",generes))
+                                         .andExpect(view().name("club-del-libro/creazione-club"));
             }
 
 
