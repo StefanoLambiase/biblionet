@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
@@ -42,5 +43,47 @@ public class ComunicazioneEspertoController {
                                        getEspertiByGeneri(lettore.getGeneri());
         model.addAttribute("esperti", listaEsperti);
         return "comunicazione-esperto/lista-esperti";
+    }
+
+    /**
+     * Implementa la funzionalità di visualizzare tutti gli Esperti
+     * presenti sulla piattaforma.
+     * @param model il model per la richiesta
+     * @return la view che visualizza tutti gli Esperti
+     */
+    @RequestMapping(value = "/lista-esperti", method = RequestMethod.GET)
+    public final String visualizzaListaEsperti(final Model model) {
+        List<Esperto> listaEsperti =
+                comunicazioneEspertoService.getAllEsperti();
+        model.addAttribute("listaEsperti", listaEsperti);
+        return "comunicazione-esperto/lista-completa-esperti";
+    }
+
+    /**
+     * Implementa la funzionalità di visualizzare tutti gli Esperti
+     * presenti sulla piattaforma.
+     * @param model il model per la richiesta
+     * @return la view che visualizza tutti gli Esperti
+     */
+    @RequestMapping(value = "/ricerca", method = RequestMethod.GET)
+    public final String visualizzaListaEspertiFiltrati(
+            @RequestParam("stringa") final String stringa,
+            @RequestParam("filtro") final String filtro,
+                                    final Model model) {
+        switch (filtro) {
+            case "nome":
+                model.addAttribute("listaEsperti", comunicazioneEspertoService.
+                        getEsperiByName(stringa));
+                break;
+            case "genere":
+                model.addAttribute("listaEsperti", comunicazioneEspertoService.
+                        visualizzaEspertiPerGenere(stringa));
+                break;
+            default:
+                model.addAttribute("listaEsperti", comunicazioneEspertoService.
+                        getAllEsperti());
+                break;
+        }
+        return "comunicazione-esperto/lista-completa-esperti";
     }
 }
