@@ -96,6 +96,7 @@ public class AutenticazioneControllerTest {
         this.mockMvc.perform(post("/autenticazione/login")
                 .param("email", email)
                 .param("password", password))
+                .andExpect(model().attribute("error", true))
                 .andExpect(view().name("autenticazione/login"));
     }
 

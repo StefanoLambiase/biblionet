@@ -54,6 +54,7 @@ public class AutenticazioneController {
         UtenteRegistrato utente = autenticazioneService.login(email,
                                                                 password);
             if (utente == null) {
+                model.addAttribute("error", true);
                 return "autenticazione/login";
             } else {
                 model.addAttribute("loggedUser", utente);
