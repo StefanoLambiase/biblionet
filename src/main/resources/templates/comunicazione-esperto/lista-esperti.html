@@ -6,36 +6,41 @@
     <title>Lista Esperti in base alle tue preferenze</title>
 </head>
 <body>
-    <div layout:fragment="contenuto-pagina" class="text-center">
+<div layout:fragment="contenuto-pagina" class="text-center">
 
 
-        <div class="row">
-            <div class="col">
-                <div class="card shadow mb-3">
-                    <div class="card-header py-3">
-                        <h3 class="text-dark mb-4">Lista Esperti</h3>
-                        <div class="row">
-                            <div class=" col-md-9 col-lg-9 ">
-                                <table class="table table-user-information">
-                                    <tbody>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>Generi</th>
-                                    </tr>
-                                    <tr th:each="esperto : ${esperti}">
-                                        <td th:text="${esperto.nome}"></td>
-                                        <td th:each="genere : ${esperto.getGeneri()}" th:text="${genere.nome}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+    <div class="row">
+        <div class="col-20">
+            <div class="card shadow mb-3">
+                <div class="card-header py-3">
+                    <h3 class="text-dark mb-4">Lista Esperti</h3>
+                    <div class="row">
+                        <div class=" col-md-30 col-lg-20 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Biblioteca di locazione</th>
+                                    <th>Generi Preferiti</th>
+                                    <th>Contatta</th>
+                                </tr>
+
+                                <tr th:each="esperto : ${esperti}">
+                                    <td th:text="${esperto.nome + ' '+ esperto.cognome}"></td>
+                                    <td th:text="${esperto.biblioteca.nomeBiblioteca}"><a th:href="${esperto.biblioteca.nomeBiblioteca}"></a></td>
+                                    <td><p th:each="genere : ${esperto.getGeneri()}" th:text="${genere.nome}"></p></td>
+                                    <td><input type="button" class="btn btn-outline-secondary" style="background-color: #b20909; color:white"  value="Contatta"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 
 </body>
 </html>
