@@ -48,3 +48,8 @@
 .border-blue {
     border : 2px solid #073763;
 }
+
+#copertina {
+    align-self: center;
+    width: 50%;
+}

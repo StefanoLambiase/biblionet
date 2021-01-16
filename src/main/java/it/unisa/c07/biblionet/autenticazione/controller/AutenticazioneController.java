@@ -31,11 +31,12 @@ public class AutenticazioneController {
     /**
      * Implementa la funzionalità che permette
      * di visualizzare la view del login.
+     * @param model il Model
      * @return la pagina dove è visualizzato
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String visualizzaLogin() {
-
+    public String visualizzaLogin(final Model model) {
+        model.addAttribute("loggedUser", null);
         return "autenticazione/login";
     }
 

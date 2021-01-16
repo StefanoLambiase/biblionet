@@ -2,11 +2,7 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Arrays;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -604,14 +600,20 @@ public class ClubDelLibroController {
         Lettore l = (Lettore) utente;
         List<Evento> tutti = clubService.getClubByID(id).getEventi();
         List<Evento> mieiEventi = l.getEventi();
-        for (Evento e : mieiEventi) {
+        List<Evento> mieiEventiClub = new ArrayList<>();
+        for(Evento e : mieiEventi) {
+            if (e.getClub().getIdClub() == id) {
+                mieiEventiClub.add(e);
+            }
+        }
+        for (Evento e : mieiEventiClub) {
             if (tutti.contains(e)) {
                 tutti.remove(e);
             }
         }
         model.addAttribute("club", clubService.getClubByID(id));
         model.addAttribute("eventi", tutti);
-        model.addAttribute("mieiEventi", mieiEventi);
+        model.addAttribute("mieiEventi", mieiEventiClub);
 
         return "club-del-libro/visualizza-eventi";
     }

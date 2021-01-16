@@ -44,9 +44,9 @@
                 <th th:text="${biblioteca.via}" scope="row"></th>
                 <td>
                     <form method="get" th:action="@{'/biblioteca/' + ${biblioteca.email}}">
-                    <div>
-                        <button type="submit" style="border:none;width: 80%;background-color:white">
-                            <i class="fa fa-search" style="color:#b20909"></i>
+                    <div class="grey-bg">
+                        <button class="grey-bg" type="submit" style="border:none;width: 80%;">
+                            <i class="fa fa-search grey-bg" style="color:#b20909"></i>
                         </button>
                     </div>
                     </form>

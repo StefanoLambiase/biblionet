@@ -43,9 +43,17 @@ function clubToRow(row, club) {
     makeCol(3, club.generi.join(", "));
     makeCol(4, club.nomeEsperto);
     makeCol(5, club.iscritti);
+
+    let cell = row.insertCell(6);
+    let a = document.createElement("a");
+    a.classList.add("btn", "btn-main");
+    a.href = "/club-del-libro/" + club.idClub;
+    a.innerHTML = "Visualizza";
+    cell.classList.add("align-middle");
+    cell.appendChild(a);
     
     if(loggedEsperto == club.email) {
-        let cell = row.insertCell(6);
+        let cell = row.insertCell(7);
         let a = document.createElement("a");
         a.classList.add("btn", "btn-main");
         a.href = "/club-del-libro/" + club.idClub + "/modifica";
