@@ -130,10 +130,6 @@
                             </a>
                         </td>
                         <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
-                            <!-- METODO PER ELIMINARE EVENTO - MAPPATO BENE, MA NEL CONTROLLER E' STATA USATA
-                                UNA CHIAMATA DELETE CHE NON SI USA PIU' DAL 1250. QUALCUNO RISOLVA PERCHE'
-                                IO NON NE HO VOGLIA E DOVREI CAMBIARE ROBA SIA IN CONTROLLER CHE IN TEST E NON
-                                SI PUO' VISTO CHE NON SONO NEMMENO COMPLETATI.-->
                             <form method="get" th:action="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento}}">
                                 <input class="btn btn-main" type="submit" value="Elimina">
                             </form>

@@ -350,10 +350,10 @@ public class ClubDelLibroControllerTest {
         );
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.delete(
+                .perform(MockMvcRequestBuilders.get(
                         "/club-del-libro/1/eventi/1"
                 ))
-                .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
+                .andExpect(view().name("redirect:/club-del-libro/1"));
     }
 
 
@@ -691,7 +691,7 @@ public class ClubDelLibroControllerTest {
     @Test
     public void eliminaEventoFirstException() throws Exception {
         when(eventiService.eliminaEvento(1)).thenReturn(Optional.empty());
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/club-del-libro/1/eventi/1")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/1")
                 .param("nome", "TestNome")
                 .param("descrizione", "TestDescrizione")
                 .param("data", "2024-07-06")
