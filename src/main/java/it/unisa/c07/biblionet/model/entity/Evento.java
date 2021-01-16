@@ -66,6 +66,7 @@ public class Evento {
      */
     @ManyToMany(mappedBy = "eventi")
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Lettore> lettori;
 
     /**

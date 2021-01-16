@@ -1,13 +1,13 @@
 #navbar-principale {
-    height: 6em;
+    height: 5em;
     background-color: #073763;
-    padding-left: 2.5%;
-    padding-right: 2.5%;
+    padding-left: 3.5%;
+    padding-right: 3.5%;
     color: #ffffff;
 }
 
 .pagina {
-    background-color: #f2f2f2;
+    background-color: #f5f5f5;
 }
 
 .contenuto-pagina {
@@ -65,6 +65,23 @@ a:active, a:hover {
     display: none;
 }
 
+.grey-bg {
+    background-color: #f5f5f5;
+}
+
+.fa-github {
+    color: #073763;
+}
+
+.fa-github:hover {
+    color:#b20909;
+}
+
+.member-circle {
+    margin-top: 4%;
+}
+
 .error-placeholder{
     border-color:red!important;
+
 }

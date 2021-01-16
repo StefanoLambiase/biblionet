@@ -137,8 +137,8 @@ public class GoogleBookApiAdapterImpl implements BookApiAdapter {
                         LocalDateTime.of(1, 1, 1, 1, 1);
             } else {
                 annoPubblicazioneDateTime = LocalDateTime.of(
-                        Integer.parseInt(annoPubblicazione
-                                .substring(0, 3)), 1, 1, 0, 0);
+                        Integer.parseInt(annoPubblicazione.substring(0,4)), 1, 1, 0, 0);
+
             }
 
             String base64Image = "";

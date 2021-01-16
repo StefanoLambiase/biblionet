@@ -14,7 +14,7 @@
                 <!-- Colonna che contiene la card per la visualizzazione del libro -->
                 <div class="col">
                     <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width : 80%;">
-                        <img class="card-img-top border" th:src="@{'data:image/png;base64,'+ ${libro.immagineLibro}}" alt="Nessuna copertina trovata" style="max-height:400px">
+                        <img id="copertina" class="card-img-top border" th:src="@{'data:image/png;base64,'+ ${libro.immagineLibro}}" alt="Nessuna copertina trovata">
                         <div class="card-body" style="font-size: 18px;">
                             <h3 class="card-title text-center rounded shadow p-3 mb-5" th:text="${libro.titolo}" style="background-color:#073763; color:white; padding: 2%;"></h3>
                             <div class="row card-content">
@@ -69,7 +69,7 @@
                 <div class="col">
                     <h1 class="text-center" style="border-bottom: 2px solid #b20909; padding-bottom: 5%; margin-top:5%;">Scegli la biblioteca che preferisci!</h1>
                     <ul class="list-group-flush" style="list-style-type: none; border-bottom: 2px solid #b20909;" th:each="biblioteca : ${lista}">
-                        <li class="list-group-item" style="padding: 5%">
+                        <li class="list-group-item grey-bg" style="padding: 5%">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <h3 th:text="${biblioteca.nomeBiblioteca}"></h3>

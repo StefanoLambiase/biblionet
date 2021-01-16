@@ -31,11 +31,12 @@ public class AutenticazioneController {
     /**
      * Implementa la funzionalità che permette
      * di visualizzare la view del login.
+     * @param model il Model
      * @return la pagina dove è visualizzato
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String visualizzaLogin() {
-
+    public String visualizzaLogin(final Model model) {
+        model.addAttribute("loggedUser", null);
         return "autenticazione/login";
     }
 
@@ -53,6 +54,7 @@ public class AutenticazioneController {
         UtenteRegistrato utente = autenticazioneService.login(email,
                                                                 password);
             if (utente == null) {
+                model.addAttribute("error", true);
                 return "autenticazione/login";
             } else {
                 model.addAttribute("loggedUser", utente);

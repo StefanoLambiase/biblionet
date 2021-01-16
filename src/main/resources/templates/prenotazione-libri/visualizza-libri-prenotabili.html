@@ -35,7 +35,7 @@
         <div class="row" style="margin-top:2%">
             <div class="col"><!-- EMPTY --></div>
             <div class="col" th:if="${session.loggedUser != null && session.loggedUser.tipo.equals('Biblioteca')}">
-                <a class="btn btn-main" style="color:white" href="#">Inserisci un nuovo libro prenotabile dalla tua biblioteca</a>
+                <a class="btn btn-main" style="color:white" href="/biblioteca/inserisci-nuovo-libro">Inserisci un nuovo libro prenotabile dalla tua biblioteca</a>
             </div>
             <div class="col"><!-- EMPTY --></div>
         </div>
@@ -52,9 +52,9 @@
                 <td><p th:each="genere : ${libro.generi}" th:text="${genere.nome}"></p></td>
                 <td>
                     <form method="get" th:action="@{'/prenotazione-libri/' + ${libro.idLibro} + '/visualizza-libro'}">
-                        <div>
-                            <button type="submit" style="border:none;width: 80%;background-color:white">
-                                <i class="fa fa-search" style="color:#b20909"></i>
+                        <div class="grey-bg">
+                            <button type="submit" class="grey-bg" style="border:none;width: 80%;">
+                                <i class="fa fa-search grey-bg" style="color:#b20909"></i>
                             </button>
                         </div>
                     </form>

@@ -1,6 +1,7 @@
 package it.unisa.c07.biblionet.autenticazione.controller;
 
 import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -65,10 +66,9 @@ public class AutenticazioneControllerTest {
     @MethodSource("provideAutenticazione")
     public void loginBuonFine(final String email,
                               final String password) throws Exception {
-        UtenteRegistrato utente = new UtenteRegistrato(email, password,
-                                            "Napoli", "Torre del Greco",
-                                                "Via Roma", "1234567890");
-
+        Lettore utente = new Lettore();
+        utente.setEmail(email);
+        utente.setPassword(password);
         when(autenticazioneService.login(email, password)).thenReturn(utente);
 
         this.mockMvc.perform(post("/autenticazione/login")
@@ -96,6 +96,7 @@ public class AutenticazioneControllerTest {
         this.mockMvc.perform(post("/autenticazione/login")
                 .param("email", email)
                 .param("password", password))
+                .andExpect(model().attribute("error", true))
                 .andExpect(view().name("autenticazione/login"));
     }
 

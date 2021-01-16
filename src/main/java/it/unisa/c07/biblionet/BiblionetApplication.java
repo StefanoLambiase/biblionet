@@ -1909,7 +1909,7 @@ public class BiblionetApplication {
         );
 
         Evento evento2 = new Evento(
-                "Analizziamo la STORIA",
+                "Analizziamo la GEOGRAFIA",
                 "Sembra noioso ma non dovrebbe esserlo troppo",
                 LocalDateTime.now(),
                 clubDelLibro2
@@ -2050,7 +2050,7 @@ public class BiblionetApplication {
 
 //-----------------Associo degli eventi ai club del libro---------------------------------------------------------------
 
-        clubDelLibro1.setEventi(Arrays.asList(evento, evento10));
+        clubDelLibro1.setEventi(Arrays.asList(evento));
         clubDelLibro2.setEventi(Arrays.asList(evento2, evento11));
         clubDelLibro3.setEventi(Arrays.asList(evento3));
         clubDelLibro4.setEventi(Arrays.asList(evento4));
