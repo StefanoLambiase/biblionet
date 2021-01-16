@@ -91,14 +91,14 @@ public class ClubDelLibroControllerTest {
         @ParameterizedTest
         @MethodSource({"provideClubDelLibro"})
         public void visualizzaModificaEventoTest(final ClubDelLibro clubDelLibro) throws Exception {
-            // Creo Evento e lo setto
+            // Creo  attributto Evento
             Evento evento=new Evento();
             evento.setNomeEvento("Evento1");
             evento.setDataOra(LocalDateTime.now());
             evento.setDescrizione("Descrizione Evento1");
             evento.setClub(clubDelLibro);
             evento.setIdEvento(1);
-            //Creo l'evento Form e lo setto
+            //Creo  attributo l'evento Form
             EventoForm eventoForm= new EventoForm();
             eventoForm.setNome(evento.getNomeEvento());
             eventoForm.setDescrizione(evento.getDescrizione());
@@ -155,6 +155,23 @@ public class ClubDelLibroControllerTest {
                     .param("generi", list))
                 .andExpect(view().name("redirect:/club-del-libro/"));
     }
+
+
+
+    /**************** Tests for visualizzaCreaEvento************++***/
+            @Test
+            public void visualizzaCreaEventoTest() throws Exception{
+                                ClubDelLibro club= new ClubDelLibro();
+                                EventoForm evento = new EventoForm();
+                                club.setIdClub(1);
+                                 when(clubService.getClubByID(1)).thenReturn(club);
+                                 this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi/crea")
+                                 .param("id","1"))
+                                         .andExpect(model().attribute("club",club))
+                                         .andExpect(model().attribute("evento",evento))
+                                         .andExpect(view().name("club-del-libro/aggiungi-evento"));
+            }
+
 
     /**
      * ! Da riscrivere completamente
