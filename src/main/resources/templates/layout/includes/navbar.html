@@ -1,8 +1,11 @@
 <nav class="navbar navbar-expand-lg justify-content-between " id="navbar-principale" layout:fragment="navbar">
 
-    <div layout:fragment="navbar-left">
+    <div layout:fragment="navbar-left" style="width: 250px">
         <div class="navbar-brand">
-            <a th:href="@{/}"> <img class="w-30" th:src="@{~/image/logo/Solo_libro.png}" style="width: 30%;"> </a>
+            <a th:href="@{/}">
+                <img class="w-30" th:src="@{~/image/logo/Solo_libro.png}" style="width: 90px">
+                <img class="w-30" th:src="@{~/image/logo/Solo_testo.png}" style="width: 140px">
+            </a>
         </div>
     </div>
 
@@ -12,7 +15,7 @@
     </div>
 
 
-    <div class="d-flex ml-auto">
+    <div class="d-flex ml-auto pull-right">
         <div layout:fragment="navbar-right">
             <div class="dropdown" th:if="${session.loggedUser != null && session.loggedUser.email != null}">
                 <button class="btn btn-main dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
