@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../../style/registrazione.css">
     <link rel="stylesheet" type="text/css" href="../../style/style.css">
+    <script src="../../js/registrazione/regex.js"></script>
     <meta charset="UTF-8">
     <title>Registrazione Esperto</title>
 </head>
@@ -11,11 +12,11 @@
 <div layout:fragment="pagina" class="container">
 
     <div class="text-center">
-        <img class="logo-index" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet">
+        <a th:href="@{/}"><img class="logo-index" th:src="@{~/image/logo/logo_BiblioNet.png}" alt="Logo BiblioNet"></a>
     </div>
 
     <div class="row">
-        <form method="post" th:action="@{/registrazione/esperto}" class="form-registrazione form-horizontal">
+        <form method="post" th:action="@{/registrazione/esperto}" th:onsubmit="return validateEsperto()" class="form-registrazione form-horizontal">
 
             <div class="column sx">
 
