@@ -547,11 +547,14 @@ public class ClubDelLibroController {
      * @return La view della lista degli eventi
      */
     @RequestMapping(value = "/{club}/eventi/{id}",
-            method = RequestMethod.DELETE)
+            method = RequestMethod.GET)
     public String eliminaEvento(final @PathVariable int club,
                                 final @PathVariable int id) {
-        var eventoEliminato =
+        Optional<Evento> eventoEliminato =
                 this.eventiService.eliminaEvento(id);
+
+        System.out.println(eventoEliminato);
+
 
         if (eventoEliminato.isEmpty()) {
             throw new ResponseStatusException(
@@ -560,7 +563,7 @@ public class ClubDelLibroController {
             );
         }
 
-        return "redirect:/club-del-libro/" + club + "/eventi";
+        return "redirect:/club-del-libro/" + club;
     }
 
     /**

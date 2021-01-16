@@ -16,10 +16,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Transient;
-
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import java.util.List;
 
 /**
@@ -71,11 +71,12 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     private List<ClubDelLibro> clubs;
 
     /**
-     * Rappresenta gli eveti a cui prende parte.
+     * Rappresenta gli eventi a cui prende parte.
      */
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Evento> eventi;
 
     /**

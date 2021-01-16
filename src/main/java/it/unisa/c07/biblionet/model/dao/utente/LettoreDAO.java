@@ -26,4 +26,5 @@ public interface LettoreDAO extends UtenteRegistratoDAO {
     @Query("SELECT l FROM Lettore l WHERE l.email=?1")
     Lettore findByID(String email);
 
+
 }

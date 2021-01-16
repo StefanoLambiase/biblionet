@@ -105,6 +105,7 @@ public class GestioneEventiServiceImpl implements GestioneEventiService {
         if (evento.isEmpty()) {
             return Optional.empty();
         }
+
         this.eventoDAO.deleteById(id);
         return evento;
     }
