@@ -116,13 +116,13 @@ public class Lettore extends UtenteRegistrato implements HaGenere {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj.getClass().equals(this.getClass())) {
+    public boolean equals(final Object obj) {
+        if (obj.getClass().equals(this.getClass())) {
             Lettore lettore = (Lettore) obj;
-            return (this.getEmail().equals(lettore.getEmail()) &&
-                    this.getUsername().equals(lettore.getUsername()) &&
-                    this.getCognome().equals(lettore.getCognome()) &&
-                    this.getNome().equals(lettore.getNome()));
+            return (this.getEmail().equals(lettore.getEmail())
+                    && this.getUsername().equals(lettore.getUsername())
+                    && this.getCognome().equals(lettore.getCognome())
+                    && this.getNome().equals(lettore.getNome()));
         }
         return false;
     }

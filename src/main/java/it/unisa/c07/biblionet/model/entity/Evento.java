@@ -84,8 +84,8 @@ public class Evento {
     private Libro libro;
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj.getClass().equals(this.getClass())) {
+    public boolean equals(final Object obj) {
+        if (obj.getClass().equals(this.getClass())) {
             Evento evento = (Evento) obj;
             return this.idEvento == evento.getIdEvento();
         }
