@@ -784,6 +784,15 @@ public class ClubDelLibroControllerTest {
 
 
         }
+        @Test
+        public void visualizzaCreaClubDelLibroException() throws Exception {
+                        UtenteRegistrato registrato = new Lettore();
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/crea")
+                    .sessionAttr("loggedUser",registrato))
+                            .andExpect(status().isUnauthorized())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+
+        }
 
 
 }
