@@ -679,6 +679,52 @@ public class PrenotazioneLibriServiceImplTest {
     }
 
     /**
+     * Implementa il test della funzionalità che permette di
+     * recuperare una biblioteca dato il suo ID.
+     */
+    @Test
+    public void getBibliotecaById() {
+        Biblioteca biblioteca = (Biblioteca) new Biblioteca();
+        when(bibliotecaDAO.findByID("a")).thenReturn(biblioteca);
+        assertEquals(prenotazioneService.getBibliotecaById("a"), biblioteca);
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * recuperare la lista di tutte le biblioteche del DB.
+     */
+    @Test
+    public void getAllBiblioteche() {
+        List<Biblioteca> list = new ArrayList<>();
+        when(bibliotecaDAO.findAllBiblioteche()).thenReturn(list);
+        assertEquals(prenotazioneService.getBibliotecheByNome("a"), list);
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * recuperare una lista delle biblioteche che contengono
+     * la stringa passata nel nome.
+     */
+    @Test
+    public void getBibliotecheByNome() {
+        List<Biblioteca> list = new ArrayList<>();
+        when(bibliotecaDAO.findByNome("a")).thenReturn(list);
+        assertEquals(prenotazioneService.getBibliotecheByNome("a"), list);
+    }
+
+    /**
+     * Implementa il test della funzionalità che permette di
+     * recuperare una lista delle biblioteche che contengono
+     * la stringa passata nella città.
+     */
+    @Test
+    public void getBibliotecheByCitta() {
+        List<Biblioteca> list = new ArrayList<>();
+        when(bibliotecaDAO.findByCitta("a")).thenReturn(list);
+        assertEquals(prenotazioneService.getBibliotecheByCitta("a"), list);
+    }
+
+    /**
      * Utilizzato per fornire il libro ai test
      * @return il libro
      */
@@ -701,11 +747,8 @@ public class PrenotazioneLibriServiceImplTest {
      * Non so davvero cosa faccia
      */
     @Test
-    public void findByTitoloContainsNull(){
-
+    public void findByTitoloContainsNull() {
         when(prenotazioneService.findByTitoloContains("test")).thenReturn(null);
         assertEquals(new ArrayList<>(),prenotazioneService.findByTitoloContains("test"));
-
     }
-
 }

@@ -4,4 +4,7 @@ import java.util.function.Consumer;
 
 import it.unisa.c07.biblionet.model.entity.Evento;
 
-public interface OnEventChangeConsumer extends Consumer<Evento> {}
+/**
+ * Interfaccia.
+ */
+public interface OnEventChangeConsumer extends Consumer<Evento> { }

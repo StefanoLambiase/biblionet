@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.comunicazioneEsperto.service;
 
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
@@ -38,6 +39,9 @@ public class ComunicazioneEspertoServiceImplTest {
     @Mock
     private EspertoDAO espertoDAO;
 
+    @Mock
+    private GenereDAO genereDAO;
+
     @Test
     @DisplayName("Non entra al primo for")
     public void getEspertiByGeneri1(){
@@ -71,6 +75,56 @@ public class ComunicazioneEspertoServiceImplTest {
                 comunicazioneEspertoService.getEspertiByGeneri(new ArrayList<>()));
 
     }
+
+    @Test
+    public void getAllEsperti() {
+        List<Esperto> list = new ArrayList<>();
+        when(espertoDAO.findAllEsperti()).thenReturn(list);
+        assertEquals(comunicazioneEspertoService.getAllEsperti(), list);
+    }
+
+    @Test
+    public void getEspertiByName() {
+        List<Esperto> list = new ArrayList<>();
+        when(espertoDAO.findByNomeLike("a")).thenReturn(list);
+        assertEquals(comunicazioneEspertoService.getEsperiByName("a"), list);
+    }
+
+    @Test
+    public void getEspertiByNome() {
+        List<Esperto> list = new ArrayList<>();
+        when(espertoDAO.findByNomeLike("a")).thenReturn(list);
+        assertEquals(comunicazioneEspertoService.getEsperiByName("a"), list);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideEsperto")
+    public void getEsperyByGenereNameForTrue(Esperto esperto) {
+        List<Esperto> list = new ArrayList<>();
+        Genere genere = new Genere();
+        genere.setNome("Test");
+        esperto.setGeneri(Arrays.asList(genere));
+        list.add(esperto);
+
+        when(genereDAO.findByName("Test")).thenReturn(genere);
+        when(espertoDAO.findAllEsperti()).thenReturn(list);
+
+        assertEquals(new ArrayList<>(), comunicazioneEspertoService
+                .visualizzaEspertiPerGenere("a"));
+    }
+
+    @Test
+    public void getEsperyByGenereNameForFalse() {
+        List<Esperto> list = new ArrayList<>();
+        Genere genere = new Genere();
+
+        when(genereDAO.findByName("Test")).thenReturn(genere);
+        when(espertoDAO.findAllEsperti()).thenReturn(list);
+
+        assertEquals(new ArrayList<>(), comunicazioneEspertoService
+                .visualizzaEspertiPerGenere("a"));
+    }
+
 
 
     /**
