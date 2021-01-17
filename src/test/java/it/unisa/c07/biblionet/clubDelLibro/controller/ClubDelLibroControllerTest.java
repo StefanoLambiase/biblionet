@@ -795,4 +795,16 @@ public class ClubDelLibroControllerTest {
         }
 
 
+        @Test
+    public void partecipaClubFirstException() throws Exception{
+                            UtenteRegistrato esperto= new Esperto();
+                            this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/iscrizione")
+                            .param("id","1")
+                            .sessionAttr("loggedUser", esperto))
+                                    .andExpect(status().isUnauthorized())
+                                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
+
+
+
 }
