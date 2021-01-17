@@ -604,7 +604,7 @@ public class ClubDelLibroController {
         List<Evento> tutti = clubService.getClubByID(id).getEventi();
         List<Evento> mieiEventi = l.getEventi();
         List<Evento> mieiEventiClub = new ArrayList<>();
-        for(Evento e : mieiEventi) {
+        for (Evento e : mieiEventi) {
             if (e.getClub().getIdClub() == id) {
                 mieiEventiClub.add(e);
             }

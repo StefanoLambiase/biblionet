@@ -60,16 +60,16 @@ public class AutenticazioneServiceImpl implements AutenticazioneService {
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
             UtenteRegistrato u;
-                if ((u = lettoreDAO.findByEmailAndPassword(email,
-                                                            arr)) != null) {
-                    return u;
-                } else if ((u = bibliotecaDAO.findByEmailAndPassword(email,
-                        arr)) != null) {
-                    return u;
-                } else {
-                    u = espertoDAO.findByEmailAndPassword(email, arr);
-                    return u;
-                }
+
+            if ((u = lettoreDAO.findByEmailAndPassword(email, arr)) != null) {
+                return u;
+            } else if ((u =
+                    bibliotecaDAO.findByEmailAndPassword(email, arr)) != null) {
+                return u;
+            } else {
+                u = espertoDAO.findByEmailAndPassword(email, arr);
+                return u;
+            }
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
