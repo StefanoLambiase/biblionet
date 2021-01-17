@@ -838,6 +838,20 @@ public class ClubDelLibroControllerTest {
                                         .andExpect(status().isNotFound())
                                         .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
         }
-
+        @Test
+    public void visualizzaModificaDatiClubSecondException() throws Exception{
+                    ClubDelLibro club = new ClubDelLibro();
+                    Esperto esperto = new Esperto();
+                    Esperto esperto1 = new Esperto();
+                    esperto.setEmail("patriarca57@outlook.com");
+                    esperto1.setEmail("liberale@gmail.com");
+                    club.setEsperto(esperto);
+                    when(clubService.getClubByID(1)).thenReturn(club);
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/modifica")
+                    .param("id","1")
+                    .sessionAttr("loggedUser", esperto1))
+                            .andExpect(status().isUnauthorized())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
 
 }
