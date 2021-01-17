@@ -21,12 +21,17 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+import org.apache.commons.io.FileUtils;
+import org.jboss.logging.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Questa è la main class del progetto, che fa partire l'applicazione e popola
@@ -54,10 +59,15 @@ public class BiblionetApplication {
         PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
 
+        Logger out = Logger.getLogger(BiblionetApplication.class);
+
 //------------------------------Definizione oggetti per popolamento Database--------------------------------------------
 
 
 //-------------------------------Definizione ed inserimento Biblioteche-------------------------------------------------
+
+
+        out.info("***************************INIZIALIZZAZIONE DI BIBLIONET IN CORSO...***************************");
         Biblioteca biblioteca = new Biblioteca(
                 "bibliotecacarrisi@gmail.com",
                 "BibliotecaPassword",
@@ -168,6 +178,10 @@ public class BiblionetApplication {
         bibliotecaDAO.save(biblioteca7);
         bibliotecaDAO.save(biblioteca8);
         bibliotecaDAO.save(biblioteca9);
+
+        out.info("*************************** Biblioteche create 1/9 ***************************");
+
+
 
 //----------------------Definizione ed inserimento esperti--------------------------------------------------------------
 
@@ -468,6 +482,8 @@ public class BiblionetApplication {
         espertoDAO.save(esperto19);
         espertoDAO.save(esperto20);
 
+        out.info("*************************** Esperti creati 2/9 ***************************");
+
 
 //----------------------Definizione ed inserimento lettori--------------------------------------------------------------
 
@@ -641,6 +657,8 @@ public class BiblionetApplication {
         lettoreDAO.save(lettore11);
         lettoreDAO.save(lettore12);
 
+        out.info("*************************** Esperti creati 3/9 ***************************");
+
 //----------------------Definizione ed inserimento generi---------------------------------------------------------------
 
         Genere fantasy = new Genere(
@@ -794,128 +812,171 @@ public class BiblionetApplication {
         genereDAO.save(tecnologia);
         genereDAO.save(thriller);
 
+        out.info("*************************** Generi creati 4/9 ***************************");
+
 //----------------------Definizione ed inserimento libri----------------------------------------------------------------
 
+        out.info("*************************** Caricamento libro 1/41 ***************************");
         Libro libro = bookApiAdapter.getLibroDaBookApi("9781781101582");
         libro.setGeneri(Arrays.asList(fantasy, ragazzi, romanzo));
 
+        out.info("*************************** Caricamento libro 2/41 ***************************");
         Libro libro1 = bookApiAdapter.getLibroDaBookApi("9781781102121");
         libro1.setGeneri(Arrays.asList(fantasy, ragazzi, romanzo));
 
+        out.info("*************************** Caricamento libro 3/41 ***************************");
         Libro libro2 = bookApiAdapter.getLibroDaBookApi("9788804616351");
         libro2.setGeneri(Arrays.asList(fantasy, avventura, azione));
 
+        out.info("*************************** Caricamento libro 4/41 ***************************");
         Libro libro3 = bookApiAdapter.getLibroDaBookApi("9780141439570");
         libro3.setGeneri(Arrays.asList(narrativa, gotico));
 
+        out.info("*************************** Caricamento libro 5/41 ***************************");
         Libro libro4 = bookApiAdapter.getLibroDaBookApi("9780141034591");
         libro4.setGeneri(Arrays.asList(saggio));
 
+        out.info("*************************** Caricamento libro 6/41 ***************************");
         Libro libro5 = bookApiAdapter.getLibroDaBookApi("9788838473463");
         libro5.setGeneri(Arrays.asList(horror, thriller));
 
+        out.info("*************************** Caricamento libro 7/41 ***************************");
         Libro libro6 = bookApiAdapter.getLibroDaBookApi("9780198321668");
         libro6.setGeneri(Arrays.asList(romantico));
 
+        out.info("*************************** Caricamento libro 8/41 ***************************");
         Libro libro7 = bookApiAdapter.getLibroDaBookApi("9788845295300");
         libro7.setGeneri(Arrays.asList(ragazzi, fiabefavole));
 
+        out.info("*************************** Caricamento libro 9/41 ***************************");
         Libro libro8 = bookApiAdapter.getLibroDaBookApi("9788852049774");
         libro8.setGeneri(Arrays.asList(giallo, thriller, romanzo));
 
+        out.info("*************************** Caricamento libro 10/41 ***************************");
         Libro libro9 = bookApiAdapter.getLibroDaBookApi("9788854122789");
         libro9.setGeneri(Arrays.asList(narrativa));
 
+        out.info("*************************** Caricamento libro 11/41 ***************************");
         Libro libro10 = bookApiAdapter.getLibroDaBookApi("9788852028489");
         libro10.setGeneri(Arrays.asList(narrativa, storico));
 
+        out.info("*************************** Caricamento libro 12/41 ***************************");
         Libro libro11 = bookApiAdapter.getLibroDaBookApi("9788860816412");
         libro11.setGeneri(Arrays.asList(psicologico));
 
+        out.info("*************************** Caricamento libro 13/41 ***************************");
         Libro libro12 = bookApiAdapter.getLibroDaBookApi("9788854133587");
         libro12.setGeneri(Arrays.asList(romanzo, giallo, storico));
 
+        out.info("*************************** Caricamento libro 14/41 ***************************");
         Libro libro13 = bookApiAdapter.getLibroDaBookApi("9781633397354");
         libro13.setGeneri(Arrays.asList(tecnologia, scientifico));
 
+        out.info("*************************** Caricamento libro 15/41 ***************************");
         Libro libro14 = bookApiAdapter.getLibroDaBookApi("9788841869741");
         libro14.setGeneri(Arrays.asList(narrativa, ragazzi));
 
+        out.info("*************************** Caricamento libro 16/41 ***************************");
         Libro libro15 = bookApiAdapter.getLibroDaBookApi("9788864113036");
         libro15.setGeneri(Arrays.asList(fantasy, romantico));
 
+        out.info("*************************** Caricamento libro 17/41 ***************************");
         Libro libro16 = bookApiAdapter.getLibroDaBookApi("9788852021558");
         libro16.setGeneri(Arrays.asList(distopia, fantascienza));
 
+        out.info("*************************** Caricamento libro 18/41 ***************************");
         Libro libro17 = bookApiAdapter.getLibroDaBookApi("9788851161439");
         libro17.setGeneri(Arrays.asList(ragazzi, fiabefavole));
 
+        out.info("*************************** Caricamento libro 19/41 ***************************");
         Libro libro18 = bookApiAdapter.getLibroDaBookApi("9788866327769");
         libro18.setGeneri(Arrays.asList(giallo, thriller));
 
+        out.info("*************************** Caricamento libro 20/41 ***************************");
         Libro libro19 = bookApiAdapter.getLibroDaBookApi("9788830455320");
         libro19.setGeneri(Arrays.asList(giallo, noir));
 
+        out.info("*************************** Caricamento libro 21/41 ***************************");
         Libro libro20 = bookApiAdapter.getLibroDaBookApi("9788854513006");
         libro20.setGeneri(Arrays.asList(biografico, storico));
 
+        out.info("*************************** Caricamento libro 22/41 ***************************");
         Libro libro21 = bookApiAdapter.getLibroDaBookApi("9788858420430");
         libro21.setGeneri(Arrays.asList(biografico, storico));
 
+        out.info("*************************** Caricamento libro 23/41 ***************************");
         Libro libro22 = bookApiAdapter.getLibroDaBookApi("9788858420423");
         libro22.setGeneri(Arrays.asList(biografico, storico));
 
+        out.info("*************************** Caricamento libro 24/41 ***************************");
         Libro libro23 = bookApiAdapter.getLibroDaBookApi("9788841878217");
         libro23.setGeneri(Arrays.asList(distopia, fantascienza));
 
+        out.info("*************************** Caricamento libro 25/41 ***************************");
         Libro libro24 = bookApiAdapter.getLibroDaBookApi("9788854158245");
         libro24.setGeneri(Arrays.asList(romantico, fantasy));
 
+        out.info("*************************** Caricamento libro 26/41 ***************************");
         Libro libro25 = bookApiAdapter.getLibroDaBookApi("9788858672198");
         libro25.setGeneri(Arrays.asList(comico));
 
+        out.info("*************************** Caricamento libro 27/41 ***************************");
         Libro libro26 = bookApiAdapter.getLibroDaBookApi("9788858693322");
         libro26.setGeneri(Arrays.asList(comico, narrativa));
 
+        out.info("*************************** Caricamento libro 28/41 ***************************");
         Libro libro27 = bookApiAdapter.getLibroDaBookApi("9788865188071");
         libro27.setGeneri(Arrays.asList(scientifico, tecnologia));
 
+        out.info("*************************** Caricamento libro 29/41 ***************************");
         Libro libro28 = bookApiAdapter.getLibroDaBookApi("9788820096533");
         libro28.setGeneri(Arrays.asList(saggio, scientifico));
 
+        out.info("*************************** Caricamento libro 30/41 ***************************");
         Libro libro29 = bookApiAdapter.getLibroDaBookApi("9788852022562");
         libro29.setGeneri(Arrays.asList(tecnologia, fantascienza, narrativa));
 
+        out.info("*************************** Caricamento libro 31/41 ***************************");
         Libro libro30 = bookApiAdapter.getLibroDaBookApi("9788852022586");
         libro30.setGeneri(Arrays.asList(fantasy, romanzo, fantascienza));
 
+        out.info("*************************** Caricamento libro 32/41 ***************************");
         Libro libro31 = bookApiAdapter.getLibroDaBookApi("9788868958855");
         libro31.setGeneri(Arrays.asList(tecnologia));
 
+        out.info("*************************** Caricamento libro 33/41 ***************************");
         Libro libro32 = bookApiAdapter.getLibroDaBookApi("9788862316019");
         libro32.setGeneri(Arrays.asList(biografico));
 
+        out.info("*************************** Caricamento libro 34/41 ***************************");
         Libro libro33 = bookApiAdapter.getLibroDaBookApi("9788852011610");
         libro33.setGeneri(Arrays.asList(fantasy, romanzo, ragazzi));
 
+        out.info("*************************** Caricamento libro 35/41 ***************************");
         Libro libro34 = bookApiAdapter.getLibroDaBookApi("9788868656188");
         libro34.setGeneri(Arrays.asList(romanzo, romantico));
 
+        out.info("*************************** Caricamento libro 36/41 ***************************");
         Libro libro35 = bookApiAdapter.getLibroDaBookApi("9788854143982");
         libro35.setGeneri(Arrays.asList(avventura));
 
+        out.info("*************************** Caricamento libro 37/41 ***************************");
         Libro libro36 = bookApiAdapter.getLibroDaBookApi("9788842922650");
         libro36.setGeneri(Arrays.asList(avventura, azione, fantasy));
 
+        out.info("*************************** Caricamento libro 38/41 ***************************");
         Libro libro37 = bookApiAdapter.getLibroDaBookApi("9781633398863");
         libro37.setGeneri(Arrays.asList(tecnologia));
 
+        out.info("*************************** Caricamento libro 39/41 ***************************");
         Libro libro38 = bookApiAdapter.getLibroDaBookApi("9788809906440");
         libro38.setGeneri(Arrays.asList(giallo, thriller));
 
+        out.info("*************************** Caricamento libro 40/41 ***************************");
         Libro libro39 = bookApiAdapter.getLibroDaBookApi("9781326891220");
         libro39.setGeneri(Arrays.asList(storico, biografico));
 
+        out.info("*************************** Caricamento libro 41/41 ***************************");
         Libro libro40 = bookApiAdapter.getLibroDaBookApi("9788893128933");
         libro40.setGeneri(Arrays.asList(romanzo, fantasy));
 
@@ -961,9 +1022,13 @@ public class BiblionetApplication {
         libroDAO.save(libro39);
         libroDAO.save(libro40);
 
+        out.info("*************************** Libri creati 5/9 ***************************");
+
 //----------------------Definizione ed inserimento possessi-------------------------------------------------------------
 
         //BIBLIOTECA 1
+
+        out.info("*************************** Inserimento Possessi biblioteca 1/10 ***************************");
 
         PossessoId possessoId1B1 = new PossessoId(
                 biblioteca.getEmail(),
@@ -1041,6 +1106,8 @@ public class BiblionetApplication {
         possessoDAO.save(possesso1B8);
 
         //BIBLIOTECA 2
+        out.info("*************************** Inserimento Possessi biblioteca 2/10 ***************************");
+
         PossessoId possessoId2B1 = new PossessoId(
                 biblioteca1.getEmail(),
                 libro9.getIdLibro()
@@ -1117,6 +1184,7 @@ public class BiblionetApplication {
         possessoDAO.save(possesso2B8);
 
         //BIBLIOTECA 3
+        out.info("*************************** Inserimento Possessi biblioteca 3/10 ***************************");
 
         PossessoId possessoId3B1 = new PossessoId(
                 biblioteca2.getEmail(),
@@ -1195,6 +1263,7 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 4
+        out.info("*************************** Inserimento Possessi biblioteca 4/10 ***************************");
 
         PossessoId possessoId4B1 = new PossessoId(
                 biblioteca3.getEmail(),
@@ -1273,6 +1342,7 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 5
+        out.info("*************************** Inserimento Possessi biblioteca 5/10 ***************************");
 
         PossessoId possessoId5B1 = new PossessoId(
                 biblioteca4.getEmail(),
@@ -1351,6 +1421,7 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 6
+        out.info("*************************** Inserimento Possessi biblioteca 6/10 ***************************");
 
         PossessoId possessoId6B1 = new PossessoId(
                 biblioteca5.getEmail(),
@@ -1429,6 +1500,8 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 7
+        out.info("*************************** Inserimento Possessi biblioteca 7/10 ***************************");
+
         PossessoId possessoId7B1 = new PossessoId(
                 biblioteca6.getEmail(),
                 libro9.getIdLibro()
@@ -1505,6 +1578,7 @@ public class BiblionetApplication {
         possessoDAO.save(possesso7B8);
 
         //BIBLIOTECA 8
+        out.info("*************************** Inserimento Possessi biblioteca 8/10 ***************************");
 
         PossessoId possessoId8B1 = new PossessoId(
                 biblioteca7.getEmail(),
@@ -1583,6 +1657,7 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 9
+        out.info("*************************** Inserimento Possessi biblioteca 9/10 ***************************");
 
         PossessoId possessoId9B1 = new PossessoId(
                 biblioteca8.getEmail(),
@@ -1661,6 +1736,7 @@ public class BiblionetApplication {
 
 
         //BIBLIOTECA 10
+        out.info("*************************** Inserimento Possessi biblioteca 10/10 ***************************");
 
         PossessoId possessoId10B1 = new PossessoId(
                 biblioteca9.getEmail(),
@@ -1736,6 +1812,8 @@ public class BiblionetApplication {
         possessoDAO.save(possesso10B6);
         possessoDAO.save(possesso10B7);
         possessoDAO.save(possesso10B8);
+
+        out.info("*************************** Possessi creati 6/9 ***************************");
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
 
@@ -1824,6 +1902,8 @@ public class BiblionetApplication {
         ticketPrestitoDAO.save(ticket7);
         ticketPrestitoDAO.save(ticket8);
 
+        out.info("*************************** Ticket creati 7/9 ***************************");
+
 //----------------------Definizione ed inserimento clubs----------------------------------------------------------------
 
 
@@ -1888,6 +1968,18 @@ public class BiblionetApplication {
                 esperto17
         );
 
+        clubDelLibro1.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/fantasticy.jpg"));
+        clubDelLibro2.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/storia.jpg"));
+        clubDelLibro3.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/programmatori.jpg"));
+        clubDelLibro4.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/fiabe.jpg"));
+        clubDelLibro5.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/pirati.jpg"));
+        clubDelLibro6.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/investigatore.png"));
+        clubDelLibro7.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/psicologia_scienza.jpg"));
+        clubDelLibro8.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/rosa.jpg"));
+        clubDelLibro9.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/noir.jpg"));
+        clubDelLibro10.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/horror.jpg"));
+
+
         clubDelLibroDAO.save(clubDelLibro1);
         clubDelLibroDAO.save(clubDelLibro2);
         clubDelLibroDAO.save(clubDelLibro3);
@@ -1898,6 +1990,8 @@ public class BiblionetApplication {
         clubDelLibroDAO.save(clubDelLibro8);
         clubDelLibroDAO.save(clubDelLibro9);
         clubDelLibroDAO.save(clubDelLibro10);
+
+        out.info("*************************** Club del Libro creati 8/9 ***************************");
 
 //----------------------Definizione ed inserimento eventi---------------------------------------------------------------
 
@@ -2006,6 +2100,9 @@ public class BiblionetApplication {
         eventoDAO.save(evento11);
         eventoDAO.save(evento12);
         eventoDAO.save(evento13);
+
+        out.info("*************************** Eventi creati 9/9 ***************************");
+
 
 //-------------------------------POPOLAMENTO MANY TO MANY E ONE TO MANY-------------------------------------------------
 
@@ -2219,6 +2316,21 @@ public class BiblionetApplication {
         lettoreDAO.save(lettore1);
         lettoreDAO.save(lettore2);
         lettoreDAO.save(lettore3);
+
+        out.info("*************************** INIZIALIZZAZIONE DI BIBLIONET TERMINATA ***************************");
+
+
+    }
+
+    public static String getCopertinaClubFromUrl(String filePath) {
+        try{
+            byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
+            return Base64.getEncoder().encodeToString(fileContent);
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+            return "noimage";
+        }
 
     }
 }
