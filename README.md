@@ -5,7 +5,11 @@
 <p align = "center">
   📕 Spring Boot Web App for library support. 📕
   <br>
-  🎓 Produced for the Software Engineering and Software Project Management courses of Computer Science at University of Salerno. 🎓
+  A project for
+  <br>
+  Software Engineering and Software Project Management 
+  <br>
+  courses of Computer Science at University of Salerno.
 </p>
 
 # Project description and introduction
@@ -18,7 +22,15 @@ in development...
 
 ## Authors
 
-in development...
+* **Stefano Lambiase**      - *Project Manager*   - [StefanoLambiase](https://github.com/StefanoLambiase)
+* **Gianmario Voria**       - *Developer*         - [yabokk](https://github.com/yabokk)
+* **Viviana Pentangelo**    - *Developer*         - [vipenti](https://github.com/vipenti)
+* **Antonio Della Porta**   - *Developer*         - [atdepo](https://github.com/atdepo)
+* **Alessio Casolaro**      - *Developer*         - [BearGrillz99](https://github.com/BearGrillz99)
+* **Giulio Triggiani**      - *Developer*         - [rayleighRe1](https://github.com/rayleighRe1)
+* **Ciro Maiorino**         - *Developer*         - [Tekhorror](https://github.com/Tekhorror)
+* **Nicola Pagliara**       - *Developer*         - [Nicola-Pagliara](https://github.com/Nicola-Pagliara)
+* **Luca Cristiano**        - *Developer*         - [Zekromaster](https://github.com/Zekromaster)
 
 # Technical informations
 
