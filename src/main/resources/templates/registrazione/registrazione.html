@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina">
+    <div class="container">
+        <form th:action="@{/registrazione/scegli}" method="post">
+            <div class="row">
+
+                <div class="col">
+                    <button type="submit" value="Lettore" name="scelta"><img
+                            th:src="@{~/image/registrazione/Lettore.jpeg}"></button>
+
+                    <p>Clicca sull'immagine per registrati come lettore.
+                        Potrai prenotare libri, iscriverti a club e
+                        prendere parte ad eventi.</p>
+                </div>
+
+                <div class="col">
+                    <button type="submit" value="Esperto" name="scelta"><img
+                            th:src="@{~/image/home/esperto.jpg}" width="400px" height="600px">
+                    </button>
+
+                    <p>Clicca sull'immagine per registrati come esperto.
+                        Potrai organizzare eventi nella biblioteca dove lavori
+                        e creare club.</p>
+                </div>
+
+                <div class="col">
+                    <button type="submit" value="Biblioteca" name="scelta"><img
+                            th:src="@{~/image/home/biblioteca.jpg}" width="400px" height="600px">
+                    </button>
+
+                    <p>Clicca sull'immagine per registrarti come biblioteca.
+                        Potrai far prenotare i tuoi libri, ospitare club del libro e
+                        tanto altro ancora...</p>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

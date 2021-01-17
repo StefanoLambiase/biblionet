@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Club</title>
+</head>
+<body>
+    <div layout:fragment="contenuto-pagina">
+        <h1 th:text="'Modifica del club del libro ' + ${club.nome}"></h1>
+        <div layout:insert="~{/club-del-libro/_club-form::form-club(action=@{/club-del-libro/{id}/modifica(id=${id})})}"></div>
+    </div>
+</body>
+</html>

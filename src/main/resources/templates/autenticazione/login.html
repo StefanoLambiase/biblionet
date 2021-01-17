@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../style/login.css">
+    <link rel="stylesheet" type="text/css" href="../../style/style.css">
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <form th:action="@{/autenticazione/login}" method="post" class="form-signin">
+
+        <h3 class="form-signin-heading">Login Utente</h3>
+        <div th:if="${error}">
+            <h6 class="form-signin-heading" style="color: #ff0000">
+                Errore! Credenziali errate.
+            </h6>
+        </div>
+        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="esempio@esempio.com" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+        <button class="btn btn-main " type="submit">Accedi</button>
+    </form>
+</div>
+</body>
+</html>
+<body>

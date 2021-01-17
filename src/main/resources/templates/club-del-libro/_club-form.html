@@ -1,0 +1,29 @@
+<form layout:fragment="form-club" th:action = "${action}" th:object = "${club}" method = "post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>Nome</label>
+                <input class="form-control" type="text" th:field="*{nome}" />
+                <label> Descrizione</label>
+                <textarea class="form-control" name="descrizione" th:field="*{descrizione}" />        
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="form-group">
+                <label>Generi</label>
+                <select class="form-control" multiple th:field="*{generi}">
+                    <option th:each="genere: ${generi}" th:value="${genere}" th:text="${genere}">Prova</option>
+                </select>  
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="form-group">
+                <label>Copertina</label>
+                <input class="form-control" type="file" th:field="*{copertina}" accept="image/png, image/jpeg" >
+                <button class="btn btn-main form-control" type="submit">Invia Dati</button>
+            </div>
+        </div>
+    </div>
+</form>

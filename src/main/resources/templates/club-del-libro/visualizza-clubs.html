@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Club del libro</title>
+    <link rel="stylesheet" th:href="@{/style/lib/bootstrap-sortable.css}" />
+    <script th:inline="javascript">
+        const tutteCitta = [[${citta}]];
+        const tuttiGeneri = [[${generi}]];
+        const ordinamento = [[${ordinamento}]];
+        const isLettore = [[${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}]];
+        const clubs = [[${listaClubs}]];
+        var loggedEsperto = [[${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' ? session.loggedUser.email : null}]];
+    </script>
+    <script th:src="@{/js/lib/bootstrap-sortable.js}"></script>
+    <script th:src="@{/js/clubDelLibro/visualizza-clubs.js}" defer></script>
+</head>
+
+<body>
+    <div layout:fragment="contenuto-pagina" class="container">
+        <div class="row">
+            <div class="col-2">
+                <form th:action="@{/club-del-libro}" method="GET">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Generi</h3>
+                            <select multiple id="generi" name="generi">
+                                <option th:each="genere: ${generi}" th:value="${genere}" th:text="${genere}">Prova</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <h3>Città</h3>
+                            <select multiple id="citta" name="citta">
+                                <option th:each="cittaCdL: ${citta}" th:value="${cittaCdL}" th:text="${cittaCdL}">Prova</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-main" type="submit">Filtra</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-10">
+                <table class="table sortable">
+                    <thead>
+                        <th scope="col" class="align-content-center">Copertina</th>
+                        <th scope="col" class="align-content-center">Nome</th>
+                        <th scope="col" class="align-content-center">Descrizione</th>
+                        <th scope="col" class="align-content-center">Generi</th>
+                        <th scope="col" class="align-content-center">Esperto</th>
+                        <th scope="col" class="align-content-center">Iscritti</th>
+                        <th scope="col" class="align-content-center">Visualizza</th>
+                        <th scope="col" class="align-content-center" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto'}">Azioni</th>
+                    </thead>
+                    <tbody id="tabellaClubs">
+                    </tbody>
+                    <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto'}">
+                        <th th:colspan="7" style="text-align: center;">
+                            <a style="width: 100%; height: 100%;" class="btn btn-main" th:href="@{/club-del-libro/crea}">
+                                Crea Club Del Libro
+                            </a>
+                        </th>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

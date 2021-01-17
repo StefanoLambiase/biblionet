@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/js/preferenzeDiLettura/gestioneGeneri.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Inserisci i generi in cui sei specializzato</title>
+
+</head>
+<body>
+
+<div layout:fragment="contenuto-pagina" class="text-center">
+    <h1>Generi Specializzato</h1>
+    <div class="d-flex justify-content-center">
+        <div class="column sx">
+            <h6>Aggiungi genere</h6>
+            <div>
+                <select class="p-1 m-2" id="select_generi">
+                    <option th:each="genere: ${generi}" th:value="${genere.nome}" th:text="${genere.nome}"></option>
+                </select>
+                <button class="btn btn-success" onclick="aggiungiGenere()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="column dx">
+            <h6>I tuoi generi</h6>
+            <form id="form_generi" th:action="@{/preferenze-di-lettura/modifica-generi}" method="post">
+                <table>
+
+                    <tbody id="utente_generi">
+
+                    <tr th:each="genereUtente : ${generiUtente}" th:class="${genereUtente.nome}">
+
+                        <td class="input-sm px-3" th:text="${genereUtente.nome}" th:name="genere" th:value="${genereUtente.nome}"></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" th:name="${genereUtente.nome}"
+                                    onclick="rimuoviGenere(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div>
+                    <input class="btn btn-main m-4 px-4" type="submit" value="Salva" onclick="generi()">
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

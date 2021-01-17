@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizza iscritti al club</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <h3> Iscritti al Club: <th th:text="${club.nome}" /> </h3>
+    <table class="table">
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Cognome</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contatta</th>
+        </tr>
+        <tr th:each="lettore : ${club.lettori}">
+            <td class="align-middle" th:text="${lettore.nome}"> </td>
+            <td class="align-middle" th:text="${lettore.cognome}"> </td>
+            <td class="align-middle" th:text="${lettore.email}"> </td>
+            <td class="align-middle">
+                <a class="btn btn-main" th:href="'mailto://' + ${lettore.email}">
+                    Contatta
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

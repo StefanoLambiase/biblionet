@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dettaglio Biblioteca</title>
+    <link rel="stylesheet" th:href="@{~/style/biblioteca.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <!-- Header per visualizzare il nome e le core info del club -->
+    <div class="title-box">
+        <div class="name">
+            <h1
+               th:text="${biblioteca.nomeBiblioteca}">
+            </h1>
+        </div>
+    </div>
+
+    <!-- Corpo principale che contiene tutte le cards della view -->
+    <div class="row">
+        <!-- Card per la visualizzazione della descrizione -->
+        <div class="col-4" style="margin-top: 3%">
+            <div class="card text-center">
+                <div class="card-header">Informazioni</div>
+                <div class="card-body">
+                    <h4 class="card-title" style="height: 60px" th:text="${biblioteca.nomeBiblioteca}"></h4>
+                    <div class="card-text" style="height: 60px">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <span th:text="${' '+biblioteca.via+', '+biblioteca.citta+', '+biblioteca.provincia}"></span>
+                    </div>
+                    <div class="card-text" style="height: 60px">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span th:text="${' '+biblioteca.recapitoTelefonico}"></span>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Contatti: <span th:text="${biblioteca.email}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <section class="team-section text-center my-5">
+                <!-- Section heading -->
+                <h2 class="h1-responsive font-weight-bold">Esperti</h2>
+                <!-- Grid row -->
+                <div class="row justify-content-center">
+                    <!-- Grid column -->
+                    <div class="col-lg-3 col-md-6 mb-lg-0 mb-5 p-1" th:each="biblioteche: ${biblioteca.esperti}">
+                        <div class="avatar mx-auto">
+                            <img th:src="@{~/image/area-utente/user.png}" class="rounded-circle z-depth-1"
+                                 style="width: 70%;">
+                        </div>
+                        <h5 class="font-weight-bold mt-4 mb-3" th:text="${biblioteche.nome}"></h5>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <div class="col-4" style="margin-top: 3%">
+            <div class="card text-center">
+                <div class="card-header">Alcuni dei nostri club del libro</div>
+                <div class="card-body" style="height: 100%; overflow-y: scroll;">
+                    <div th:each="esperto : ${biblioteca.esperti}">
+                        <div th:if="${esperto.clubs.size()!=0}">
+                            <div class="row">
+                                <div class="col"><i class="fa fa-book" aria-hidden="true" width="100%"></i></div>
+                                <div class="col">
+                                    <a th:href="@{'/club-del-libro/'+ ${esperto.clubs.get(0).idClub}}">
+                                        <h4 class="card-title" th:text="${esperto.clubs.get(0).nome}"></h4>
+                                    </a>
+                                </div>
+                                <div class="col"><span class="card-text" th:text="${esperto.nome}"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="/club-del-libro"> Visualizza tutti i club </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="prenota-libri">
+        <div>
+            <h1>
+                <a th:href="@{'/prenotazione-libri/ricerca?stringa='+${biblioteca.nomeBiblioteca}+'&filtro=biblioteca'}">
+                    Visualizza i libri prenotabili presso la nostra Biblioteca
+                </a>
+            </h1>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

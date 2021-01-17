@@ -1,0 +1,94 @@
+Biblioteca biblioteca = new Biblioteca(
+                "bibliotecacarrisi@gmail.com",
+                "BibliotecaPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Carrisi 47",
+                "1234567890",
+                "Biblioteca Carrisi"
+        );
+
+        Esperto esperto = new Esperto(
+                "eliaviviani@gmail.com",
+                "EspertoPassword",
+                "Napoli",
+                "Torre del Greco",
+                "Via Roma 2",
+                "2345678901",
+                "Espertissimo",
+                "Elia",
+                "Viviani"
+        );
+
+        Lettore lettore = new Lettore(
+                "giuliociccone@gmail.com",
+                "LettorePassword",
+                "Salerno",
+                "Baronissi",
+                "Via Barone 11",
+                "3456789012",
+                "SuperLettore",
+                "Giulio",
+                "Ciccone"
+        );
+
+        Genere genere = new Genere(
+                "Fantasy",
+                "Genere fantastico"
+        );
+
+        Libro libro = new Libro(
+                "BiblioNet",
+                "Stefano Lambiase",
+                "1234567890123",
+                LocalDateTime.now(),
+                "Biblioteche 2.0",
+                "Mondadori",
+                genere
+        );
+
+        TicketPrestito ticket = new TicketPrestito(
+                0,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                libro,
+                biblioteca,
+                lettore
+        );
+
+
+        Evento evento = new Evento(
+                "Evento fantasy",
+                "Evento fantasy",
+                LocalDateTime.now(),
+                lettore,
+                clubDelLibro,
+                libro
+        );
+
+
+
+        ClubDelLibro clubDelLibro = new ClubDelLibro(
+                "Club Fantasy",
+                "Si parla di libri fantasy",
+                "Elia Viviani",
+                lettore,
+                genere,
+                evento
+
+        );
+
+
+
+
+
+
+
+        TicketPrestito ticket = new TicketPrestito(
+                0,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                libro,
+                biblioteca,
+                lettore
+        );

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Eventi del club</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+
+    <h3 th:if="${club != null}"> Eventi del club </h3>
+    <h3 th:unless="${club != null}">I miei eventi</h3>
+    <table class="table">
+        <tr>
+            <th scope="col">Nome Evento</th>
+            <th scope="col">Descrizione</th>
+            <th scope="col">Data</th>
+            <th scope="col">Ora</th>
+            <th scope="col">Libro trattato</th>
+            <th scope="col" th:if="${session.loggedUser != null && (session.loggedUser.tipo == 'Lettore' || session.loggedUser.tipo == 'Esperto')}">Azioni</th>
+        </tr>
+        <tr th:each="evento : ${eventi}">
+            <td class="align-middle" th:text="${evento.nomeEvento}"> </td>
+            <td class="align-middle" th:text="${evento.descrizione}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
+            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.titolo} : 'N/A'"> </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/iscrizione'}" class="btn btn-main">Iscriviti</a>
+            </td>
+        </tr>
+        <tr th:each="evento : ${mieiEventi}">
+            <td class="align-middle" th:text="${evento.nomeEvento}"> </td>
+            <td class="align-middle" th:text="${evento.descrizione}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"> </td>
+            <td class="align-middle" th:text="${#temporals.format(evento.dataOra,'HH:mm')}"> </td>
+            <td class="align-middle" th:text="${evento.libro} ? ${evento.libro.titolo} : 'N/A'"> </td>
+            <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
+                <a th:href="@{'/club-del-libro/'+ ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/abbandono '}" class="btn btn-main">Abbandona</a>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

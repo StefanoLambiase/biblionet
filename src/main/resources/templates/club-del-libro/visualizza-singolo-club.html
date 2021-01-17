@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dettaglio Club del libro</title>
+</head>
+<body>
+<div layout:fragment="contenuto-pagina" class="container">
+    <!-- Header per visualizzare il nome e le core info del club -->
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="font-weight-light"
+                    th:text="${club.nome}">
+                </h1>
+                <p class="lead"
+                   th:text="${' Di ' + club.esperto.nome}">
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Corpo principale che contiene tutte le cards della view -->
+    <div class="row">
+        <!-- Card per la visualizzazione della descrizione -->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <h3 class="card-title text-center">Informazioni</h3>
+                        <div class="col-8">
+                            <p class="card-text"
+                               th:text="${'Esperto: ' + club.esperto.nome + ' ' + club.esperto.cognome}"></p>
+                            <p class="card-text" th:text="${'Email di contatto: ' + club.esperto.email}"></p>
+                            <p class="card-text" th:text="${club.descrizione}"></p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <img th:src="'data:image/png;base64,' + ${club.immagineCopertina}" style="height: 6em"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card per la visualizzazione dei generi -->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Generi trattati</h3>
+                    <table class="table">
+                        <tr th:each="genere : ${club.generi}">
+                            <td th:text="${genere.nome}"></td>
+                            <td th:text="${genere.descrizione}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card per la visualizzazione degli iscritti -->
+    <div class="row" style="margin-top: 20px">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="card-title"> Iscritti al Club </h3>
+                <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore'}">
+                    <div style="text-align: center;">
+                        <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && not club.lettori.contains(session.loggedUser)}">
+                            <form method="POST"
+                                  th:action="@{/club-del-libro/{idClub}/iscrizione(idClub=${club.idClub})}">
+                                <button class="btn btn-main" type="submit">Iscriviti</button>
+                            </form>
+                        </div>
+                        <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && club.lettori.contains(session.loggedUser)}">
+                                <button class="btn btn-main" type="submit">Abbandona</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contatta</th>
+                    </thead>
+                    <tr th:each="lettore : ${club.lettori}">
+                        <td class="align-middle" th:text="${lettore.nome}"></td>
+                        <td class="align-middle" th:text="${lettore.cognome}"></td>
+                        <td class="align-middle" th:text="${lettore.email}"></td>
+                        <td class="align-middle">
+                            <a class="btn btn-main" th:href="'mailto://' + ${lettore.email}">
+                                Contatta
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-main ">
+                    <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/iscritti'}">Visualizza iscritti </a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card per la visualizzazione degli eventi del club -->
+    <div class="row" style="margin-top: 20px">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="card-title"> Eventi del club </h3>
+                <table class="table">
+                    <thead>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrizione</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Ora</th>
+                    <th scope="col">Libro trattato</th>
+                    <th scope="col">Azioni</th>
+                    <th scope="col"></th>
+                    </thead>
+                    <tr th:each="evento : ${club.eventi}">
+                        <td th:text="${evento.nomeEvento}"></td>
+                        <td th:text="${evento.descrizione}"></td>
+                        <td th:text="${#temporals.format(evento.dataOra,'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(evento.dataOra,'HH:mm')}"></td>
+                        <td th:text="${evento.libro} ? ${evento.libro.titolo} : 'NA'"></td>
+                        <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
+                            <a class="btn btn-main" th:href="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento} + '/modifica'}">
+                                Modifica
+                            </a>
+                        </td>
+                        <td class="align-middle" th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && evento.club.esperto.email == session.loggedUser.email}">
+                            <form method="get" th:action="@{'/club-del-libro/' + ${evento.club.idClub} + '/eventi/' + ${evento.idEvento}}">
+                                <input class="btn btn-main" type="submit" value="Elimina">
+                            </form>
+
+                        </td>
+                    </tr>
+                    <tfoot th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Esperto' && club.esperto.email == session.loggedUser.email}">
+                        <th th:colspan="7" style="text-align: center;">
+                            <a style="width: 100%; height: 100%;" class="btn btn-main" th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi/crea'}">
+                                Crea evento
+                            </a>
+                        </th>
+                    </tfoot>
+                </table>
+
+                <div th:if="${session.loggedUser != null && session.loggedUser.tipo == 'Lettore' && club.lettori.contains(session.loggedUser)}">
+                    <button class="btn btn-main ">
+                        <a th:href="@{'/club-del-libro/' + ${club.idClub} + '/eventi'}">Visualizza eventi</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
