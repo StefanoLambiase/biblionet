@@ -829,5 +829,15 @@ public class ClubDelLibroControllerTest {
 
         }
 
+        @Test
+    public void visualizzaModificaDatiClubFirstException() throws Exception {
+                                when(clubService.getClubByID(1)).thenReturn(null);
+                                this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/modifica")
+                                .param("id","1")
+                                .sessionAttr("loggedUser",new Lettore()))
+                                        .andExpect(status().isNotFound())
+                                        .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
+
 
 }
