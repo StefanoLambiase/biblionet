@@ -182,7 +182,16 @@ public class ClubDelLibroControllerTest {
 
             /********************* Tests for visualizzaListaEventiClub ***************/
 
-           /* @ParameterizedTest da riguardare
+
+    /**
+     * Implementa il test della funzionalità gestita dal
+     * controller per la visualizzazione di una lista eventi
+     *  di un club simulando la richiesta http.
+     * @param club Un club per la simulazione
+     * @throws Exception Eccezione per MovkMvc
+     */
+
+            @ParameterizedTest
             @MethodSource("provideClubDelLibro")
             public void visualizzaListaEventiClubTest(final ClubDelLibro club) throws Exception{
                                 List<Evento> eventi_club= new ArrayList<>();
@@ -190,6 +199,8 @@ public class ClubDelLibroControllerTest {
                                 club.setIdClub(1);
                                 Evento evento = new Evento();
                                 Evento evento1 = new Evento();
+                                evento.setClub(club);
+                                evento1.setClub(club);
                                 evento.setIdEvento(1);
                                 evento1.setIdEvento(2);
                                 eventi_club.add(evento);
@@ -207,7 +218,7 @@ public class ClubDelLibroControllerTest {
                                         .andExpect(model().attribute("mieiEventi", lettore.getEventi()))
                                         .andExpect(view().name("club-del-libro/visualizza-eventi"));
 
-            }*/
+            }
 
 
     /**
