@@ -804,7 +804,26 @@ public class ClubDelLibroControllerTest {
                                     .andExpect(status().isUnauthorized())
                                     .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
         }
+        @ParameterizedTest
+        @MethodSource("provideClubDelLibro")
+    public void partecipaClubSecondException(final ClubDelLibro club) throws Exception{
+                        Lettore lettore= new Lettore();
+                        lettore.setTipo("Lettore");
+                        lettore.setEmail("mammi56@gamial.it");
+                        lettore.setUsername("MikeM");
+                        lettore.setCognome("Mills");
+                        lettore.setNome("Mike");
+                        List<Lettore> list_lett= new ArrayList<>();
+                        list_lett.add(lettore);
+                        club.setLettori(list_lett);
+                        when(clubService.getClubByID(1)).thenReturn(club);
+                        this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/iscrizione")
+                        .param("id","1")
+                        .sessionAttr("loggedUser", lettore))
+                                .andExpect(status().isNotAcceptable())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof  ResponseStatusException));
 
+        }
 
 
 }
