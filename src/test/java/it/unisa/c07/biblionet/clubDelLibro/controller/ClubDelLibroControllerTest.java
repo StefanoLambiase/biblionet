@@ -97,6 +97,9 @@ public class ClubDelLibroControllerTest {
             evento.setNomeEvento("Evento1");
             evento.setDataOra(LocalDateTime.now());
             evento.setDescrizione("Descrizione Evento1");
+            Libro libro = new Libro();
+            libro.setIdLibro(1);
+            evento.setLibro(libro);
             evento.setClub(clubDelLibro);
             evento.setIdEvento(1);
             //Creo  attributo l'evento Form
@@ -105,6 +108,7 @@ public class ClubDelLibroControllerTest {
             eventoForm.setDescrizione(evento.getDescrizione());
             eventoForm.setData(evento.getDataOra().toLocalDate());
             eventoForm.setOra(evento.getDataOra().toLocalTime());
+            eventoForm.setLibro(evento.getLibro().getIdLibro());
                 // setto clubdellibro
                 clubDelLibro.setIdClub(1);
                 // Mocking
@@ -173,6 +177,37 @@ public class ClubDelLibroControllerTest {
                                          .andExpect(model().attribute("generi",generes))
                                          .andExpect(view().name("club-del-libro/creazione-club"));
             }
+
+
+
+            /********************* Tests for visualizzaListaEventiClub ***************/
+
+           /* @ParameterizedTest da riguardare
+            @MethodSource("provideClubDelLibro")
+            public void visualizzaListaEventiClubTest(final ClubDelLibro club) throws Exception{
+                                List<Evento> eventi_club= new ArrayList<>();
+                                List<Evento> eventi_lettore = new ArrayList<>();
+                                club.setIdClub(1);
+                                Evento evento = new Evento();
+                                Evento evento1 = new Evento();
+                                evento.setIdEvento(1);
+                                evento1.setIdEvento(2);
+                                eventi_club.add(evento);
+                                eventi_club.add(evento1);
+                                eventi_lettore.add(evento);
+                                club.setEventi(eventi_club);
+                                Lettore lettore = new Lettore();
+                                lettore.setEventi(eventi_lettore);
+                                when(clubService.getClubByID(1)).thenReturn(club);
+                                this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi")
+                                .param("idClub","1")
+                                .sessionAttr("loggedUser", lettore))
+                                        .andExpect(model().attribute("club",club))
+                                        .andExpect(model().attribute("eventi",club.getEventi()))
+                                        .andExpect(model().attribute("mieiEventi", lettore.getEventi()))
+                                        .andExpect(view().name("club-del-libro/visualizza-eventi"));
+
+            }*/
 
 
     /**
@@ -794,5 +829,84 @@ public class ClubDelLibroControllerTest {
 
         }
 
+
+        @Test
+    public void partecipaClubFirstException() throws Exception{
+                            UtenteRegistrato esperto= new Esperto();
+                            this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/iscrizione")
+                            .param("id","1")
+                            .sessionAttr("loggedUser", esperto))
+                                    .andExpect(status().isUnauthorized())
+                                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
+        @ParameterizedTest
+        @MethodSource("provideClubDelLibro")
+    public void partecipaClubSecondException(final ClubDelLibro club) throws Exception{
+                        Lettore lettore= new Lettore();
+                        lettore.setTipo("Lettore");
+                        lettore.setEmail("mammi56@gamial.it");
+                        lettore.setUsername("MikeM");
+                        lettore.setCognome("Mills");
+                        lettore.setNome("Mike");
+                        List<Lettore> list_lett= new ArrayList<>();
+                        list_lett.add(lettore);
+                        club.setLettori(list_lett);
+                        when(clubService.getClubByID(1)).thenReturn(club);
+                        this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/1/iscrizione")
+                        .param("id","1")
+                        .sessionAttr("loggedUser", lettore))
+                                .andExpect(status().isNotAcceptable())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof  ResponseStatusException));
+
+        }
+
+        @Test
+    public void visualizzaModificaDatiClubFirstException() throws Exception {
+                                when(clubService.getClubByID(1)).thenReturn(null);
+                                this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/modifica")
+                                .param("id","1")
+                                .sessionAttr("loggedUser",new Lettore()))
+                                        .andExpect(status().isNotFound())
+                                        .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
+        @Test
+    public void visualizzaModificaDatiClubSecondException() throws Exception{
+                    ClubDelLibro club = new ClubDelLibro();
+                    Esperto esperto = new Esperto();
+                    Esperto esperto1 = new Esperto();
+                    esperto.setEmail("patriarca57@outlook.com");
+                    esperto1.setEmail("liberale@gmail.com");
+                    club.setEsperto(esperto);
+                    when(clubService.getClubByID(1)).thenReturn(club);
+                    this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/modifica")
+                    .param("id","1")
+                    .sessionAttr("loggedUser", esperto1))
+                            .andExpect(status().isUnauthorized())
+                            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+        }
+
+        @Test
+        public void visualizzaListaEventiClubFirstException() throws Exception{
+                        when(clubService.getClubByID(1)).thenReturn(null);
+                        this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi")
+                        .param("id","1")
+                        .sessionAttr("loggedUser", "null"))
+                                .andExpect(status().isNotFound())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof  ResponseStatusException));
+        }
+
+        @Test
+    public void visualizzaListaEventiClubSecondException() throws Exception{
+                        ClubDelLibro club = new ClubDelLibro();
+                        club.setIdClub(1);
+                        Esperto esperto = new Esperto();
+                        when(clubService.getClubByID(1)).thenReturn(club);
+                        this.mockMvc.perform(MockMvcRequestBuilders.get("/club-del-libro/1/eventi")
+                        .param("id","1")
+                        .sessionAttr("loggedUser", esperto))
+                                .andExpect(status().isUnauthorized())
+                                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+
+        }
 
 }

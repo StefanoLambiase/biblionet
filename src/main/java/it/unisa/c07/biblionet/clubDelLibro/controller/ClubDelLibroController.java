@@ -433,7 +433,7 @@ public class ClubDelLibroController {
         evento.setData(eventoBase.getDataOra().toLocalDate());
         evento.setOra(eventoBase.getDataOra().toLocalTime());
         evento.setDescrizione(eventoBase.getDescrizione());
-        if (evento.getLibro() != null) {
+        if (eventoBase.getLibro() != null) {
             evento.setLibro(eventoBase.getLibro().getIdLibro());
         }
 
