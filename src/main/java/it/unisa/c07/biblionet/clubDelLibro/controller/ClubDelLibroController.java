@@ -478,7 +478,7 @@ public class ClubDelLibroController {
                                  final @ModelAttribute EventoForm eventoForm) {
         return this.modificaCreaEvento(
             eventoForm,
-            "redirect:/club-del-libro/" + idClub + "/eventi",
+            "redirect:/club-del-libro/" + idClub,
             idClub,
             Optional.of(idEvento),
             evento -> {
