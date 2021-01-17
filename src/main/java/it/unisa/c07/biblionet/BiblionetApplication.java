@@ -21,12 +21,20 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+import org.apache.commons.io.FileUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Questa è la main class del progetto, che fa partire l'applicazione e popola
@@ -168,6 +176,8 @@ public class BiblionetApplication {
         bibliotecaDAO.save(biblioteca7);
         bibliotecaDAO.save(biblioteca8);
         bibliotecaDAO.save(biblioteca9);
+
+
 
 //----------------------Definizione ed inserimento esperti--------------------------------------------------------------
 
@@ -1888,6 +1898,18 @@ public class BiblionetApplication {
                 esperto17
         );
 
+        clubDelLibro1.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/fantasticy.jpg"));
+        clubDelLibro2.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/storia.jpg"));
+        clubDelLibro3.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/programmatori.jpg"));
+        clubDelLibro4.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/fiabe.jpg"));
+        clubDelLibro5.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/pirati.jpg"));
+        clubDelLibro6.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/investigatore.png"));
+        clubDelLibro7.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/psicologia_scienza.jpg"));
+        clubDelLibro8.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/rosa.jpg"));
+        clubDelLibro9.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/noir.jpg"));
+        clubDelLibro10.setImmagineCopertina(getCopertinaClubFromUrl("src/main/resources/static/image/copertine/horror.jpg"));
+
+
         clubDelLibroDAO.save(clubDelLibro1);
         clubDelLibroDAO.save(clubDelLibro2);
         clubDelLibroDAO.save(clubDelLibro3);
@@ -2219,6 +2241,18 @@ public class BiblionetApplication {
         lettoreDAO.save(lettore1);
         lettoreDAO.save(lettore2);
         lettoreDAO.save(lettore3);
+
+    }
+
+    public static String getCopertinaClubFromUrl(String filePath) {
+        try{
+            byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
+            return Base64.getEncoder().encodeToString(fileContent);
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+            return "noimage";
+        }
 
     }
 }
