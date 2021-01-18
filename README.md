@@ -32,6 +32,12 @@ in development...
 * **Nicola Pagliara**       - *Developer*         - [Nicola-Pagliara](https://github.com/Nicola-Pagliara)
 * **Luca Cristiano**        - *Developer*         - [Zekromaster](https://github.com/Zekromaster)
 
+## Documentation
+
+* Project's javadoc can be found in *docs* directory and at the following link: [Javadoc Link](https://stefanolambiase.github.io/biblionet/).
+* Process documentation can be found in *projectDocs*  directory.
+
+
 # Technical informations
 
 In this section we introduce technical informations and installing guides!
