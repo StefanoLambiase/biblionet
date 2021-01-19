@@ -68,6 +68,7 @@ public class ClubDelLibro {
      *
      */
     @Lob
+    @ToString.Exclude
     private String immagineCopertina;
 
     /**
