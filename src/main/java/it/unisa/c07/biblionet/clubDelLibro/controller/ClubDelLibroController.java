@@ -2,7 +2,12 @@ package it.unisa.c07.biblionet.clubDelLibro.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import java.util.Set;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -333,9 +338,19 @@ public class ClubDelLibroController {
     @RequestMapping(value = "/{id}/modifica",
             method = RequestMethod.POST)
     public String modificaDatiClub(final @PathVariable int id,
-                                   final @ModelAttribute ClubForm club) {
+                                   final @ModelAttribute ClubForm club,
+                                   final Model model) {
 
-        ClubDelLibro clubPers = this.clubService.getClubByID(id);
+        var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+        var clubPers = this.clubService.getClubByID(id);
+
+        if (
+            utente == null
+            || !utente.getEmail().equals(clubPers.getEsperto().getEmail())
+        ) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         if (!club.getCopertina().isEmpty()) {
             try {
                 byte[] imageBytes = club.getCopertina().getBytes();
@@ -346,13 +361,17 @@ public class ClubDelLibroController {
                 e.printStackTrace();
             }
         }
+
         if (club.getGeneri() != null) {
             List<Genere> gList = clubService.getGeneri(club.getGeneri());
             clubPers.setGeneri(gList);
         }
+
         clubPers.setNome(club.getNome());
         clubPers.setDescrizione(club.getDescrizione());
+
         this.clubService.modificaDatiClub(clubPers);
+
         return "redirect:/club-del-libro/";
     }
 
@@ -370,16 +389,21 @@ public class ClubDelLibroController {
 
         UtenteRegistrato lettore =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
+
         if (lettore == null || !lettore.getTipo().equals("Lettore")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+
         ClubDelLibro clubDelLibro = this.clubService.getClubByID(id);
+
         if (clubDelLibro.getLettori().contains(lettore)) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
         }
+
         this.clubService.partecipaClub(
                 clubDelLibro,
                 (Lettore) lettore);
+
         return "redirect:/club-del-libro/";
     }
 
@@ -404,6 +428,7 @@ public class ClubDelLibroController {
                                            final Model model) {
         var eventoBaseOpt =
                 this.eventiService.getEventoById(idEvento);
+
         var esperto = (UtenteRegistrato) model.getAttribute("loggedUser");
 
         if (eventoBaseOpt.isEmpty()) {
@@ -454,7 +479,23 @@ public class ClubDelLibroController {
      */
     @RequestMapping(value = "/{id}/eventi/crea", method = RequestMethod.POST)
     public String creaEvento(final @PathVariable int id,
-                             final @ModelAttribute EventoForm eventoForm) {
+                             final @ModelAttribute EventoForm eventoForm,
+                             final Model model) {
+
+        var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if (utente.getTipo() != "Esperto") {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        var club = this.clubService.getClubByID(id);
+        if (
+            club == null
+            || !club.getEsperto().getEmail().equals(utente.getEmail())
+        ) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         return this.modificaCreaEvento(
             eventoForm,
             "redirect:/club-del-libro/" + id,
@@ -475,7 +516,27 @@ public class ClubDelLibroController {
             method = RequestMethod.POST)
     public String modificaEvento(final @PathVariable int idClub,
                                  final @PathVariable int idEvento,
-                                 final @ModelAttribute EventoForm eventoForm) {
+                                 final @ModelAttribute EventoForm eventoForm,
+                                 final Model model) {
+
+        var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if (utente.getTipo() != "Esperto") {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        var evbase = this.eventiService.getEventoById(idEvento);
+        if (
+            evbase.isEmpty()
+            || !evbase.get()
+                      .getClub()
+                      .getEsperto()
+                      .getEmail()
+                      .equals(utente.getEmail())
+        ) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         return this.modificaCreaEvento(
             eventoForm,
             "redirect:/club-del-libro/" + idClub,
@@ -509,6 +570,13 @@ public class ClubDelLibroController {
     public String visualizzaCreaEvento(final @PathVariable int id,
                                        final @ModelAttribute EventoForm evento,
                                        final Model model) {
+
+        var utente = (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if (utente.getTipo() != "Esperto") {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         var club = this.clubService.getClubByID(id);
 
         if (club == null) {
@@ -516,6 +584,10 @@ public class ClubDelLibroController {
                     HttpStatus.NOT_FOUND,
                     "Club del Libro Inesistente"
             );
+        }
+
+        if (!club.getEsperto().getEmail().equals(utente.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         model.addAttribute("club", club);
@@ -544,12 +616,30 @@ public class ClubDelLibroController {
      * un evento.
      * @param club L'identificativo del Club dell'evento
      * @param id L'identificativo dell'evento da eliminare
+     * @param model Il model per il passaggio dei dati
      * @return La view della lista degli eventi
      */
     @RequestMapping(value = "/{club}/eventi/{id}",
             method = RequestMethod.GET)
     public String eliminaEvento(final @PathVariable int club,
-                                final @PathVariable int id) {
+                                final @PathVariable int id,
+                                final Model model) {
+        var eventoBaseOpt = this.eventiService.getEventoById(id);
+
+        var esperto = (UtenteRegistrato) model.getAttribute("loggedUser");
+
+        if (eventoBaseOpt.isEmpty()) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Evento Inesistente"
+            );
+        }
+
+        if (esperto != null && !eventoBaseOpt.get().getClub().getEsperto()
+                .getEmail().equals(esperto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
         Optional<Evento> eventoEliminato =
                 this.eventiService.eliminaEvento(id);
 
