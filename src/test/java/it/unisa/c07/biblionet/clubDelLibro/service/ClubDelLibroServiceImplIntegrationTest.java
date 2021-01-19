@@ -15,13 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.unisa.c07.biblionet.BiblionetApplication;
 import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,19 +63,30 @@ public class ClubDelLibroServiceImplIntegrationTest implements
     public void creaClubDelLibroValido() {
         var esperto = (Esperto) espertoDAO.findById("eliaviviani@gmail.com")
                                           .get();
+
         var c = new ClubDelLibro(
             "Test",
             "ClubDiProva",
             esperto
         );
+
         var club = this.clubService.creaClubDelLibro(c);
+
         assertNotEquals(club, null);
         assertEquals(club.getNome(), c.getNome());
         assertEquals(club.getDescrizione(), c.getDescrizione());
         assertEquals(club.getEsperto(), c.getEsperto());
+
         var clubInDB = this.clubDAO.findById(club.getIdClub());
+
         assertFalse(clubInDB.isEmpty());
-        assertEquals(club, clubInDB.get());
+        assertEquals(c.getNome(), clubInDB.get().getNome());
+        assertEquals(c.getDescrizione(), clubInDB.get().getDescrizione());
+        assertEquals(
+            c.getEsperto().getEmail(),
+            clubInDB.get().getEsperto().getEmail()
+        );
+
     }
 
     /**
@@ -83,19 +94,24 @@ public class ClubDelLibroServiceImplIntegrationTest implements
      * di un Club del Libro.
      */
     @Test
-    @Transactional
     public void modificaClubDelLibroValido() {
-        var clubBase = clubDAO.findAll().get(1);
-        var club = clubDAO.findAll().get(1);
-        var id = club.getIdClub();
-        club.setNome("Nuovo nome");
+        var clubBase = clubDAO.findAll().get(0);
+        var id = clubBase.getIdClub();
 
-        var clubModificato = this.clubService.modificaDatiClub(club);
+        var club = clubDAO.findById(id);
+
+        club.get().setNome("Nuovo nome");
+        
+        var clubModificato = this.clubService.modificaDatiClub(club.get());
+
         var clubInDB = this.clubDAO.findById(id);
+        
         assertTrue(clubInDB.isPresent());
-
         assertNotEquals(clubBase, clubInDB.get());
-        assertEquals(clubModificato, clubInDB.get());
+        assertEquals(
+            clubModificato.getDescrizione(),
+            clubInDB.get().getDescrizione()
+        );
     }
 
 }
