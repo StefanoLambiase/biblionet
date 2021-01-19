@@ -21,6 +21,8 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+
+import org.springframework.context.ApplicationContext;
 import org.apache.commons.io.FileUtils;
 import org.jboss.logging.Logger;
 import org.springframework.boot.SpringApplication;
@@ -40,10 +42,7 @@ import java.util.Base64;
 @SpringBootApplication
 public class BiblionetApplication {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        ConfigurableApplicationContext configurableApplicationContext =
-                SpringApplication.run(BiblionetApplication.class, args);
-
+    public static void init(ApplicationContext configurableApplicationContext) {
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         bookApiAdapter.getLibroDaBookApi("978-88-238-2264-1");
 
@@ -965,7 +964,7 @@ public class BiblionetApplication {
         libro36.setGeneri(Arrays.asList(avventura, azione, fantasy));
 
         out.info("*************************** Caricamento libro 38/41 ***************************");
-        Libro libro37 = bookApiAdapter.getLibroDaBookApi("9781633398863");
+        Libro libro37 = bookApiAdapter.getLibroDaBookApi("9788871921501");
         libro37.setGeneri(Arrays.asList(tecnologia));
 
         out.info("*************************** Caricamento libro 39/41 ***************************");
@@ -2319,7 +2318,13 @@ public class BiblionetApplication {
 
         out.info("*************************** INIZIALIZZAZIONE DI BIBLIONET TERMINATA ***************************");
 
+    }
 
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        ConfigurableApplicationContext configurableApplicationContext =
+                SpringApplication.run(BiblionetApplication.class, args);
+
+        init(configurableApplicationContext);
     }
 
     public static String getCopertinaClubFromUrl(String filePath) {

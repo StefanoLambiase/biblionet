@@ -81,6 +81,7 @@ public class Libro {
      * Rappresenta l'immagine di copertina del libro.
      */
     @Lob
+    @ToString.Exclude
     private String immagineLibro;
 
     /**
