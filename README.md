@@ -42,15 +42,33 @@ in development...
 
 In this section we introduce technical informations and installing guides!
 
-## Clone and test the project locally
+## Clone and run the project locally with IntelliJ
 
 Follow these steps:
 
-1. Clone this repo.;
-2. Go into biblionet directory (Eventually open with IntelliJ).;
+1. Install IntelliJ ultimate edition on your PC;
+2. Clone this repo;
+3. Open cloned directory with IntelliJ;
+4. Run the project with SpringBoot Run Configuration;
+5. Open your browser on `localhost:8080`.
+
+## Clone and run the project locally with maven
+
+Follow these steps:
+
+1. Clone this repo;
+2. Go into biblionet directory;
 3. Run `./mwnw (or .\mvnw.cmd if you're on windows) clean package` and wait for maven to build;
 4. Run `java -jar target/BiblioNet-0.0.1-SNAPSHOT.jar`;
 5. Open your browser on `localhost:8080`.
+
+## Clone and test the project locally with maven
+
+Follow these steps:
+
+1. Clone this repo;
+2. Go into biblionet directory;
+3. Run `./mwnw (or .\mvnw.cmd if you're on windows) clean test` and wait for maven to build;
 
 ## Installing
 
