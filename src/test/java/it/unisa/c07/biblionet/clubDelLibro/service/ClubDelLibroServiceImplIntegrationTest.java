@@ -33,7 +33,8 @@ import lombok.Setter;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BiblionetApplication.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class ClubDelLibroServiceIT implements ApplicationContextAware {
+public class ClubDelLibroServiceImplIntegrationTest implements 
+                                                    ApplicationContextAware {
     
     @Autowired
     @Setter
