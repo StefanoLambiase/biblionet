@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import it.unisa.c07.biblionet.BiblionetApplication;
@@ -32,7 +35,7 @@ import lombok.Setter;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BiblionetApplication.class)
-@TestInstance(Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class ClubDelLibroServiceImplIntegrationTest implements 
                                                     ApplicationContextAware {
     
@@ -50,7 +53,7 @@ public class ClubDelLibroServiceImplIntegrationTest implements
     @Autowired
     private ClubDelLibroService clubService;
 
-    @BeforeAll
+    @BeforeEach
     public void init() {
         BiblionetApplication.init(applicationContext);
     }
