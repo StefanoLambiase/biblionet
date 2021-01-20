@@ -4,18 +4,23 @@ import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.utils.validazione.RegexTester;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
 import java.util.stream.Stream;
+
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,6 +49,10 @@ public class AreaUtenteControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Mock
+    RegexTester regexTester;
+
+
     /**
      * Metodo che testa la funzionalità gestita dal
      * controller per la modifica di un lettore
@@ -66,6 +75,16 @@ public class AreaUtenteControllerTest {
 
         when(autenticazioneService.findLettoreByEmail(lettore.getEmail())).
                 thenReturn(lettore);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
 
         this.mockMvc.perform(post("/conferma-modifica-lettore")
                 .param("email", lettore.getEmail())
@@ -108,6 +127,15 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService.findLettoreByEmail(lettore.getEmail())).
                 thenReturn(lettore);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/conferma-modifica-lettore")
                 .param("email", lettore.getEmail())
                 .param("nome", lettore.getNome())
@@ -145,6 +173,15 @@ public class AreaUtenteControllerTest {
 
         when(autenticazioneService.findLettoreByEmail(lettore.getEmail())).
                 thenReturn(lettore);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/conferma-modifica-lettore")
                 .param("email", lettore.getEmail())
@@ -219,6 +256,15 @@ public class AreaUtenteControllerTest {
                 .findBibliotecaByEmail(esperto.getBiblioteca().getEmail()))
                 .thenReturn(esperto.getBiblioteca());
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/conferma-modifica-esperto")
                 .param("email", esperto.getEmail())
                 .param("nome", esperto.getNome())
@@ -261,6 +307,15 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService
                 .findBibliotecaByEmail(esperto.getBiblioteca().getEmail()))
                 .thenReturn(esperto.getBiblioteca());
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/conferma-modifica-esperto")
                 .param("email", esperto.getEmail())
@@ -309,6 +364,15 @@ public class AreaUtenteControllerTest {
                 .findBibliotecaByEmail(emailBiblioteca))
                 .thenReturn(esperto.getBiblioteca());
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/conferma-modifica-esperto")
                 .param("email", esperto.getEmail())
                 .param("nome", esperto.getNome())
@@ -352,6 +416,15 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService
                 .findBibliotecaByEmail(emailBiblioteca))
                 .thenReturn(esperto.getBiblioteca());
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/conferma-modifica-esperto")
                 .param("email", esperto.getEmail())
@@ -397,6 +470,15 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService
                 .findBibliotecaByEmail(emailBiblioteca))
                 .thenReturn(null);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/conferma-modifica-esperto")
                 .param("email", esperto.getEmail())
@@ -542,6 +624,14 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
                 thenReturn(biblioteca);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/conferma-modifica-biblioteca")
                 .param("email", biblioteca.getEmail())
                 .param("password", "BibliotecaPassword")
@@ -568,6 +658,14 @@ public class AreaUtenteControllerTest {
         when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
                 thenReturn(biblioteca);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/conferma-modifica-biblioteca")
                 .param("email", biblioteca.getEmail())
                 .param("password", "BibliotecaPassword")
@@ -593,6 +691,14 @@ public class AreaUtenteControllerTest {
 
         when(autenticazioneService.findBibliotecaByEmail(biblioteca.getEmail())).
                 thenReturn(biblioteca);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/conferma-modifica-biblioteca")
                 .param("email", biblioteca.getEmail())

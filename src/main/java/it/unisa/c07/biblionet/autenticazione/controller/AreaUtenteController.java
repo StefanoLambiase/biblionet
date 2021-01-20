@@ -5,6 +5,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import it.unisa.c07.biblionet.utils.validazione.RegexTester;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Alessio Casolaro, Antonio Della Porta
@@ -95,6 +97,17 @@ public class AreaUtenteController {
         Biblioteca toUpdate = autenticazioneService
                 .findBibliotecaByEmail(biblioteca.getEmail());
 
+        HashMap<String,String> tester = new HashMap<>();
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        RegexTester regexTester = new RegexTester();
+        if(!regexTester.toTest(tester)){
+            return "area-utente/modifica-dati-biblioteca";
+        }
+
+
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
                 MessageDigest md;
@@ -154,6 +167,18 @@ public class AreaUtenteController {
 
         Biblioteca b = autenticazioneService
                 .findBibliotecaByEmail(emailBiblioteca);
+
+        HashMap<String,String> tester = new HashMap<>();
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        RegexTester regexTester = new RegexTester();
+        if(!regexTester.toTest(tester)){
+            return "area-utente/modifica-dati-esperto";
+        }
+
 
         if (b != null) {
             esperto.setBiblioteca(b);
@@ -216,6 +241,18 @@ public class AreaUtenteController {
         Lettore toUpdate = autenticazioneService
                 .findLettoreByEmail(lettore.getEmail());
 
+        HashMap<String,String> tester = new HashMap<>();
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        RegexTester regexTester = new RegexTester();
+
+        if(!regexTester.toTest(tester)){
+            return "area-utente/modifica-dati-lettore";
+        }
+
         if (!vecchia.isEmpty() && !nuova.isEmpty() && !conferma.isEmpty()) {
             try {
                 MessageDigest md;
@@ -244,7 +281,7 @@ public class AreaUtenteController {
     }
 
     /**
-     * Implementa la funzionalitá di visualizzazione area utente
+     * Implementa la funzionalità di visualizzazione area utente
      * in base al tipo.
      *
      * @param model Utilizzato per gestire la sessione.
