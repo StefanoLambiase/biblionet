@@ -413,7 +413,7 @@ public class ClubDelLibroControllerTest {
         generi.add(genre.toString());
         generi.add(genre1.toString());
         when(clubService.getGeneri(Optional.of(generi).get())).thenReturn(list_club_genre);
-        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+        this.mockMvc.perform(get("/club-del-libro/")
                 .param("generi", String.valueOf(generi)))
                 .andExpect(model().attributeExists("listaClubs"))
                 .andExpect(model().attribute("generi", clubService.getTuttiGeneri()))
@@ -440,7 +440,7 @@ public class ClubDelLibroControllerTest {
         città.add("Salerno");
         list.add(club);
         when(clubService.getCittaFromClubDelLibro(club)).thenReturn(String.valueOf(list));
-        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
+        this.mockMvc.perform(get("/club-del-libro/")
                 .param("città", String.valueOf(città)))
                 .andExpect(model().attributeExists("listaClubs"))
                 .andExpect(model().attribute("citta", clubService.getCitta()))
