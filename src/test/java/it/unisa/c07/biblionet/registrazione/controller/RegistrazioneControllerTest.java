@@ -4,20 +4,24 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
+import it.unisa.c07.biblionet.utils.validazione.RegexTester;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import java.util.stream.Stream;
 
-import static org.mockito.Mockito.when;
+import java.util.HashMap;
+import java.util.stream.Stream;
 
 /**
  * @author Alessio Casolaro, Antonio Della Porta
@@ -40,6 +44,8 @@ public final class RegistrazioneControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Mock
+    RegexTester regexTester;
 
     /**
      * Metodo che testa la funzionalità gestita dal
@@ -75,6 +81,15 @@ public final class RegistrazioneControllerTest {
                 thenReturn(biblioteca);
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(true);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -127,6 +142,15 @@ public final class RegistrazioneControllerTest {
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(true);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
                 .param("nome", esperto.getNome())
@@ -141,6 +165,7 @@ public final class RegistrazioneControllerTest {
                 .param("email_biblioteca", emailBiblioteca))
                 .andExpect(view().name("registrazione/registrazione_esperto"));
     }
+
 
     /**
      * Metodo che testa la funzionalità gestita dal
@@ -178,6 +203,16 @@ public final class RegistrazioneControllerTest {
                 thenReturn(null);
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(true);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -230,6 +265,15 @@ public final class RegistrazioneControllerTest {
                 .thenReturn(biblioteca);
         when(registrazioneService.isEmailRegistrata(esperto.getEmail()))
                 .thenReturn(true);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/esperto")
                 .param("email", esperto.getEmail())
@@ -293,6 +337,14 @@ public final class RegistrazioneControllerTest {
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(false);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
@@ -328,6 +380,14 @@ public final class RegistrazioneControllerTest {
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(false);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
                 .param("nomeBiblioteca", biblioteca.getNomeBiblioteca())
@@ -361,6 +421,14 @@ public final class RegistrazioneControllerTest {
                 .thenReturn(biblioteca);
         when(registrazioneService.isEmailRegistrata(biblioteca.getEmail()))
                 .thenReturn(true);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(biblioteca.getNomeBiblioteca(),"^[A-zÀ-ù ‘-]{2,60}$");
+        tester.put(biblioteca.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/biblioteca")
                 .param("email", biblioteca.getEmail())
@@ -421,6 +489,15 @@ public final class RegistrazioneControllerTest {
         when(registrazioneService.isEmailRegistrata(lettore.getEmail()))
                 .thenReturn(false);
 
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
+
         this.mockMvc.perform(post("/registrazione/lettore")
                 .param("email", lettore.getEmail())
                 .param("username", lettore.getUsername())
@@ -456,6 +533,15 @@ public final class RegistrazioneControllerTest {
                 .thenReturn(lettore);
         when(registrazioneService.isEmailRegistrata("a"))
                 .thenReturn(true);
+
+        HashMap<String,String> tester = new HashMap<>();
+
+        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
+
+        when(regexTester.toTest(tester)).thenReturn(true);
 
         this.mockMvc.perform(post("/registrazione/lettore")
                 .param("email", "a")
