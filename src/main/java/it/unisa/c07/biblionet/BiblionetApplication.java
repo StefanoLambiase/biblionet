@@ -45,6 +45,8 @@ public class BiblionetApplication {
 
     private static BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
 
+    private static LibroDAO libroDAO = null;
+
     public static Libro getLibroFromAPI(String isbn, Genere... generi) {
         Libro libro = bookApiAdapter.getLibroDaBookApi(isbn);
         if (libro == null) {
@@ -53,7 +55,7 @@ public class BiblionetApplication {
         }
         libro.setGeneri(Arrays.asList(generi));
 
-        return libro;
+        return libroDAO.save(libro);
     }
 
     public static void init(ApplicationContext configurableApplicationContext) {
@@ -66,7 +68,7 @@ public class BiblionetApplication {
         ClubDelLibroDAO clubDelLibroDAO = configurableApplicationContext.getBean(ClubDelLibroDAO.class);
         EventoDAO eventoDAO = configurableApplicationContext.getBean(EventoDAO.class);
         GenereDAO genereDAO = configurableApplicationContext.getBean(GenereDAO.class);
-        LibroDAO libroDAO = configurableApplicationContext.getBean(LibroDAO.class);
+        libroDAO = configurableApplicationContext.getBean(LibroDAO.class);
         PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
 
@@ -1141,48 +1143,6 @@ public class BiblionetApplication {
                fantasy
         );        
                     
-        libroDAO.save(libro);
-        libroDAO.save(libro1);
-        libroDAO.save(libro2);
-        libroDAO.save(libro3);
-        libroDAO.save(libro4);
-        libroDAO.save(libro5);
-        libroDAO.save(libro6);
-        libroDAO.save(libro7);
-        libroDAO.save(libro8);
-        libroDAO.save(libro9);
-        libroDAO.save(libro10);
-        libroDAO.save(libro11);
-        libroDAO.save(libro12);
-        libroDAO.save(libro13);
-        libroDAO.save(libro14);
-        libroDAO.save(libro15);
-        libroDAO.save(libro16);
-        libroDAO.save(libro17);
-        libroDAO.save(libro18);
-        libroDAO.save(libro19);
-        libroDAO.save(libro20);
-        libroDAO.save(libro21);
-        libroDAO.save(libro22);
-        libroDAO.save(libro23);
-        libroDAO.save(libro24);
-        libroDAO.save(libro25);
-        libroDAO.save(libro26);
-        libroDAO.save(libro27);
-        libroDAO.save(libro28);
-        libroDAO.save(libro29);
-        libroDAO.save(libro30);
-        libroDAO.save(libro31);
-        libroDAO.save(libro32);
-        libroDAO.save(libro33);
-        libroDAO.save(libro34);
-        libroDAO.save(libro35);
-        libroDAO.save(libro36);
-        libroDAO.save(libro37);
-        libroDAO.save(libro38);
-        libroDAO.save(libro39);
-        libroDAO.save(libro40);
-
         out.info("*************************** Libri creati 5/9 ***************************");
 
 //----------------------Definizione ed inserimento possessi-------------------------------------------------------------
