@@ -40,6 +40,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -402,6 +403,7 @@ public class ClubDelLibroControllerTest {
                 .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
     }
 
+        /***************************** Tests for visualizzaListaClubs *******************************/
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -410,24 +412,36 @@ public class ClubDelLibroControllerTest {
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
-    /*
+
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void visualizzaListaClubsFilterGenre(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
         list.add(club);
+        List<Genere> list_club_genre = new ArrayList<>();
+        Genere genre= new Genere();
+        Genere genre1 = new Genere();
+        genre.setNome("Fantasy");
+        genre1.setNome("Horror");
+        genre.setClubs(list);
+        genre1.setClubs(list);
+        list_club_genre.add(genre);
+        list_club_genre.add(genre1);
+        club.setGeneri(list_club_genre);
         List<String> generi = new ArrayList<>();
-        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
-        when(clubService.getGeneri(generi)).thenReturn(club.getGeneri());
+        generi.add(genre.toString());
+        generi.add(genre1.toString());
+        when(clubService.getGeneri(Optional.of(generi).get())).thenReturn(list_club_genre);
         this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
-                .param("generi", String.valueOf(generi))
-                .param("città", "")
-                .param("ordine", ""))
+                .param("generi", String.valueOf(generi)))
                 .andExpect(model().attributeExists("listaClubs"))
+                .andExpect(model().attribute("generi", clubService.getTuttiGeneri()))
+                .andExpect(model().attribute("citta", this.clubService.getCitta()))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
+
     }
 
-     */
+
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -482,7 +496,7 @@ public class ClubDelLibroControllerTest {
     }
 
      */
-
+/******************************************** Tests for partecipaEvento *******************************/
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -514,6 +528,8 @@ public class ClubDelLibroControllerTest {
                 .sessionAttr("loggedUser", u))
                 .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
     }
+
+    /**************************************** Tests for abbandonaEvento ***************************/
 
     /**
      * Implementa il test della funzionalità gestita dal
