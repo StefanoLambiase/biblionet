@@ -222,28 +222,7 @@ public class ClubDelLibroControllerTest {
             }
 
 
-    /**
-     * ! Da riscrivere completamente
-     *
-     * @param club Un club per la simulazione
-     * @throws Exception Eccezione per MovkMvc
-     */
-    /*
-    @ParameterizedTest
-    @MethodSource("provideClubDelLibro")
-    public void visualizzaListaClubs(final ClubDelLibro club) throws Exception {
-        List<ClubDelLibro> listClubs = new ArrayList<>();
-        listClubs.add(club);
-        Predicate<ClubDelLibro> filtrogenere= x -> true;
-        Predicate<ClubDelLibro> fitrocitta = x -> true;
-        when(clubService.visualizzaClubsDelLibro(fitrocitta.and(filtrogenere))).thenReturn(listClubs);
-        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
-                .param("generi", String.valueOf(filtrogenere))
-                .param("città", String.valueOf(fitrocitta)))
-                .andExpect(model().attributeExists("listaClubs"))
-                .andExpect(view().name("club-del-libro/visualizza-clubs"));
-    }
-     */
+   /********************************** Tests fot visualizzaModificaDatiClub **********************************/
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -288,7 +267,7 @@ public class ClubDelLibroControllerTest {
                 .andExpect(view().name("club-del-libro/modifica-club"));
     }
 
-
+        /******************************************* Tests for partecipaClub ***************************/
     /**
      * Implementa il test della funzionalità gestita dal
      * controller per l'iscrizione di un lettore ad un club
@@ -312,6 +291,8 @@ public class ClubDelLibroControllerTest {
                 .sessionAttr("loggedUser", utente))
             .andExpect(view().name("redirect:/club-del-libro/"));
     }
+
+    /************************************** Tests for visualizzaCreaEvento ****************************/
 
     /**
      * Implementa il test della funzionalità gestita dal
@@ -367,7 +348,7 @@ public class ClubDelLibroControllerTest {
     }
 
      */
-
+ /******************************* Tests for visualizzaDatiClub ******************************/
     /**
      * Implementa il test della funzionalità gestita dal
      * controller per la visualizzazione dei dati di un club
@@ -385,7 +366,7 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attribute("club", club))
                 .andExpect(view().name("club-del-libro/visualizza-singolo-club"));
     }
-
+/*************************************+ Tests for elimnaEvento *********************************/
     @Test
     public void eliminaEvento() throws Exception {
         when(
@@ -450,52 +431,24 @@ public class ClubDelLibroControllerTest {
      * @param club Un club per la simulazione
      * @throws Exception Eccezione per MovkMvc
      */
-    /*
+
     @ParameterizedTest
     @MethodSource("provideClubDelLibro")
     public void visualizzaListaClubsFilterCity(final ClubDelLibro club) throws  Exception {
         List<ClubDelLibro> list = new ArrayList<>();
         List<String> città = new ArrayList<>();
-        città.add("Scampia");
+        città.add("Salerno");
         list.add(club);
-        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
+        when(clubService.getCittaFromClubDelLibro(club)).thenReturn(String.valueOf(list));
         this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
-                .param("generi", "")
-                .param("città", String.valueOf(città))
-                .param("ordine", ""))
+                .param("città", String.valueOf(città)))
                 .andExpect(model().attributeExists("listaClubs"))
+                .andExpect(model().attribute("citta", clubService.getCitta()))
                 .andExpect(view().name("club-del-libro/visualizza-clubs"));
     }
 
-     */
 
 
-    /**
-     * Implementa il test della funzionalità gestita dal
-     * controller per la visualizzazione di tutti i club
-     *  presenti, simulando la richiesta http.
-     * @param club Un club per la simulazione
-     * @throws Exception Eccezione per MovkMvc
-     */
-    /*
-    @ParameterizedTest
-    @MethodSource("provideClubDelLibro")
-    public void visualizzaListaClubsFilterSort(final ClubDelLibro club) throws  Exception {
-        List<ClubDelLibro> list = new ArrayList<>();
-        List<String> città = new ArrayList<>();
-        città.add("Scampia");
-        list.add(club);
-        when(clubService.visualizzaClubsDelLibro()).thenReturn(list);
-        this.mockMvc.perform(get("/club-del-libro/visualizza-clubs")
-                .param("generi", String.valueOf(club.getGeneri()))
-                .param("città", String.valueOf(città))
-                .param("ordine", "alfabetico"))
-                .andExpect(model().attributeExists("listaClubs"))
-                .andExpect(model().attribute("ordinamento", "alfabetico"))
-                .andExpect(view().name("club-del-libro/visualizza-clubs"));
-    }
-
-     */
 /******************************************** Tests for partecipaEvento *******************************/
 
     /**
