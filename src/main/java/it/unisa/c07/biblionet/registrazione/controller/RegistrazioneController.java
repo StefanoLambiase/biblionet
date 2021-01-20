@@ -80,14 +80,14 @@ public final class RegistrazioneController {
             return "registrazione/registrazione_esperto";
         }
 
-        HashMap<String,String> tester = new HashMap<>();
-        tester.put(esperto.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
-        tester.put(esperto.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
-        tester.put(esperto.getRecapitoTelefonico(),"^\\d{10}$");
+        HashMap<String, String> tester = new HashMap<>();
+        tester.put(esperto.getNome(), "^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getCognome(), "^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(esperto.getRecapitoTelefonico(), "^\\d{10}$");
         tester.put(esperto.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
 
         RegexTester regexTester = new RegexTester();
-        if(!regexTester.toTest(tester)){
+        if (!regexTester.toTest(tester)) {
             return "registrazione/registrazione_esperto";
         }
 
@@ -138,14 +138,14 @@ public final class RegistrazioneController {
         }
 
 
-        HashMap<String,String> tester = new HashMap<>();
+        HashMap<String, String> tester = new HashMap<>();
         tester.put(biblioteca.getNomeBiblioteca(), "^[A-zÀ-ù ‘-]{2,60}$");
         tester.put(biblioteca.getRecapitoTelefonico(), "^\\d{10}$");
         tester.put(biblioteca.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
 
         RegexTester regexTester = new RegexTester();
 
-        if(!regexTester.toTest(tester)){
+        if (!regexTester.toTest(tester)) {
             return "registrazione/registrazione_biblioteca";
         }
         try {
@@ -187,15 +187,15 @@ public final class RegistrazioneController {
             return "registrazione/registrazione_lettore";
         }
 
-        HashMap<String,String> tester = new HashMap<>();
-        tester.put(lettore.getNome(),"^[A-zÀ-ù ‘-]{2,30}$");
-        tester.put(lettore.getCognome() ,"^[A-zÀ-ù ‘-]{2,30}$");
-        tester.put(lettore.getRecapitoTelefonico(),"^\\d{10}$");
+        HashMap<String, String> tester = new HashMap<>();
+        tester.put(lettore.getNome(), "^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getCognome(), "^[A-zÀ-ù ‘-]{2,30}$");
+        tester.put(lettore.getRecapitoTelefonico(), "^\\d{10}$");
         tester.put(lettore.getVia(), "^[0-9A-zÀ-ù ‘-]{2,30}$");
 
         RegexTester regexTester = new RegexTester();
 
-        if(!regexTester.toTest(tester)){
+        if (!regexTester.toTest(tester)) {
             return "registrazione/registrazione_lettore";
         }
         try {
