@@ -366,7 +366,7 @@ public class ClubDelLibroControllerTest {
                 .andExpect(model().attribute("club", club))
                 .andExpect(view().name("club-del-libro/visualizza-singolo-club"));
     }
-/*************************************+ Tests for elimnaEvento *********************************/
+/*************************************+ Tests for eliminaEvento *********************************/
     @Test
     public void eliminaEvento() throws Exception {
         when(
@@ -514,6 +514,44 @@ public class ClubDelLibroControllerTest {
                 .sessionAttr("loggedUser", u))
                 .andExpect(view().name("redirect:/club-del-libro/1/eventi"));
     }
+
+
+
+    /********************** Tests for modificaDatiClub ******************/
+
+      /*      @ParameterizedTest
+            @MethodSource("provideClubDelLibro")
+            public void modificaDatiClubTest(final ClubDelLibro club) throws Exception {
+                                 ClubForm clubForm= new ClubForm();
+                                 List<ClubDelLibro>list = new ArrayList<>();
+                                 List<Genere> list_genre= new ArrayList<>();
+                                 list.add(club);
+                                 club.setDescrizione("Descizione");
+                                 club.setNome("Club 1");
+                                 clubForm.setDescrizione(club.getDescrizione());
+                                 clubForm.setNome(club.getNome());
+                MockMultipartFile copertina =
+                        new MockMultipartFile("copertina",
+                                "filename.png",
+                                "image/png",
+                                "immagine di copertina".getBytes());
+                        clubForm.setCopertina(copertina);
+                        Genere genere = new Genere();
+                        List<String> generi = new ArrayList<>();
+                        genere.setNome("Gialli");
+                        generi.add(genere.toString());
+                        list_genre.add(genere);
+                        genere.setClubs(list);
+                        club.setGeneri(list_genre);
+                        clubForm.setGeneri(generi);
+                        when(clubService.getClubByID(1)).thenReturn(club);
+                        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/club-del-libro/1/modifica")
+                                .file(copertina)
+                                .param("id", "1"))
+                                .andExpect(view().name("redirect:/club-del-libro"));
+
+
+            }*/
 
     /**
      * Simula i dati inviati da un metodo
@@ -886,6 +924,16 @@ public class ClubDelLibroControllerTest {
                         .sessionAttr("loggedUser", esperto))
                                 .andExpect(status().isUnauthorized())
                                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResponseStatusException));
+
+        }
+
+        @Test
+    public void creaClubDelLibroException() throws Exception{
+                        Lettore lettore = new Lettore();
+                        this.mockMvc.perform(MockMvcRequestBuilders.post("/club-del-libro/crea")
+                        .sessionAttr("loggedUser", lettore))
+                                .andExpect(status().isUnauthorized())
+                                .andExpect(result -> assertTrue( result.getResolvedException() instanceof ResponseStatusException));
 
         }
 
