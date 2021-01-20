@@ -106,8 +106,14 @@ public final class RegistrazioneController {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
+
             if (Arrays.compare(arr, esperto.getPassword()) != 0) {
+
                 System.out.println("Questa password non va bene");
+                return "registrazione/registrazione_esperto";
+
+            } else if (password.length() <= 7) {
+
                 return "registrazione/registrazione_esperto";
             }
         } catch (NoSuchAlgorithmException e) {
@@ -152,8 +158,13 @@ public final class RegistrazioneController {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
+
             if (Arrays.compare(arr, biblioteca.getPassword()) != 0) {
+
                 System.out.println("Questa password non va bene");
+                return "registrazione/registrazione_biblioteca";
+
+            } else if (password.length() <= 7) {
                 return "registrazione/registrazione_biblioteca";
             }
         } catch (NoSuchAlgorithmException e) {
@@ -202,8 +213,14 @@ public final class RegistrazioneController {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-256");
             byte[] arr = md.digest(password.getBytes());
+
             if (Arrays.compare(arr, lettore.getPassword()) != 0) {
+
                 System.out.println("Questa password non va bene");
+                return "registrazione/registrazione_lettore";
+
+            } else if (password.length() <= 7) {
+
                 return "registrazione/registrazione_lettore";
             }
         } catch (NoSuchAlgorithmException e) {

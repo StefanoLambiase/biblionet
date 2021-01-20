@@ -114,6 +114,10 @@ public class AreaUtenteController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
+                if (nuova.length() <= 7) {
+                    return "area-utente/modifica-dati-biblioteca";
+                }
+
                 if (Arrays.compare(vecchiaHash,
                         toUpdate.getPassword()) == 0
                         &&
@@ -193,6 +197,10 @@ public class AreaUtenteController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
+                if (nuova.length() <= 7) {
+                    return "area-utente/modifica-dati-esperto";
+                }
+
                 if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0
                         && nuova.equals(conferma)
                 ) {
@@ -259,6 +267,9 @@ public class AreaUtenteController {
                 md = MessageDigest.getInstance("SHA-256");
                 byte[] vecchiaHash = md.digest(vecchia.getBytes());
 
+                if (nuova.length() <= 7) {
+                    return "area-utente/modifica-dati-lettore";
+                }
                 if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0
                         && nuova.equals(conferma)
                 ) {
