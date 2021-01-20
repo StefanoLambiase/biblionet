@@ -21,6 +21,8 @@ import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+
+import org.springframework.context.ApplicationContext;
 import org.apache.commons.io.FileUtils;
 import org.jboss.logging.Logger;
 import org.springframework.boot.SpringApplication;
@@ -30,8 +32,10 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * Questa è la main class del progetto, che fa partire l'applicazione e popola
@@ -40,10 +44,7 @@ import java.util.Base64;
 @SpringBootApplication
 public class BiblionetApplication {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        ConfigurableApplicationContext configurableApplicationContext =
-                SpringApplication.run(BiblionetApplication.class, args);
-
+    public static void init(ApplicationContext configurableApplicationContext) {
         BookApiAdapter bookApiAdapter = new GoogleBookApiAdapterImpl();
         bookApiAdapter.getLibroDaBookApi("978-88-238-2264-1");
 
@@ -818,106 +819,210 @@ public class BiblionetApplication {
 
         out.info("*************************** Caricamento libro 1/41 ***************************");
         Libro libro = bookApiAdapter.getLibroDaBookApi("9781781101582");
+        if (libro == null) {
+            libro = new Libro("Not Found", "Autore","ISBN",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro.setGeneri(Arrays.asList(fantasy, ragazzi, romanzo));
 
         out.info("*************************** Caricamento libro 2/41 ***************************");
         Libro libro1 = bookApiAdapter.getLibroDaBookApi("9781781102121");
+        if (libro1 == null) {
+            libro1 = new Libro("Not Found", "Autore","ISBN1",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro1.setGeneri(Arrays.asList(fantasy, ragazzi, romanzo));
 
         out.info("*************************** Caricamento libro 3/41 ***************************");
         Libro libro2 = bookApiAdapter.getLibroDaBookApi("9788804616351");
+        if (libro2 == null) {
+            libro2 = new Libro("Not Found", "Autore","ISBN2",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro2.setGeneri(Arrays.asList(fantasy, avventura, azione));
 
         out.info("*************************** Caricamento libro 4/41 ***************************");
         Libro libro3 = bookApiAdapter.getLibroDaBookApi("9780141439570");
+        if (libro3 == null) {
+            libro3 = new Libro("Not Found", "Autore","ISBN3",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro3.setGeneri(Arrays.asList(narrativa, gotico));
 
         out.info("*************************** Caricamento libro 5/41 ***************************");
         Libro libro4 = bookApiAdapter.getLibroDaBookApi("9780141034591");
+        if (libro4 == null) {
+            libro4 = new Libro("Not Found", "Autore","ISBN4",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro4.setGeneri(Arrays.asList(saggio));
 
         out.info("*************************** Caricamento libro 6/41 ***************************");
         Libro libro5 = bookApiAdapter.getLibroDaBookApi("9788838473463");
+        if (libro5 == null) {
+            libro5 = new Libro("Not Found", "Autore","ISBN5",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro5.setGeneri(Arrays.asList(horror, thriller));
 
         out.info("*************************** Caricamento libro 7/41 ***************************");
         Libro libro6 = bookApiAdapter.getLibroDaBookApi("9780198321668");
+        if (libro6 == null) {
+            libro6 = new Libro("Not Found", "Autore","ISBN6",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro6.setGeneri(Arrays.asList(romantico));
 
         out.info("*************************** Caricamento libro 8/41 ***************************");
         Libro libro7 = bookApiAdapter.getLibroDaBookApi("9788845295300");
+        if (libro7 == null) {
+            libro7 = new Libro("Not Found", "Autore","ISBN7",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro7.setGeneri(Arrays.asList(ragazzi, fiabefavole));
 
         out.info("*************************** Caricamento libro 9/41 ***************************");
         Libro libro8 = bookApiAdapter.getLibroDaBookApi("9788852049774");
+        if (libro8 == null) {
+            libro8 = new Libro("Not Found", "Autore","ISBN8",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro8.setGeneri(Arrays.asList(giallo, thriller, romanzo));
 
         out.info("*************************** Caricamento libro 10/41 ***************************");
         Libro libro9 = bookApiAdapter.getLibroDaBookApi("9788854122789");
+        if (libro9 == null) {
+            libro9 = new Libro("Not Found", "Autore","ISBN9",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro9.setGeneri(Arrays.asList(narrativa));
 
         out.info("*************************** Caricamento libro 11/41 ***************************");
         Libro libro10 = bookApiAdapter.getLibroDaBookApi("9788852028489");
+        if (libro10 == null) {
+            libro10 = new Libro("Not Found", "Autore","ISBN10",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro10.setGeneri(Arrays.asList(narrativa, storico));
 
         out.info("*************************** Caricamento libro 12/41 ***************************");
         Libro libro11 = bookApiAdapter.getLibroDaBookApi("9788860816412");
+        if (libro11 == null) {
+            libro11 = new Libro("Not Found", "Autore","ISBN11",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro11.setGeneri(Arrays.asList(psicologico));
 
         out.info("*************************** Caricamento libro 13/41 ***************************");
         Libro libro12 = bookApiAdapter.getLibroDaBookApi("9788854133587");
+        if (libro12 == null) {
+            libro12 = new Libro("Not Found", "Autore","ISBN12",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro12.setGeneri(Arrays.asList(romanzo, giallo, storico));
 
         out.info("*************************** Caricamento libro 14/41 ***************************");
         Libro libro13 = bookApiAdapter.getLibroDaBookApi("9781633397354");
+        if (libro13 == null) {
+            libro13 = new Libro("Not Found", "Autore","ISBN13",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro13.setGeneri(Arrays.asList(tecnologia, scientifico));
 
         out.info("*************************** Caricamento libro 15/41 ***************************");
         Libro libro14 = bookApiAdapter.getLibroDaBookApi("9788841869741");
+        if (libro14 == null) {
+            libro14 = new Libro("Not Found", "Autore","ISBN14",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro14.setGeneri(Arrays.asList(narrativa, ragazzi));
 
         out.info("*************************** Caricamento libro 16/41 ***************************");
         Libro libro15 = bookApiAdapter.getLibroDaBookApi("9788864113036");
+        if (libro15 == null) {
+            libro15 = new Libro("Not Found", "Autore","ISBN15",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro15.setGeneri(Arrays.asList(fantasy, romantico));
 
         out.info("*************************** Caricamento libro 17/41 ***************************");
         Libro libro16 = bookApiAdapter.getLibroDaBookApi("9788852021558");
+        if (libro16 == null) {
+            libro16 = new Libro("Not Found", "Autore","ISBN16",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro16.setGeneri(Arrays.asList(distopia, fantascienza));
 
         out.info("*************************** Caricamento libro 18/41 ***************************");
         Libro libro17 = bookApiAdapter.getLibroDaBookApi("9788851161439");
+        if (libro17 == null) {
+            libro17 = new Libro("Not Found", "Autore","ISBN17",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro17.setGeneri(Arrays.asList(ragazzi, fiabefavole));
 
         out.info("*************************** Caricamento libro 19/41 ***************************");
         Libro libro18 = bookApiAdapter.getLibroDaBookApi("9788866327769");
+        if (libro18 == null) {
+            libro18 = new Libro("Not Found", "Autore","ISBN18",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro18.setGeneri(Arrays.asList(giallo, thriller));
 
         out.info("*************************** Caricamento libro 20/41 ***************************");
         Libro libro19 = bookApiAdapter.getLibroDaBookApi("9788830455320");
+        if (libro19 == null) {
+            libro19 = new Libro("Not Found", "Autore","ISBN19",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro19.setGeneri(Arrays.asList(giallo, noir));
 
         out.info("*************************** Caricamento libro 21/41 ***************************");
         Libro libro20 = bookApiAdapter.getLibroDaBookApi("9788854513006");
+        if (libro20 == null) {
+            libro20 = new Libro("Not Found", "Autore","ISBN20",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro20.setGeneri(Arrays.asList(biografico, storico));
 
         out.info("*************************** Caricamento libro 22/41 ***************************");
         Libro libro21 = bookApiAdapter.getLibroDaBookApi("9788858420430");
+        if (libro21 == null) {
+            libro21 = new Libro("Not Found", "Autore","ISBN21",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro21.setGeneri(Arrays.asList(biografico, storico));
 
         out.info("*************************** Caricamento libro 23/41 ***************************");
         Libro libro22 = bookApiAdapter.getLibroDaBookApi("9788858420423");
+        if (libro22 == null) {
+            libro22 = new Libro("Not Found", "Autore","ISBN22",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro22.setGeneri(Arrays.asList(biografico, storico));
 
         out.info("*************************** Caricamento libro 24/41 ***************************");
         Libro libro23 = bookApiAdapter.getLibroDaBookApi("9788841878217");
+        if (libro23 == null) {
+            libro23 = new Libro("Not Found", "Autore","ISBN23",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro23.setGeneri(Arrays.asList(distopia, fantascienza));
 
         out.info("*************************** Caricamento libro 25/41 ***************************");
         Libro libro24 = bookApiAdapter.getLibroDaBookApi("9788854158245");
+        if (libro24 == null) {
+            libro24 = new Libro("Not Found", "Autore","ISBN24",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro24.setGeneri(Arrays.asList(romantico, fantasy));
 
         out.info("*************************** Caricamento libro 26/41 ***************************");
         Libro libro25 = bookApiAdapter.getLibroDaBookApi("9788858672198");
+        if (libro25 == null) {
+            libro25 = new Libro("Not Found", "Autore","ISBN25",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro25.setGeneri(Arrays.asList(comico));
 
         out.info("*************************** Caricamento libro 27/41 ***************************");
@@ -926,58 +1031,114 @@ public class BiblionetApplication {
 
         out.info("*************************** Caricamento libro 28/41 ***************************");
         Libro libro27 = bookApiAdapter.getLibroDaBookApi("9788865188071");
+        if (libro27 == null) {
+            libro27 = new Libro("Not Found", "Autore","ISBN27",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro27.setGeneri(Arrays.asList(scientifico, tecnologia));
 
         out.info("*************************** Caricamento libro 29/41 ***************************");
         Libro libro28 = bookApiAdapter.getLibroDaBookApi("9788820096533");
+        if (libro28 == null) {
+            libro28 = new Libro("Not Found", "Autore","ISBN28",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro28.setGeneri(Arrays.asList(saggio, scientifico));
 
         out.info("*************************** Caricamento libro 30/41 ***************************");
         Libro libro29 = bookApiAdapter.getLibroDaBookApi("9788852022562");
+        if (libro29 == null) {
+            libro29 = new Libro("Not Found", "Autore","ISBN29",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro29.setGeneri(Arrays.asList(tecnologia, fantascienza, narrativa));
 
         out.info("*************************** Caricamento libro 31/41 ***************************");
         Libro libro30 = bookApiAdapter.getLibroDaBookApi("9788852022586");
+        if (libro30 == null) {
+            libro30 = new Libro("Not Found", "Autore","ISBN30",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro30.setGeneri(Arrays.asList(fantasy, romanzo, fantascienza));
 
         out.info("*************************** Caricamento libro 32/41 ***************************");
         Libro libro31 = bookApiAdapter.getLibroDaBookApi("9788868958855");
+        if (libro31 == null) {
+            libro31 = new Libro("Not Found", "Autore","ISBN31",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro31.setGeneri(Arrays.asList(tecnologia));
 
         out.info("*************************** Caricamento libro 33/41 ***************************");
         Libro libro32 = bookApiAdapter.getLibroDaBookApi("9788862316019");
+        if (libro32 == null) {
+            libro32 = new Libro("Not Found", "Autore","ISBN32",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro32.setGeneri(Arrays.asList(biografico));
 
         out.info("*************************** Caricamento libro 34/41 ***************************");
         Libro libro33 = bookApiAdapter.getLibroDaBookApi("9788852011610");
+        if (libro33 == null) {
+            libro33 = new Libro("Not Found", "Autore","ISBN33",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro33.setGeneri(Arrays.asList(fantasy, romanzo, ragazzi));
 
         out.info("*************************** Caricamento libro 35/41 ***************************");
         Libro libro34 = bookApiAdapter.getLibroDaBookApi("9788868656188");
+        if (libro34 == null) {
+            libro34 = new Libro("Not Found", "Autore","ISBN34",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro34.setGeneri(Arrays.asList(romanzo, romantico));
 
         out.info("*************************** Caricamento libro 36/41 ***************************");
         Libro libro35 = bookApiAdapter.getLibroDaBookApi("9788854143982");
+        if (libro35 == null) {
+            libro35 = new Libro("Not Found", "Autore","ISBN35",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro35.setGeneri(Arrays.asList(avventura));
 
         out.info("*************************** Caricamento libro 37/41 ***************************");
         Libro libro36 = bookApiAdapter.getLibroDaBookApi("9788842922650");
+        if (libro36 == null) {
+            libro36 = new Libro("Not Found", "Autore","ISBN36",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro36.setGeneri(Arrays.asList(avventura, azione, fantasy));
 
         out.info("*************************** Caricamento libro 38/41 ***************************");
-        Libro libro37 = bookApiAdapter.getLibroDaBookApi("9781633398863");
+        Libro libro37 = bookApiAdapter.getLibroDaBookApi("9788871921501");
+        if (libro37 == null) {
+            libro37 = new Libro("Not Found", "Autore","ISBN37",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro37.setGeneri(Arrays.asList(tecnologia));
 
         out.info("*************************** Caricamento libro 39/41 ***************************");
         Libro libro38 = bookApiAdapter.getLibroDaBookApi("9788809906440");
+        if (libro38 == null) {
+            libro38 = new Libro("Not Found", "Autore","ISBN38",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro38.setGeneri(Arrays.asList(giallo, thriller));
 
         out.info("*************************** Caricamento libro 40/41 ***************************");
         Libro libro39 = bookApiAdapter.getLibroDaBookApi("9781326891220");
+        if (libro39 == null) {
+            libro39 = new Libro("Not Found", "Autore","ISBN39",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro39.setGeneri(Arrays.asList(storico, biografico));
 
         out.info("*************************** Caricamento libro 41/41 ***************************");
         Libro libro40 = bookApiAdapter.getLibroDaBookApi("9788893128933");
+        if (libro40 == null) {
+            libro40 = new Libro("Not Found", "Autore","ISBN40",
+                    LocalDateTime.now(), "Descrizione", "Casa Editrice");
+        }
         libro40.setGeneri(Arrays.asList(romanzo, fantasy));
 
         libroDAO.save(libro);
@@ -2319,7 +2480,13 @@ public class BiblionetApplication {
 
         out.info("*************************** INIZIALIZZAZIONE DI BIBLIONET TERMINATA ***************************");
 
+    }
 
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        ConfigurableApplicationContext configurableApplicationContext =
+                SpringApplication.run(BiblionetApplication.class, args);
+
+        init(configurableApplicationContext);
     }
 
     public static String getCopertinaClubFromUrl(String filePath) {
