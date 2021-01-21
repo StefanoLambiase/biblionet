@@ -22,6 +22,9 @@ import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+/**
+ * @author Antonio Della Porta
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BiblionetApplication.class)
 @AutoConfigureMockMvc
@@ -41,6 +44,14 @@ public class AreaUtenteControllerIntegrationTest {
         BiblionetApplication.init(applicationContext);
     }
 
+    /**
+     *
+     * @param lettore
+     * @param vecchiaPassword
+     * @param nuovaPassword
+     * @param confermaPassword
+     * @throws Exception
+     */
     @ParameterizedTest
     @MethodSource("provideModificaLettore")
     public void modificaDatiRegexTestIntegration(
