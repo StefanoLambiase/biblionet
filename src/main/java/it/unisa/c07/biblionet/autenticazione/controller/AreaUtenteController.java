@@ -285,7 +285,7 @@ public class AreaUtenteController {
             lettore.setHashedPassword(toUpdate.getPassword());
         }
 
-        System.out.println(lettore.getEmail());
+        System.out.println(lettore.getRecapitoTelefonico());
         autenticazioneService.aggiornaLettore(lettore);
         model.addAttribute("loggedUser", lettore);
         return "autenticazione/login";
