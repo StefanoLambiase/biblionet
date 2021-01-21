@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClubDelLibroServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.clubDelLibro.service</a> &gt; <span class="el_source">ClubDelLibroServiceImpl.java</span></div><h1>ClubDelLibroServiceImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.clubDelLibro.service;
+
+import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+/**
+ * Implementa la classe che esplicita i metodi
+ * definiti nell'interfaccia service per il
+ * sottosustema ClubDelLibro.
+ * @author Viviana Pentangelo, Gianmario Voria
+ */
+@Service
+<span class="fc" id="L28">@RequiredArgsConstructor</span>
+public class ClubDelLibroServiceImpl implements ClubDelLibroService {
+
+    /**
+     * Si occupa delle operazioni CRUD per un club.
+     */
+    private final ClubDelLibroDAO clubDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per un genere.
+     */
+    private final GenereDAO genereDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per un lettore.
+     */
+    private final LettoreDAO lettoreDAO;
+
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Esperto di creare un Club del Libro.
+     * @param club Il Club del Libro da memorizzare
+     * @return Il Club del Libro appena creato
+     */
+    @Override
+    public ClubDelLibro creaClubDelLibro(final ClubDelLibro club) {
+<span class="fc" id="L55">        return clubDAO.save(club);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare tutti i club del libro.
+     * @return La lista dei club
+     */
+    @Override
+    public List&lt;ClubDelLibro&gt; visualizzaClubsDelLibro() {
+<span class="fc" id="L65">        return this.visualizzaClubsDelLibro(x -&gt; true);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di filtrare tutti i club del libro.
+     * @param filtro Un predicato che descrive come filtrare i Club
+     * @return La lista dei club
+     */
+    public List&lt;ClubDelLibro&gt; visualizzaClubsDelLibro(
+                        final Predicate&lt;ClubDelLibro&gt; filtro) {
+
+<span class="fc" id="L77">        var clubs = this.clubDAO.findAll();</span>
+
+<span class="fc" id="L79">        return clubs.stream().filter(</span>
+            filtro
+<span class="fc" id="L81">        ).collect(Collectors.toList());</span>
+
+    };
+
+
+    /**
+     * Implementa la funzionalità che permette
+     * di recuperare un oggetto
+     * della classe genere dato il nome.
+     * @param generi Lista dei generi sottoforma di stringa
+     * @return Lista dei generi sottoforma di entità
+     */
+    @Override
+    public List&lt;Genere&gt; getGeneri(final List&lt;String&gt; generi) {
+<span class="fc" id="L95">        List&lt;Genere&gt; g = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        for (String s : generi) {</span>
+<span class="nc" id="L97">            g.add(genereDAO.findByName(s));</span>
+<span class="nc" id="L98">        }</span>
+<span class="fc" id="L99">        return g;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di modificare ed
+     * effettuare l'update di un club.
+     * @param club Il club da modificare
+     * @return Il club modificato
+     */
+    @Override
+    public ClubDelLibro modificaDatiClub(final ClubDelLibro club) {
+<span class="fc" id="L111">        return clubDAO.save(club);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di recuperare un
+     * club dato il suo ID.
+     * @param id L'ID del club da recuperare
+     * @return Il club recuperato
+     */
+    @Override
+    public ClubDelLibro getClubByID(final int id) {
+<span class="fc" id="L123">        Optional&lt;ClubDelLibro&gt; club = clubDAO.findById(id);</span>
+<span class="fc" id="L124">        return club.orElse(null);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un lettore di effettuare
+     * l'iscrizione ad un club del libro.
+     * @param club Il club al quale iscriversi
+     * @param lettore Il lettore che si iscrive
+     * @return true se è andato a buon fine, false altrimenti
+     */
+    @Override
+    public Boolean partecipaClub(final ClubDelLibro club,
+                                 final Lettore lettore) {
+<span class="fc" id="L138">        List&lt;ClubDelLibro&gt; listaClubs = lettore.getClubs();</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if (listaClubs == null) {</span>
+<span class="fc" id="L140">            listaClubs = new ArrayList&lt;&gt;();</span>
+        }
+<span class="fc" id="L142">        listaClubs.add(club);</span>
+<span class="fc" id="L143">        lettore.setClubs(listaClubs);</span>
+<span class="fc" id="L144">        lettoreDAO.save(lettore);</span>
+<span class="fc" id="L145">        return true;</span>
+    }
+
+    /**
+     * Funzione di utilità che permette di leggere la città
+     * in cui si trova un Club del Libro.
+     * @param club il club da cui prendere la città
+     * @return la città del club
+     */
+    public String getCittaFromClubDelLibro(final ClubDelLibro club) {
+<span class="nc" id="L155">        return club.getEsperto().getBiblioteca().getCitta();</span>
+    }
+
+    /**
+     * Restituisce tutti i generi nel sistema.
+     * @return Tutti i generi nel sistema
+     */
+    public Set&lt;String&gt; getTuttiGeneri() {
+<span class="nc" id="L163">        return this.genereDAO.findAll().stream().map(Genere::getNome)</span>
+<span class="nc" id="L164">                                            .collect(Collectors.toSet());</span>
+    }
+
+    /**
+     * Restituisce tutte le citta nel sistema.
+     * @return Tutte le citta nel sistema
+     */
+    public Set&lt;String&gt; getCitta() {
+<span class="nc" id="L172">        return this.clubDAO.findAll().stream()</span>
+<span class="nc" id="L173">                                     .map(this::getCittaFromClubDelLibro)</span>
+<span class="nc" id="L174">                                     .collect(Collectors.toSet());</span>
+    }
+
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro a cui un lettore partecipa.
+     * @param lettore il lettore preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    public List&lt;ClubDelLibro&gt; findAllByLettori(final Lettore lettore) {
+
+<span class="nc" id="L186">        return clubDAO.findAllByLettori(lettore);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro di cui un esperto è proprietario.
+     * @param esperto l' esperto preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    public List&lt;ClubDelLibro&gt; findAllByEsperto(final Esperto esperto) {
+
+<span class="nc" id="L197">        return clubDAO.findAllByEsperto(esperto);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AreaUtenteController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.autenticazione.controller</a> &gt; <span class="el_source">AreaUtenteController.java</span></div><h1>AreaUtenteController.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.autenticazione.controller;
+
+import it.unisa.c07.biblionet.autenticazione.service.AutenticazioneService;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import it.unisa.c07.biblionet.utils.validazione.RegexTester;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
+
+/**
+ * @author Alessio Casolaro, Antonio Della Porta
+ */
+@Controller
+@SessionAttributes(&quot;loggedUser&quot;)
+<span class="fc" id="L27">@RequiredArgsConstructor</span>
+public class AreaUtenteController {
+
+    /**
+     * Il service per effettuare le operazioni di persistenza.
+     */
+    private final AutenticazioneService autenticazioneService;
+
+    /**
+     * Implementa la funzionalità di smistare l'utente sulla view di
+     * modifica dati corretta.
+     * @param model Utilizzato per gestire la sessione.
+     *
+     * @return modifica_dati_biblioteca se l'account
+     * da modificare é una biblioteca.
+     *
+     * modifica_dati_esperto se l'account
+     * da modificare é un esperto.
+     *
+     * modifica_dati_lettore se l'account
+     * da modificare é un lettore.
+     */
+    @RequestMapping(value = &quot;/modifica-dati&quot;, method = RequestMethod.GET)
+    public String modificaDati(final Model model) {
+<span class="fc" id="L51">        UtenteRegistrato utente = (UtenteRegistrato)</span>
+<span class="fc" id="L52">                model.getAttribute(&quot;loggedUser&quot;);</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (utente != null) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (autenticazioneService.isBiblioteca(utente)) {</span>
+<span class="fc" id="L56">                Biblioteca biblioteca = (Biblioteca) utente;</span>
+<span class="fc" id="L57">                model.addAttribute(&quot;biblioteca&quot;, biblioteca);</span>
+<span class="fc" id="L58">                return &quot;area-utente/modifica-dati-biblioteca&quot;;</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            } else if (autenticazioneService.isEsperto(utente)) {</span>
+<span class="fc" id="L61">                Esperto esperto = (Esperto) utente;</span>
+<span class="fc" id="L62">                model.addAttribute(&quot;esperto&quot;, esperto);</span>
+<span class="fc" id="L63">                return &quot;area-utente/modifica-dati-esperto&quot;;</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            } else if (autenticazioneService.isLettore(utente)) {</span>
+<span class="fc" id="L66">                Lettore lettore = (Lettore) utente;</span>
+<span class="fc" id="L67">                model.addAttribute(&quot;lettore&quot;, lettore);</span>
+<span class="fc" id="L68">                return &quot;area-utente/modifica-dati-lettore&quot;;</span>
+
+            }
+        }
+<span class="fc" id="L72">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+
+    /**
+     * Implementa la funzionalità di modifica dati di una bibilioteca.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param biblioteca Una biblioteca da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     *
+     * @return login Se la modifica va a buon fine.
+     * modifica_dati_biblioteca Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = &quot;/conferma-modifica-biblioteca&quot;,
+            method = RequestMethod.POST)
+    public String confermaModificaBiblioteca(final Model model,
+                     final Biblioteca biblioteca,
+                     final @RequestParam(&quot;vecchia_password&quot;)String vecchia,
+                     final @RequestParam(&quot;nuova_password&quot;)String nuova,
+                     final @RequestParam(&quot;conferma_password&quot;)String conferma) {
+
+
+<span class="fc" id="L97">        Biblioteca toUpdate = autenticazioneService</span>
+<span class="fc" id="L98">                .findBibliotecaByEmail(biblioteca.getEmail());</span>
+
+<span class="fc" id="L100">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L101">        tester.put(biblioteca.getNomeBiblioteca(), &quot;^[A-zÀ-ù ‘-]{2,60}$&quot;);</span>
+<span class="fc" id="L102">        tester.put(biblioteca.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L103">        tester.put(biblioteca.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L105">        RegexTester regexTester = new RegexTester();</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (!regexTester.toTest(tester)) {</span>
+<span class="nc" id="L107">            return &quot;area-utente/modifica-dati-biblioteca&quot;;</span>
+        }
+
+
+<span class="pc bpc" id="L111" title="3 of 6 branches missed.">        if (!vecchia.isEmpty() &amp;&amp; !nuova.isEmpty() &amp;&amp; !conferma.isEmpty()) {</span>
+            try {
+                MessageDigest md;
+<span class="fc" id="L114">                md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L115">                byte[] vecchiaHash = md.digest(vecchia.getBytes());</span>
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">                if (nuova.length() &lt;= 7) {</span>
+<span class="nc" id="L118">                    return &quot;area-utente/modifica-dati-biblioteca&quot;;</span>
+                }
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">                if (Arrays.compare(vecchiaHash,</span>
+<span class="fc" id="L122">                        toUpdate.getPassword()) == 0</span>
+                        &amp;&amp;
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                        nuova.equals(conferma)</span>
+                ) {
+<span class="fc" id="L126">                    biblioteca.setPassword(nuova);</span>
+                } else {
+<span class="fc" id="L128">                    return &quot;area-utente/modifica-dati-biblioteca&quot;;</span>
+                }
+
+<span class="nc" id="L131">            } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L132">                e.printStackTrace();</span>
+<span class="pc" id="L133">            }</span>
+
+        } else {
+<span class="nc" id="L136">            biblioteca.setHashedPassword(toUpdate.getPassword());</span>
+        }
+
+<span class="fc" id="L139">        autenticazioneService.aggiornaBiblioteca(biblioteca);</span>
+<span class="fc" id="L140">        model.addAttribute(&quot;loggedUser&quot;, biblioteca);</span>
+<span class="fc" id="L141">        return &quot;autenticazione/login&quot;;</span>
+
+    }
+
+    /**
+     * Implementa la funzionalità di modifica dati di un esperto.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param esperto Un esperto da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     * @param emailBiblioteca L'email della biblioteca scelta.
+     *
+     * @return login Se la modifica va a buon fine.
+     * modifica_dati_esperto Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = &quot;/conferma-modifica-esperto&quot;,
+            method = RequestMethod.POST)
+    public String confermaModificaEsperto(final Model model,
+                       final Esperto esperto,
+                       final @RequestParam(&quot;vecchia_password&quot;)String vecchia,
+                       final @RequestParam(&quot;nuova_password&quot;)String nuova,
+                       final @RequestParam(&quot;conferma_password&quot;)String conferma,
+                       final @RequestParam(&quot;email_biblioteca&quot;)
+                                                      String emailBiblioteca) {
+
+
+<span class="fc" id="L169">        Esperto toUpdate = autenticazioneService</span>
+<span class="fc" id="L170">                .findEspertoByEmail(esperto.getEmail());</span>
+
+<span class="fc" id="L172">        Biblioteca b = autenticazioneService</span>
+<span class="fc" id="L173">                .findBibliotecaByEmail(emailBiblioteca);</span>
+
+<span class="fc" id="L175">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L176">        tester.put(esperto.getNome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L177">        tester.put(esperto.getCognome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L178">        tester.put(esperto.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L179">        tester.put(esperto.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L181">        RegexTester regexTester = new RegexTester();</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (!regexTester.toTest(tester)) {</span>
+<span class="nc" id="L183">            return &quot;area-utente/modifica-dati-esperto&quot;;</span>
+        }
+
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if (b != null) {</span>
+<span class="fc" id="L188">            esperto.setBiblioteca(b);</span>
+        } else {
+<span class="fc" id="L190">            esperto.setBiblioteca(toUpdate.getBiblioteca());</span>
+<span class="fc" id="L191">            return &quot;area-utente/modifica-dati-esperto&quot;;</span>
+        }
+
+<span class="pc bpc" id="L194" title="3 of 6 branches missed.">        if (!vecchia.isEmpty() &amp;&amp; !nuova.isEmpty() &amp;&amp; !conferma.isEmpty()) {</span>
+            try {
+                MessageDigest md;
+<span class="fc" id="L197">                md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L198">                byte[] vecchiaHash = md.digest(vecchia.getBytes());</span>
+
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">                if (nuova.length() &lt;= 7) {</span>
+<span class="nc" id="L201">                    return &quot;area-utente/modifica-dati-esperto&quot;;</span>
+                }
+
+<span class="fc bfc" id="L204" title="All 2 branches covered.">                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">                        &amp;&amp; nuova.equals(conferma)</span>
+                ) {
+<span class="fc" id="L207">                    System.out.println(&quot;password giusta&quot;);</span>
+<span class="fc" id="L208">                    esperto.setPassword(nuova);</span>
+                } else {
+<span class="fc" id="L210">                    System.out.println(&quot;password sbagliata&quot;);</span>
+<span class="fc" id="L211">                    return &quot;area-utente/modifica-dati-esperto&quot;;</span>
+                }
+
+<span class="nc" id="L214">            } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L215">                e.printStackTrace();</span>
+<span class="pc" id="L216">            }</span>
+        } else {
+<span class="nc" id="L218">            esperto.setHashedPassword(toUpdate.getPassword());</span>
+        }
+
+
+<span class="fc" id="L222">        System.out.println(esperto.getEmail());</span>
+<span class="fc" id="L223">        autenticazioneService.aggiornaEsperto(esperto);</span>
+<span class="fc" id="L224">        model.addAttribute(&quot;loggedUser&quot;, esperto);</span>
+<span class="fc" id="L225">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di modifica dati di un lettore.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @param lettore Un lettore da modificare.
+     * @param vecchia La vecchia password dell'account.
+     * @param nuova La nuova password dell'account.
+     * @param conferma La password di conferma password dell'account.
+     *
+     * @return login Se la modifica va a buon fine.
+     * modifica_dati_lettore Se la modifica non va a buon fine
+     */
+    @RequestMapping(value = &quot;/conferma-modifica-lettore&quot;,
+            method = RequestMethod.POST)
+    public String confermaModificaLettore(final Model model,
+                                          final Lettore lettore,
+                     final @RequestParam(&quot;vecchia_password&quot;)String vecchia,
+                     final @RequestParam(&quot;nuova_password&quot;)String nuova,
+                     final @RequestParam(&quot;conferma_password&quot;)String conferma) {
+
+
+<span class="fc" id="L249">        Lettore toUpdate = autenticazioneService</span>
+<span class="fc" id="L250">                .findLettoreByEmail(lettore.getEmail());</span>
+
+<span class="fc" id="L252">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L253">        tester.put(lettore.getNome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L254">        tester.put(lettore.getCognome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L255">        tester.put(lettore.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L256">        tester.put(lettore.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L258">        RegexTester regexTester = new RegexTester();</span>
+
+<span class="fc bfc" id="L260" title="All 2 branches covered.">        if (!regexTester.toTest(tester)) {</span>
+<span class="fc" id="L261">            return &quot;area-utente/modifica-dati-lettore&quot;;</span>
+        }
+
+<span class="pc bpc" id="L264" title="2 of 6 branches missed.">        if (!vecchia.isEmpty() &amp;&amp; !nuova.isEmpty() &amp;&amp; !conferma.isEmpty()) {</span>
+            try {
+                MessageDigest md;
+<span class="fc" id="L267">                md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L268">                byte[] vecchiaHash = md.digest(vecchia.getBytes());</span>
+
+<span class="fc bfc" id="L270" title="All 2 branches covered.">                if (nuova.length() &lt;= 7) {</span>
+<span class="fc" id="L271">                    return &quot;area-utente/modifica-dati-lettore&quot;;</span>
+                }
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">                if (Arrays.compare(vecchiaHash, toUpdate.getPassword()) == 0</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                        &amp;&amp; nuova.equals(conferma)</span>
+                ) {
+<span class="fc" id="L276">                    lettore.setPassword(nuova);</span>
+                } else {
+<span class="fc" id="L278">                    return &quot;area-utente/modifica-dati-lettore&quot;;</span>
+                }
+
+<span class="nc" id="L281">            } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L282">                e.printStackTrace();</span>
+<span class="pc" id="L283">            }</span>
+        } else {
+<span class="fc" id="L285">            lettore.setHashedPassword(toUpdate.getPassword());</span>
+        }
+
+<span class="fc" id="L288">        System.out.println(lettore.getRecapitoTelefonico());</span>
+<span class="fc" id="L289">        autenticazioneService.aggiornaLettore(lettore);</span>
+<span class="fc" id="L290">        model.addAttribute(&quot;loggedUser&quot;, lettore);</span>
+<span class="fc" id="L291">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di visualizzazione area utente
+     * in base al tipo.
+     *
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione area utente
+     */
+    @RequestMapping(value = &quot;/area-utente&quot;, method = RequestMethod.GET)
+    public String areaUtente(final Model model) {
+<span class="fc" id="L303">        UtenteRegistrato utente = (UtenteRegistrato)</span>
+<span class="fc" id="L304">                model.getAttribute(&quot;loggedUser&quot;);</span>
+
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">        if (utente != null) {</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">            if (autenticazioneService.isBiblioteca(utente)) {</span>
+<span class="fc" id="L308">                Biblioteca biblioteca = (Biblioteca) utente;</span>
+<span class="fc" id="L309">                model.addAttribute(&quot;biblioteca&quot;, biblioteca);</span>
+<span class="fc" id="L310">                return &quot;area-utente/visualizza-biblioteca&quot;;</span>
+
+<span class="fc bfc" id="L312" title="All 2 branches covered.">            } else if (autenticazioneService.isEsperto(utente)) {</span>
+<span class="fc" id="L313">                Esperto esperto = (Esperto) utente;</span>
+<span class="fc" id="L314">                model.addAttribute(&quot;esperto&quot;, esperto);</span>
+<span class="fc" id="L315">                return &quot;area-utente/visualizza-esperto&quot;;</span>
+
+<span class="pc bpc" id="L317" title="1 of 2 branches missed.">            } else if (autenticazioneService.isLettore(utente)) {</span>
+<span class="fc" id="L318">                Lettore lettore = (Lettore) utente;</span>
+<span class="fc" id="L319">                model.addAttribute(&quot;lettore&quot;, lettore);</span>
+<span class="fc" id="L320">                return &quot;area-utente/visualizza-lettore&quot;;</span>
+
+            }
+        }
+<span class="nc" id="L324">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * a cui il lettore é iscritto.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs a cui é iscritto
+     */
+    @RequestMapping(value = &quot;area-utente/visualizza-clubs-personali-lettore&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaClubsLettore(final Model model) {
+<span class="fc" id="L336">        Lettore utente = (Lettore) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L337" title="2 of 4 branches missed.">        if (utente != null &amp;&amp; autenticazioneService.isLettore(utente)) {</span>
+<span class="fc" id="L338">            model.addAttribute(&quot;clubs&quot;,</span>
+<span class="fc" id="L339">                    autenticazioneService.findAllByLettori(utente));</span>
+<span class="fc" id="L340">            return &quot;area-utente/visualizza-clubs-personali&quot;;</span>
+        }
+<span class="nc" id="L342">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalitá di visualizzazione dei clubs
+     * che l'esperto gestisce.
+     * @param model Utilizzato per gestire la sessione.
+     * @return La view di visualizzazione dei clubs che gestisce
+     */
+    @RequestMapping(value = &quot;area-utente/visualizza-clubs-personali-esperto&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaClubsEsperto(final Model model) {
+<span class="fc" id="L354">        Esperto utente = (Esperto) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L355" title="2 of 4 branches missed.">        if (utente != null &amp;&amp; autenticazioneService.isEsperto(utente)) {</span>
+<span class="fc" id="L356">            model.addAttribute(&quot;clubs&quot;,</span>
+<span class="fc" id="L357">                    autenticazioneService.findAllByEsperto(utente));</span>
+<span class="fc" id="L358">            return &quot;area-utente/visualizza-clubs-personali&quot;;</span>
+        }
+<span class="nc" id="L360">        return &quot;autenticazione/login&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

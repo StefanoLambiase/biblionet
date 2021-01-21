@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegistrazioneController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.registrazione.controller</a> &gt; <span class="el_source">RegistrazioneController.java</span></div><h1>RegistrazioneController.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.registrazione.controller;
+
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.registrazione.service.RegistrazioneService;
+import it.unisa.c07.biblionet.utils.validazione.RegexTester;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
+
+/**
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta
+ */
+@Controller
+@SessionAttributes(&quot;loggedUser&quot;)
+<span class="fc" id="L27">@RequiredArgsConstructor</span>
+@RequestMapping(&quot;/registrazione&quot;)
+public final class RegistrazioneController {
+
+    /**
+     * Il service per effettuare le operazioni di persistenza.
+     */
+    private final RegistrazioneService registrazioneService;
+
+    /**
+     * Implementa la funzionalità di visualizzare
+     * la scelta di registrazione.
+     *
+     * @return La pagina di visualizzazione
+     */
+    @RequestMapping(value = &quot;/&quot;, method = RequestMethod.GET)
+    public String visualizzaRegistrazione() {
+<span class="nc" id="L44">        return &quot;registrazione/registrazione&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di registrazione di
+     * scegliere il tipo di utente da registrare.
+     *
+     * @param scelta Il tipo di utente da registrare
+     * @return La view che visualizza il form di registrazione scelto.
+     */
+    @RequestMapping(value = &quot;/scegli&quot;, method = RequestMethod.POST)
+    public String scegliRegistrazione(final @RequestParam(&quot;scelta&quot;)
+                                              String scelta) {
+<span class="nc" id="L57">        return &quot;registrazione/registrazione_&quot; + scelta.toLowerCase();</span>
+    }
+
+    /**
+     * Implementa la funzionalità di registrazione di un esperto.
+     *
+     * @param esperto l'esperto da registrare
+     * @param password il campo conferma password del form per controllare
+     *                 il corretto inserimento della stessa
+     * @param bibliotecaEmail la mail dell'account della biblioteca
+     *                        dove l'esperto lavora
+     * @param model utilizzato per la sessione
+     * @return la view per effettuare il login
+     */
+    @RequestMapping(value = &quot;/esperto&quot;, method = RequestMethod.POST)
+    public String registrazioneEsperto(final Esperto esperto,
+                                       final @RequestParam(&quot;conferma_password&quot;)
+                                               String password,
+                                       final @RequestParam(&quot;email_biblioteca&quot;)
+                                               String bibliotecaEmail,
+                                       final Model model) {
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (registrazioneService.isEmailRegistrata(esperto.getEmail())) {</span>
+<span class="fc" id="L80">            return &quot;registrazione/registrazione_esperto&quot;;</span>
+        }
+
+<span class="fc" id="L83">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L84">        tester.put(esperto.getNome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L85">        tester.put(esperto.getCognome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L86">        tester.put(esperto.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L87">        tester.put(esperto.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L89">        RegexTester regexTester = new RegexTester();</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (!regexTester.toTest(tester)) {</span>
+<span class="nc" id="L91">            return &quot;registrazione/registrazione_esperto&quot;;</span>
+        }
+
+
+<span class="fc" id="L95">        Biblioteca biblioteca</span>
+<span class="fc" id="L96">                = registrazioneService.getBibliotecaByEmail(bibliotecaEmail);</span>
+
+
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (biblioteca == null) {</span>
+<span class="fc" id="L100">            System.out.println(&quot;Questa biblioteca non va bene&quot;);</span>
+<span class="fc" id="L101">            return &quot;registrazione/registrazione_esperto&quot;;</span>
+        }
+<span class="fc" id="L103">        esperto.setBiblioteca(biblioteca);</span>
+
+        try {
+            MessageDigest md;
+<span class="fc" id="L107">            md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L108">            byte[] arr = md.digest(password.getBytes());</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            if (Arrays.compare(arr, esperto.getPassword()) != 0) {</span>
+
+<span class="fc" id="L112">                System.out.println(&quot;Questa password non va bene&quot;);</span>
+<span class="fc" id="L113">                return &quot;registrazione/registrazione_esperto&quot;;</span>
+
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">            } else if (password.length() &lt;= 7) {</span>
+
+<span class="nc" id="L117">                return &quot;registrazione/registrazione_esperto&quot;;</span>
+            }
+<span class="nc" id="L119">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L120">            e.printStackTrace();</span>
+<span class="fc" id="L121">        }</span>
+
+<span class="fc" id="L123">        registrazioneService.registraEsperto(esperto);</span>
+<span class="fc" id="L124">        model.addAttribute(&quot;loggedUser&quot;, esperto);</span>
+<span class="fc" id="L125">        return &quot;redirect:/preferenze-di-lettura/generi&quot;;</span>
+
+
+    }
+
+    /**
+     * Implementa la funzionalità di registrazione di una biblioteca.
+     *
+     * @param biblioteca la biblioteca da registrare
+     * @param password   la password di conferma
+     * @return la view di login
+     */
+    @RequestMapping(value = &quot;/biblioteca&quot;, method = RequestMethod.POST)
+    public String registrazioneBiblioteca(final Biblioteca biblioteca,
+                                 final @RequestParam(&quot;conferma_password&quot;)
+                                                  String password) {
+
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (registrazioneService.isEmailRegistrata(biblioteca.getEmail())) {</span>
+<span class="fc" id="L143">            return &quot;registrazione/registrazione_biblioteca&quot;;</span>
+        }
+
+
+<span class="fc" id="L147">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L148">        tester.put(biblioteca.getNomeBiblioteca(), &quot;^[A-zÀ-ù ‘-]{2,60}$&quot;);</span>
+<span class="fc" id="L149">        tester.put(biblioteca.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L150">        tester.put(biblioteca.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L152">        RegexTester regexTester = new RegexTester();</span>
+
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (!regexTester.toTest(tester)) {</span>
+<span class="nc" id="L155">            return &quot;registrazione/registrazione_biblioteca&quot;;</span>
+        }
+        try {
+            MessageDigest md;
+<span class="fc" id="L159">            md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L160">            byte[] arr = md.digest(password.getBytes());</span>
+
+<span class="fc bfc" id="L162" title="All 2 branches covered.">            if (Arrays.compare(arr, biblioteca.getPassword()) != 0) {</span>
+
+<span class="fc" id="L164">                System.out.println(&quot;Questa password non va bene&quot;);</span>
+<span class="fc" id="L165">                return &quot;registrazione/registrazione_biblioteca&quot;;</span>
+
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            } else if (password.length() &lt;= 7) {</span>
+<span class="nc" id="L168">                return &quot;registrazione/registrazione_biblioteca&quot;;</span>
+            }
+<span class="nc" id="L170">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L171">            e.printStackTrace();</span>
+<span class="fc" id="L172">        }</span>
+
+<span class="fc" id="L174">        registrazioneService.registraBiblioteca(biblioteca);</span>
+<span class="fc" id="L175">        return &quot;autenticazione/login&quot;;</span>
+    }
+
+
+    /**
+     * Implementa la funzionalità di registrazione di
+     * un lettore.
+     * Gestisce la chiamata POST
+     * per creare un nuovo lettore.
+     *
+     * @param lettore  Il lettore da registrare
+     * @param password il campo conferma password del form per controllare
+     *                 il corretto inserimento della stessa.
+     * @param model    utilizzato per gestire la sessione
+     * @return La view per effettuare il login
+     */
+    @RequestMapping(value = &quot;/lettore&quot;, method = RequestMethod.POST)
+    public String registrazioneLettore(final Lettore lettore,
+                                       final @RequestParam(&quot;conferma_password&quot;)
+                                               String password,
+                                       final Model model) {
+
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (registrazioneService.isEmailRegistrata(lettore.getEmail())) {</span>
+<span class="fc" id="L198">            return &quot;registrazione/registrazione_lettore&quot;;</span>
+        }
+
+<span class="fc" id="L201">        HashMap&lt;String, String&gt; tester = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L202">        tester.put(lettore.getNome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L203">        tester.put(lettore.getCognome(), &quot;^[A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+<span class="fc" id="L204">        tester.put(lettore.getRecapitoTelefonico(), &quot;^\\d{10}$&quot;);</span>
+<span class="fc" id="L205">        tester.put(lettore.getVia(), &quot;^[0-9A-zÀ-ù ‘-]{2,30}$&quot;);</span>
+
+<span class="fc" id="L207">        RegexTester regexTester = new RegexTester();</span>
+
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (!regexTester.toTest(tester)) {</span>
+<span class="nc" id="L210">            return &quot;registrazione/registrazione_lettore&quot;;</span>
+        }
+        try {
+            MessageDigest md;
+<span class="fc" id="L214">            md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L215">            byte[] arr = md.digest(password.getBytes());</span>
+
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            if (Arrays.compare(arr, lettore.getPassword()) != 0) {</span>
+
+<span class="fc" id="L219">                System.out.println(&quot;Questa password non va bene&quot;);</span>
+<span class="fc" id="L220">                return &quot;registrazione/registrazione_lettore&quot;;</span>
+
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            } else if (password.length() &lt;= 7) {</span>
+
+<span class="nc" id="L224">                return &quot;registrazione/registrazione_lettore&quot;;</span>
+            }
+<span class="nc" id="L226">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L227">            e.printStackTrace();</span>
+<span class="nc" id="L228">        }</span>
+
+<span class="nc" id="L230">        registrazioneService.registraLettore(lettore);</span>
+<span class="nc" id="L231">        model.addAttribute(&quot;loggedUser&quot;, lettore);</span>
+<span class="nc" id="L232">        return &quot;redirect:/preferenze-di-lettura/generi&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

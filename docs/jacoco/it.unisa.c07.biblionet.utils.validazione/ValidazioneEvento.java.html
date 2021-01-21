@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidazioneEvento.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.utils.validazione</a> &gt; <span class="el_source">ValidazioneEvento.java</span></div><h1>ValidazioneEvento.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.utils.validazione;
+
+/**
+ * Classe che fornisce i parametri di validazione
+ * per i campi di evento.
+ * @author Nicola Pagliara
+ * @author Luca Topo
+ */
+public final class ValidazioneEvento {
+
+    /**
+     * Costruttore vuoto.
+     */
+    private ValidazioneEvento() { }
+
+    /**
+     * Lunghezza minima del nome dell'evento.
+     */
+    private static final int LUNGHEZZA_MINIMA_NOME = 1;
+    /**
+     * Lunghezza massima del nome di un evento.
+     */
+    private static final int LUNGHEZZA_MASSIMA_NOME = 30;
+
+    /**
+     * Implementa la funzionalità di validazione di un nome di un evento.
+     * @param nome Il nome dell'evento inserito
+     * @return True se il nome rispetta le lunghezze minime e massime
+     */
+    public static boolean isNomeValido(final String nome) {
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        return nome.length() &gt;= LUNGHEZZA_MINIMA_NOME</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">               &amp;&amp; nome.length() &lt;= LUNGHEZZA_MASSIMA_NOME;</span>
+    }
+
+    /**
+     * Lunghezza massima della descrizione di un evento.
+     */
+    private static final int LUNGHEZZA_MASSIMA_DESCRIZIONE = 255;
+
+    /**
+     * Implementa la funzionalità di validazione della descrizione di un evento.
+     * @param descrizione La descrizione dell'evento inserito
+     * @return True se la descizione rispetta la lunghezza massima
+     */
+    public static boolean isDescrizioneValida(final String descrizione) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        return descrizione.length() &lt;= LUNGHEZZA_MASSIMA_DESCRIZIONE;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

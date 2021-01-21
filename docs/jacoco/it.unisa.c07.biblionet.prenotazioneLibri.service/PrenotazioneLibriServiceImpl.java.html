@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrenotazioneLibriServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.prenotazioneLibri.service</a> &gt; <span class="el_source">PrenotazioneLibriServiceImpl.java</span></div><h1>PrenotazioneLibriServiceImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.prenotazioneLibri.service;
+
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
+import it.unisa.c07.biblionet.model.dao.LibroDAO;
+import it.unisa.c07.biblionet.model.dao.PossessoDAO;
+import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
+import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
+import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.Possesso;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.compositeKey.PossessoId;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter.BookApiAdapter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Implementa la classe che esplicita i metodi
+ * definiti nell'interfaccia service per il
+ * sottosustema PrenotazioneLibri.
+ * @author Viviana Pentangelo, Gianmario Voria
+ */
+@Service
+<span class="fc" id="L33">@RequiredArgsConstructor</span>
+public class PrenotazioneLibriServiceImpl implements PrenotazioneLibriService {
+    /**
+     *Si occupa delle operazioni CRUD per libro.
+     */
+    private final LibroDAO libroDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per genere.
+     */
+    private final GenereDAO genereDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per biblioteca.
+     */
+    private final BibliotecaDAO bibliotecaDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per possesso.
+     */
+    private final PossessoDAO possessoDAO;
+
+    /**
+     *Si occupa delle operazioni CRUD per ticket.
+     */
+    private final TicketPrestitoDAO ticketPrestitoDAO;
+
+    /**
+     * Si occupa delle operazioni per l'inject.
+     */
+    private final BookApiAdapter bookApiAdapter;
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili sulla piattaforma.
+     * @return La lista di libri
+     */
+    @Override
+    public List&lt;Libro&gt; visualizzaListaLibriCompleta() {
+<span class="fc" id="L73">        return libroDAO.findAll(Sort.by(&quot;titolo&quot;));</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare una lista di libri prenotabili
+     * filtrata per titolo.
+     * @param titolo Stringa che deve essere contenuta
+     * nel titolo
+     * @return La lista di libri
+     */
+    @Override
+    public List&lt;Libro&gt; visualizzaListaLibriPerTitolo(final String titolo) {
+<span class="fc" id="L86">        return libroDAO.findByTitoloLike(titolo);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare il profilo di una singola biblioteca.
+     * @param email della biblioteca
+     * @return la biblioteca
+     */
+    @Override
+    public Biblioteca getBibliotecaById(final String email) {
+<span class="fc" id="L97">        Biblioteca biblioteca = bibliotecaDAO.findByID(email);</span>
+<span class="fc" id="L98">        return biblioteca;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili da una determinata biblioteca.
+     * @param nomeBiblioteca Il nome della biblioteca
+     * @return La lista di libri
+     */
+    @Override
+    public List&lt;Libro&gt; visualizzaListaLibriPerBiblioteca(
+                    final String nomeBiblioteca) {
+<span class="fc" id="L111">        List&lt;Biblioteca&gt; b = bibliotecaDAO.findByNome(nomeBiblioteca);</span>
+<span class="fc" id="L112">        List&lt;Libro&gt; libri = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (Biblioteca bib : b) {</span>
+<span class="fc" id="L114">            String bibID = bib.getEmail();</span>
+<span class="fc" id="L115">            List&lt;Possesso&gt; possessi = possessoDAO.findByBibliotecaID(bibID);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            for (Possesso p : possessi) {</span>
+<span class="fc" id="L117">                Optional&lt;Libro&gt; l =</span>
+<span class="fc" id="L118">                        libroDAO.findById(p.getPossessoID().getLibroID());</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                if (!libri.contains(l.orElse(null))) {</span>
+<span class="fc" id="L120">                    libri.add(l.orElse(null));</span>
+                }
+<span class="fc" id="L122">            }</span>
+<span class="fc" id="L123">        }</span>
+
+<span class="fc" id="L125">        return libri;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare la lista completa dei libri
+     * prenotabili di un dato genere.
+     * @param genere Il nome del genere
+     * @return La lista di libri
+     */
+    @Override
+    public List&lt;Libro&gt; visualizzaListaLibriPerGenere(
+            final String genere) {
+
+<span class="fc" id="L139">        List&lt;Libro&gt; libri = libroDAO.findAll();</span>
+<span class="fc" id="L140">        List&lt;Libro&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L141">        Genere g = genereDAO.findByName(genere);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        for (Libro l : libri) {</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if (l.getGeneri().contains(g)) {</span>
+<span class="fc" id="L144">                list.add(l);</span>
+            }
+<span class="fc" id="L146">        }</span>
+<span class="fc" id="L147">        return list;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di richiedere un prestito per un libro
+     * da una biblioteca.
+     * @param lettore Il lettore che lo richiede
+     * @param idBiblioteca id della biblioteca
+     * @param idLibro id del libro
+     * @return Il ticket aperto in attesa di approvazione
+     */
+    @Override
+    public TicketPrestito richiediPrestito(final Lettore lettore,
+                                           final String idBiblioteca,
+                                           final int idLibro) {
+<span class="fc" id="L163">        TicketPrestito ticket = new TicketPrestito();</span>
+<span class="fc" id="L164">        ticket.setLettore(lettore);</span>
+<span class="fc" id="L165">        ticket.setDataRichiesta(LocalDateTime.now());</span>
+<span class="fc" id="L166">        ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA);</span>
+
+<span class="fc" id="L168">        Biblioteca biblioteca =</span>
+<span class="fc" id="L169">                bibliotecaDAO.findByID(idBiblioteca);</span>
+<span class="fc" id="L170">        Libro libro = libroDAO.getOne(idLibro);</span>
+
+<span class="fc" id="L172">        ticket.setBiblioteca(biblioteca);</span>
+<span class="fc" id="L173">        ticket.setLibro(libro);</span>
+
+<span class="fc" id="L175">        ticketPrestitoDAO.save(ticket);</span>
+<span class="fc" id="L176">        return ticket;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista delle biblioteche
+     * che posseggono un dato libro.
+     * @param libro Il libro di cui estrarre le biblioteche
+     * @return La lista delle biblioteche che possiedono il libro
+     */
+    @Override
+    public  List&lt;Biblioteca&gt; getBibliotecheLibro(final Libro libro) {
+<span class="fc" id="L188">        List&lt;Biblioteca&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        for (Possesso p : libro.getPossessi()) {</span>
+<span class="fc" id="L190">            lista.add(bibliotecaDAO.</span>
+<span class="fc" id="L191">                        findByID(p.getPossessoID().getBibliotecaID()));</span>
+<span class="fc" id="L192">        }</span>
+<span class="fc" id="L193">        return lista;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un libro dato il suo ID.
+     * @param id L'ID del libro da ottenere
+     * @return Il libro da ottenere
+     */
+    @Override
+    public Libro getLibroByID(final int id) {
+<span class="fc" id="L204">        return libroDAO.getOne(id);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere una lista di richieste per una biblioteca.
+     * @param biblioteca la biblioteca di cui vedere le richieste
+     * @return La lista di richieste
+     */
+    @Override
+    public List&lt;TicketPrestito&gt; getTicketsByBiblioteca(
+                            final Biblioteca biblioteca) {
+<span class="fc" id="L216">        return ticketPrestitoDAO.</span>
+<span class="fc" id="L217">                findAllByBibliotecaEmail(biblioteca.getEmail());</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere un ticket dato il suo ID.
+     * @param id L'ID del ticket da recuperare
+     * @return Il ticket ottenuto
+     */
+    @Override
+    public TicketPrestito getTicketByID(final int id) {
+<span class="fc" id="L228">        return ticketPrestitoDAO.getOne(id);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di accettare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @param giorni il tempo di concessione del libro
+     * @return Il ticket aggiornato
+     */
+    @Override
+    public TicketPrestito accettaRichiesta(final TicketPrestito ticket,
+                                           final int giorni) {
+<span class="fc" id="L241">        ticket.setDataRestituzione(LocalDateTime.now().plusDays(giorni));</span>
+<span class="fc" id="L242">        ticket.setStato(TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE);</span>
+<span class="fc" id="L243">        Libro l = ticket.getLibro();</span>
+<span class="fc" id="L244">        Biblioteca b = ticket.getBiblioteca();</span>
+<span class="fc" id="L245">        Possesso pos = possessoDAO.</span>
+<span class="fc" id="L246">                    getOne(new PossessoId(b.getEmail(), l.getIdLibro()));</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (pos != null) {</span>
+<span class="fc" id="L248">            pos.setNumeroCopie(pos.getNumeroCopie() - 1);</span>
+<span class="fc" id="L249">            possessoDAO.save(pos);</span>
+        }
+<span class="fc" id="L251">        ticketPrestitoDAO.save(ticket);</span>
+<span class="fc" id="L252">        return ticket;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di rifiutare la richiesta di prestito di un libro.
+     * @param ticket il ticket che rappresenta la richiesta
+     * @return Il ticket aggiornato
+     */
+    @Override
+    public TicketPrestito rifiutaRichiesta(final TicketPrestito ticket) {
+<span class="fc" id="L263">        ticket.setStato(TicketPrestito.Stati.RIFIUTATO);</span>
+<span class="fc" id="L264">        ticketPrestitoDAO.save(ticket);</span>
+<span class="fc" id="L265">        return ticket;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di chiudere un ticket di prenotazione di un libro
+     * quando questo viene riconsegnato.
+     * @param ticket il ticket che rappresenta la richiesta da chiudere
+     * @return Il ticket aggiornato a chiuso
+     */
+    @Override
+    public TicketPrestito chiudiTicket(final TicketPrestito ticket) {
+<span class="fc" id="L277">        ticket.setStato(TicketPrestito.Stati.CHIUSO);</span>
+<span class="fc" id="L278">        Libro l = ticket.getLibro();</span>
+<span class="fc" id="L279">        Biblioteca b = ticket.getBiblioteca();</span>
+<span class="fc" id="L280">        Possesso pos = possessoDAO.</span>
+<span class="fc" id="L281">                getOne(new PossessoId(b.getEmail(), l.getIdLibro()));</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (pos != null) {</span>
+<span class="fc" id="L283">            pos.setNumeroCopie(pos.getNumeroCopie() + 1);</span>
+<span class="fc" id="L284">            possessoDAO.save(pos);</span>
+        }
+<span class="fc" id="L286">        return ticketPrestitoDAO.save(ticket);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di ottenere la lista di ticket aperti da un Lettore.
+     * @param lettore il Lettore di cui recuperare i ticket
+     * @return la lista dei ticket
+     */
+    @Override
+    public List&lt;TicketPrestito&gt; getTicketsLettore(final Lettore lettore) {
+<span class="fc" id="L297">        return ticketPrestitoDAO.</span>
+<span class="fc" id="L298">                findAllByLettoreEmail(lettore.getEmail());</span>
+    }
+
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere una lista di id e titoli di libri
+     * sulla base di un titolo dato
+     *
+     * ! Controllare prima di consegnare
+     *
+     * @param titolo il titolo che deve mathcare
+     * @return la lista di informazioni
+     */
+    public List&lt;ILibroIdAndName&gt; findByTitoloContains(final String titolo) {
+<span class="fc" id="L313">        List&lt;ILibroIdAndName&gt; infoLibroList =</span>
+<span class="fc" id="L314">                libroDAO.findByTitoloContains(titolo);</span>
+
+<span class="fc bfc" id="L316" title="All 2 branches covered.">        if (infoLibroList == null) {</span>
+<span class="fc" id="L317">            infoLibroList = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L318" title="1 of 2 branches missed.">        } else if (infoLibroList.size() &gt; 10) {</span>
+<span class="nc" id="L319">            infoLibroList = infoLibroList.subList(0, 9);</span>
+        }
+<span class="fc" id="L321">        return infoLibroList;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di creare un nuovo libro e inserirlo nella lista
+     * a partire da un isbn usando una API di google.
+     * @param isbn il Lettore di cui recuperare i ticket
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi
+     * @return il libro creato
+     */
+    public Libro inserimentoPerIsbn(final String isbn,
+                                    final String idBiblioteca,
+                                    final int numCopie,
+                                    final List&lt;String&gt; generi) {
+
+        //Recupero l'oggetto Libro da Api per isbn
+<span class="fc" id="L340">        Libro l = bookApiAdapter.getLibroDaBookApi(isbn);</span>
+<span class="fc" id="L341">        System.out.println(l);</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">        if (l == null) {</span>
+<span class="fc" id="L343">            return l;</span>
+        }
+
+        //Casting dei generi
+<span class="fc" id="L347">        List&lt;Genere&gt; g = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L349" title="All 2 branches covered.">        for (String s : generi) {</span>
+<span class="fc" id="L350">            g.add(genereDAO.findByName(s));</span>
+<span class="fc" id="L351">        }</span>
+
+<span class="fc" id="L353">        l.setGeneri(g);</span>
+
+        //Controllo che il libro non sia già salvato
+<span class="fc" id="L356">        boolean exists = false;</span>
+<span class="fc" id="L357">        Libro libro = null;</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">        for (Libro tl : libroDAO.findAll()) {</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">            if (tl.getIsbn().equals(l.getIsbn())) {</span>
+<span class="fc" id="L360">                exists = true;</span>
+<span class="fc" id="L361">                libro = tl;</span>
+            }
+<span class="fc" id="L363">        }</span>
+
+<span class="fc bfc" id="L365" title="All 2 branches covered.">        if (!exists) {</span>
+<span class="fc" id="L366">            libro = libroDAO.save(l);</span>
+        }
+<span class="fc" id="L368">        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);</span>
+
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+<span class="fc bfc" id="L372" title="All 2 branches covered.">        for (Possesso p : b.getPossessi()) {</span>
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">            if (p.getPossessoID().getLibroID() == libro.getIdLibro()) {</span>
+<span class="fc" id="L374">                p.setNumeroCopie(p.getNumeroCopie() + numCopie);</span>
+<span class="fc" id="L375">                possessoDAO.save(p);</span>
+<span class="fc" id="L376">                bibliotecaDAO.save(b);</span>
+<span class="fc" id="L377">                return libro;</span>
+            }
+<span class="nc" id="L379">        }</span>
+
+        //Creo il possesso relativo al libro e alla biblioteca
+        //che lo inserisce e lo memorizzo
+<span class="fc" id="L383">        PossessoId pid = new PossessoId(idBiblioteca, libro.getIdLibro());</span>
+<span class="fc" id="L384">        Possesso possesso = new Possesso(pid, numCopie);</span>
+<span class="fc" id="L385">        possessoDAO.save(possesso);</span>
+<span class="fc" id="L386">        List&lt;Possesso&gt; plist = b.getPossessi();</span>
+<span class="fc" id="L387">        plist.add(possesso);</span>
+<span class="fc" id="L388">        b.setPossessi(plist);</span>
+
+        //Update della biblioteca con il nuovo possesso
+<span class="fc" id="L391">        bibliotecaDAO.save(b);</span>
+
+<span class="fc" id="L393">        return libro;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro già memorizzato negli
+     * archivi della piattaforma alla lista dei propri
+     * libri prenotabili.
+     * @param idLibro il Libro da inserire
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @return il libro inserito
+     */
+    public Libro inserimentoDalDatabase(final int idLibro,
+                                        final String idBiblioteca,
+                                        final int numCopie) {
+<span class="fc" id="L409">        Libro l = libroDAO.getOne(idLibro);</span>
+<span class="fc" id="L410">        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);</span>
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+<span class="fc bfc" id="L413" title="All 2 branches covered.">        for (Possesso p : b.getPossessi()) {</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">            if (p.getPossessoID().getLibroID() == idLibro) {</span>
+<span class="fc" id="L415">                p.setNumeroCopie(p.getNumeroCopie() + numCopie);</span>
+<span class="fc" id="L416">                possessoDAO.save(p);</span>
+<span class="fc" id="L417">                bibliotecaDAO.save(b);</span>
+<span class="fc" id="L418">                return l;</span>
+            }
+<span class="fc" id="L420">        }</span>
+
+        //Creo e salvo il nuovo possesso
+<span class="fc" id="L423">        PossessoId pid = new PossessoId(idBiblioteca, idLibro);</span>
+<span class="fc" id="L424">        Possesso p = new Possesso(pid, numCopie);</span>
+<span class="fc" id="L425">        possessoDAO.save(p);</span>
+<span class="fc" id="L426">        List&lt;Possesso&gt; plist = b.getPossessi();</span>
+<span class="fc" id="L427">        plist.add(p);</span>
+<span class="fc" id="L428">        b.setPossessi(plist);</span>
+
+        //Update della biblioteca con il nuovo possesso
+<span class="fc" id="L431">        bibliotecaDAO.save(b);</span>
+
+<span class="fc" id="L433">        return l;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di inserire un libro attraverso un form.
+     * @param libro il Libro da memorizzare
+     * @param idBiblioteca l'id della biblioteca che lo possiede
+     * @param numCopie il numero di copie possedute
+     * @param generi la lista dei generi del libro
+     * @return il libro inserito
+     */
+    public Libro inserimentoManuale(final Libro libro,
+                                    final String idBiblioteca,
+                                    final int numCopie,
+                                    final List&lt;String&gt; generi) {
+
+<span class="fc" id="L450">        Biblioteca b = bibliotecaDAO.findByID(idBiblioteca);</span>
+
+        //Controllo che il libro non sia già salvato
+<span class="fc" id="L453">        boolean exists = false;</span>
+<span class="fc" id="L454">        Libro l = new Libro();</span>
+<span class="fc" id="L455">        List&lt;Genere&gt; g = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L457" title="All 2 branches covered.">        for (String s : generi) {</span>
+<span class="fc" id="L458">            g.add(genereDAO.findByName(s));</span>
+<span class="fc" id="L459">        }</span>
+
+<span class="fc" id="L461">        libro.setGeneri(g);</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">        for (Libro tl : libroDAO.findAll()) {</span>
+<span class="fc bfc" id="L463" title="All 2 branches covered.">            if (tl.getTitolo().equals(libro.getTitolo())) {</span>
+<span class="fc" id="L464">                exists = true;</span>
+<span class="fc" id="L465">                l = tl;</span>
+            }
+<span class="fc" id="L467">        }</span>
+<span class="fc bfc" id="L468" title="All 2 branches covered.">        if (!exists) {</span>
+<span class="fc" id="L469">            l = libroDAO.save(libro);</span>
+        }
+        //Se per errore avesse inserito un libro che possiede già,
+        //aggiorno semplicemente il numero di copie che ha.
+<span class="fc bfc" id="L473" title="All 2 branches covered.">        for (Possesso p : b.getPossessi()) {</span>
+<span class="fc bfc" id="L474" title="All 2 branches covered.">            if (p.getPossessoID().getLibroID() == l.getIdLibro()) {</span>
+<span class="fc" id="L475">                p.setNumeroCopie(p.getNumeroCopie() + numCopie);</span>
+<span class="fc" id="L476">                possessoDAO.save(p);</span>
+<span class="fc" id="L477">                bibliotecaDAO.save(b);</span>
+<span class="fc" id="L478">                return l;</span>
+            }
+<span class="fc" id="L480">        }</span>
+
+        //Creo e salvo il nuovo possesso
+<span class="fc" id="L483">        PossessoId pid = new PossessoId(idBiblioteca, l.getIdLibro());</span>
+<span class="fc" id="L484">        Possesso p = new Possesso(pid, numCopie);</span>
+<span class="fc" id="L485">        possessoDAO.save(p);</span>
+<span class="fc" id="L486">        List&lt;Possesso&gt; plist = b.getPossessi();</span>
+<span class="fc" id="L487">        plist.add(p);</span>
+<span class="fc" id="L488">        b.setPossessi(plist);</span>
+
+        //Update della biblioteca con il nuovo possesso
+<span class="fc" id="L491">        bibliotecaDAO.save(b);</span>
+
+<span class="fc" id="L493">        return l;</span>
+    }
+
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista dei generi.
+     * @return la lista dei generi.
+     */
+    public List&lt;Genere&gt; getAllGeneri() {
+<span class="fc" id="L503">        return genereDAO.findAll();</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List&lt;Biblioteca&gt; getAllBiblioteche() {
+<span class="nc" id="L513">        return bibliotecaDAO.findAllBiblioteche();</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche dato un nome.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List&lt;Biblioteca&gt; getBibliotecheByNome(final String nome) {
+<span class="fc" id="L523">        List&lt;Biblioteca&gt; byNome = bibliotecaDAO.findByNome(nome);</span>
+<span class="fc" id="L524">        return byNome;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * recuperare la lista delle biblioteche data una citta.
+     * @return la lista delle biblioteche.
+     */
+    @Override
+    public List&lt;Biblioteca&gt; getBibliotecheByCitta(final String citta) {
+<span class="fc" id="L534">        List&lt;Biblioteca&gt; byCitta = bibliotecaDAO.findByCitta(citta);</span>
+<span class="fc" id="L535">        return byCitta;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GoogleBookApiAdapterImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter</a> &gt; <span class="el_source">GoogleBookApiAdapterImpl.java</span></div><h1>GoogleBookApiAdapterImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter;
+
+import it.unisa.c07.biblionet.model.entity.Libro;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Base64;
+
+/**
+ * Implementa l'intefaccia del design pattern Adapter per
+ * l'interfacciamento con la Google API Books
+ * Esegue la chiamata alla API e riceve un JSON che viene
+ * trasformato in un oggetto Libro di BiblioNet.
+ * Documentazione di google sulla API:
+ * https://developers.google.com/books/docs/overview.
+ */
+@Service
+<span class="fc" id="L28">public class GoogleBookApiAdapterImpl implements BookApiAdapter {</span>
+
+    /**
+     * L'URL dell'api.
+     */
+<span class="fc" id="L33">    String googleApiUrl = &quot;https://www.googleapis.com/books/v1/volumes?q=isbn:&quot;;</span>
+    /**
+     * Lo status code per controllare la richiesta.
+     */
+<span class="fc" id="L37">    int errorCode = 299;</span>
+
+    /**
+     * Implementa la funzionalità che converte la risposta
+     * ottenuta dall'interrogazione della google API
+     * per i libri, tramite ISBN, in un oggetto della
+     * classe Libro, definita in BiblioNet.
+     *
+     * @param isbn Il codice ISBN a 13 cifre del libro che si vuole cercare
+     * @return L'oggetto Libro contenente le informazioni sul libro cercato
+     */
+    @Override
+    public Libro getLibroDaBookApi(final String isbn) {
+        try {
+            // Compose url string
+<span class="fc" id="L52">            String formattedIsbn = isbn.replace(&quot;-&quot;, &quot;&quot;);</span>
+<span class="fc" id="L53">            String urlString = googleApiUrl + formattedIsbn;</span>
+<span class="fc" id="L54">            URL url = new URL(urlString);</span>
+
+            // Connection part
+<span class="fc" id="L57">            HttpURLConnection con = (HttpURLConnection) url.openConnection();</span>
+<span class="fc" id="L58">            con.setRequestMethod(&quot;GET&quot;);</span>
+
+            // Check the response status code
+<span class="fc" id="L61">            int status = con.getResponseCode();</span>
+<span class="fc" id="L62">            Reader sr = null;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (status &gt; errorCode) {</span>
+<span class="fc" id="L64">                sr = new InputStreamReader(con.getErrorStream());</span>
+                //? Dovrebbe ritornare il messaggio di errore nel service?
+<span class="fc" id="L66">                return null;</span>
+            } else {
+<span class="fc" id="L68">                sr = new InputStreamReader(con.getInputStream());</span>
+<span class="fc" id="L69">                BufferedReader bf = new BufferedReader(sr);</span>
+                String inputLine;
+<span class="fc" id="L71">                StringBuilder stringBuilder = new StringBuilder();</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                while ((inputLine = bf.readLine()) != null) {</span>
+<span class="fc" id="L73">                    stringBuilder.append(inputLine);</span>
+                }
+<span class="fc" id="L75">                bf.close();</span>
+<span class="fc" id="L76">                con.disconnect();</span>
+
+<span class="fc" id="L78">                return creaLibroDaResponse(stringBuilder, isbn);</span>
+            }
+<span class="nc" id="L80">        } catch (Exception e) {</span>
+<span class="nc" id="L81">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L83">        return null;</span>
+    }
+
+    /**
+     * Il metodo che si occupa di tradurre la risposta
+     * JSON in oggetto Libro.
+     * @param stringBuilder la stringa JSON
+     * @param isbn l'isbn con cui si effettua la richiesta
+     * @return il libro creato
+     */
+    private Libro creaLibroDaResponse(final StringBuilder stringBuilder,
+                                      final String isbn) {
+<span class="fc" id="L95">        JSONParser parser = new JSONParser();</span>
+<span class="fc" id="L96">        Libro libro = new Libro();</span>
+        try {
+            //Parsing in Object dello StringBuilder che rappresenta il JSON
+<span class="fc" id="L99">            Object obj = parser.parse(stringBuilder.toString());</span>
+            //Parsing dell'object in JSONObject
+<span class="fc" id="L101">            JSONObject jsonData = (JSONObject) obj;</span>
+            //Recupero dei dati del libro dal JSON
+<span class="fc" id="L103">            JSONArray items = (JSONArray) jsonData.get(&quot;items&quot;);</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            if (items == null) {</span>
+<span class="nc" id="L105">                return null;</span>
+            }
+<span class="fc" id="L107">            JSONObject bookInfo = (JSONObject) items.get(0);</span>
+<span class="fc" id="L108">            JSONObject volumeInfo = (JSONObject) bookInfo.get(&quot;volumeInfo&quot;);</span>
+
+            //Creazione descrizione da categorie
+<span class="fc" id="L111">            String descrizione = &quot;&quot;;</span>
+<span class="fc" id="L112">            JSONArray categories = (JSONArray) volumeInfo.get(&quot;categories&quot;);</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (categories.isEmpty()) {</span>
+<span class="nc" id="L114">                descrizione = &quot;NA&quot;;</span>
+            }
+<span class="fc" id="L116">            int i = 0;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">            for (Object c : categories) {</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">                if (i == 0) {</span>
+<span class="fc" id="L119">                    descrizione += &quot;Questo libro parla di &quot; + c.toString();</span>
+<span class="fc" id="L120">                    i++;</span>
+                } else {
+<span class="nc" id="L122">                    descrizione += &quot;, &quot; + c.toString();</span>
+                }
+<span class="fc" id="L124">            }</span>
+
+            //Parsing dei campi del JSON in stringhe
+<span class="fc" id="L127">            String titolo = (String) volumeInfo.get(&quot;title&quot;);</span>
+<span class="fc" id="L128">            String casaEditrice = (String) volumeInfo.get(&quot;publisher&quot;);</span>
+<span class="fc" id="L129">            String annoPubblicazione = (String) volumeInfo.get(&quot;publishedDate&quot;);</span>
+<span class="fc" id="L130">            JSONArray autori = (JSONArray) volumeInfo.get(&quot;authors&quot;);</span>
+<span class="fc" id="L131">            JSONObject images = (JSONObject) volumeInfo.get(&quot;imageLinks&quot;);</span>
+<span class="fc" id="L132">            String copertina = (String) images.get(&quot;smallThumbnail&quot;);</span>
+<span class="fc" id="L133">            String autore = autori.get(0).toString();</span>
+            LocalDateTime annoPubblicazioneDateTime;
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">            if (annoPubblicazione == null) {</span>
+<span class="nc" id="L136">                annoPubblicazioneDateTime =</span>
+<span class="nc" id="L137">                        LocalDateTime.of(1, 1, 1, 1, 1);</span>
+            } else {
+<span class="fc" id="L139">                annoPubblicazioneDateTime = LocalDateTime.of(</span>
+<span class="fc" id="L140">                        Integer.parseInt(annoPubblicazione.substring(0, 4)),</span>
+                        1,
+                        1,
+                        0,
+                        0);
+
+            }
+
+<span class="fc" id="L148">            String base64Image = &quot;&quot;;</span>
+            try {
+<span class="fc" id="L150">                URL url = new URL(copertina);</span>
+<span class="fc" id="L151">                BufferedInputStream bis =</span>
+<span class="fc" id="L152">                        new BufferedInputStream(url.openConnection()</span>
+<span class="fc" id="L153">                                .getInputStream());</span>
+<span class="fc" id="L154">                byte[] imageData = new byte[8192];</span>
+<span class="fc" id="L155">                ByteArrayOutputStream output = new ByteArrayOutputStream();</span>
+<span class="fc" id="L156">                int read = 0;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">                while ((read = bis.read(imageData)) != -1) {</span>
+<span class="fc" id="L158">                    output.write(imageData, 0, read);</span>
+                }
+<span class="fc" id="L160">                byte[] bytes = output.toByteArray();</span>
+<span class="fc" id="L161">                base64Image = Base64.getEncoder().encodeToString(bytes);</span>
+<span class="nc" id="L162">            } catch (Exception e) {</span>
+<span class="nc" id="L163">                System.out.println(e);</span>
+<span class="fc" id="L164">            }</span>
+            //Creazione dell'oggetto Libro
+<span class="fc" id="L166">            libro.setTitolo(titolo);</span>
+<span class="fc" id="L167">            libro.setDescrizione(descrizione);</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            if (casaEditrice == null) {</span>
+<span class="fc" id="L169">                libro.setCasaEditrice(&quot;NA&quot;);</span>
+            } else {
+<span class="fc" id="L171">                libro.setCasaEditrice(casaEditrice);</span>
+            }
+<span class="fc" id="L173">            libro.setAutore(autore);</span>
+<span class="fc" id="L174">            libro.setAnnoDiPubblicazione(annoPubblicazioneDateTime);</span>
+<span class="fc" id="L175">            libro.setIsbn(isbn);</span>
+<span class="fc" id="L176">            libro.setImmagineLibro(base64Image);</span>
+<span class="nc" id="L177">        } catch (Exception e) {</span>
+<span class="nc" id="L178">            e.printStackTrace();</span>
+<span class="fc" id="L179">        }</span>
+<span class="fc" id="L180">        return libro;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

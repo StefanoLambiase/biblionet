@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PreferenzeDiLetturaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.preferenzeDiLettura.service</a> &gt; <span class="el_source">PreferenzeDiLetturaServiceImpl.java</span></div><h1>PreferenzeDiLetturaServiceImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.preferenzeDiLettura.service;
+
+import it.unisa.c07.biblionet.model.dao.GenereDAO;
+import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Alessio Casolaro
+ * @author Antonio Della Porta
+ */
+@Service
+<span class="fc" id="L20">@RequiredArgsConstructor</span>
+public class PreferenzeDiLetturaServiceImpl implements
+                                          PreferenzeDiLetturaService {
+
+    /**
+     * Si occupa delle funzioni CRUD per il genere.
+     */
+    private final GenereDAO genereDAO;
+
+    /**
+     * Si occupa delle funzioni CRUD per l'esperto.
+     */
+    private final EspertoDAO espertoDAO;
+
+    /**
+     * Si occupa delle funzioni CRUD per l'utente.
+     */
+    private final LettoreDAO lettoreDAO;
+
+    /**
+     * Implementa la funzionalità di restituire tutti i generi
+     * presenti nel database.
+     * @return la lista di tutti i generi presenti nel database
+     */
+    @Override
+    public List&lt;Genere&gt; getAllGeneri() {
+<span class="fc" id="L46">        return genereDAO.findAll();</span>
+    }
+
+    /**
+     * Implementa la funzionalità di restituire tutti i generi
+     * data una lista di nomi di generi.
+     * @param generi i generi da trovare
+     * @return la lista di generi contenente solamente i generi effettivamente
+     * presenti nel database
+     */
+    @Override
+    public List&lt;Genere&gt; getGeneriByName(final String[] generi) {
+<span class="fc" id="L58">        List&lt;Genere&gt; toReturn = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (String g: generi) {</span>
+<span class="fc" id="L61">            Genere gen = genereDAO.findByName(g);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (gen != null) {</span>
+<span class="fc" id="L63">                toReturn.add(gen);</span>
+            }
+
+        }
+
+<span class="fc" id="L68">        return toReturn;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di aggiungere una lista di generi
+     * ad un esperto.
+     * @param generi i generi da inserire
+     * @param esperto l'esperto a cui inserirli
+     */
+    @Override
+    public void addGeneriEsperto(final List&lt;Genere&gt; generi,
+                                 final Esperto esperto) {
+<span class="nc" id="L80">        esperto.setGeneri(generi);</span>
+<span class="nc" id="L81">        espertoDAO.save(esperto);</span>
+<span class="nc" id="L82">    }</span>
+
+    /**
+     * Implementa la funzionalità di aggiungere una lista di generi
+     * ad un lettore.
+     * @param generi i generi da inserire
+     * @param lettore il lettore a cui inserirli
+     */
+    @Override
+    public void addGeneriLettore(final List&lt;Genere&gt; generi,
+                                 final Lettore lettore) {
+<span class="nc" id="L93">        lettore.setGeneri(generi);</span>
+<span class="nc" id="L94">        lettoreDAO.save(lettore);</span>
+<span class="nc" id="L95">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
