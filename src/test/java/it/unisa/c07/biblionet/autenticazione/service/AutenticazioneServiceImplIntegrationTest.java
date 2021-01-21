@@ -6,7 +6,9 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -55,21 +58,39 @@ public class AutenticazioneServiceImplIntegrationTest {
      * dal metodo getInstance().
      */
     @ParameterizedTest
-    @MethodSource("provideLettore")
+    @MethodSource("provideAutenticazione")
     public void loginLettore(final Lettore lettore) throws NoSuchAlgorithmException {
         MessageDigest md;
         md = MessageDigest.getInstance("SHA-256");
 
-        String email = "lettore@lettore.com";
-        String password = "mipiaccionoglialberi";
-
-        byte[] arr = md.digest(password.getBytes());
-
-        when(lettoreDAO.findByEmailAndPassword(email,
-                arr)).thenReturn(lettore);
+        String email = "antoniorenatomontefusco@gmail.com";
+        String password = "LettorePassword";
 
         assertEquals(lettore, autenticazioneService.login(email,
                 password));
+    }
+
+    /**
+     * Simula i dati inviati da un metodo
+     * http attraverso uno stream.
+     * @return Lo stream di dati.
+     */
+    private static Stream<Arguments> provideAutenticazione() {
+        return Stream.of(
+                Arguments.of(
+                        new Lettore(
+                                "antoniorenatomontefusco@gmail.com",
+                                "LettorePassword",
+                                "Napoli",
+                                "Somma Vesuviana",
+                                "Via Vesuvio 33",
+                                "3456789012",
+                                "antoniomontefusco",
+                                "Antonio",
+                                "Montefusco"
+                        )
+                )
+        );
     }
 
 

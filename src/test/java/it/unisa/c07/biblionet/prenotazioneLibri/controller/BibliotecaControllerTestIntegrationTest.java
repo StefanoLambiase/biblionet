@@ -65,21 +65,6 @@ public class BibliotecaControllerTestIntegrationTest {
     }
 
     @Test
-    public void inserisciLibroISBN() throws Exception {
-
-        Biblioteca biblioteca = bibliotecaDAO.findByID("bibliotecacarrisi@gmail.com");
-        String[] generi = {"Fantasy"};
-
-        this.mockMvc.perform(post("/biblioteca/inserimento-isbn")
-                .sessionAttr("loggedUser", biblioteca)
-                .param("isbn", "9788809906440")
-                .param("generi", generi)
-                .param("numCopie", "1"))
-                .andExpect(view().name(
-                        "redirect:/prenotazione-libri/39/visualizza-libro"));
-    }
-
-    @Test
     public void inserimentoDatabase() throws Exception {
 
         Biblioteca biblioteca = bibliotecaDAO.findByID("bibliotecacarrisi@gmail.com");
