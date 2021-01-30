@@ -18,7 +18,7 @@ In this section we introduce context informations for the project.
 
 ## Introduction
 
-in development...
+📕 🎓 Spring Boot Web App for library support. Produced for the Software Engineering and Software Project Management courses of Computer Science at University of Salerno.
 
 ## Authors
 
@@ -69,10 +69,6 @@ Follow these steps:
 1. Clone this repo;
 2. Go into biblionet directory;
 3. Run `./mwnw (or .\mvnw.cmd if you're on windows) clean test` and wait for maven to build;
-
-## Installing
-
-in development...
 
 ## Built With
 
