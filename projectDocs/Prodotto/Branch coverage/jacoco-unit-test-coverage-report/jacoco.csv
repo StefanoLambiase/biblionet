@@ -1,0 +1,24 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+biblionet,it.unisa.c07.biblionet.autenticazione.service,AutenticazioneServiceImpl,31,101,0,4,8,19,4,11,4,9
+biblionet,it.unisa.c07.biblionet.clubDelLibro.controller,ClubDelLibroController,170,703,25,65,41,164,32,39,11,15
+biblionet,it.unisa.c07.biblionet.clubDelLibro.controller,ClubDelLibroController.new Object() {...},63,0,0,0,19,0,1,0,1,0
+biblionet,it.unisa.c07.biblionet.prenotazioneLibri.service.bookApiAdapter,GoogleBookApiAdapterImpl,29,268,4,14,12,72,4,8,0,3
+biblionet,it.unisa.c07.biblionet.registrazione.controller,RegistrazioneController,44,230,8,18,19,57,9,10,2,4
+biblionet,it.unisa.c07.biblionet.utils.eventchangeinterceptor,EventChangeInterceptor,14,35,1,3,3,9,2,5,1,4
+biblionet,it.unisa.c07.biblionet.utils.eventchangeinterceptor,EventChangeInterceptorRegistration,0,14,0,0,0,5,0,2,0,2
+biblionet,it.unisa.c07.biblionet.utils.eventchangeinterceptor,MailConsumer,5,3,0,0,2,1,1,1,1,1
+biblionet,it.unisa.c07.biblionet.clubDelLibro.service,ClubDelLibroServiceImpl,48,89,2,2,10,19,7,9,5,9
+biblionet,it.unisa.c07.biblionet.comunicazioneEsperto.service,ComunicazioneEspertoServiceImpl,8,123,3,13,1,24,2,11,0,5
+biblionet,it.unisa.c07.biblionet.preferenzeDiLettura.controller,PreferenzeDiLetturaController,0,106,2,14,0,30,2,9,0,3
+biblionet,it.unisa.c07.biblionet.gestioneEventi.service,GestioneEventiServiceImpl,13,160,5,11,4,34,6,10,1,7
+biblionet,it.unisa.c07.biblionet.prenotazioneLibri.service,PrenotazioneLibriServiceImpl,10,731,3,47,3,163,4,44,1,22
+biblionet,it.unisa.c07.biblionet.utils.validazione,RegexTester,0,22,0,2,0,5,0,4,0,3
+biblionet,it.unisa.c07.biblionet.utils.validazione,ValidazioneEvento,0,20,1,5,0,3,1,4,0,2
+biblionet,it.unisa.c07.biblionet.prenotazioneLibri.controller,BibliotecaController,17,247,2,27,7,67,2,21,0,8
+biblionet,it.unisa.c07.biblionet.prenotazioneLibri.controller,PrenotazioneLibriController,41,330,9,33,7,83,11,23,2,10
+biblionet,it.unisa.c07.biblionet.utils,Length,3,0,0,0,1,0,1,0,1,0
+biblionet,it.unisa.c07.biblionet.autenticazione.controller,AutenticazioneController,0,44,0,2,0,12,0,6,0,5
+biblionet,it.unisa.c07.biblionet.autenticazione.controller,AreaUtenteController,34,462,20,48,15,118,20,22,0,8
+biblionet,it.unisa.c07.biblionet.comunicazioneEsperto.controller,ComunicazioneEspertoController,18,52,0,3,5,15,1,5,1,3
+biblionet,it.unisa.c07.biblionet.registrazione.service,RegistrazioneServiceImpl,5,91,0,8,1,15,1,10,1,6
+biblionet,it.unisa.c07.biblionet.preferenzeDiLettura.service,PreferenzeDiLetturaServiceImpl,18,49,0,4,6,8,2,5,2,3

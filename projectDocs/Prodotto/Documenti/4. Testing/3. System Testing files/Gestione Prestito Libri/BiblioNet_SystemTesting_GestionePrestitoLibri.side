@@ -1,0 +1,1122 @@
+{
+  "id": "f0d79a4c-0bd7-4df3-be8f-0797c6fc6468",
+  "version": "2.0",
+  "name": "BiblioNet_SystemTesting_GestionePrestitoLibri",
+  "url": "http://localhost:8080/",
+  "tests": [{
+    "id": "c6174a29-2320-4f1f-a110-9630cf806398",
+    "name": "TC_3.1_1",
+    "commands": [{
+      "id": "7451fad6-4007-4eee-985b-b64b76d609f9",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d20e12e7-acd2-47ad-8415-adf31d24f868",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x864",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f8d4f9e5-a6cf-46e4-9d2d-7cf78d0e46da",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a178f6e-852a-42d6-bd0b-add0ac8e3e68",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "55f3623c-7df4-4cfa-9eb8-ef4144f44cdc",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "bibliotecacarrisi@gmail.com"
+    }, {
+      "id": "a1181df3-25e7-4b20-a894-ad58cdc018c0",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "29e3842c-a04f-4e03-aa19-3c24794c2d7d",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "BibliotecaPassword"
+    }, {
+      "id": "7c17801e-e020-4868-94ec-e108b042f7d7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9f850f7e-3876-426a-acd7-c31016f382af",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Prenotazione libri",
+      "targets": [
+        ["linkText=Prenotazione libri", "linkText"],
+        ["css=.col:nth-child(4) .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Prenotazione libri')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/prenotazione-libri/')]", "xpath:href"],
+        ["xpath=//div[4]/div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Prenotazione libri')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "44c53eb4-be5d-4b0a-89fe-1d422e86c0cc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca",
+      "targets": [
+        ["linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca", "linkText"],
+        ["css=.col > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/biblioteca/inserisci-nuovo-libro')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce54a31d-3530-469e-b75b-479928c29720",
+      "comment": "",
+      "command": "click",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "251635f3-c120-431c-84c2-bb2a8784ca7e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#collapseOne .btn-main",
+      "targets": [
+        ["css=#collapseOne .btn-main", "css:finder"],
+        ["xpath=//input[@value='Conferma']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "67e38c52-5b6a-436f-b31c-df87b1536ea5",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Inserimento nuovo libro",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "920a34c7-c13d-47b1-a636-68d97e37f6e0",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3db8401d-7169-4721-b95f-51cce30b6b6c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "32cccfbb-d072-4e03-bbf4-65724e21a490",
+    "name": "TC_3.1_2",
+    "commands": [{
+      "id": "cd1ca10d-1287-4786-8f83-ea5237b01ea3",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e89f12b2-111d-441f-aec5-63d2cd688999",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x864",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e39f7623-14f2-4db3-ad2e-976a11afcd16",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "37b80010-114e-491d-89c5-8cd11e8f79b8",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "bibliotecacarrisi@gmail.com"
+    }, {
+      "id": "119f5ade-219b-4dd0-be4b-12f65671e9de",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "396029ee-bc01-4177-95a0-fb66049f4271",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "BibliotecaPassword"
+    }, {
+      "id": "639a027d-473a-4a05-81f4-4ea501996a58",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce0b057e-a647-4df2-9738-6c8284551335",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Prenotazione libri",
+      "targets": [
+        ["linkText=Prenotazione libri", "linkText"],
+        ["css=.col:nth-child(4) .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Prenotazione libri')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/prenotazione-libri/')]", "xpath:href"],
+        ["xpath=//div[4]/div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Prenotazione libri')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e4bcba54-a4b4-4b38-a90a-3383e026b8e2",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca",
+      "targets": [
+        ["linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca", "linkText"],
+        ["css=.col > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/biblioteca/inserisci-nuovo-libro')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4c0591c4-0a27-453d-9fae-9e2716ada68d",
+      "comment": "",
+      "command": "click",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b95caee-d9f9-40a1-b4ec-646e7f77221e",
+      "comment": "",
+      "command": "click",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a9f25bf8-d6b3-4293-8407-85149a9bbe7d",
+      "comment": "",
+      "command": "type",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "@;*27###"
+    }, {
+      "id": "1aaa4bd0-d494-4fae-9415-04ab94fcfc00",
+      "comment": "",
+      "command": "addSelection",
+      "target": "name=generi",
+      "targets": [
+        ["name=generi", "name"],
+        ["css=#collapseOne .form-group:nth-child(2) > .form-control", "css:finder"],
+        ["xpath=//select[@name='generi']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div[2]/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=D'Avventura"
+    }, {
+      "id": "d5d3cc99-035d-45ca-a747-300427e08aea",
+      "comment": "",
+      "command": "click",
+      "target": "css=#collapseOne .btn-main",
+      "targets": [
+        ["css=#collapseOne .btn-main", "css:finder"],
+        ["xpath=//input[@value='Conferma']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c66a8794-2dbc-446c-a869-afff1d82c40a",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Inserimento nuovo libro",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3da6e03d-779e-4b39-805c-5a6fdd00f831",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dc342511-7d6a-45f6-ad57-210e1562d712",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c0e84b34-937a-4a05-8a53-d9eca83e7c7e",
+    "name": "TC_3.1_3",
+    "commands": [{
+      "id": "2afabc84-c632-4536-8f89-c605e6bf9d41",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1a581143-8362-4ed8-9958-f69093ddd969",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x864",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8fb5f02c-555b-4edf-a6a1-6c403ba1f754",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "29e79962-1996-4552-8d35-187e0b00e52a",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4afde4e7-45f8-4008-8739-9c7117b8736d",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "bibliotecacarrisi@gmail.com"
+    }, {
+      "id": "a2d99c3f-05f6-4c7a-95bd-67b4244b34ba",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5b5e3348-9344-4b9e-9829-d13ec5ce9256",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "BibliotecaPassword"
+    }, {
+      "id": "370915e2-aa6b-4778-81c3-ed69ba11ebc4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "89a8ef4b-005d-41ba-8986-deda56a8e0fd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col:nth-child(4) .flip_back",
+      "targets": [
+        ["css=.col:nth-child(4) .flip_back", "css:finder"],
+        ["xpath=//div[4]/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "79e28ce9-a7ec-471b-8fb9-a2fb8ab2f2c1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Prenotazione libri",
+      "targets": [
+        ["linkText=Prenotazione libri", "linkText"],
+        ["css=.col:nth-child(4) .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Prenotazione libri')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/prenotazione-libri/')]", "xpath:href"],
+        ["xpath=//div[4]/div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Prenotazione libri')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "27987785-d1b4-4aaa-b696-2e330583f5a2",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca",
+      "targets": [
+        ["linkText=Inserisci un nuovo libro prenotabile dalla tua biblioteca", "linkText"],
+        ["css=.col > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/biblioteca/inserisci-nuovo-libro')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Inserisci un nuovo libro prenotabile dalla tua biblioteca')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9854a99-ee73-4131-b7c9-d68c1720d682",
+      "comment": "",
+      "command": "click",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "00a6373b-8d0d-4e5d-9917-c617306f0801",
+      "comment": "",
+      "command": "type",
+      "target": "name=isbn",
+      "targets": [
+        ["name=isbn", "name"],
+        ["css=#collapseOne .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='isbn']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "9788838785825"
+    }, {
+      "id": "4b37020d-6993-4249-84b7-a71c23f6cbc7",
+      "comment": "",
+      "command": "addSelection",
+      "target": "name=generi",
+      "targets": [
+        ["name=generi", "name"],
+        ["css=#collapseOne .form-group:nth-child(2) > .form-control", "css:finder"],
+        ["xpath=//select[@name='generi']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div/div[2]/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Azione"
+    }, {
+      "id": "b2a26693-fe65-4662-bae1-41a838957129",
+      "comment": "",
+      "command": "click",
+      "target": "css=#collapseOne .btn-main",
+      "targets": [
+        ["css=#collapseOne .btn-main", "css:finder"],
+        ["xpath=//input[@value='Conferma']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseOne']/div/div/form/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b002b0c-4e5c-487e-a286-8cc64ecb5c92",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Prenota libro",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "125a1fcb-d06c-4e59-9a56-bb38fa37e32b",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ff44deb1-7954-42bd-a5f1-4fb18e690d50",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "6034a647-d45c-47cf-b998-49b48ba67f5b",
+    "name": "TC_3.2_1",
+    "commands": [{
+      "id": "c38a2a17-bb75-4390-a799-87f657999690",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ec7f9ebb-16b2-45b7-b574-d6554c44266a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x864",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0c42893b-8eea-4318-bd56-292a48202cb2",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "854ca175-bbd4-42e2-aebf-0dba71a51f34",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "379debb7-373e-4dee-84d9-c639c5b34bd0",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "bibliotecacarrisi@gmail.com"
+    }, {
+      "id": "fb2dcbac-0e08-478b-b206-3ef6a2544a7b",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6372d080-54ad-4589-977f-d0d9e67828c5",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "BibliotecaPassword"
+    }, {
+      "id": "10488691-e3c9-4d64-9bf4-1e1e4d5f251b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "90ee31d4-295b-472f-855e-b85889bff41d",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a9007c20-f323-4a9e-b79a-53cecadcc587",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1f37c36-4606-4011-a8c1-1f5084e151fd",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Visualizza Lista Tickets",
+      "targets": [
+        ["linkText=Visualizza Lista Tickets", "linkText"],
+        ["css=.mb-3:nth-child(4) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Visualizza Lista Tickets')]", "xpath:link"],
+        ["xpath=(//a[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/prenotazione-libri/visualizza-richieste')]", "xpath:href"],
+        ["xpath=//div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Visualizza Lista Tickets')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "29b05330-994c-4337-84ee-aaf4a11cc8e7",
+      "comment": "",
+      "command": "click",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "24ee926a-fe5b-49e4-baa7-78e4298049f4",
+      "comment": "",
+      "command": "type",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "-3"
+    }, {
+      "id": "34c71023-031e-4232-889a-eb1fd929bbf7",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .card form > .btn",
+      "targets": [
+        ["css=div:nth-child(2) > .card form > .btn", "css:finder"],
+        ["xpath=//input[@value='Accetta']", "xpath:attributes"],
+        ["xpath=//form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "87211a9a-69e3-46c3-be33-76cfdc6354e2",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Visualizza richieste",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "be064151-7931-4f74-b0c3-85fce22b8f21",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d1068759-7430-4159-8938-198a57f1e37c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "f41082b9-bdc8-402b-b2cc-d6101c36026b",
+    "name": "TC_3.2_2",
+    "commands": [{
+      "id": "ebd0c3c8-03bc-4f93-86d3-e5d00ab5e06e",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3da95de0-ba16-405f-be01-50cb35932e88",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x864",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "43d3cbcf-8e8c-4166-bf56-322d5f1c042b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "52ce041f-c97d-42e4-a34f-5de4e650d96f",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputEmail",
+      "targets": [
+        ["id=inputEmail", "id"],
+        ["name=email", "name"],
+        ["css=#inputEmail", "css:finder"],
+        ["xpath=//input[@id='inputEmail']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "bibliotecacarrisi@gmail.com"
+    }, {
+      "id": "11852d82-96bb-4635-896b-f913a2ce2db6",
+      "comment": "",
+      "command": "click",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "269cae33-7acd-4861-b1da-5c7a61995f78",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "BibliotecaPassword"
+    }, {
+      "id": "6c0955c1-4f47-4387-a2dc-4083a99ff789",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "89a5a9b5-ba9c-4af1-a225-86bb4461b2ff",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "29022dce-3964-4666-a7f4-7ce7bd2d73ad",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "75332bbe-d15c-4d77-8935-53b5944d6fc3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Visualizza Lista Tickets",
+      "targets": [
+        ["linkText=Visualizza Lista Tickets", "linkText"],
+        ["css=.mb-3:nth-child(4) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Visualizza Lista Tickets')]", "xpath:link"],
+        ["xpath=(//a[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/prenotazione-libri/visualizza-richieste')]", "xpath:href"],
+        ["xpath=//div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Visualizza Lista Tickets')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "63da750b-8b01-41dc-a84a-6cecc42d5cc3",
+      "comment": "",
+      "command": "click",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5e583ff-3987-4dc3-bb2d-4b57a07bc1c4",
+      "comment": "",
+      "command": "type",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "7"
+    }, {
+      "id": "e00f43c9-2dd2-408f-a45f-b314b1255850",
+      "comment": "",
+      "command": "click",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe9b6f6f-29f3-4a39-9a8e-86749b727001",
+      "comment": "",
+      "command": "type",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "8"
+    }, {
+      "id": "326ecdcd-0314-4128-b639-a5e2b2d778de",
+      "comment": "",
+      "command": "click",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "77e062e0-7f7d-4c93-b1fd-18065df2355a",
+      "comment": "",
+      "command": "type",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "9"
+    }, {
+      "id": "9dcc2c8d-010d-489d-825f-2b2de02556e7",
+      "comment": "",
+      "command": "click",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9a30e4fc-3690-4155-ba6f-e4382961d5d4",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "name=giorni",
+      "targets": [
+        ["name=giorni", "name"],
+        ["css=.col:nth-child(1) > div:nth-child(2) form:nth-child(11) > .card-text > input", "css:finder"],
+        ["xpath=//input[@name='giorni']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e6814c6-6926-4457-aa81-ad86a0e25fc1",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .card form > .btn",
+      "targets": [
+        ["css=div:nth-child(2) > .card form > .btn", "css:finder"],
+        ["xpath=//input[@value='Accetta']", "xpath:attributes"],
+        ["xpath=//form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12a02dec-9d5c-4519-a105-5a9c9d067136",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "Visualizza richieste",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bd5d3e4b-f981-45eb-8708-54569c095291",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c75a224f-fa6a-4629-bca9-4e8f72d53054",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "5ac23e93-940b-4847-ad16-a447e3b30d91",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/"],
+  "plugins": []
+}

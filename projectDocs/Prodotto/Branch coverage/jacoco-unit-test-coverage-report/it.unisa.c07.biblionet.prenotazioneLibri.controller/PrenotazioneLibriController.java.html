@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrenotazioneLibriController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.prenotazioneLibri.controller</a> &gt; <span class="el_source">PrenotazioneLibriController.java</span></div><h1>PrenotazioneLibriController.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.prenotazioneLibri.controller;
+
+import it.unisa.c07.biblionet.model.dao.customQueriesResults.ILibroIdAndName;
+import it.unisa.c07.biblionet.model.entity.Libro;
+import it.unisa.c07.biblionet.model.entity.TicketPrestito;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import it.unisa.c07.biblionet.prenotazioneLibri.service.PrenotazioneLibriService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Implementa il controller per il sottosistema
+ * PrenotazioneLibri.
+ *
+ * @author Viviana Pentangelo, Gianmario Voria
+ */
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">@SessionAttributes(&quot;loggedUser&quot;)</span>
+@Controller
+<span class="fc" id="L31">@RequiredArgsConstructor</span>
+@RequestMapping(&quot;/prenotazione-libri&quot;)
+public class PrenotazioneLibriController {
+
+    /**
+     * Il service per effettuare le operazioni di
+     * persistenza.
+     */
+    private final PrenotazioneLibriService prenotazioneService;
+
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare tutti i libri prenotabili.
+     *
+     * @param model Il model in cui salvare la lista
+     * @return La view per visualizzare i libri
+     */
+    @RequestMapping(value = &quot;&quot;, method = RequestMethod.GET)
+    public String visualizzaListaLibri(final Model model) {
+<span class="fc" id="L50">        model.addAttribute(&quot;listaLibri&quot;,</span>
+<span class="fc" id="L51">                prenotazioneService.visualizzaListaLibriCompleta());</span>
+<span class="fc" id="L52">        return &quot;prenotazione-libri/visualizza-libri-prenotabili&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare tutti i libri filtrati.
+     *
+     * @param stringa La stringa di ricerca
+     * @param filtro  L'informazione su cui filtrare
+     * @param model   Il model per salvare la lista
+     * @return La view che visualizza la lista
+     */
+    @RequestMapping(value = &quot;/ricerca&quot;, method = RequestMethod.GET)
+    public String visualizzaListaFiltrata(
+            @RequestParam(&quot;stringa&quot;) final String stringa,
+            @RequestParam(&quot;filtro&quot;) final String filtro,
+            final Model model) {
+
+<span class="fc bfc" id="L70" title="All 4 branches covered.">        switch (filtro) {</span>
+            case &quot;titolo&quot;:
+<span class="fc" id="L72">                model.addAttribute(&quot;listaLibri&quot;, prenotazioneService.</span>
+<span class="fc" id="L73">                        visualizzaListaLibriPerTitolo(stringa));</span>
+<span class="fc" id="L74">                break;</span>
+            case &quot;genere&quot;:
+<span class="fc" id="L76">                model.addAttribute(&quot;listaLibri&quot;, prenotazioneService.</span>
+<span class="fc" id="L77">                        visualizzaListaLibriPerGenere(stringa));</span>
+<span class="fc" id="L78">                break;</span>
+            case &quot;biblioteca&quot;:
+<span class="fc" id="L80">                model.addAttribute(&quot;listaLibri&quot;, prenotazioneService.</span>
+<span class="fc" id="L81">                        visualizzaListaLibriPerBiblioteca(stringa));</span>
+<span class="fc" id="L82">                break;</span>
+            default:
+<span class="fc" id="L84">                model.addAttribute(&quot;listaLibri&quot;, prenotazioneService.</span>
+<span class="fc" id="L85">                        visualizzaListaLibriCompleta());</span>
+                break;
+        }
+
+<span class="fc" id="L89">        return &quot;prenotazione-libri/visualizza-libri-prenotabili&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * visualizzare le biblioteche presso cui è
+     * possibile prentoare il libro.
+     *
+     * @param id    L'ID del libro di cui effettuare la prenotazione
+     * @param model Il model per salvare il libro
+     * @return La view che visualizza la lista delle biblioteche
+     */
+    @RequestMapping(value = &quot;/{id}/visualizza-libro&quot;,
+            method = RequestMethod.GET)
+    public String prenotaLibro(@PathVariable final int id, final Model model) {
+
+<span class="nc" id="L105">        Libro libro = prenotazioneService.getLibroByID(id);</span>
+<span class="nc" id="L106">        List&lt;Biblioteca&gt; listaBiblioteche =</span>
+<span class="nc" id="L107">                prenotazioneService.getBibliotecheLibro(libro);</span>
+<span class="nc" id="L108">        model.addAttribute(&quot;lista&quot;, listaBiblioteche);</span>
+<span class="nc" id="L109">        model.addAttribute(&quot;libro&quot;, libro);</span>
+<span class="nc" id="L110">        return &quot;prenotazione-libri/visualizza-prenota-libro&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * richiedere il prestito di un libro.
+     *
+     * @param idBiblioteca L'ID della biblioteca che possiede il libro
+     * @param idLibro      L'ID del libro di cui effettuare la prenotazione
+     * @param model        Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista dei libri prenotabili
+     */
+    @RequestMapping(value = &quot;/conferma-prenotazione&quot;,
+            method = RequestMethod.POST)
+    public String confermaPrenotazione(@RequestParam final String idBiblioteca,
+                                       @RequestParam final String idLibro,
+                                       final Model model) {
+
+<span class="fc" id="L128">        UtenteRegistrato utente =</span>
+<span class="fc" id="L129">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L130" title="2 of 4 branches missed.">        assert utente != null;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (utente.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L132">            Lettore l = (Lettore) utente;</span>
+<span class="fc" id="L133">            prenotazioneService.richiediPrestito(l,</span>
+                    idBiblioteca,
+<span class="fc" id="L135">                    Integer.parseInt(idLibro));</span>
+        }
+<span class="fc" id="L137">        return &quot;redirect:/prenotazione-libri&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ad una biblioteca di visualizzare le richieste di
+     * prenotazione ricevute.
+     *
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle richieste
+     */
+    @RequestMapping(value = &quot;/visualizza-richieste&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaRichieste(final Model model) {
+<span class="fc" id="L151">        UtenteRegistrato utente =</span>
+<span class="fc" id="L152">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L153" title="2 of 4 branches missed.">        assert utente != null;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (utente.getTipo().equals(&quot;Biblioteca&quot;)) {</span>
+<span class="fc" id="L155">            Biblioteca biblioteca = (Biblioteca) utente;</span>
+<span class="fc" id="L156">            List&lt;TicketPrestito&gt; lista =</span>
+<span class="fc" id="L157">                    prenotazioneService.getTicketsByBiblioteca(biblioteca);</span>
+<span class="fc" id="L158">            List&lt;TicketPrestito&gt; list1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L159">            List&lt;TicketPrestito&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L160">            List&lt;TicketPrestito&gt; list3 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            for (TicketPrestito t : lista) {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
+<span class="fc" id="L164">                    list1.add(t);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                } else if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
+<span class="fc" id="L167">                    list2.add(t);</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">                } else if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.CHIUSO)) {
+<span class="fc" id="L170">                    list3.add(t);</span>
+                }
+<span class="fc" id="L172">            }</span>
+<span class="fc" id="L173">            model.addAttribute(&quot;listaTicketDaAccettare&quot;, list1);</span>
+<span class="fc" id="L174">            model.addAttribute(&quot;listaTicketAccettati&quot;, list2);</span>
+<span class="fc" id="L175">            model.addAttribute(&quot;listaTicketChiusi&quot;, list3);</span>
+        }
+<span class="fc" id="L177">        return &quot;/prenotazione-libri/visualizza-richieste-biblioteca&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * richiedere il prestito di un libro.
+     *
+     * @param id     l'ID del ticket da accettare
+     * @param giorni il tempo di concessione del prestito
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = &quot;/ticket/{id}/accetta&quot;,
+            method = RequestMethod.POST)
+    public String accettaPrenotazione(final @PathVariable int id,
+                        final @RequestParam(value = &quot;giorni&quot;) int giorni) {
+<span class="fc" id="L192">        TicketPrestito ticket = prenotazioneService.getTicketByID(id);</span>
+<span class="fc" id="L193">        prenotazioneService.accettaRichiesta(ticket, giorni);</span>
+<span class="fc" id="L194">        return &quot;redirect:/prenotazione-libri/visualizza-richieste&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * richiedere il prestito di un libro.
+     *
+     * @param id l'ID del ticket da rifiutare
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = &quot;/ticket/{id}/rifiuta&quot;,
+            method = RequestMethod.POST)
+    public String rifiutaPrenotazione(final @PathVariable int id) {
+<span class="fc" id="L207">        TicketPrestito ticket = prenotazioneService.getTicketByID(id);</span>
+<span class="fc" id="L208">        prenotazioneService.rifiutaRichiesta(ticket);</span>
+<span class="fc" id="L209">        return &quot;redirect:/prenotazione-libri/visualizza-richieste&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * chiudere una prenotazione di un libro quando
+     * questo viene riconsegnato.
+     *
+     * @param id l'ID del ticket da chiudere
+     * @return La view che visualizza la lista delle prenotazioni
+     */
+    @RequestMapping(value = &quot;/ticket/{id}/chiudi&quot;,
+            method = RequestMethod.POST)
+    public String chiudiPrenotazione(final @PathVariable int id) {
+<span class="fc" id="L223">        TicketPrestito ticket = prenotazioneService.getTicketByID(id);</span>
+<span class="fc" id="L224">        prenotazioneService.chiudiTicket(ticket);</span>
+<span class="fc" id="L225">        return &quot;redirect:/prenotazione-libri/visualizza-richieste&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere la lista di ticket di un lettore.
+     *
+     * @param model Il model per recuperare l'utente loggato
+     * @return La view che visualizza la lista delle prenotazioni del lettore
+     */
+    @RequestMapping(value = &quot;/visualizza-prenotazioni&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaPrenotazioniLettore(final Model model) {
+<span class="fc" id="L238">        UtenteRegistrato utente =</span>
+<span class="fc" id="L239">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L240" title="2 of 4 branches missed.">        assert utente != null;</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        if (utente.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L242">            Lettore lettore = (Lettore) utente;</span>
+
+<span class="fc" id="L244">            List&lt;TicketPrestito&gt; listaTicket =</span>
+<span class="fc" id="L245">                    prenotazioneService.getTicketsLettore(lettore);</span>
+<span class="fc" id="L246">            List&lt;TicketPrestito&gt; list1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L247">            List&lt;TicketPrestito&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L248">            List&lt;TicketPrestito&gt; list3 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L249">            List&lt;TicketPrestito&gt; list4 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">            for (TicketPrestito t : listaTicket) {</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">                if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.IN_ATTESA_DI_CONFERMA)) {
+<span class="fc" id="L253">                    list1.add(t);</span>
+<span class="fc bfc" id="L254" title="All 2 branches covered.">                } else if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.IN_ATTESA_DI_RESTITUZIONE)) {
+<span class="fc" id="L256">                    list2.add(t);</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">                } else if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.CHIUSO)) {
+<span class="fc" id="L259">                    list3.add(t);</span>
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">                } else if (t.getStato().equals(</span>
+                        TicketPrestito.Stati.RIFIUTATO)) {
+<span class="fc" id="L262">                    list4.add(t);</span>
+                }
+<span class="fc" id="L264">            }</span>
+<span class="fc" id="L265">            model.addAttribute(&quot;listaTicketDaAccettare&quot;, list1);</span>
+<span class="fc" id="L266">            model.addAttribute(&quot;listaTicketAccettati&quot;, list2);</span>
+<span class="fc" id="L267">            model.addAttribute(&quot;listaTicketChiusi&quot;, list3);</span>
+<span class="fc" id="L268">            model.addAttribute(&quot;listaTicketRifiutati&quot;, list4);</span>
+        }
+<span class="fc" id="L270">        return &quot;prenotazione-libri/visualizza-richieste-lettore&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di
+     * ottenere una lista di id e titoli di libri
+     * sulla base di un titolo dato
+     *
+     * ! Controllare prima di consegnare
+     *
+     * @param titolo il titolo che deve mathcare
+     * @return la lista di informazioni
+     */
+    @RequestMapping(value = &quot;/find-libri-by-titolo-contains&quot;)
+    public @ResponseBody List&lt;ILibroIdAndName&gt; findLibriByTitoloContains(
+            @RequestParam(&quot;q&quot;) final String titolo
+    ) {
+<span class="nc" id="L287">        return prenotazioneService.findByTitoloContains(titolo);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

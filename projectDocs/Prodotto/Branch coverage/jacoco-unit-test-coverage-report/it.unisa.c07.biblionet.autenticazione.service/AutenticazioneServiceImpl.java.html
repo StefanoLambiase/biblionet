@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutenticazioneServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.autenticazione.service</a> &gt; <span class="el_source">AutenticazioneServiceImpl.java</span></div><h1>AutenticazioneServiceImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.autenticazione.service;
+
+import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
+import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ *Implementa la classe che esplicita i metodi
+ * definiti nell'interfaccia service per il
+ * sottosistema Autenticazione.
+ * @author Ciro Maiorino , Giulio Triggiani
+ */
+@Service
+<span class="fc" id="L26">@RequiredArgsConstructor</span>
+public class AutenticazioneServiceImpl implements AutenticazioneService {
+
+    /**
+     *Si occupa delle operazioni CRUD per un lettore.
+     */
+    private final LettoreDAO lettoreDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per una biblioteca.
+     */
+    private final BibliotecaDAO bibliotecaDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD un esperto.
+     */
+    private final EspertoDAO espertoDAO;
+
+    /**
+     * I.
+     */
+    private final ClubDelLibroService clubDelLibroService;
+
+    /**
+     * Implementa la funzionalità di login
+     * per un Utente registrato.
+     * @param email dell'utente.
+     * @param password dell'utente.
+     * @return un utente registrato.
+     */
+    @Override
+    public UtenteRegistrato login(final String email, final String password) {
+        try {
+            MessageDigest md;
+<span class="fc" id="L60">            md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L61">            byte[] arr = md.digest(password.getBytes());</span>
+            UtenteRegistrato u;
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            if ((u = lettoreDAO.findByEmailAndPassword(email, arr)) != null) {</span>
+<span class="fc" id="L65">                return u;</span>
+<span class="fc" id="L66">            } else if ((u =</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                    bibliotecaDAO.findByEmailAndPassword(email, arr)) != null) {</span>
+<span class="fc" id="L68">                return u;</span>
+            } else {
+<span class="fc" id="L70">                u = espertoDAO.findByEmailAndPassword(email, arr);</span>
+<span class="fc" id="L71">                return u;</span>
+            }
+
+<span class="nc" id="L74">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L75">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L77">        return null;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di
+     * identifica di un utente in sessione.
+     * @param utente registrato che si trova già in sessione.
+     * @return true se l'utente è un lettore altrimenti false.
+     */
+    @Override
+    public boolean isLettore(final UtenteRegistrato utente) {
+<span class="fc" id="L88">        return &quot;Lettore&quot;.equals(utente.getClass().getSimpleName());</span>
+    }
+
+    /**
+     * Implementa la funzionalità di
+     * identifica di un utente in sessione.
+     * @param utente registrato che si trova già in sessione.
+     * @return true se l'utente è un esperto altrimenti false.
+     */
+    @Override
+    public boolean isEsperto(final UtenteRegistrato utente) {
+<span class="fc" id="L99">        return &quot;Esperto&quot;.equals(utente.getClass().getSimpleName());</span>
+    }
+
+    /**
+     * Implementa la funzionalità di
+     * identifica di un utente in sessione.
+     * @param utente registrato che si trova già in sessione.
+     * @return true se l'utente è una biblioteca altrimenti false.
+     */
+    @Override
+    public boolean isBiblioteca(final UtenteRegistrato utente) {
+<span class="nc" id="L110">        return &quot;Biblioteca&quot;.equals(utente.getClass().getSimpleName());</span>
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account biblioteca.
+     * @param utente La biblioteca da aggiornare
+     * @return la biblioteca aggiornata
+     */
+    public Biblioteca aggiornaBiblioteca(final Biblioteca utente) {
+<span class="fc" id="L120">        return bibliotecaDAO.save(utente);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account esperto.
+     * @param utente L'esperto da aggiornare
+     * @return l'esperto aggiornato
+     */
+    public Esperto aggiornaEsperto(final Esperto utente) {
+<span class="fc" id="L130">        return espertoDAO.save(utente);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di salvataggio delle modifiche
+     * all'account lettore.
+     * @param utente Lettore da aggiornare
+     * @return il lettore aggiornato
+     */
+    public Lettore aggiornaLettore(final Lettore utente) {
+<span class="fc" id="L140">        return lettoreDAO.save(utente);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di trovare una biblioteca.
+     * @param email La mail della biblioteca
+     * @return La biblioteca se c'è, altrimenti null
+     */
+    @Override
+    public final Biblioteca findBibliotecaByEmail(final String email) {
+
+<span class="nc" id="L151">        Optional&lt;UtenteRegistrato&gt; b = bibliotecaDAO.findById(email);</span>
+<span class="nc" id="L152">        return (Biblioteca) b.orElse(null);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un esperto.
+     * @param email La mail dell esperto
+     * @return L'esperto se c'è, altrimenti null
+     */
+    @Override
+    public final Esperto findEspertoByEmail(final String email) {
+
+<span class="fc" id="L163">        Optional&lt;UtenteRegistrato&gt; b = espertoDAO.findById(email);</span>
+<span class="fc" id="L164">        return (Esperto) b.orElse(null);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di trovare un lettore.
+     * @param email La mail dell lettore
+     * @return Il lettore se c'è, altrimenti null
+     */
+    @Override
+    public final Lettore findLettoreByEmail(final String email) {
+
+<span class="fc" id="L175">        Optional&lt;UtenteRegistrato&gt; b = lettoreDAO.findById(email);</span>
+<span class="fc" id="L176">        return (Lettore) b.orElse(null);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro a cui un lettore partecipa.
+     * @param lettore il lettore preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    @Override
+    public List&lt;ClubDelLibro&gt; findAllByLettori(final Lettore lettore) {
+<span class="nc" id="L187">        return clubDelLibroService.findAllByLettori(lettore);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di club
+     * del libro di cui un esperto è proprietario.
+     * @param esperto l' esperto preso in esame
+     * @return la lista dei club del libro a cui partecipa
+     */
+    @Override
+    public List&lt;ClubDelLibro&gt; findAllByEsperto(final Esperto esperto) {
+<span class="nc" id="L198">        return clubDelLibroService.findAllByEsperto(esperto);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

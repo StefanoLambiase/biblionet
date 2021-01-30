@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GestioneEventiServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.gestioneEventi.service</a> &gt; <span class="el_source">GestioneEventiServiceImpl.java</span></div><h1>GestioneEventiServiceImpl.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.gestioneEventi.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import org.springframework.stereotype.Service;
+
+import it.unisa.c07.biblionet.model.dao.EventoDAO;
+import it.unisa.c07.biblionet.model.dao.LibroDAO;
+import it.unisa.c07.biblionet.model.entity.Evento;
+import it.unisa.c07.biblionet.model.entity.Libro;
+import lombok.RequiredArgsConstructor;
+
+/**
+ * Implementa la classe che esplicita i metodi definiti nell'interfaccia service
+ * per il sottosustema GestioneEventi.
+ *
+ * @author Nicola Pagliara
+ * @author Luca Topo
+ * @author Viviana Pentangelo
+ */
+@Service
+<span class="fc" id="L26">@RequiredArgsConstructor</span>
+public class GestioneEventiServiceImpl implements GestioneEventiService {
+
+    /**
+     * Si occupa delle operazioni CRUD per un evento.
+     */
+    private final EventoDAO eventoDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per un libro.
+     */
+    private final LibroDAO libroDAO;
+
+    /**
+     * Si occupa delle operazioni CRUD per un lettore.
+     */
+    private final LettoreDAO lettoreDAO;
+
+
+    /**
+     * Implementa la funzionalità che permette
+     * di trovare un evento dato il suo identificativo.
+     * @param idEvento L'identificativo dell'evento
+     * @return L'Evento trovato
+     */
+    public Optional&lt;Evento&gt; getEventoById(final int idEvento) {
+<span class="fc" id="L52">        return eventoDAO.findById(idEvento);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette ad un Esperto di organizzare un
+     * Evento.
+     * @param evento L'Evento da memorizzare
+     * @return L'Evento appena creato
+     */
+    @Override
+    public Evento creaEvento(final Evento evento) {
+<span class="fc" id="L63">        return eventoDAO.save(evento);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di modificare un evento.
+     * @param evento La nuova versione dell'evento
+     * @return Optional.empty() se l'evento da modificare
+     *         non esiste, altrimenti un optional contenente
+     *         l'evento modificato.
+     */
+    @Override
+    public Optional&lt;Evento&gt; modificaEvento(final Evento evento) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (!this.eventoDAO.existsById(evento.getIdEvento())) {</span>
+<span class="fc" id="L77">            return Optional.empty();</span>
+        }
+<span class="fc" id="L79">        var eventoSalvato = eventoDAO.save(evento);</span>
+<span class="fc" id="L80">        return Optional.of(eventoSalvato);</span>
+    }
+
+   /**
+     * Metodo di utilità per recuperare
+     * un libro a partire dall'ID.
+     * @param id Id del libro da recuperare
+     * @return Il libro recuperato
+     */
+    @Override
+    public Optional&lt;Libro&gt; getLibroById(final int id) {
+<span class="nc" id="L91">        return libroDAO.findById(id);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Esperto di eliminare un evento.
+     * @param id L'id dell'evento da eliminare
+     * @return L'evento che è stato eliminato, o
+     *         un Optional vuoto se l'evento non
+     *         esiste.
+     */
+    @Override
+    public Optional&lt;Evento&gt; eliminaEvento(final int id) {
+<span class="fc" id="L104">        var evento = this.eventoDAO.findById(id);</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (evento.isEmpty()) {</span>
+<span class="nc" id="L106">            return Optional.empty();</span>
+        }
+
+<span class="fc" id="L109">        this.eventoDAO.deleteById(id);</span>
+<span class="fc" id="L110">        return evento;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di partecipare ad un evento.
+     * @param idLettore Il lettore da iscrivere all'evento
+     * @param idEvento L'id dell'evento a cui partecipare
+     * @return Il lettore aggiornato ed iscritto all'evento
+     */
+    @Override
+    public Lettore partecipaEvento(final String idLettore, final int idEvento) {
+<span class="fc" id="L122">        Evento evento = eventoDAO.getOne(idEvento);</span>
+<span class="fc" id="L123">        Lettore lettore = lettoreDAO.findByID(idLettore);</span>
+<span class="fc" id="L124">        List&lt;Evento&gt; listaEventi = lettore.getEventi();</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        if (listaEventi == null) {</span>
+<span class="nc" id="L126">            listaEventi = new ArrayList&lt;&gt;();</span>
+        }
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for (Evento e : listaEventi) {</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">            if (e.getIdEvento() == evento.getIdEvento()) {</span>
+<span class="fc" id="L130">                return lettore;</span>
+            }
+<span class="nc" id="L132">        }</span>
+<span class="fc" id="L133">        listaEventi.add(evento);</span>
+<span class="fc" id="L134">        lettore.setEventi(listaEventi);</span>
+<span class="fc" id="L135">        Lettore l = lettoreDAO.save(lettore);</span>
+<span class="fc" id="L136">        return l;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * ad un Lettore di abbandonare un evento.
+     * @param idLettore Il lettore da disiscrivere dall'evento
+     * @param idEvento L'id dell'evento da abbandonare
+     * @return Il lettore aggiornato ed disiscritto dall'evento
+     */
+    @Override
+    public Lettore abbandonaEvento(final String idLettore, final int idEvento) {
+<span class="fc" id="L148">        Evento evento = eventoDAO.getOne(idEvento);</span>
+<span class="fc" id="L149">        Lettore lettore = lettoreDAO.findByID(idLettore);</span>
+<span class="fc" id="L150">        List&lt;Evento&gt; listaEventi = lettore.getEventi();</span>
+
+        //Per chiunque leggesse, non fate domande e non toccate. Grazie
+<span class="fc" id="L153">        int pos = -1;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        for (int i = 0; i &lt; listaEventi.size(); i++) {</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">            if (listaEventi.get(i).getIdEvento() == evento.getIdEvento()) {</span>
+<span class="fc" id="L156">                pos = i;</span>
+            }
+        }
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (pos &gt; -1) {</span>
+<span class="fc" id="L160">            listaEventi.remove(pos);</span>
+        }
+
+<span class="fc" id="L163">        lettore.setEventi(listaEventi);</span>
+<span class="fc" id="L164">        Lettore l = lettoreDAO.save(lettore);</span>
+<span class="fc" id="L165">        return l;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

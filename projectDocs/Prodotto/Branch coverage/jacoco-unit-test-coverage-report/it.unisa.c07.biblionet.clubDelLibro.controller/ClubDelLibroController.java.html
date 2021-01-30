@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClubDelLibroController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">biblionet</a> &gt; <a href="index.source.html" class="el_package">it.unisa.c07.biblionet.clubDelLibro.controller</a> &gt; <span class="el_source">ClubDelLibroController.java</span></div><h1>ClubDelLibroController.java</h1><pre class="source lang-java linenums">package it.unisa.c07.biblionet.clubDelLibro.controller;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.server.ResponseStatusException;
+
+import it.unisa.c07.biblionet.clubDelLibro.service.ClubDelLibroService;
+import it.unisa.c07.biblionet.gestioneEventi.service.GestioneEventiService;
+import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
+import it.unisa.c07.biblionet.model.entity.Evento;
+import it.unisa.c07.biblionet.model.entity.Genere;
+import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import it.unisa.c07.biblionet.model.form.ClubForm;
+import it.unisa.c07.biblionet.model.form.EventoForm;
+import it.unisa.c07.biblionet.utils.validazione.ValidazioneEvento;
+import lombok.RequiredArgsConstructor;
+
+
+/**
+ * Implementa il controller per il sottosistema
+ * ClubDelLibro.
+ * @author Viviana Pentangelo
+ * @author Gianmario Voria
+ * @author Nicola Pagliara
+ * @author Luca Topo
+ */
+@Controller
+<span class="fc" id="L44">@RequiredArgsConstructor</span>
+@RequestMapping(&quot;/club-del-libro&quot;)
+@SessionAttributes(&quot;loggedUser&quot;)
+public class ClubDelLibroController {
+
+    /**
+     * Il service per effettuare le operazioni di persistenza.
+     */
+    private final ClubDelLibroService clubService;
+
+    /**
+     * Il service per effettuare le operazioni di persistenza
+     * degli eventi.
+     */
+    private final GestioneEventiService eventiService;
+
+
+    /**
+     * Metodo di utilità che modifica o crea un evento, validando
+     * i dati.
+     * @param eventoForm Il form con i dati da modificare
+     * @param view La view da restituire se l'operazione va a buon fine.
+     * @param idClub L'id del club del libro in cui inserire l'evento.
+     * @param idEvento L'id dell'evento, che può essere vuoto per ottenere
+     *                 l'autoassegnazione.
+     * @param operazione L'operazione, tra creazione e modifica, che si vuole
+     *                   effettuare.
+     * @return La view inserita.
+     */
+    private String modificaCreaEvento(final EventoForm eventoForm,
+                                      final String view,
+                                      final int idClub,
+                                      final Optional&lt;Integer&gt; idEvento,
+                                      final Consumer&lt;Evento&gt; operazione) {
+
+<span class="fc" id="L79">        var club = this.clubService.getClubByID(idClub);</span>
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (club == null) {</span>
+<span class="fc" id="L82">            throw new ResponseStatusException(</span>
+                HttpStatus.BAD_REQUEST,
+                &quot;Club del Libro Inesistente&quot;
+            );
+        }
+
+<span class="fc" id="L88">        var evento = new Evento();</span>
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (idEvento.isPresent()) {</span>
+<span class="nc" id="L91">            evento.setIdEvento(idEvento.get());</span>
+        }
+
+<span class="fc" id="L94">        evento.setClub(club);</span>
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (!ValidazioneEvento.isNomeValido(eventoForm.getNome())) {</span>
+<span class="fc" id="L97">            throw new ResponseStatusException(</span>
+                HttpStatus.BAD_REQUEST,
+                &quot;Lunghezza del nome non valida.&quot;
+            );
+        }
+
+<span class="fc" id="L103">        evento.setNomeEvento(eventoForm.getNome());</span>
+
+<span class="fc" id="L105">        if (!ValidazioneEvento.</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                isDescrizioneValida(eventoForm.getDescrizione())) {</span>
+<span class="fc" id="L107">            throw new ResponseStatusException(</span>
+                HttpStatus.BAD_REQUEST,
+                &quot;Lunghezza della descrizione non valida.&quot;
+            );
+        }
+
+<span class="fc" id="L113">        evento.setDescrizione(eventoForm.getDescrizione());</span>
+
+<span class="fc" id="L115">        var dataOra =</span>
+<span class="fc" id="L116">                LocalDateTime.of(eventoForm.getData(), eventoForm.getOra());</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (dataOra.isBefore(LocalDateTime.now())) {</span>
+<span class="fc" id="L119">            throw new ResponseStatusException(</span>
+                HttpStatus.BAD_REQUEST,
+                &quot;Data non valida.&quot;
+            );
+        }
+
+<span class="fc" id="L125">        evento.setDataOra(dataOra);</span>
+
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (eventoForm.getLibro() != null) {</span>
+<span class="fc" id="L128">            var libro =</span>
+<span class="fc" id="L129">                    this.eventiService.getLibroById(eventoForm.getLibro());</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            if (libro.isEmpty()) {</span>
+<span class="fc" id="L131">                throw new ResponseStatusException(</span>
+                    HttpStatus.BAD_REQUEST,
+                    &quot;Il libro inserito non è valido.&quot;
+                );
+            }
+<span class="nc" id="L136">            evento.setLibro(libro.get());</span>
+        }
+
+<span class="nc" id="L139">        operazione.accept(evento);</span>
+
+<span class="nc" id="L141">        return view;</span>
+
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di visualizzare i Club del Libro
+     * presenti nel Database.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @param generi Un Optional che contiene una lista di generi per cui
+     *               filtrare
+     * @param citta Un Optional che contiene una lista di possibili città
+     * @return La pagina di visualizzazione
+     */
+    @RequestMapping(value = &quot;&quot;, method = RequestMethod.GET)
+    public String visualizzaListaClubs(@RequestParam(value = &quot;generi&quot;)
+                                                final Optional&lt;List&lt;String&gt;&gt;
+                                                generi,
+                                       @RequestParam(value = &quot;citta&quot;)
+                                                final Optional&lt;List&lt;String&gt;&gt;
+                                                citta,
+                                       final Model model) {
+
+        // Molto più pulito della concatenazione con gli stream
+<span class="pc" id="L165">        Predicate&lt;ClubDelLibro&gt; filtroGenere = x -&gt; true;</span>
+
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (generi.isPresent()) {</span>
+<span class="pc" id="L168">                filtroGenere = x -&gt; false;</span>
+
+<span class="fc" id="L170">                var generiDaDB =</span>
+<span class="fc" id="L171">                        clubService.getGeneri(generi.get());</span>
+
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">                for (Genere genere: generiDaDB) {</span>
+<span class="nc" id="L174">                        filtroGenere = filtroGenere.or(</span>
+<span class="nc" id="L175">                                c -&gt; c.getGeneri().contains(genere)</span>
+                        );
+<span class="nc" id="L177">                }</span>
+        }
+
+<span class="pc" id="L180">        Predicate&lt;ClubDelLibro&gt; filtroCitta = x -&gt; true;</span>
+
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (citta.isPresent()) {</span>
+<span class="nc" id="L183">                filtroCitta = x -&gt; false;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">                for (String cittaSingola: citta.get()) {</span>
+<span class="nc" id="L185">                        filtroCitta = filtroCitta.or(</span>
+<span class="nc" id="L186">                                c -&gt; clubService.getCittaFromClubDelLibro(c)</span>
+<span class="nc" id="L187">                                                .equals(cittaSingola)</span>
+                        );
+<span class="nc" id="L189">                }</span>
+        }
+
+<span class="fc" id="L192">        List&lt;ClubDelLibro&gt; listaClubs = clubService.visualizzaClubsDelLibro(</span>
+<span class="fc" id="L193">                filtroCitta.and(filtroGenere)</span>
+        );
+
+
+        // Necessito di un oggetto anonimo per evitare problemi con JS
+<span class="fc" id="L198">        model.addAttribute(&quot;listaClubs&quot;, listaClubs.stream().map(</span>
+<span class="nc" id="L199">                club -&gt; new Object() {</span>
+<span class="nc" id="L200">                        public final String nome = club.getNome();</span>
+<span class="nc" id="L201">                        public final String descrizione =</span>
+<span class="nc" id="L202">                                                club.getDescrizione();</span>
+<span class="nc" id="L203">                        public final String nomeEsperto = club.getEsperto()</span>
+<span class="nc" id="L204">                                                              .getNome()</span>
+                                                          + &quot; &quot;
+<span class="nc" id="L206">                                                          + club.getEsperto()</span>
+<span class="nc" id="L207">                                                                .getCognome();</span>
+<span class="nc" id="L208">                        public final String immagineCopertina =</span>
+<span class="nc" id="L209">                                                club.getImmagineCopertina();</span>
+<span class="nc" id="L210">                        public final Set&lt;String&gt; generi =</span>
+<span class="nc" id="L211">                                club.getGeneri()</span>
+<span class="nc" id="L212">                                        .stream()</span>
+<span class="nc" id="L213">                                        .map(Genere::getNome)</span>
+<span class="nc" id="L214">                                        .collect(Collectors.toSet());</span>
+<span class="nc" id="L215">                        public final int idClub = club.getIdClub();</span>
+<span class="nc" id="L216">                        public final int iscritti = club.getLettori().size();</span>
+<span class="nc" id="L217">                        public final String email =</span>
+<span class="nc" id="L218">                                club.getEsperto().getEmail();</span>
+                }
+<span class="fc" id="L220">        ).collect(Collectors.toList()));</span>
+
+<span class="fc" id="L222">        model.addAttribute(&quot;generi&quot;, this.clubService.getTuttiGeneri());</span>
+<span class="fc" id="L223">        model.addAttribute(&quot;citta&quot;, this.clubService.getCitta());</span>
+
+<span class="fc" id="L225">        return &quot;club-del-libro/visualizza-clubs&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di visualizzare la pagina di creazione di
+     * un club del libro.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @param club Il form in cui inserire i dati del club
+     * @return La pagina del Club
+     */
+    @RequestMapping(value = &quot;crea&quot;, method = RequestMethod.GET)
+    public String visualizzaCreaClubDelLibro(final Model model,
+                                             final @ModelAttribute
+                                                ClubForm club) {
+<span class="fc" id="L239">        var utente = (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L240" title="1 of 4 branches missed.">        if (utente == null || !utente.getTipo().equals(&quot;Esperto&quot;)) {</span>
+<span class="fc" id="L241">                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L243">        model.addAttribute(&quot;generi&quot;, this.clubService.getTuttiGeneri());</span>
+<span class="fc" id="L244">        model.addAttribute(&quot;club&quot;, club);</span>
+
+<span class="fc" id="L246">        return &quot;club-del-libro/creazione-club&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di creazione di un club del libro.
+     * @param model L'oggetto model usato per inserire gli attributi
+     * @param club Il club che si vuole creare
+     * @return la pagina del Club
+     */
+    @RequestMapping(value = &quot;/crea&quot;, method = RequestMethod.POST)
+    public String creaClubDelLibro(final Model model,
+                                   final @ModelAttribute ClubForm club) {
+<span class="fc" id="L258">        UtenteRegistrato utente =</span>
+<span class="fc" id="L259">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L260" title="1 of 4 branches missed.">        if (utente == null || !utente.getTipo().equals(&quot;Esperto&quot;)) {</span>
+<span class="fc" id="L261">                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L263">        var esperto = (Esperto) utente;</span>
+<span class="fc" id="L264">        ClubDelLibro cdl = new ClubDelLibro();</span>
+<span class="fc" id="L265">        cdl.setNome(club.getNome());</span>
+<span class="fc" id="L266">        cdl.setDescrizione(club.getDescrizione());</span>
+<span class="fc" id="L267">        cdl.setEsperto(esperto);</span>
+<span class="pc bpc" id="L268" title="2 of 4 branches missed.">        if (club.getCopertina() != null &amp;&amp; !club.getCopertina().isEmpty()) {</span>
+                try {
+<span class="fc" id="L270">                        byte[] imageBytes = club.getCopertina().getBytes();</span>
+                        String base64Image =
+<span class="fc" id="L272">                                Base64.getEncoder().encodeToString(imageBytes);</span>
+<span class="fc" id="L273">                        cdl.setImmagineCopertina(base64Image);</span>
+<span class="nc" id="L274">                        } catch (IOException e) {</span>
+<span class="nc" id="L275">                        e.printStackTrace();</span>
+<span class="fc" id="L276">                        }</span>
+        }
+
+<span class="fc" id="L279">        cdl.setGeneri(Arrays.asList(new Genere[] {}));</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">        if (club.getGeneri() != null) {</span>
+<span class="fc" id="L281">            cdl.setGeneri(</span>
+<span class="fc" id="L282">                    this.clubService.getGeneri(</span>
+<span class="fc" id="L283">                            club.getGeneri()</span>
+                )
+            );
+        }
+
+<span class="fc" id="L288">        this.clubService.creaClubDelLibro(cdl);</span>
+<span class="fc" id="L289">        return &quot;redirect:/club-del-libro/&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di re-indirizzare alla pagina di modifica
+     * dei dati di un Club del Libro.
+     * @param id l'ID del Club da modificare
+     * @param club Il club che si vuole creare
+     * @param model l'oggetto model usato per inserire gli attributi
+     * @return La view che visualizza il form di modifica dati
+     */
+    @RequestMapping(value = &quot;/{id}/modifica&quot;, method = RequestMethod.GET)
+    public String visualizzaModificaDatiClub(final @PathVariable int id,
+                                             final @ModelAttribute
+                                                     ClubForm club,
+                                             final Model model) {
+<span class="fc" id="L306">        var esperto = (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="fc" id="L307">        var cdl = this.clubService.getClubByID(id);</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        if (cdl == null) {</span>
+<span class="fc" id="L309">                throw new ResponseStatusException(HttpStatus.NOT_FOUND);</span>
+        }
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">        if (esperto == null</span>
+<span class="fc bfc" id="L312" title="All 2 branches covered.">                || !cdl.getEsperto().getEmail().equals(esperto.getEmail())) {</span>
+<span class="fc" id="L313">                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+
+<span class="fc" id="L316">        club.setNome(cdl.getNome());</span>
+<span class="fc" id="L317">        club.setDescrizione(cdl.getDescrizione());</span>
+<span class="fc" id="L318">        club.setGeneri(cdl.getGeneri().stream().map(Genere::getNome).</span>
+<span class="fc" id="L319">                collect(Collectors.toList()));</span>
+
+<span class="fc" id="L321">        model.addAttribute(&quot;club&quot;, club);</span>
+<span class="fc" id="L322">        model.addAttribute(&quot;id&quot;, id);</span>
+<span class="fc" id="L323">        model.addAttribute(&quot;generi&quot;, this.clubService.getTuttiGeneri());</span>
+<span class="fc" id="L324">        return &quot;club-del-libro/modifica-club&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità per la modifica dei dati di un Club.
+     * @param id Lo Id del Club
+     * @param club Il form dove inserire i nuovi dati
+     * @return La schermata del club
+     */
+    @RequestMapping(value = &quot;/{id}/modifica&quot;,
+            method = RequestMethod.POST)
+    public String modificaDatiClub(final @PathVariable int id,
+                                   final @ModelAttribute ClubForm club) {
+
+<span class="nc" id="L338">        ClubDelLibro clubPers = this.clubService.getClubByID(id);</span>
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (!club.getCopertina().isEmpty()) {</span>
+            try {
+<span class="nc" id="L341">                byte[] imageBytes = club.getCopertina().getBytes();</span>
+<span class="nc" id="L342">                String base64Image = Base64.getEncoder()</span>
+<span class="nc" id="L343">                        .encodeToString(imageBytes);</span>
+<span class="nc" id="L344">                clubPers.setImmagineCopertina(base64Image);</span>
+<span class="nc" id="L345">            } catch (IOException e) {</span>
+<span class="nc" id="L346">                e.printStackTrace();</span>
+<span class="nc" id="L347">            }</span>
+        }
+<span class="nc bnc" id="L349" title="All 2 branches missed.">        if (club.getGeneri() != null) {</span>
+<span class="nc" id="L350">            List&lt;Genere&gt; gList = clubService.getGeneri(club.getGeneri());</span>
+<span class="nc" id="L351">            clubPers.setGeneri(gList);</span>
+        }
+<span class="nc" id="L353">        clubPers.setNome(club.getNome());</span>
+<span class="nc" id="L354">        clubPers.setDescrizione(club.getDescrizione());</span>
+<span class="nc" id="L355">        this.clubService.modificaDatiClub(clubPers);</span>
+<span class="nc" id="L356">        return &quot;redirect:/club-del-libro/&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * l'iscrizione di un lettore ad un
+     * Club del Libro.
+     * @param id l'ID del Club a cui iscriversi
+     * @param model Il model da passare alla view
+     * @return La view che visualizza la lista dei club
+     */
+    @RequestMapping(value = &quot;/{id}/iscrizione&quot;, method = RequestMethod.POST)
+    public String partecipaClub(final @PathVariable int id,
+                                final Model model) {
+
+<span class="fc" id="L371">        UtenteRegistrato lettore =</span>
+<span class="fc" id="L372">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L373" title="1 of 4 branches missed.">        if (lettore == null || !lettore.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L374">                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L376">        ClubDelLibro clubDelLibro = this.clubService.getClubByID(id);</span>
+<span class="fc bfc" id="L377" title="All 2 branches covered.">        if (clubDelLibro.getLettori().contains(lettore)) {</span>
+<span class="fc" id="L378">            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);</span>
+        }
+<span class="fc" id="L380">        this.clubService.partecipaClub(</span>
+                clubDelLibro,
+                (Lettore) lettore);
+<span class="fc" id="L383">        return &quot;redirect:/club-del-libro/&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * la visualizzazione della modifica dei dati di
+     * un evento di un Club del Libro.
+     * @param idClub l'ID del Club
+     * @param idEvento l'ID dell'evento
+     * @param evento il form dell'evento
+     * @param model Il model da passare alla view
+     * @return La view che visualizza la lista dei club
+     */
+    @RequestMapping(
+        value = &quot;/{idClub}/eventi/{idEvento}/modifica&quot;,
+        method = RequestMethod.GET
+    )
+    public String visualizzaModificaEvento(final @PathVariable int idClub,
+                                           final @PathVariable int idEvento,
+                                           final @ModelAttribute
+                                                       EventoForm evento,
+                                           final Model model) {
+<span class="fc" id="L405">        var eventoBaseOpt =</span>
+<span class="fc" id="L406">                this.eventiService.getEventoById(idEvento);</span>
+<span class="fc" id="L407">        var esperto = (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+
+<span class="fc bfc" id="L409" title="All 2 branches covered.">        if (eventoBaseOpt.isEmpty()) {</span>
+<span class="fc" id="L410">            throw new ResponseStatusException(</span>
+                HttpStatus.NOT_FOUND,
+                &quot;Evento Inesistente&quot;
+            );
+        }
+
+<span class="fc bfc" id="L416" title="All 2 branches covered.">        if (esperto != null &amp;&amp; !eventoBaseOpt.get().getClub().getEsperto()</span>
+<span class="fc bfc" id="L417" title="All 2 branches covered.">                .getEmail().equals(esperto.getEmail())) {</span>
+<span class="fc" id="L418">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+
+<span class="fc" id="L421">        var eventoBase = eventoBaseOpt.get();</span>
+
+<span class="fc bfc" id="L423" title="All 2 branches covered.">        if (eventoBase.getClub().getIdClub() != idClub) {</span>
+<span class="fc" id="L424">            throw new ResponseStatusException(</span>
+                HttpStatus.BAD_REQUEST,
+                &quot;L'evento con id &quot; + idEvento
+                + &quot;non è associato al club con id &quot;
+                + idClub + &quot;.&quot;
+            );
+        }
+
+<span class="fc" id="L432">        evento.setNome(eventoBase.getNomeEvento());</span>
+<span class="fc" id="L433">        evento.setData(eventoBase.getDataOra().toLocalDate());</span>
+<span class="fc" id="L434">        evento.setOra(eventoBase.getDataOra().toLocalTime());</span>
+<span class="fc" id="L435">        evento.setDescrizione(eventoBase.getDescrizione());</span>
+<span class="pc bpc" id="L436" title="1 of 2 branches missed.">        if (eventoBase.getLibro() != null) {</span>
+<span class="fc" id="L437">            evento.setLibro(eventoBase.getLibro().getIdLibro());</span>
+        }
+
+<span class="fc" id="L440">        model.addAttribute(&quot;evento&quot;, evento);</span>
+<span class="fc" id="L441">        model.addAttribute(&quot;club&quot;, eventoBase.getClub());</span>
+<span class="fc" id="L442">        model.addAttribute(&quot;id&quot;, eventoBase.getIdEvento());</span>
+
+<span class="fc" id="L444">        return &quot;club-del-libro/modifica-evento&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * di gestire la chiamata POST
+     * per creare un evento un club del libro.
+     * @param id l'id dell'evento
+     * @param eventoForm il form dell'evento
+     * @return la view della lista degli eventi
+     */
+    @RequestMapping(value = &quot;/{id}/eventi/crea&quot;, method = RequestMethod.POST)
+    public String creaEvento(final @PathVariable int id,
+                             final @ModelAttribute EventoForm eventoForm) {
+<span class="pc" id="L458">        return this.modificaCreaEvento(</span>
+            eventoForm,
+            &quot;redirect:/club-del-libro/&quot; + id,
+            id,
+<span class="fc" id="L462">            Optional.empty(),</span>
+<span class="fc" id="L463">            this.eventiService::creaEvento</span>
+        );
+    }
+
+    /**
+     * Implementa la funzionalità che permette la modifica di un evento.
+     * @param idClub l'ID del club
+     * @param idEvento l'ID dell'evento
+     * @param eventoForm il form dell'evento
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = &quot;/{idClub}/eventi/{idEvento}/modifica&quot;,
+            method = RequestMethod.POST)
+    public String modificaEvento(final @PathVariable int idClub,
+                                 final @PathVariable int idEvento,
+                                 final @ModelAttribute EventoForm eventoForm) {
+<span class="nc" id="L479">        return this.modificaCreaEvento(</span>
+            eventoForm,
+            &quot;redirect:/club-del-libro/&quot; + idClub,
+            idClub,
+<span class="nc" id="L483">            Optional.of(idEvento),</span>
+            evento -&gt; {
+<span class="nc" id="L485">                var statusModifica =</span>
+<span class="nc" id="L486">                        this.eventiService.modificaEvento(evento);</span>
+<span class="nc bnc" id="L487" title="All 2 branches missed.">                if (statusModifica.isEmpty()) {</span>
+<span class="nc" id="L488">                    throw new ResponseStatusException(</span>
+                        HttpStatus.BAD_REQUEST,
+                        &quot;L'evento con id &quot; + idEvento
+                        + &quot;non è associato al club con id &quot;
+                        + idClub + &quot;.&quot;
+                    );
+                }
+<span class="nc" id="L495">            }</span>
+        );
+    }
+
+    /**
+     * Implementa la funzionalità che permette
+     * la creazione da parte di un Esperto
+     * di un Evento.
+     * @param id l'ID dell'evento
+     * @param evento il form dell'evento
+     * @param model il model da passare alla view
+     * @return La view che visualizza il form di creazione Evento
+     */
+    @RequestMapping(value = &quot;/{id}/eventi/crea&quot;, method = RequestMethod.GET)
+    public String visualizzaCreaEvento(final @PathVariable int id,
+                                       final @ModelAttribute EventoForm evento,
+                                       final Model model) {
+<span class="fc" id="L512">        var club = this.clubService.getClubByID(id);</span>
+
+<span class="fc bfc" id="L514" title="All 2 branches covered.">        if (club == null) {</span>
+<span class="fc" id="L515">            throw new ResponseStatusException(</span>
+                    HttpStatus.NOT_FOUND,
+                    &quot;Club del Libro Inesistente&quot;
+            );
+        }
+
+<span class="fc" id="L521">        model.addAttribute(&quot;club&quot;, club);</span>
+<span class="fc" id="L522">        model.addAttribute(&quot;evento&quot;, evento);</span>
+
+<span class="fc" id="L524">        return &quot;club-del-libro/aggiungi-evento&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di gestire
+     * la visualizzazione dei dati di un Club del Libro.
+     * @param id l'ID del Club di cui visualizzare i dati
+     * @param model il model per il passaggio dei dati
+     * @return La view che visualizza i dati
+     */
+    @RequestMapping(value = &quot;/{id}&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaDatiClub(final @PathVariable int id,
+                                     final Model model) {
+<span class="fc" id="L538">        model.addAttribute(&quot;club&quot;, clubService.getClubByID(id));</span>
+<span class="fc" id="L539">        return &quot;club-del-libro/visualizza-singolo-club&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di eliminare
+     * un evento.
+     * @param club L'identificativo del Club dell'evento
+     * @param id L'identificativo dell'evento da eliminare
+     * @return La view della lista degli eventi
+     */
+    @RequestMapping(value = &quot;/{club}/eventi/{id}&quot;,
+            method = RequestMethod.GET)
+    public String eliminaEvento(final @PathVariable int club,
+                                final @PathVariable int id) {
+<span class="fc" id="L553">        Optional&lt;Evento&gt; eventoEliminato =</span>
+<span class="fc" id="L554">                this.eventiService.eliminaEvento(id);</span>
+
+<span class="fc" id="L556">        System.out.println(eventoEliminato);</span>
+
+
+<span class="fc bfc" id="L559" title="All 2 branches covered.">        if (eventoEliminato.isEmpty()) {</span>
+<span class="fc" id="L560">            throw new ResponseStatusException(</span>
+                    HttpStatus.NOT_FOUND,
+                    &quot;Evento Inesistente&quot;
+            );
+        }
+
+<span class="fc" id="L566">        return &quot;redirect:/club-del-libro/&quot; + club;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di visualizzare
+     * la lista degli iscritti a un club.
+     * @param id L'identificativo del club
+     * @param model il model la passare alla view
+     * @return La view della lista degli iscritti
+     */
+    @RequestMapping(value = &quot;/{id}/iscritti&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaIscrittiClub(final @PathVariable int id,
+                                         final Model model) {
+<span class="nc" id="L580">        model.addAttribute(&quot;club&quot;, clubService.getClubByID(id));</span>
+<span class="nc" id="L581">        return &quot;club-del-libro/visualizza-iscritti&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di visualizzare
+     * la lista degli eventi di un club.
+     * @param id l'ID del club
+     * @param model il mdoel da passare alla view
+     * @return la view che visualizza gli eventi
+     */
+    @RequestMapping(value = &quot;/{id}/eventi&quot;,
+            method = RequestMethod.GET)
+    public String visualizzaListaEventiClub(final @PathVariable int id,
+                                            final Model model) {
+<span class="fc bfc" id="L595" title="All 2 branches covered.">        if (clubService.getClubByID(id) == null) {</span>
+<span class="fc" id="L596">                throw new ResponseStatusException(HttpStatus.NOT_FOUND);</span>
+        }
+<span class="fc" id="L598">        UtenteRegistrato utente =</span>
+<span class="fc" id="L599">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L600" title="1 of 4 branches missed.">        if (utente == null || !utente.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L601">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L603">        Lettore l = (Lettore) utente;</span>
+<span class="fc" id="L604">        List&lt;Evento&gt; tutti = clubService.getClubByID(id).getEventi();</span>
+<span class="fc" id="L605">        List&lt;Evento&gt; mieiEventi = l.getEventi();</span>
+<span class="fc" id="L606">        List&lt;Evento&gt; mieiEventiClub = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L607" title="All 2 branches covered.">        for (Evento e : mieiEventi) {</span>
+<span class="fc bfc" id="L608" title="All 2 branches covered.">            if (e.getClub().getIdClub() == id) {</span>
+<span class="fc" id="L609">                mieiEventiClub.add(e);</span>
+            }
+<span class="fc" id="L611">        }</span>
+<span class="fc bfc" id="L612" title="All 2 branches covered.">        for (Evento e : mieiEventiClub) {</span>
+<span class="pc bpc" id="L613" title="1 of 2 branches missed.">            if (tutti.contains(e)) {</span>
+<span class="fc" id="L614">                tutti.remove(e);</span>
+            }
+<span class="fc" id="L616">        }</span>
+<span class="fc" id="L617">        model.addAttribute(&quot;club&quot;, clubService.getClubByID(id));</span>
+<span class="fc" id="L618">        model.addAttribute(&quot;eventi&quot;, tutti);</span>
+<span class="fc" id="L619">        model.addAttribute(&quot;mieiEventi&quot;, mieiEventiClub);</span>
+
+<span class="fc" id="L621">        return &quot;club-del-libro/visualizza-eventi&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di iscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro.
+     * @param idEvento l'evento a cui partecipare
+     * @param idClub il club dell'evento
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = &quot;/{idClub}/eventi/{idEvento}/iscrizione&quot;,
+            method = RequestMethod.GET)
+    public String partecipaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
+                                  final Model model) {
+<span class="fc" id="L638">        UtenteRegistrato utente =</span>
+<span class="fc" id="L639">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L640" title="1 of 4 branches missed.">        if (utente == null || !utente.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L641">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L643">        model.addAttribute(&quot;loggedUser&quot;,</span>
+<span class="fc" id="L644">                eventiService.partecipaEvento(utente.getEmail(), idEvento));</span>
+<span class="fc" id="L645">        return &quot;redirect:/club-del-libro/&quot; + idClub + &quot;/eventi&quot;;</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di disiscriversi
+     * ad uno degli eventi presenti nella lista relativa ad
+     * un Club del Libro a cui ci si era precedentemente iscritti.
+     * @param idEvento l'evento a cui disiscriversi
+     * @param idClub il club dell'evento
+     * @param model l'oggetto Model da cui ottenere il lettore autenticato
+     * @return la view che visualizza la lista degli eventi
+     */
+    @RequestMapping(value = &quot;/{idClub}/eventi/{idEvento}/abbandono&quot;,
+            method = RequestMethod.GET)
+    public String abbandonaEvento(final @PathVariable int idEvento,
+                                  final @PathVariable int idClub,
+                                  final Model model) {
+<span class="fc" id="L662">        UtenteRegistrato utente =</span>
+<span class="fc" id="L663">                (UtenteRegistrato) model.getAttribute(&quot;loggedUser&quot;);</span>
+<span class="pc bpc" id="L664" title="1 of 4 branches missed.">        if (utente == null || !utente.getTipo().equals(&quot;Lettore&quot;)) {</span>
+<span class="fc" id="L665">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+<span class="fc" id="L667">        model.addAttribute(&quot;loggedUser&quot;,</span>
+<span class="fc" id="L668">                eventiService.abbandonaEvento(utente.getEmail(), idEvento));</span>
+<span class="fc" id="L669">        return &quot;redirect:/club-del-libro/&quot; + idClub + &quot;/eventi&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

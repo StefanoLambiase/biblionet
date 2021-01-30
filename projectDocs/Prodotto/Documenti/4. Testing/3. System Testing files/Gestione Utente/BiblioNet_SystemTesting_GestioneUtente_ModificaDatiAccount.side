@@ -1,0 +1,1426 @@
+{
+  "id": "757b6e26-0bb7-4e7f-8249-1631eb181396",
+  "version": "2.0",
+  "name": "BiblioNet_SystemTesting_GestioneUtente_ModificaDatiAccount",
+  "url": "http://localhost:8080",
+  "tests": [{
+    "id": "d078913d-95b7-4b49-9a23-90c7f94c3c4c",
+    "name": "TC_1.5_1",
+    "commands": [{
+      "id": "445aacf7-ef13-4c0b-925d-de350ed082ad",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8c8bf7cb-edd8-4575-ad31-2a89403c31a3",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1133x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5091ce60-640d-4d5a-ad46-9a1861152bdc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d3026d4-34f9-4e00-8f50-5bd330f38ffe",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3adbbc15-26bc-48da-9552-3b2f5e92365e",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e0660efa-4f20-4d7d-8346-925ef91320d4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente;jsessionid=2596ADB38A77C03DD226D8515F3B550A')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d11a7eb1-b29c-478e-821b-7fc90bcb3e91",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0fa5d0a2-b1c1-4c49-9cd6-9e6d2773ccc6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.row",
+      "targets": [
+        ["css=.row", "css:finder"],
+        ["xpath=//div[@id='content']/div/div/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f6addfb5-c8a8-464e-984a-1082d2df999a",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.card-body:nth-child(2) > .form-row:nth-child(1) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "41c4843d-757f-429d-ad12-94c7ed1f9a8e",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.card-body:nth-child(2) > .form-row:nth-child(1) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c3b72f3-1a05-4795-9653-72209f3c3b86",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.card-body:nth-child(2) > .form-row:nth-child(1) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Mártir Patricio Clito Ruiz y Picasso"
+    }, {
+      "id": "90e43a77-8627-41a9-9a85-a208be43db12",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3b7c95aa-07a9-4643-acf7-24b351e1f723",
+      "comment": "",
+      "command": "click",
+      "target": "css=img",
+      "targets": [
+        ["css=img", "css:finder"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6b17e3c2-4d73-4dc9-a7f5-ead3cc0c38ac",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "78e70672-e7c9-4de0-b635-954045b93934",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "5bc29c84-3652-4b23-9d7d-db07f85002b3",
+    "name": "TC_1.5_2",
+    "commands": [{
+      "id": "191c56f7-8888-460b-8081-4b7f88131e65",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f1db8741-a70f-45dc-831a-b6939953c8b1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c5fd3585-fbbe-4bf5-9bdd-3f7a1a065eea",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "28114526-411c-46e8-8a4c-a6accd96c7bc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6a708cac-ce34-4a6d-9026-ac59e24761a3",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a212e59-4ba5-4c53-9f33-a74afa2d8b3b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3085b316-f4a8-4456-9902-f7ee4b81b7cf",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "433471b9-64e2-4cf0-94eb-aa13bf10cf5f",
+      "comment": "",
+      "command": "click",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c2408b5b-0a71-41e4-8cf8-62916638e1aa",
+      "comment": "",
+      "command": "type",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": "EspertoPassword"
+    }, {
+      "id": "62ecf5d1-9fe1-45f4-aa7a-1f86ac504237",
+      "comment": "",
+      "command": "click",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c8dd698-ef34-4eff-bf9a-a3068154ff65",
+      "comment": "",
+      "command": "type",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "asd"
+    }, {
+      "id": "b44b50df-2167-45f2-b179-3d1e62ff6165",
+      "comment": "",
+      "command": "click",
+      "target": "name=conferma_password",
+      "targets": [
+        ["name=conferma_password", "name"],
+        ["css=.card-body:nth-child(4) .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='conferma_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2db5a3ab-4c41-4277-a6c4-c8ebeef4506f",
+      "comment": "",
+      "command": "type",
+      "target": "name=conferma_password",
+      "targets": [
+        ["name=conferma_password", "name"],
+        ["css=.card-body:nth-child(4) .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='conferma_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "asd"
+    }, {
+      "id": "fbdd28f2-90a8-4658-aeb8-63116ca6dd34",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "05b9e9f8-5045-4988-90a2-bf68515a40f5",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c2c3de68-6c9b-4680-9d25-98b94edeecab",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "52d6b8c3-baf0-47a1-97ae-c2bbbd362d55",
+    "name": "TC_1.5_3",
+    "commands": [{
+      "id": "86139d90-6584-495f-b57d-8b5de776725e",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da58fcab-8693-44db-8fe5-de57d70ea31a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "953f88ed-bf87-408e-97fd-0326c0afc878",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "51a30c70-2d5b-4f76-8816-35137b946746",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a96d0a35-b76b-4cf4-8c3f-8c4550ae1a12",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8cbeff1-de47-424c-8ad4-81bdf8b7c27f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2b34549-e5d1-4bb7-960f-df0102a4812f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "557320d7-aaaa-493b-a969-fef093e9d150",
+      "comment": "",
+      "command": "click",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c866c410-1e4b-4323-a115-9cf98a23b59a",
+      "comment": "",
+      "command": "type",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": "EspertoPassword"
+    }, {
+      "id": "c431824e-81e3-42a2-a41c-cd8ce9147db7",
+      "comment": "",
+      "command": "click",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8cc7ee9f-c873-49be-abd7-e5d6d9b0d0a9",
+      "comment": "",
+      "command": "type",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "Mario"
+    }, {
+      "id": "63a2f75b-2992-4aa7-a0fe-6eb2e8528eeb",
+      "comment": "",
+      "command": "type",
+      "target": "name=conferma_password",
+      "targets": [
+        ["name=conferma_password", "name"],
+        ["css=.card-body:nth-child(4) .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='conferma_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Super"
+    }, {
+      "id": "4043654c-60bb-46e4-a17f-67f514bc8146",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "797f2f09-d530-409e-b167-fa3ff02d95e6",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0307c4af-fcc7-4b32-9a6f-ac143f853d64",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "b142af1c-21e1-4343-87c5-ac86f1f9e7b2",
+    "name": "TC_1.5_4",
+    "commands": [{
+      "id": "20b2db28-4224-426e-8735-33d16d7edcc4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "55f27ac0-57ff-49a6-82a4-d9c6f2b4a627",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "473b9abf-d9b6-479a-a9c3-a9bcbfd97441",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e241bf9-022f-45b6-943d-bbb6b615f838",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "238d9e1f-7eed-48dc-9545-4ef16280d93c",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a460d3d-442f-4e2f-9416-6932efe86b54",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "af870ba5-24a3-40c1-aa94-9f0b3851b16b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e2c8f8f-1bd0-4613-b47b-9d63ce01fb1d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.mb-3 > .card-body:nth-child(2)",
+      "targets": [
+        ["css=.mb-3 > .card-body:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8c55c6f-3bc5-4fc7-9acf-cd9dd765e24b",
+      "comment": "",
+      "command": "type",
+      "target": "name=nome",
+      "targets": [
+        ["name=nome", "name"],
+        ["css=.mb-3 > .card-body:nth-child(2) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nome']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "Nome$@"
+    }, {
+      "id": "cdf43952-b15b-48b2-b5a5-0765a310c68b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f82b79ce-0d6e-4303-8eb9-0c218145ed62",
+      "comment": "",
+      "command": "click",
+      "target": "css=img",
+      "targets": [
+        ["css=img", "css:finder"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c46cdd30-59f6-4d77-982c-9fa7827cc4ec",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8e820d74-d71a-47a5-88d3-e2978aca03fb",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c8e29316-b092-49ca-9350-c52ede92af4b",
+    "name": "TC_1.5_5",
+    "commands": [{
+      "id": "78a19b51-ada5-4836-b700-15c8dbf65620",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f3e7c68d-71dc-4070-b410-c889904ea2f0",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "92d2c028-55d9-4d51-9e74-a8fba71e0177",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4417050b-2680-4e3d-80ac-9c9d95708d91",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "df22bf8d-bf5e-4f0b-890d-8bb6bf11c903",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6d59ea3-e156-4f36-860a-58b59f8f9872",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e81dce20-9c86-4a61-87b9-2164a39b4a9f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac79518f-302d-4b0d-a6b0-da1d4841be54",
+      "comment": "",
+      "command": "click",
+      "target": "name=cognome",
+      "targets": [
+        ["name=cognome", "name"],
+        ["css=.mb-3 > .card-body:nth-child(2) > .form-row:nth-child(2) > .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='cognome']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1f76fdab-0958-4ca6-b3aa-8623a20addd5",
+      "comment": "",
+      "command": "click",
+      "target": "name=cognome",
+      "targets": [
+        ["name=cognome", "name"],
+        ["css=.mb-3 > .card-body:nth-child(2) > .form-row:nth-child(2) > .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='cognome']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cfbe0ae3-b696-48d8-a30f-5c591a66f2af",
+      "comment": "",
+      "command": "click",
+      "target": "name=cognome",
+      "targets": [
+        ["name=cognome", "name"],
+        ["css=.mb-3 > .card-body:nth-child(2) > .form-row:nth-child(2) > .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='cognome']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0bb93af1-4f45-483f-8879-0c6b53276eb2",
+      "comment": "",
+      "command": "type",
+      "target": "name=cognome",
+      "targets": [
+        ["name=cognome", "name"],
+        ["css=.mb-3 > .card-body:nth-child(2) > .form-row:nth-child(2) > .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='cognome']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[2]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Super$@"
+    }, {
+      "id": "438f9d95-2dfa-42fa-b158-29cf574f1cd3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f175fee0-f0d6-45bf-a65a-b1b0bd039037",
+      "comment": "",
+      "command": "click",
+      "target": "css=img",
+      "targets": [
+        ["css=img", "css:finder"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "39b64230-22a8-461d-bd3c-833bc7ba993b",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f905453d-3dfb-4812-b82a-0fddb3c6a845",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "2bd29c7d-a9b3-492e-b2f9-01251bf49f14",
+    "name": "TC_1.5_6",
+    "commands": [{
+      "id": "3f9753ff-fc0a-4600-b0de-24b2524eaae7",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "13266e10-3f79-47c9-b678-79806b2b622d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "256b0fef-519a-4d9a-85d6-0049444e533c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4e2ab7be-8e0a-427b-b19d-82d7e3f05fa6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d34c0fe5-2b50-4968-b0a7-bdab78781a28",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7650ef3-f0c8-4922-a83b-c486078f5e2a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "af17048f-0dbc-4a83-817f-bd8db3f56109",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "19a0164f-4703-45f1-999f-ddf27eb508d3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.card:nth-child(3) > .card-body",
+      "targets": [
+        ["css=.card:nth-child(3) > .card-body", "css:finder"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "398248cf-33b3-4a89-9412-5cdb9830de81",
+      "comment": "",
+      "command": "type",
+      "target": "name=recapitoTelefonico",
+      "targets": [
+        ["name=recapitoTelefonico", "name"],
+        ["css=.form-group:nth-child(3) > .form-control", "css:finder"],
+        ["xpath=//input[@name='recapitoTelefonico']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "0123456ade"
+    }, {
+      "id": "af53e30e-d9b8-44e9-bbcc-91c247c9c2d6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "da721176-a1fd-46fe-82bd-66c27701f7c2",
+      "comment": "",
+      "command": "click",
+      "target": "css=img",
+      "targets": [
+        ["css=img", "css:finder"],
+        ["xpath=//img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "51c4f6c8-c3c5-443d-8e1b-0fa7d723dd8a",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "40f167c1-2a8f-45ff-86d3-c4b714bb23b7",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=li:nth-child(2) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione/logout')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "b301e616-1811-4b82-9110-537ee4d6d232",
+    "name": "TC_1.5_7",
+    "commands": [{
+      "id": "dc937e2f-dff2-4a23-9bf5-ee736df25701",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6a3c3a59-918f-43de-a46a-1c41bdb23769",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1020",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7566bef6-abe3-430c-8192-81afc4991b74",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accedi",
+      "targets": [
+        ["linkText=Accedi", "linkText"],
+        ["css=.btn-main:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Accedi')]", "xpath:link"],
+        ["xpath=(//a[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/autenticazione')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "810619bf-2c03-4f4a-873e-37f89e77a3e0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0ae6026a-f701-4dac-9a83-54a5e36308f2",
+      "comment": "",
+      "command": "click",
+      "target": "id=dropdownMenuButton",
+      "targets": [
+        ["id=dropdownMenuButton", "id"],
+        ["css=#dropdownMenuButton", "css:finder"],
+        ["xpath=//button[@id='dropdownMenuButton']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "331d0c0b-a6ce-47a0-8c81-2a0720f65aa1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Area Utente",
+      "targets": [
+        ["linkText=Area Utente", "linkText"],
+        ["css=li:nth-child(1) > .dropdown-item", "css:finder"],
+        ["xpath=//a[contains(text(),'Area Utente')]", "xpath:link"],
+        ["xpath=//a[@type='submit']", "xpath:attributes"],
+        ["xpath=//nav[@id='navbar-principale']/div[3]/div/div/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/area-utente')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Area Utente')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d36a8ccb-4a8b-4bf3-b284-95f5debda425",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Modifica Dati Account",
+      "targets": [
+        ["linkText=Modifica Dati Account", "linkText"],
+        ["css=.mb-3:nth-child(3) > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Modifica Dati Account')]", "xpath:link"],
+        ["xpath=//a[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/div/div[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/modifica-dati')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Modifica Dati Account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f9e60e58-ce9f-456c-9754-917c3440189b",
+      "comment": "",
+      "command": "click",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f565d0c7-16bc-42a7-bbdf-0919a1074233",
+      "comment": "",
+      "command": "type",
+      "target": "name=vecchia_password",
+      "targets": [
+        ["name=vecchia_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='vecchia_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/div/div/input", "xpath:position"]
+      ],
+      "value": "EspertoPassword"
+    }, {
+      "id": "17e37c13-e598-443a-9c6f-ad9b76f038c0",
+      "comment": "",
+      "command": "click",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e4571450-941a-46c4-95e9-60d27d8e39af",
+      "comment": "",
+      "command": "click",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a896155c-4c8e-4699-a698-1fbb94757b51",
+      "comment": "",
+      "command": "type",
+      "target": "name=nuova_password",
+      "targets": [
+        ["name=nuova_password", "name"],
+        ["css=.card-body:nth-child(4) > .form-row:nth-child(2) > .col:nth-child(1) .form-control", "css:finder"],
+        ["xpath=//input[@name='nuova_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "PasswordCorretta"
+    }, {
+      "id": "88cfeeff-6d50-4617-84d4-b1072f1c6358",
+      "comment": "",
+      "command": "click",
+      "target": "name=conferma_password",
+      "targets": [
+        ["name=conferma_password", "name"],
+        ["css=.card-body:nth-child(4) .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='conferma_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d10f404c-e4d7-4be2-99e4-50ae55962389",
+      "comment": "",
+      "command": "type",
+      "target": "name=conferma_password",
+      "targets": [
+        ["name=conferma_password", "name"],
+        ["css=.card-body:nth-child(4) .col:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='conferma_password']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div/div[4]/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "PasswordCorretta"
+    }, {
+      "id": "54c98004-d8c6-43f8-9ad1-ad93545b38fb",
+      "comment": "",
+      "command": "click",
+      "target": "css=html",
+      "targets": [
+        ["css=html", "css:finder"],
+        ["xpath=//html", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c476906e-20d1-4d62-b376-dac21e475bda",
+      "comment": "",
+      "command": "type",
+      "target": "name=recapitoTelefonico",
+      "targets": [
+        ["name=recapitoTelefonico", "name"],
+        ["css=.form-group:nth-child(3) > .form-control", "css:finder"],
+        ["xpath=//input[@name='recapitoTelefonico']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "0123456789"
+    }, {
+      "id": "b2f5f35d-2db1-4b8a-bba6-68aee7923ed6",
+      "comment": "",
+      "command": "click",
+      "target": "name=via",
+      "targets": [
+        ["name=via", "name"],
+        ["css=.card:nth-child(3) > .card-body > .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='via']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e5a7b8b0-cef5-4312-aea1-4377f36d9c1a",
+      "comment": "",
+      "command": "type",
+      "target": "name=via",
+      "targets": [
+        ["name=via", "name"],
+        ["css=.card:nth-child(3) > .card-body > .form-group:nth-child(1) > .form-control", "css:finder"],
+        ["xpath=//input[@name='via']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Via Marconi 2"
+    }, {
+      "id": "62600217-1590-4c00-b3c6-b090b6f88b70",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group > .btn",
+      "targets": [
+        ["css=.form-group > .btn", "css:finder"],
+        ["xpath=//input[@value='Conferma modifica']", "xpath:attributes"],
+        ["xpath=//div[@id='content']/div/div/div/div/form/div[3]/div[2]/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ecc20c5-75c3-4857-87a9-64ccaf15045b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bed9397b-2466-4b6b-8b0d-6cf7d92e052f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.container",
+      "targets": [
+        ["css=.container", "css:finder"],
+        ["xpath=//body/div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "eb96d9e5-1f8d-4f3f-910b-43c6ee229ab6",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputPassword",
+      "targets": [
+        ["id=inputPassword", "id"],
+        ["name=password", "name"],
+        ["css=#inputPassword", "css:finder"],
+        ["xpath=//input[@id='inputPassword']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "PasswordCorretta"
+    }, {
+      "id": "1e65cb95-8474-4e84-a7d5-ee3155762e25",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(5)",
+      "targets": [
+        ["css=.btn:nth-child(5)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accedi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "da5ac4f0-f8f8-4429-96e8-60e400fbb6a1",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/"],
+  "plugins": []
+}
