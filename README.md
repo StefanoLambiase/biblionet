@@ -23,7 +23,7 @@ In this section we introduce context informations for the project.
 ## Authors
 
 * **Stefano Lambiase**      - *Project Manager*   - [StefanoLambiase](https://github.com/StefanoLambiase)
-* **Gianmario Voria**       - *Developer*         - [yabokk](https://github.com/yabokk)
+* **Gianmario Voria**       - *Developer*         - [gianwario](https://github.com/gianwario)
 * **Viviana Pentangelo**    - *Developer*         - [vipenti](https://github.com/vipenti)
 * **Antonio Della Porta**   - *Developer*         - [atdepo](https://github.com/atdepo)
 * **Alessio Casolaro**      - *Developer*         - [BearGrillz99](https://github.com/BearGrillz99)
